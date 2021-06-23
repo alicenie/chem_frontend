@@ -4,18 +4,18 @@ import target_data from '../target'
 import Selector from './Selector';
 import Selected from './Selected';
 
-const options = [
-    { img_path: 'chocolate', label: 'Chocolate' },
-    { img_path: 'strawberry', label: 'Strawberry' },
-    { img_path: 'vanilla', label: 'Vanilla' },
-];
+// const target_data = [
+//     { img_path: '../logo.svg', label: 'Chocolate' },
+//     { img_path: '../logo.svg', label: 'Strawberry' },
+//     { img_path: '../logo.svg', label: 'Vanilla' },
+// ];
 
 class LeftBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedTargets: [],
-            remainOptions: options
+            remainOptions: target_data
         }
         // this.handleAddSelection = this.handleAddSelection.bind(this);
     }
@@ -54,17 +54,17 @@ class LeftBar extends Component {
         console.log(this.state.remainOptions)
         console.log(this.state.selectedTargets)
         return (
-            <div className="card p-3">
+            <div >
                 {/* <Search details={target_data} /> */}
-                <div className="card m-1" style={{ height: '30vh' }}>
+                <div className="card m-1" style={{ height: '40vh' }}>
                     <Selector handleAddSelection={this.handleAddSelection} options={this.state.remainOptions} />
                 </div>
 
-                <div className="card m-1" style={{ overflowY: "auto", height: '30vh' }}>
-                    <p>Selected Targets:</p>
+                <div className="card m-1" style={{ overflowY: "auto", height: '40vh' }}>
+                    <p className="m-2">Selected Targets:</p>
                     <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
                 </div>
-            </div>
+            </div >
         );
     }
 }

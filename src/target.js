@@ -1,19 +1,19 @@
 const target_data = [
   {
-    name: "Jinas Kinase",
-    img_path: "./logo.svg",
+    label: "Junas Kinase",
+    img_path: "src/target_img/Janus_kinase.png",
   },
-  { name: "STAT3", img_path: "./logo.svg" },
+  { label: "STAT3", img_path: "./logo.svg" },
   {
-    name: "a",
+    label: "a",
     img_path: "./logo.svg",
   },
-  { name: "b", img_path: "./logo.svg" },
+  { label: "b", img_path: "./logo.svg" },
   {
-    name: "c",
+    label: "c",
     img_path: "./logo.svg",
   },
-  { name: "d", img_path: "./logo.svg" },
+  { label: "d", img_path: "./logo.svg" },
 ];
 
 export default target_data;
