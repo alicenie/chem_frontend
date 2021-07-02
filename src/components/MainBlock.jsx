@@ -14,7 +14,7 @@ class MainBlock extends Component {
     render() {
         return (
             <div>
-                <Container fluid >
+                <Container fluid style={{ backgroundColor: "#edf6f9" }}>
                     <Row debug style={{ height: '800px' }}>
                         <Col md={3} >
                             <Card variant="outlined" style={{ height: '760px', marginTop: "20px" }}>

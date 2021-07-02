@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import JanusImg from '../target_img/Janus_kinase.png';
-
+import StackedBar from './StackedBar.jsx';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
@@ -30,6 +30,10 @@ class Selected extends Component {
         this.props.handleRemoveSelection(target)
     }
 
+    // drawStackedBar(svg){
+    //     svg.append("circle").attr("x")
+    // }
+
 
     render() {
         return (
@@ -38,12 +42,14 @@ class Selected extends Component {
                 {this.props.value.map(i => {
                     console.log("i", i)
                     // const img = require(`${'../target_img/Janus_kinase.png'}`)
+
                     return (
                         <div key={i}>
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                    <img src={JanusImg} width="50" height="50" />
+                                    {/* <img src={JanusImg} width="50" height="50" /> */}
+                                    <StackedBar />
                                     {/* </Avatar> */}
                                 </ListItemAvatar>
                                 <ListItemText
