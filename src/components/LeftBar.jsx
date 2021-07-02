@@ -6,6 +6,7 @@ import Selected from './Selected';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 
+
 class LeftBar extends Component {
     constructor(props) {
         super(props);
@@ -66,7 +67,7 @@ class LeftBar extends Component {
                 {/* <Selector handleAddSelection={this.handleAddSelection} options={this.state.remainOptions} /> */}
                 {/* </div> */}
 
-                <div className="card m-1" style={{ overflowY: "auto", height: '80vh' }}>
+                <div className="m-1" style={{ overflowY: "auto", height: '80vh' }}>
                     <p className="m-2">Selected Targets:</p>
                     <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
                 </div>

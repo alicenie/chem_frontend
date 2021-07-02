@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
 import JanusImg from '../target_img/Janus_kinase.png';
 
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
