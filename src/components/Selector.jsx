@@ -29,7 +29,7 @@ class Selector extends Component {
 
         return (
             <Select
-                value={selectedOption}
+                value="null"
                 onChange={this.handleChange}
                 options={this.props.options}
             />

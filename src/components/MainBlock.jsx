@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import LeftBar from './LeftBar';
+import { Container, Row, Col } from 'react-grid-system';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { setConfiguration } from 'react-grid-system';
+
+setConfiguration({ maxScreenClass: 'xl' });
 class MainBlock extends Component {
     // state = {  }
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className=" card mt-3 m-1 col-3">
-                        <h3>Left Bar</h3>
-                        <LeftBar value={"hi"} />
-                    </div>
-                    <div className="card mt-3 m-1 col-6">
-                        <h3>Middle View</h3>
-                    </div>
-                    <div className="card mt-3 m-1 col-2">
-                        <h3>
-                            Right View</h3>
-                    </div>
-                </div>
+            <div>
+                <Container fluid >
+                    <Row debug style={{ height: '800px' }}>
+                        <Col md={3} debug>
+                            Left Bar
+                            <LeftBar value={"hi"} />
+                        </Col>
+                        <Col md={6} debug>Middle View</Col>
+                        <Col md={3} debug>Right View</Col>
+                    </Row>
+                </Container>
             </div>
         );
     }

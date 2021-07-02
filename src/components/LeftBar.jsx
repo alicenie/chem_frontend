@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import Search from './Search';
+// import Search from './Search';
 import target_data from '../target'
-import Selector from './Selector';
+// import Selector from './Selector';
 import Selected from './Selected';
-
-// const target_data = [
-//     { img_path: '../logo.svg', label: 'Chocolate' },
-//     { img_path: '../logo.svg', label: 'Strawberry' },
-//     { img_path: '../logo.svg', label: 'Vanilla' },
-// ];
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
 
 class LeftBar extends Component {
     constructor(props) {
@@ -21,18 +17,21 @@ class LeftBar extends Component {
     }
 
     handleAddSelection = (selectedTarget) => {
-        console.log("handle add selection in LeftBar:", selectedTarget.label)
+        if (selectedTarget != null) {
+            console.log("handle add selection in LeftBar:", selectedTarget)
 
-        // add to selectedTargets
-        let selectedTargets = this.state.selectedTargets
-        selectedTargets.push(selectedTarget)
-        // console.log(selectedTargets)
+            // add to selectedTargets
+            let selectedTargets = this.state.selectedTargets
+            selectedTargets.push(selectedTarget)
+            // console.log(selectedTargets)
 
-        // remove from remainOptions
-        let remainOptions = this.state.remainOptions
-        remainOptions.splice(remainOptions.indexOf(selectedTarget), 1)
+            // remove from remainOptions
+            let remainOptions = this.state.remainOptions
+            remainOptions.splice(remainOptions.indexOf(selectedTarget), 1)
 
-        this.setState({ selectedTargets, remainOptions });
+            this.setState({ selectedTargets, remainOptions });
+        }
+
     }
 
     handleRemoveSelection = (removeTarget) => {
@@ -50,17 +49,24 @@ class LeftBar extends Component {
     }
 
     render() {
-        console.log("state")
-        console.log(this.state.remainOptions)
-        console.log(this.state.selectedTargets)
+        // console.log("state")
+        // console.log(this.state.remainOptions)
+        // console.log(this.state.selectedTargets)
         return (
             <div >
                 {/* <Search details={target_data} /> */}
-                <div className="card m-1" style={{ height: '40vh' }}>
-                    <Selector handleAddSelection={this.handleAddSelection} options={this.state.remainOptions} />
-                </div>
+                {/* <div className="card m-1" style={{ height: '40vh' }}> */}
+                <Autocomplete
+                    id="search"
+                    options={this.state.remainOptions}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(e, value) => this.handleAddSelection(value)}
+                    renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
+                ></Autocomplete>
+                {/* <Selector handleAddSelection={this.handleAddSelection} options={this.state.remainOptions} /> */}
+                {/* </div> */}
 
-                <div className="card m-1" style={{ overflowY: "auto", height: '40vh' }}>
+                <div className="card m-1" style={{ overflowY: "auto", height: '80vh' }}>
                     <p className="m-2">Selected Targets:</p>
                     <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
                 </div>

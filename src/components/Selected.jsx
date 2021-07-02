@@ -16,7 +16,7 @@ class Selected extends Component {
                 console.log("i", i)
                 const img = require(`${'../target_img/Janus_kinase.png'}`)
                 return (
-                    <div className="card m-1 p-1">
+                    <div key={i} className="card m-1 p-1">
                         <div className="row">
                             {/* <img src={i.img_path} className="col-3"></img> */}
                             {/* <Image source={require('../target_img/Janus_kinase.png')} /> */}
