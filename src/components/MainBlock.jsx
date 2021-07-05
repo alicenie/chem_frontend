@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LeftBar from './LeftBar';
+import SimilarityGraph from './SimilarityGraph';
 import { Container, Row, Col } from 'react-grid-system';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { setConfiguration } from 'react-grid-system';
@@ -35,6 +36,7 @@ class MainBlock extends Component {
                             <Card variant="outlined" style={{ height: '760px', marginTop: "20px" }}>
                                 <CardHeader title="Right View" />
                                 <CardContent>
+                                    <SimilarityGraph />
                                 </CardContent>
                             </Card>
                         </Col>

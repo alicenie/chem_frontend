@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.highlightNode {
+  stroke: rgb(102, 102, 102);
+  stroke-width: 3;
+}
+
+.highlightLine {
+  stroke: orange;
+  stroke-width: 3;
+}
+
+div.tooltip {
+  color: black;
+  position: absolute;
+  text-align: center;
+  width: 80px;
+  height: 35px;
+  padding: 2px;
+  font: 13px sans-serif;
+  background: rgb(252, 252, 251);
+  border: 1px solid black;
+  pointer-events: none;
+  border-radius: 5px;
+}

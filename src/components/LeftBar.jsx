@@ -68,6 +68,7 @@ class LeftBar extends Component {
                 {/* </div> */}
 
                 <div className="m-1" style={{ overflowY: "auto", height: '80vh' }}>
+                    <br />
                     <p className="m-2">Selected Targets:</p>
                     <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
                 </div>
