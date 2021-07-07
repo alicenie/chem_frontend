@@ -35,3 +35,7 @@ div.tooltip {
   pointer-events: none;
   border-radius: 5px;
 }
+
+.layout {
+  background-color: #e9ecef;
+}

@@ -39,7 +39,7 @@ class SimilarityGraph extends Component {
         var colorScale = d3
             .scaleLinear()
             .domain([1, 2, 3, 4, 5])
-            .range(["#8ecae6", "#219ebc", "#023047", "#ffb703", "#fb8500"])
+            .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"])
 
         // node r scale
         var rScale = d3.scaleLinear().domain([1, 10]).range([10, 20])
