@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import LeftBar from './LeftBar';
-// import SimilarityGraph from './SimilarityGraph';
+import SimilarityGraph from './SimilarityGraph';
+import TargetLine from './TargetLine';
 // import { Container, Row, Col } from 'react-grid-system';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { setConfiguration } from 'react-grid-system';
@@ -83,14 +84,16 @@ class MainBlock extends Component {
                                 id="search"
                                 options={this.state.remainOptions}
                                 getOptionLabel={(option) => option.label}
+                                style={{ width: width / 14 * 2.5, marginLeft: width / 14 * 0.2 }}
                                 onChange={(e, value) => this.handleAddSelection(value)}
-                                renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
+                                renderInput={(params) => <TextField {...params} label="Search" variant="standard" />}
                             ></Autocomplete>
                             {/* target component img view */}
                         </Card>
                     </div>
+
                     <div key="b">
-                        <Card variant="outlined" style={{ height: 3 * rowh }} >
+                        <Card variant="outlined" overflow="visible" style={{ height: 3 * rowh }} >
                             <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
                             {/* <CardContent>
                                 <LeftBar value={"hi"} />
@@ -98,14 +101,18 @@ class MainBlock extends Component {
                             <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
                         </Card>
                     </div>
+
                     <div key="c">
                         <Card variant="outlined" style={{ height: 2 * rowh }}>
                             <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Upper View</p>
+                            <SimilarityGraph />
                         </Card>
                     </div>
+
                     <div key="d">
                         <Card variant="outlined" style={{ height: 3 * rowh }}>
                             <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
+                            <TargetLine value={this.state.selectedTargets} />
                         </Card>
                     </div>
                 </GridLayout>

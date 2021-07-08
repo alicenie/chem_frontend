@@ -18,8 +18,8 @@ class SimilarityGraph extends Component {
     drawSimilarityGraph() {
 
         var margin = { top: 0, right: 0, bottom: 0, left: 0 },
-            width = 300 - margin.left - margin.right,
-            height = 600 - margin.top - margin.bottom;
+            width = 500 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom;
         // create svg
         var svg = d3
             .select("svg#similarity_graph")
@@ -77,10 +77,7 @@ class SimilarityGraph extends Component {
                     }) // This is the link distance based on nodes similarity
                     .links(links) // and this the list of links
             )
-            .force("charge", d3.forceManyBody().strength(d => {
-                // console.log(d)
-                return 10
-            })) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+            .force("charge", d3.forceManyBody().strength(30)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
             .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
             .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                 // console.log('d in collision', d)

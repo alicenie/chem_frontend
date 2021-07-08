@@ -37,8 +37,13 @@ class Selected extends Component {
 
     render() {
         return (
-            // <div>
-            <List>
+            // <div style={{ overflow: 'auto' }}>
+            <List style={{
+                // position: 'relative',
+                overflow: 'auto',
+                height: "100%",
+                // maxHeight: 440,
+            }}>
                 {this.props.value.map(i => {
                     console.log("i", i)
                     // const img = require(`${'../target_img/Janus_kinase.png'}`)
@@ -48,8 +53,8 @@ class Selected extends Component {
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                    {/* <img src={JanusImg} width="50" height="50" /> */}
-                                    <StackedBar />
+                                    <img src={JanusImg} width="50" height="50" className="hover-zoom" />
+                                    {/* <StackedBar /> */}
                                     {/* </Avatar> */}
                                 </ListItemAvatar>
                                 <ListItemText
