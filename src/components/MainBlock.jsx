@@ -62,14 +62,14 @@ class MainBlock extends Component {
         const layout = [
             { i: 'a', x: 0, y: 0, w: 3, h: 2, static: true },
             { i: 'b', x: 0, y: 2, w: 3, h: 3, static: true },
-            { i: 'c', x: 3, y: 0, w: 11, h: 2 },
-            { i: 'd', x: 3, y: 2, w: 11, h: 3 }
+            { i: 'c', x: 3, y: 0, w: 11, h: 2, static: true },
+            { i: 'd', x: 3, y: 2, w: 11, h: 3, static: true }
         ];
 
         const { innerWidth: width, innerHeight: height } = window;
         const m = 5
         const rowh = height / 5 - m;
-        console.log(width, height)
+        console.log("rowh", rowh)
 
         return (
             <div>
@@ -112,7 +112,7 @@ class MainBlock extends Component {
                     <div key="d">
                         <Card variant="outlined" style={{ height: 3 * rowh }}>
                             <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
-                            <TargetLine value={this.state.selectedTargets} />
+                            <TargetLine width={width / 14 * 11} height={3 * rowh} value={this.state.selectedTargets} />
                         </Card>
                     </div>
                 </GridLayout>

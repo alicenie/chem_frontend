@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import JanusImg from '../target_img/Janus_kinase.png';
-import StackedBar from './StackedBar.jsx';
+// import StackedBar from './StackedBar.jsx';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 // import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import ReactTooltip from 'react-tooltip';
 
 // const useStyles = makeStyles((theme) => ({
 //     root: {
@@ -45,7 +46,7 @@ class Selected extends Component {
                 // maxHeight: 440,
             }}>
                 {this.props.value.map(i => {
-                    console.log("i", i)
+                    // console.log("i", i)
                     // const img = require(`${'../target_img/Janus_kinase.png'}`)
 
                     return (
@@ -53,7 +54,10 @@ class Selected extends Component {
                             <ListItem alignItems="flex-start">
                                 <ListItemAvatar>
                                     {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                    <img src={JanusImg} width="50" height="50" className="hover-zoom" />
+                                    <img src={JanusImg} width="50" height="50" data-tip />
+                                    <ReactTooltip type="light">
+                                        <img src={JanusImg} width="100" height="100" />
+                                    </ReactTooltip>
                                     {/* <StackedBar /> */}
                                     {/* </Avatar> */}
                                 </ListItemAvatar>
