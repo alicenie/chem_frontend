@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-grid-system';
 import * as d3 from "d3";
 import Slider from '@material-ui/core/Slider';
+import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
-class TargetLine extends Component {
+
+class StackedArea extends Component {
     constructor(props) {
         super(props)
         this.state = {
             lineHeight: this.props.height / 5,
-            heatWidth: this.props.width / 12 * 10 - 20,
             stackWidth: this.props.width / 12 * 2,
             targetList: this.props.value,
             trendRange: [2016, 2020]
@@ -23,64 +23,8 @@ class TargetLine extends Component {
         console.log("component did update")
         this.state.targetList.forEach(d => {
             // console.log(d)
-            this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
             this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)
         })
-    }
-
-    drawHeatSquare(container, data) {
-        const width = this.state.heatWidth, height = this.state.lineHeight, margin = 20;
-        // console.log("height", height)
-        var svg = d3
-            .selectAll(`svg#${container}`)
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-
-        // x scale
-        var xDomain = []
-        data.forEach(element => {
-            xDomain.push(element.label)
-        });
-        var xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.1);
-
-        // color scale
-        var colorScale = d3
-            .scaleSequential()
-            .interpolator(d3.interpolateBlues)
-            .domain([0, 10]);
-
-        // square scale
-        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
-
-        svg
-            .selectAll()
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("x", (d) => {
-                // console.log("x:", xScale(d.label))
-                return xScale(d.label)
-            })
-            .attr("y", "0")
-            .attr("width", xScale.bandwidth())
-            .attr("height", height - margin)
-            .attr("fill", (d) => colorScale(d.hvalue));
-
-        svg.selectAll()
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("x", (d) => {
-                // console.log("x:", xScale(d.label) + 0.5 * (xScale.bandwidth() - squareScale(d.svalue)))
-                return xScale(d.label) + 0.5 * (xScale.bandwidth() - squareScale(d.svalue))
-            })
-            .attr("y", d => 0.5 * (height - margin - squareScale(d.svalue)))
-            .attr("width", d => squareScale(d.svalue))
-            .attr("height", d => squareScale(d.svalue))
-            .attr("fill", "white").
-            style("bordercolor", "black");
-
     }
 
     drawStackedArea(container, data) {
@@ -90,16 +34,16 @@ class TargetLine extends Component {
         })
         // console.log("newdata", newdata)
 
-        const width = this.state.stackWidth - 20, height = this.state.lineHeight - 20, margin = 20;
+        const width = this.state.stackWidth - 25, height = this.state.lineHeight - 20, margin = 20;
         d3
             .select(`#${container}`)
             .selectAll("svg").remove()
         var svg = d3.select(`#${container}`).
             append("svg")
-            .attr("width", width + 20)
+            .attr("width", width + 25)
             .attr("height", height + 20)
             .append("g")
-            .attr("transform", "translate(10,0)")
+            .attr("transform", "translate(12,0)")
 
         // GENERAL //
         // List of groups
@@ -120,9 +64,9 @@ class TargetLine extends Component {
         var x = d3.scaleLinear()
             .domain(d3.extent(newdata, function (d) { return d.year; }))
             .range([0, width]);
-        // var xAxis = svg.append("g")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     .call(d3.axisBottom(x).ticks(5))
+        var xAxis = svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).ticks(2))
 
         // Add Y axis
         var y = d3.scaleLinear()
@@ -205,38 +149,34 @@ class TargetLine extends Component {
 
     render() {
         return (
-            <div style={{ overflow: "auto" }}>
+            <div style={{ height: this.props.height - 20, }}>
                 <Slider
                     value={this.state.trendRange}
                     onChange={this.handleChange}
                     // valueLabelDisplay="disabled"
                     min={2016}
                     max={2020}
-                    style={{ width: this.state.stackWidth }}
+                    style={{ width: this.state.stackWidth / 2, float: "right", marginRight: "10px" }}
                 />
+                <br />
 
-                <p style={{ fontSize: "13px", paddingLeft: 30 }}>{this.state.trendRange[0]} - {this.state.trendRange[1]}</p>
+                {/* <p style={{ fontSize: "13px", paddingLeft: 30 }}>{this.state.trendRange[0]} - {this.state.trendRange[1]}</p> */}
 
-
-                {this.props.value.map((i, index) => {
-                    // console.log("index", index)
-                    return (
-                        <Row key={index} style={{ height: 75 }}>
-                            <Col md={2}>
+                <ScrollSyncPane>
+                    <div style={{ height: 380, width: 200, overflow: "auto" }}>
+                        {this.props.value.map((i, index) => {
+                            // console.log("index", index)
+                            return (
                                 <div id={`stackedarea-${i.id}`}></div>
-                            </Col>
-                            <Col md={10}>
-                                <svg id={`heatsquare-${i.id}`}></svg>
-                            </Col>
-
-                        </Row>
-                    )
-                })
-                }
+                            )
+                        })
+                        }
+                    </div>
+                </ScrollSyncPane>
             </div >
         )
 
     }
 }
 
-export default TargetLine;
+export default StackedArea;

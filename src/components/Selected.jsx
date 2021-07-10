@@ -11,6 +11,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 // import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import ReactTooltip from 'react-tooltip';
+import { ScrollSyncPane } from 'react-scroll-sync';
+
 
 // const useStyles = makeStyles((theme) => ({
 //     root: {
@@ -38,58 +40,65 @@ class Selected extends Component {
 
     render() {
         return (
-            // <div style={{ overflow: 'auto' }}>
-            <List style={{
-                // position: 'relative',
-                overflow: 'auto',
-                height: "100%",
-                // maxHeight: 440,
-            }}>
-                {this.props.value.map(i => {
-                    // console.log("i", i)
-                    // const img = require(`${'../target_img/Janus_kinase.png'}`)
+            <ScrollSyncPane>
+                <div style={{ overflow: "auto" }}>
 
-                    return (
-                        <div key={i}>
-                            <ListItem alignItems="flex-start">
-                                <ListItemAvatar>
-                                    {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                    <img src={JanusImg} width="50" height="50" data-tip />
-                                    <ReactTooltip type="light">
-                                        <img src={JanusImg} width="100" height="100" />
-                                    </ReactTooltip>
-                                    {/* <StackedBar /> */}
-                                    {/* </Avatar> */}
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={i.label}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                className={{
-                                                    display: 'inline',
-                                                }}
-                                                color="textPrimary"
-                                            >
-                                                info
-                                            </Typography>
-                                            {" — xxx"}
-                                        </React.Fragment>
-                                    }
-                                />
-                                <IconButton aria-label="deleteOutlined" onClick={() => this.handleClick(i)}>
-                                    <DeleteOutlinedIcon />
-                                </IconButton>
-                            </ListItem>
-                            <Divider variant="inset" component="li" />
-                        </div>
-                    )
-                })
-                }
-            </List>
-            // </div >
+
+                    <List style={{
+                        // position: 'relative',
+                        // overflow: 'auto',
+                        height: "420px",
+                        paddingTop: "20px"
+                        // maxHeight: 440,
+                    }}>
+
+                        {this.props.value.map(i => {
+                            // console.log("i", i)
+                            // const img = require(`${'../target_img/Janus_kinase.png'}`)
+
+                            return (
+                                <div key={i}>
+                                    <ListItem alignItems="flex-start">
+                                        <ListItemAvatar>
+                                            {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
+                                            <img src={JanusImg} width="70" height="70" data-tip />
+                                            <ReactTooltip type="light">
+                                                <img src={JanusImg} width="100" height="100" />
+                                            </ReactTooltip>
+                                            {/* <StackedBar /> */}
+                                            {/* </Avatar> */}
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={i.label}
+                                            secondary={
+                                                <React.Fragment>
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        className={{
+                                                            display: 'inline',
+                                                        }}
+                                                        color="textPrimary"
+                                                    >
+                                                        info
+                                                    </Typography>
+                                                    {" — xxx"}
+                                                </React.Fragment>
+                                            }
+                                        />
+                                        <IconButton aria-label="deleteOutlined" onClick={() => this.handleClick(i)}>
+                                            <DeleteOutlinedIcon />
+                                        </IconButton>
+                                    </ListItem>
+                                    <Divider variant="inset" component="li" />
+                                </div>
+                            )
+                        })
+                        }
+                    </List>
+                </div>
+            </ScrollSyncPane>
+
         );
     }
 }

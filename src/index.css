@@ -48,3 +48,7 @@ div.tooltip {
   display: block;
   z-index: 999;
 } */
+
+::-webkit-scrollbar {
+  display: none;
+}
