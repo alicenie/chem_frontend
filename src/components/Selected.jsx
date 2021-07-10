@@ -47,7 +47,7 @@ class Selected extends Component {
                     <List style={{
                         // position: 'relative',
                         // overflow: 'auto',
-                        height: "420px",
+                        height: "300px",
                         paddingTop: "20px"
                         // maxHeight: 440,
                     }}>
@@ -58,7 +58,7 @@ class Selected extends Component {
 
                             return (
                                 <div key={i}>
-                                    <ListItem alignItems="flex-start">
+                                    <ListItem alignItems="flex-start" style={{ height: 100 }}>
                                         <ListItemAvatar>
                                             {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
                                             <img src={JanusImg} width="70" height="70" data-tip />

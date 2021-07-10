@@ -8,7 +8,7 @@ class StackedArea extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            lineHeight: this.props.height / 5,
+            Height: this.props.height,
             stackWidth: this.props.width / 12 * 2,
             targetList: this.props.value,
             trendRange: [2016, 2020]
@@ -34,7 +34,7 @@ class StackedArea extends Component {
         })
         // console.log("newdata", newdata)
 
-        const width = this.state.stackWidth - 25, height = this.state.lineHeight - 20, margin = 20;
+        const width = this.state.stackWidth - 25, height = 80, margin = 20;
         d3
             .select(`#${container}`)
             .selectAll("svg").remove()
@@ -159,11 +159,13 @@ class StackedArea extends Component {
                     style={{ width: this.state.stackWidth / 2, float: "right", marginRight: "10px" }}
                 />
                 <br />
+                <br />
+                <br />
 
                 {/* <p style={{ fontSize: "13px", paddingLeft: 30 }}>{this.state.trendRange[0]} - {this.state.trendRange[1]}</p> */}
 
                 <ScrollSyncPane>
-                    <div style={{ height: 380, width: 200, overflow: "auto" }}>
+                    <div style={{ height: 300, width: 200, overflow: "auto" }}>
                         {this.props.value.map((i, index) => {
                             // console.log("index", index)
                             return (

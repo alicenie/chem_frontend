@@ -98,6 +98,8 @@ class MainBlock extends Component {
                             <Card variant="outlined" overflow="visible" style={{ height: 3 * rowh }} >
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Selected Targets</p>
                                 {/* <ScrollSyncPane> */}
+                                <br />
+                                <br />
                                 <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
                                 {/* </ScrollSyncPane> */}
                             </Card>

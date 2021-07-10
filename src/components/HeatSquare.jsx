@@ -7,7 +7,7 @@ class HeatSquare extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            lineHeight: this.props.height / 4 - 20,
+            Height: this.props.height - 180,
             heatWidth: this.props.width / 12 * 10,
             targetList: this.props.value,
             marginL: 30,
@@ -21,19 +21,33 @@ class HeatSquare extends Component {
 
     componentDidUpdate() {
         console.log("component did update")
-        this.drawHeatAxis("heat-axis")
+        this.drawUpperAxis("upper-axis")
+        this.drawLowerAxis("lower-axis")
         this.state.targetList.forEach(d => {
             // console.log(d)
             this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
         })
     }
 
+    drawUpperAxis(container) {
+        const { marginL, marginR } = this.state;
+        const width = this.state.heatWidth - marginL - marginR
+
+        d3.select("#" + container).selectAll("svg").remove()
+        var svg = d3.select("#" + container).append("svg")
+            .attr("width", width + marginL)
+            .attr("height", "80px")
+            .append("g")
+            .attr("transform", "translate(" + marginL + ",10)");
+    }
+
     drawHeatSquare(container, data) {
         const { marginL, marginR } = this.state;
-        const width = this.state.heatWidth - marginL - marginR, height = this.state.lineHeight;
+        const width = this.state.heatWidth - marginL - marginR, height = (this.state.Height) / 3;
         // console.log("height", height)
+        d3.select(`#${container}`).selectAll("svg").remove()
         var svg = d3
-            .selectAll(`svg#${container}`)
+            .select(`#${container}`).append("svg")
             .attr("width", width + marginL)
             .attr("height", height)
             .append("g")
@@ -89,7 +103,7 @@ class HeatSquare extends Component {
 
     }
 
-    drawHeatAxis(container) {
+    drawLowerAxis(container) {
         const { marginL, marginR } = this.state;
         const width = this.state.heatWidth - marginL - marginR
 
@@ -241,21 +255,19 @@ class HeatSquare extends Component {
     render() {
         return (
             <div>
-
-                <br />
+                <div id="upper-axis" />
                 <ScrollSyncPane>
-                    <div style={{ height: this.props.height - 110, overflow: "auto" }}>
+                    <div style={{ height: this.state.Height, overflow: "auto" }}>
                         {this.props.value.map((i, index) => {
                             // console.log("index", index)
                             return (
-                                <svg id={`heatsquare-${i.id}`}></svg>
+                                <div id={`heatsquare-${i.id}`}></div>
                             )
                         })
                         }
                     </div >
                 </ScrollSyncPane>
-
-                <div id="heat-axis" />
+                <div id="lower-axis" />
             </div>
         )
     }
