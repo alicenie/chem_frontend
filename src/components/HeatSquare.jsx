@@ -39,6 +39,28 @@ class HeatSquare extends Component {
             .attr("height", "80px")
             .append("g")
             .attr("transform", "translate(" + marginL + ",10)");
+
+        // legend
+        const colorLegend = ["#a9d6e5", "#468faf", "#01497c"]
+        svg.selectAll("rect#color").data(colorLegend).enter()
+            .append("rect").attr("x", (d, i) => 10 + i * 25).attr("y", 0).attr("width", 20).attr("height", 15).attr("fill", d => d)
+
+        const squareLegend = ["10", "15", "20"]
+        svg.selectAll("rect#square").data(squareLegend).enter()
+            .append("rect").attr("x", (d, i) => 130 + i * 25).attr("y", d => 5 - 1 / 2 * d)
+            .attr("width", d => d).attr("height", d => d)
+            .attr("fill", "white")
+            .style("stroke-width", 1)
+            .style("stroke", "#adb5bd")
+
+        // axis
+        const domain = ["IC50", "IG-m", "Kd-m", "Selectivity", "IC50-v", "IG-v", "Kd-v", "EC50", "Selectivity-v", "hERG", "solubility", "ED50", "Pharmacokinetic", "solubility-3"]
+        var xScale = d3.scaleBand()
+            .domain(domain)
+            .range([0, width - 5]);
+
+        var xAxis = svg.append("g")
+            .attr("transform", "translate(0,50)").call(d3.axisTop(xScale));
     }
 
     drawHeatSquare(container, data) {
@@ -99,7 +121,7 @@ class HeatSquare extends Component {
             .attr("height", d => squareScale(d.svalue))
             .attr("fill", "white")
             .style("stroke-width", 1)
-            .style("stroke", "#adb5bd");;
+            .style("stroke", "#adb5bd");
 
     }
 

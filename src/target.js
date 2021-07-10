@@ -18,7 +18,6 @@ const target_data = [
       { label: "L", hvalue: 4, svalue: 9 },
       { label: "M", hvalue: 5, svalue: 5 },
       { label: "N", hvalue: 2, svalue: 4 },
-      { label: "O", hvalue: 6, svalue: 2 },
     ],
     stackedareadata: [
       {
@@ -78,7 +77,6 @@ const target_data = [
       { label: "L", hvalue: 4, svalue: 6 },
       { label: "M", hvalue: 5, svalue: 5 },
       { label: "N", hvalue: 2, svalue: 6 },
-      { label: "O", hvalue: 6, svalue: 3 },
     ],
     stackedareadata: [
       {
@@ -138,7 +136,6 @@ const target_data = [
       { label: "L", hvalue: 4, svalue: 3 },
       { label: "M", hvalue: 5, svalue: 1 },
       { label: "N", hvalue: 2, svalue: 5 },
-      { label: "O", hvalue: 6, svalue: 6 },
     ],
     stackedareadata: [
       {
@@ -198,7 +195,6 @@ const target_data = [
       { label: "L", hvalue: 4, svalue: 3 },
       { label: "M", hvalue: 5, svalue: 6 },
       { label: "N", hvalue: 2, svalue: 4 },
-      { label: "O", hvalue: 6, svalue: 1 },
     ],
     stackedareadata: [
       {
@@ -258,7 +254,6 @@ const target_data = [
       { label: "L", hvalue: 4, svalue: 5 },
       { label: "M", hvalue: 5, svalue: 3 },
       { label: "N", hvalue: 2, svalue: 5 },
-      { label: "O", hvalue: 6, svalue: 7 },
     ],
     stackedareadata: [
       {
@@ -318,7 +313,6 @@ const target_data = [
       { label: "L", hvalue: 4, svalue: 2 },
       { label: "M", hvalue: 5, svalue: 5 },
       { label: "N", hvalue: 2, svalue: 5 },
-      { label: "O", hvalue: 6, svalue: 4 },
     ],
     stackedareadata: [
       {
