@@ -106,9 +106,7 @@ class MainBlock extends Component {
                         <div key="d">
                             <Card variant="outlined" style={{ height: 3 * rowh }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
-                                <ScrollSyncPane>
-                                    <HeatSquare width={width / 14 * 11} height={3 * rowh} value={this.state.selectedTargets} />
-                                </ScrollSyncPane>
+                                <HeatSquare width={width / 14 * 11} height={3 * rowh} value={this.state.selectedTargets} />
                             </Card>
                         </div>
 

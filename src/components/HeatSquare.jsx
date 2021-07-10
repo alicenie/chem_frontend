@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-grid-system';
 import * as d3 from "d3";
-import Slider from '@material-ui/core/Slider';
+import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 
 class HeatSquare extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            lineHeight: this.props.height / 4,
-            heatWidth: this.props.width / 12 * 10 - 20,
-            // stackWidth: this.props.width / 12 * 2,
+            lineHeight: this.props.height / 4 - 20,
+            heatWidth: this.props.width / 12 * 10,
             targetList: this.props.value,
-            trendRange: [2016, 2020]
+            marginL: 30,
+            marginR: 50,
         }
     }
 
@@ -21,28 +21,30 @@ class HeatSquare extends Component {
 
     componentDidUpdate() {
         console.log("component did update")
+        this.drawHeatAxis("heat-axis")
         this.state.targetList.forEach(d => {
             // console.log(d)
             this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
-            // this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)
         })
     }
 
     drawHeatSquare(container, data) {
-        const width = this.state.heatWidth, height = this.state.lineHeight, margin = 20;
+        const { marginL, marginR } = this.state;
+        const width = this.state.heatWidth - marginL - marginR, height = this.state.lineHeight;
         // console.log("height", height)
         var svg = d3
             .selectAll(`svg#${container}`)
-            .attr("width", width)
+            .attr("width", width + marginL)
             .attr("height", height)
             .append("g")
+            .attr("transform", "translate(" + marginL + ",0)")
 
         // x scale
         var xDomain = []
         data.forEach(element => {
             xDomain.push(element.label)
         });
-        var xScale = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.1);
+        var xScale = d3.scaleBand().domain(xDomain).range([0, width]);
 
         // color scale
         var colorScale = d3
@@ -64,8 +66,11 @@ class HeatSquare extends Component {
             })
             .attr("y", "0")
             .attr("width", xScale.bandwidth())
-            .attr("height", height - margin)
-            .attr("fill", (d) => colorScale(d.hvalue));
+            .attr("height", height)
+            .attr("fill", (d) => colorScale(d.hvalue))
+            .style("opacity", 0.8)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da");
 
         svg.selectAll()
             .data(data)
@@ -75,167 +80,184 @@ class HeatSquare extends Component {
                 // console.log("x:", xScale(d.label) + 0.5 * (xScale.bandwidth() - squareScale(d.svalue)))
                 return xScale(d.label) + 0.5 * (xScale.bandwidth() - squareScale(d.svalue))
             })
-            .attr("y", d => 0.5 * (height - margin - squareScale(d.svalue)))
+            .attr("y", d => 0.5 * (height - squareScale(d.svalue)))
             .attr("width", d => squareScale(d.svalue))
             .attr("height", d => squareScale(d.svalue))
-            .attr("fill", "white").
-            style("bordercolor", "black");
+            .attr("fill", "white")
+            .style("stroke-width", 1)
+            .style("stroke", "#adb5bd");;
 
     }
 
-    // drawStackedArea(container, data) {
-    //     // trim the data
-    //     var newdata = data.filter(d => {
-    //         return d.year <= this.state.trendRange[1] && d.year >= this.state.trendRange[0]
-    //     })
-    //     // console.log("newdata", newdata)
+    drawHeatAxis(container) {
+        const { marginL, marginR } = this.state;
+        const width = this.state.heatWidth - marginL - marginR
 
-    //     const width = this.state.stackWidth - 20, height = this.state.lineHeight - 20, margin = 20;
-    //     d3
-    //         .select(`#${container}`)
-    //         .selectAll("svg").remove()
-    //     var svg = d3.select(`#${container}`).
-    //         append("svg")
-    //         .attr("width", width + 20)
-    //         .attr("height", height + 20)
-    //         .append("g")
-    //         .attr("transform", "translate(10,0)")
+        d3.select("#" + container).selectAll("svg").remove()
+        var svg = d3.select("#" + container).append("svg")
+            .attr("width", width + marginL)
+            .attr("height", "50px")
+            .append("g")
+            .attr("transform", "translate(" + marginL + ",10)");
 
-    //     // GENERAL //
-    //     // List of groups
-    //     var keys = ["A", "B", "C"]
+        // medical chemistry
+        const medchemWidth = width / 15 * 3
+        svg.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", medchemWidth)
+            .attr("height", 30)
+            .style("fill", "#cce3de")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
+        svg.append("text")
+            .attr("x", 1 / 2 * medchemWidth)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .text("Medical Chemistry")
+            .style("fill", "black");
 
-    //     // color palette
-    //     var color = d3.scaleOrdinal()
-    //         .domain(keys)
-    //         .range(["#cbc0d3", "#efd3d7", "#feeafa"]);
+        // Vitro
+        const vitroX = medchemWidth, vitroWidth = width / 15 * 4
+        svg.append("rect")
+            .attr("x", vitroX)
+            .attr("y", 0)
+            .attr("width", vitroWidth)
+            .attr("height", 30)
+            .style("fill", "#ecf8f8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
+        svg.append("text")
+            .attr("x", vitroX + 1 / 2 * vitroWidth)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .text("Vitro")
+            .style("fill", "black");
 
-    //     //stack the data?
-    //     var stackedData = d3.stack()
-    //         .keys(keys)
-    //         (newdata)
+        // Vivo
+        const vivoX = vitroX + vitroWidth, vivoWidth = width / 15 * 2
+        svg.append("rect")
+            .attr("x", vivoX)
+            .attr("y", 0)
+            .attr("width", vivoWidth)
+            .attr("height", 30)
+            .style("fill", "#ecf8f8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
+        svg.append("text")
+            .attr("x", vivoX + 1 / 2 * vivoWidth)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .text("Vivo")
+            .style("fill", "black");
 
-    //     // AXIS //
-    //     // Add X axis
-    //     var x = d3.scaleLinear()
-    //         .domain(d3.extent(newdata, function (d) { return d.year; }))
-    //         .range([0, width]);
-    //     // var xAxis = svg.append("g")
-    //     //     .attr("transform", "translate(0," + height + ")")
-    //     //     .call(d3.axisBottom(x).ticks(5))
+        // Pharmocology
+        svg.append("text")
+            .attr("x", 1 / 2 * (vitroX + 1 / 2 * vitroWidth + vivoX + 1 / 2 * vivoWidth))
+            .attr("y", 35)
+            .attr("text-anchor", "middle")
+            .text("Pharmocology")
+            .style("font-size", 15)
 
-    //     // Add Y axis
-    //     var y = d3.scaleLinear()
-    //         .domain([0, 100000])
-    //         .range([height, 0]);
-    //     // svg.append("g")
-    //     //     .call(d3.axisLeft(y).ticks(5))
+        // Ph I
+        const ph1X = vivoX + vivoWidth, ph1Width = width / 15 * 2
+        svg.append("rect")
+            .attr("x", ph1X)
+            .attr("y", 0)
+            .attr("width", ph1Width)
+            .attr("height", 30)
+            .style("fill", "#fff8e8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
+        svg.append("text")
+            .attr("x", ph1X + 1 / 2 * ph1Width)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .text("I")
+            .style("fill", "black");
 
-    //     // BRUSHING AND CHART //
-    //     // Add a clipPath: everything out of this area won't be drawn.
-    //     var clip = svg.append("defs").append("svg:clipPath")
-    //         .attr("id", "clip")
-    //         .append("svg:rect")
-    //         .attr("width", width)
-    //         .attr("height", height)
-    //         .attr("x", 0)
-    //         .attr("y", 0);
+        // Ph II
+        const ph2X = ph1X + ph1Width, ph2Width = width / 15 * 2
+        svg.append("rect")
+            .attr("x", ph2X)
+            .attr("y", 0)
+            .attr("width", ph2Width)
+            .attr("height", 30)
+            .style("fill", "#fff8e8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
+        svg.append("text")
+            .attr("x", ph2X + 1 / 2 * ph2Width)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .text("II")
+            .style("fill", "black");
 
-    //     // Add brushing
-    //     var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
-    //         .extent([[0, 0], [width, height]]) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-    //         .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+        // Ph III
+        const ph3X = ph2X + ph2Width, ph3Width = width / 15 * 2
+        svg.append("rect")
+            .attr("x", ph3X)
+            .attr("y", 0)
+            .attr("width", ph3Width)
+            .attr("height", 30)
+            .style("fill", "#fff8e8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
+        svg.append("text")
+            .attr("x", ph3X + 1 / 2 * ph3Width)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .text("III")
+            .style("fill", "black");
 
-    //     // Create the scatter variable: where both the circles and the brush take place
-    //     var areaChart = svg.append('g')
-    //         .attr("clip-path", "url(#clip)")
+        // Pharmaceutics
+        svg.append("text")
+            .attr("x", ph2X + 1 / 2 * ph2Width)
+            .attr("y", 35)
+            .attr("text-anchor", "middle")
+            .text("Pharmaceutics")
+            .style("font-size", 15)
 
-    //     // Area generator
-    //     var area = d3.area()
-    //         .x(function (d) { return x(d.data.year); })
-    //         .y0(function (d) { return y(d[0]); })
-    //         .y1(function (d) { return y(d[1]); })
-
-    //     // Show the areas
-    //     areaChart
-    //         .selectAll("mylayers")
-    //         .data(stackedData)
-    //         .enter()
-    //         .append("path")
-    //         .attr("class", function (d) { return "myArea " + d.key })
-    //         .style("fill", function (d) { return color(d.key); })
-    //         .attr("d", area)
-
-    //     // Add the brushing
-    //     areaChart
-    //         .append("g")
-    //         .attr("class", "brush")
-    //         .call(brush);
-
-    //     var idleTimeout
-    //     function idled() { idleTimeout = null; }
-
-    //     // A function that update the chart for given boundaries
-    //     function updateChart() {
-
-    //         var extent = d3.event.selection
-
-    //         // If no selection, back to initial coordinate. Otherwise, update X axis domain
-    //         if (!extent) {
-    //             if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
-    //             x.domain(d3.extent(newdata, function (d) { return d.year; }))
-    //         } else {
-    //             x.domain([x.invert(extent[0]), x.invert(extent[1])])
-    //             areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
-    //         }
-
-    //         // Update axis and area position
-    //         // xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
-    //         areaChart
-    //             .selectAll("path")
-    //             .transition().duration(1000)
-    //             .attr("d", area)
-    //     }
-    // }
-
-    handleChange = (e, value) => {
-        // console.log("slider value:", value)
-        this.setState({ trendRange: value })
     }
 
     render() {
         return (
-            <div style={{ height: this.props.height - 20, overflow: "auto" }}>
-                {/* <Slider
-                    value={this.state.trendRange}
-                    onChange={this.handleChange}
-                    // valueLabelDisplay="disabled"
-                    min={2016}
-                    max={2020}
-                    style={{ width: this.state.stackWidth }}
-                /> */}
+            <div>
 
-                {/* <p style={{ fontSize: "13px", paddingLeft: 30 }}>{this.state.trendRange[0]} - {this.state.trendRange[1]}</p> */}
+                <br />
+                <ScrollSyncPane>
+                    <div style={{ height: this.props.height - 110, overflow: "auto" }}>
+                        {this.props.value.map((i, index) => {
+                            // console.log("index", index)
+                            return (
+                                <svg id={`heatsquare-${i.id}`}></svg>
+                            )
+                        })
+                        }
+                    </div >
+                </ScrollSyncPane>
 
-
-                {this.props.value.map((i, index) => {
-                    // console.log("index", index)
-                    return (
-                        // <Row key={index} style={{ height: 75 }}>
-                        // <Col md={2}>
-                        // <div id={`stackedarea-${i.id}`}></div>
-                        // </Col>
-                        // <Col md={10}>
-                        <svg id={`heatsquare-${i.id}`}></svg>
-                        // </Col>
-
-                        // </Row>
-                    )
-                })
-                }
-            </div >
+                <div id="heat-axis" />
+            </div>
         )
-
     }
 }
 
