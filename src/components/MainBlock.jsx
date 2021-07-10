@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import LeftBar from './LeftBar';
 import SimilarityGraph from './SimilarityGraph';
 import HeatSquare from './HeatSquare';
-// import { Container, Row, Col } from 'react-grid-system';
+import { Container, Row, Col } from 'react-grid-system';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { setConfiguration } from 'react-grid-system';
 import Card from '@material-ui/core/Card'
@@ -15,6 +15,8 @@ import { TextField } from '@material-ui/core';
 import target_data from '../target'
 import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
+import SearchIcon from '@material-ui/icons/Search';
+import Search from '@material-ui/icons/Search';
 
 
 // setConfiguration({ maxScreenClass: 'xl', gutterWidth: 5 });
@@ -82,14 +84,22 @@ class MainBlock extends Component {
                         <div key="a">
                             <Card variant="outlined" style={{ height: 2 * rowh }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
-                                <Autocomplete
-                                    id="search"
-                                    options={this.state.remainOptions}
-                                    getOptionLabel={(option) => option.label}
-                                    style={{ width: width / 14 * 2.5, marginLeft: width / 14 * 0.2 }}
-                                    onChange={(e, value) => this.handleAddSelection(value)}
-                                    renderInput={(params) => <TextField {...params} label="Search" variant="standard" />}
-                                ></Autocomplete>
+                                <Row style={{ height: 20 }}>
+                                    <Col >
+                                        <Autocomplete
+                                            id="search"
+                                            options={this.state.remainOptions}
+                                            popupIcon={false}
+                                            getOptionLabel={(option) => option.label}
+                                            style={{ width: width / 14 * 2, marginLeft: width / 14 * 0.2 }}
+                                            onChange={(e, value) => this.handleAddSelection(value)}
+                                            renderInput={(params) => <TextField {...params} label="Search" variant="standard" />}
+                                        ></Autocomplete>
+                                    </Col>
+                                    <Col >
+                                        <SearchIcon style={{ marginTop: 20, marginLeft: -20, opacity: 0.6 }} />
+                                    </Col>
+                                </Row>
                                 {/* target component img view */}
                             </Card>
                         </div>
