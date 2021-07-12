@@ -7,7 +7,7 @@ class HeatSquare extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            Height: this.props.height - 180,
+            Height: this.props.height - 100,
             heatWidth: this.props.width / 12 * 10,
             targetList: this.props.value,
             marginL: 30,
@@ -21,6 +21,7 @@ class HeatSquare extends Component {
 
     componentDidUpdate() {
         console.log("component did update")
+        this.drawLegend("legend")
         this.drawUpperAxis("upper-axis")
         this.drawLowerAxis("lower-axis")
         this.state.targetList.forEach(d => {
@@ -29,7 +30,7 @@ class HeatSquare extends Component {
         })
     }
 
-    drawUpperAxis(container) {
+    drawLegend(container) {
         const { marginL, marginR } = this.state;
         const width = this.state.heatWidth - marginL - marginR
 
@@ -43,15 +44,28 @@ class HeatSquare extends Component {
         // legend
         const colorLegend = ["#a9d6e5", "#468faf", "#01497c"]
         svg.selectAll("rect#color").data(colorLegend).enter()
-            .append("rect").attr("x", (d, i) => 10 + i * 25).attr("y", 0).attr("width", 20).attr("height", 15).attr("fill", d => d)
+            .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d)
 
         const squareLegend = ["10", "15", "20"]
         svg.selectAll("rect#square").data(squareLegend).enter()
-            .append("rect").attr("x", (d, i) => 130 + i * 25).attr("y", d => 5 - 1 / 2 * d)
+            .append("rect").attr("x", (d, i) => 130 + i * 25).attr("y", d => 2 - 1 / 2 * d)
             .attr("width", d => d).attr("height", d => d)
             .attr("fill", "white")
             .style("stroke-width", 1)
             .style("stroke", "#adb5bd")
+    }
+
+    drawUpperAxis(container) {
+        const { marginL, marginR } = this.state;
+        const width = this.state.heatWidth - marginL - marginR
+
+        d3.select("#" + container).selectAll("svg").remove()
+        var svg = d3.select("#" + container).append("svg")
+            .attr("width", width + marginL)
+            .attr("height", "25px")
+            .append("g")
+            .attr("transform", "translate(" + marginL + ",10)");
+
 
         // axis
         const domain = ["IC50", "IG-m", "Kd-m", "Selectivity", "IC50-v", "IG-v", "Kd-v", "EC50", "Selectivity-v", "hERG", "solubility", "ED50", "Pharmacokinetic", "solubility-3"]
@@ -60,7 +74,7 @@ class HeatSquare extends Component {
             .range([0, width - 5]);
 
         var xAxis = svg.append("g")
-            .attr("transform", "translate(0,50)").call(d3.axisTop(xScale));
+            .attr("transform", "translate(0,10)").call(d3.axisTop(xScale));
     }
 
     drawHeatSquare(container, data) {
@@ -132,7 +146,7 @@ class HeatSquare extends Component {
         d3.select("#" + container).selectAll("svg").remove()
         var svg = d3.select("#" + container).append("svg")
             .attr("width", width + marginL)
-            .attr("height", "50px")
+            .attr("height", "40px")
             .append("g")
             .attr("transform", "translate(" + marginL + ",10)");
 
@@ -142,7 +156,7 @@ class HeatSquare extends Component {
             .attr("x", 0)
             .attr("y", 0)
             .attr("width", medchemWidth)
-            .attr("height", 30)
+            .attr("height", 20)
             .style("fill", "#cce3de")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -151,10 +165,11 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", 1 / 2 * medchemWidth)
-            .attr("y", 20)
+            .attr("y", 14)
             .attr("text-anchor", "middle")
             .text("Medical Chemistry")
-            .style("fill", "black");
+            .style("fill", "black")
+            .style("font-size", 13);
 
         // Vitro
         const vitroX = medchemWidth, vitroWidth = width / 15 * 4
@@ -162,7 +177,7 @@ class HeatSquare extends Component {
             .attr("x", vitroX)
             .attr("y", 0)
             .attr("width", vitroWidth)
-            .attr("height", 30)
+            .attr("height", 20)
             .style("fill", "#ecf8f8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -171,10 +186,11 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", vitroX + 1 / 2 * vitroWidth)
-            .attr("y", 20)
+            .attr("y", 14)
             .attr("text-anchor", "middle")
             .text("Vitro")
-            .style("fill", "black");
+            .style("fill", "black")
+            .style("font-size", 13);;
 
         // Vivo
         const vivoX = vitroX + vitroWidth, vivoWidth = width / 15 * 2
@@ -182,7 +198,7 @@ class HeatSquare extends Component {
             .attr("x", vivoX)
             .attr("y", 0)
             .attr("width", vivoWidth)
-            .attr("height", 30)
+            .attr("height", 20)
             .style("fill", "#ecf8f8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -191,18 +207,19 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", vivoX + 1 / 2 * vivoWidth)
-            .attr("y", 20)
+            .attr("y", 14)
             .attr("text-anchor", "middle")
             .text("Vivo")
-            .style("fill", "black");
+            .style("fill", "black")
+            .style("font-size", 13);
 
         // Pharmocology
         svg.append("text")
             .attr("x", 1 / 2 * (vitroX + 1 / 2 * vitroWidth + vivoX + 1 / 2 * vivoWidth))
-            .attr("y", 35)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("Pharmocology")
-            .style("font-size", 15)
+            .style("font-size", 13)
 
         // Ph I
         const ph1X = vivoX + vivoWidth, ph1Width = width / 15 * 2
@@ -210,7 +227,7 @@ class HeatSquare extends Component {
             .attr("x", ph1X)
             .attr("y", 0)
             .attr("width", ph1Width)
-            .attr("height", 30)
+            .attr("height", 20)
             .style("fill", "#fff8e8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -219,10 +236,11 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", ph1X + 1 / 2 * ph1Width)
-            .attr("y", 20)
+            .attr("y", 14)
             .attr("text-anchor", "middle")
             .text("I")
-            .style("fill", "black");
+            .style("fill", "black")
+            .style("font-size", 13);
 
         // Ph II
         const ph2X = ph1X + ph1Width, ph2Width = width / 15 * 2
@@ -230,7 +248,7 @@ class HeatSquare extends Component {
             .attr("x", ph2X)
             .attr("y", 0)
             .attr("width", ph2Width)
-            .attr("height", 30)
+            .attr("height", 20)
             .style("fill", "#fff8e8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -239,10 +257,11 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", ph2X + 1 / 2 * ph2Width)
-            .attr("y", 20)
+            .attr("y", 14)
             .attr("text-anchor", "middle")
             .text("II")
-            .style("fill", "black");
+            .style("fill", "black")
+            .style("font-size", 13);
 
         // Ph III
         const ph3X = ph2X + ph2Width, ph3Width = width / 15 * 2
@@ -250,7 +269,7 @@ class HeatSquare extends Component {
             .attr("x", ph3X)
             .attr("y", 0)
             .attr("width", ph3Width)
-            .attr("height", 30)
+            .attr("height", 20)
             .style("fill", "#fff8e8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -259,25 +278,32 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", ph3X + 1 / 2 * ph3Width)
-            .attr("y", 20)
+            .attr("y", 14)
             .attr("text-anchor", "middle")
             .text("III")
-            .style("fill", "black");
+            .style("fill", "black").style("font-size", 13);
 
         // Pharmaceutics
         svg.append("text")
             .attr("x", ph2X + 1 / 2 * ph2Width)
-            .attr("y", 35)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("Pharmaceutics")
-            .style("font-size", 15)
+            .style("font-size", 13);
 
     }
 
     render() {
         return (
             <div>
-                <div id="upper-axis" />
+                <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", height: "24px" }}  >
+                    <div className="col-3">
+                        <p>Middle Lower View</p>
+                    </div>
+                    <div className="col-9" id="legend">
+                    </div>
+                </div>
+                <div id="upper-axis"></div>
                 <ScrollSyncPane>
                     <div style={{ height: this.state.Height, overflow: "auto" }}>
                         {this.props.value.map((i, index) => {

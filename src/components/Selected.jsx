@@ -27,16 +27,16 @@ import { ScrollSyncPane } from 'react-scroll-sync';
 
 class Selected extends Component {
 
-    state = {}
+    constructor(props) {
+        super(props)
+        this.state = {
+            Height: this.props.height - 100
+        }
+    }
 
     handleClick = (target) => {
         this.props.handleRemoveSelection(target)
     }
-
-    // drawStackedBar(svg){
-    //     svg.append("circle").attr("x")
-    // }
-
 
     render() {
         return (
@@ -47,8 +47,8 @@ class Selected extends Component {
                     <List style={{
                         // position: 'relative',
                         // overflow: 'auto',
-                        height: "300px",
-                        paddingTop: "20px"
+                        height: this.state.Height,
+                        padding: 0
                         // maxHeight: 440,
                     }}>
 
@@ -58,12 +58,12 @@ class Selected extends Component {
 
                             return (
                                 <div key={i}>
-                                    <ListItem alignItems="flex-start" style={{ height: 100 }}>
+                                    <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3 }}>
                                         <ListItemAvatar>
                                             {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                            <img src={JanusImg} width="70" height="70" data-tip />
+                                            <img src={JanusImg} width="50" data-tip />
                                             <ReactTooltip type="light">
-                                                <img src={JanusImg} width="100" height="100" />
+                                                <img src={JanusImg} width="130" height="130" />
                                             </ReactTooltip>
                                             {/* <StackedBar /> */}
                                             {/* </Avatar> */}

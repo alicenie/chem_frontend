@@ -16,7 +16,7 @@ import target_data from '../target'
 import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';
-import Search from '@material-ui/icons/Search';
+
 
 
 // setConfiguration({ maxScreenClass: 'xl', gutterWidth: 5 });
@@ -64,17 +64,18 @@ class MainBlock extends Component {
 
     render() {
         const layout = [
-            { i: 'a', x: 0, y: 0, w: 3, h: 2, static: true },
-            { i: 'b', x: 0, y: 2, w: 3, h: 3, static: true },
-            { i: 'c', x: 3, y: 0, w: 9, h: 2, static: true },
-            { i: 'd', x: 3, y: 2, w: 9, h: 3, },
-            { i: 'e', x: 12, y: 0, w: 2, h: 2, static: true },
-            { i: 'f', x: 12, y: 2, w: 2, h: 3, },
+            { i: 'a', x: 0, y: 0, w: 3, h: 4, static: true },
+            { i: 'b', x: 0, y: 4, w: 3, h: 3, static: true },
+            { i: 'c', x: 3, y: 0, w: 9, h: 4, static: true },
+            { i: 'd', x: 3, y: 4, w: 9, h: 3, static: true },
+            { i: 'e', x: 12, y: 0, w: 2, h: 4, static: true },
+            { i: 'f', x: 12, y: 4, w: 2, h: 3, static: true },
         ];
 
         const { innerWidth: width, innerHeight: height } = window;
-        const m = 5
-        const rowh = height / 5 - m;
+        const m = 3;
+        const rowh = height / 7;
+        const upperHeight = rowh * 4 + 7, lowerHeight = rowh * 3;
         console.log("rowh", rowh)
 
         return (
@@ -82,7 +83,7 @@ class MainBlock extends Component {
                 <ScrollSync>
                     <GridLayout className="layout" layout={layout} cols={14} rowHeight={rowh} width={width} margin={[m, m]} isResizable={true}>
                         <div key="a">
-                            <Card variant="outlined" style={{ height: 2 * rowh }}>
+                            <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
                                 <Row style={{ height: 20 }}>
                                     <Col >
@@ -105,42 +106,40 @@ class MainBlock extends Component {
                         </div>
 
                         <div key="b">
-                            <Card variant="outlined" overflow="visible" style={{ height: 3 * rowh }} >
+                            <Card variant="outlined" overflow="visible" style={{ height: lowerHeight }} >
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Selected Targets</p>
                                 {/* <ScrollSyncPane> */}
                                 <br />
-                                <br />
-                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} />
+                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} height={lowerHeight} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>
 
                         <div key="d">
-                            <Card variant="outlined" style={{ height: 3 * rowh }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
-                                <HeatSquare width={width / 14 * 11} height={3 * rowh} value={this.state.selectedTargets} />
+                            <Card variant="outlined" style={{ height: lowerHeight }}>
+                                <HeatSquare width={width / 14 * 11} height={lowerHeight} value={this.state.selectedTargets} />
                             </Card>
                         </div>
 
                         <div key="f">
-                            <Card variant="outlined" style={{ height: 3 * rowh }}>
+                            <Card variant="outlined" style={{ height: lowerHeight, padding: 0 }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Topic Trend</p>
                                 {/* <ScrollSyncPane> */}
-                                <StackedArea width={width / 14 * 11} height={3 * rowh} value={this.state.selectedTargets} />
+                                <StackedArea width={width / 14 * 11} height={lowerHeight} value={this.state.selectedTargets} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>
 
 
                         <div key="c">
-                            <Card variant="outlined" style={{ height: 2 * rowh }}>
+                            <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Upper View</p>
                                 <SimilarityGraph />
                             </Card>
                         </div>
 
                         <div key="e">
-                            <Card variant="outlined" style={{ height: 2 * rowh }}>
+                            <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Right Upper View</p>
                             </Card>
                         </div>
