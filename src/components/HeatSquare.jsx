@@ -150,7 +150,7 @@ class HeatSquare extends Component {
             .append("g")
             .attr("transform", "translate(" + marginL + ",10)");
 
-        // medical chemistry
+        // medicinical chemistry
         const medchemWidth = width / 15 * 3
         svg.append("rect")
             .attr("x", 0)
@@ -167,7 +167,7 @@ class HeatSquare extends Component {
             .attr("x", 1 / 2 * medchemWidth)
             .attr("y", 14)
             .attr("text-anchor", "middle")
-            .text("Medical Chemistry")
+            .text("Medicinical Chemistry")
             .style("fill", "black")
             .style("font-size", 13);
 

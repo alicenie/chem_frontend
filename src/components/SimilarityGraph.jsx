@@ -171,7 +171,7 @@ class SimilarityGraph extends Component {
                 tooltip
                     .style("opacity", 0)
             })
-            .call(drag(simulation));
+        // .call(drag(simulation));
         // })
     }
 

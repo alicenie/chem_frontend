@@ -16,6 +16,7 @@ import target_data from '../target'
 import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';
+import DetailView from './DetailView'
 
 
 
@@ -73,15 +74,15 @@ class MainBlock extends Component {
         ];
 
         const { innerWidth: width, innerHeight: height } = window;
-        const m = 3;
+        const m = 0;
         const rowh = height / 7;
-        const upperHeight = rowh * 4 + 7, lowerHeight = rowh * 3;
+        const upperHeight = rowh * 4, lowerHeight = rowh * 3;
         console.log("rowh", rowh)
 
         return (
             <div>
                 <ScrollSync>
-                    <GridLayout className="layout" layout={layout} cols={14} rowHeight={rowh} width={width} margin={[m, m]} isResizable={true}>
+                    <GridLayout className="layout" layout={layout} cols={14} rowHeight={rowh} width={width} margin={[3, 1]} isResizable={true}>
                         <div key="a">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
@@ -91,6 +92,7 @@ class MainBlock extends Component {
                                             id="search"
                                             options={this.state.remainOptions}
                                             popupIcon={false}
+                                            value={""}
                                             getOptionLabel={(option) => option.label}
                                             style={{ width: width / 14 * 2, marginLeft: width / 14 * 0.2 }}
                                             onChange={(e, value) => this.handleAddSelection(value)}
@@ -134,7 +136,8 @@ class MainBlock extends Component {
                         <div key="c">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Upper View</p>
-                                <SimilarityGraph />
+                                {/* <SimilarityGraph /> */}
+                                <DetailView height={upperHeight} width={width / 14 * 9} />
                             </Card>
                         </div>
 
@@ -174,7 +177,7 @@ class MainBlock extends Component {
                         </Col>
                     </Row>
                 </Container> */}
-            </div>
+            </div >
         );
     }
 }
