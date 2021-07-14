@@ -17,13 +17,14 @@ class HeatSquare extends Component {
 
     componentDidMount() {
         console.log("component did mount ")
+        this.drawLegend("legend")
+        this.drawUpperAxis("upper-axis")
+        this.drawLowerAxis("lower-axis")
     }
 
     componentDidUpdate() {
         console.log("component did update")
-        this.drawLegend("legend")
-        this.drawUpperAxis("upper-axis")
-        this.drawLowerAxis("lower-axis")
+
         this.state.targetList.forEach(d => {
             // console.log(d)
             this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
@@ -298,7 +299,7 @@ class HeatSquare extends Component {
             <div>
                 <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", height: "24px" }}  >
                     <div className="col-3">
-                        <p>Middle Lower View</p>
+                        <p>Middle Upper View</p>
                     </div>
                     <div className="col-9" id="legend">
                     </div>

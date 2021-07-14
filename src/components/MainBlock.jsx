@@ -65,12 +65,12 @@ class MainBlock extends Component {
 
     render() {
         const layout = [
-            { i: 'a', x: 0, y: 0, w: 3, h: 4, static: true },
-            { i: 'b', x: 0, y: 4, w: 3, h: 3, static: true },
-            { i: 'c', x: 3, y: 0, w: 9, h: 4, static: true },
-            { i: 'd', x: 3, y: 4, w: 9, h: 3, static: true },
-            { i: 'e', x: 12, y: 0, w: 2, h: 4, static: true },
-            { i: 'f', x: 12, y: 4, w: 2, h: 3, static: true },
+            { i: 'a', x: 0, y: 3, w: 3, h: 4, static: true },
+            { i: 'b', x: 0, y: 0, w: 3, h: 3, static: true },
+            { i: 'c', x: 3, y: 3, w: 9, h: 4, static: true },
+            { i: 'd', x: 3, y: 0, w: 9, h: 3, static: true },
+            { i: 'e', x: 12, y: 3, w: 2, h: 4, static: true },
+            { i: 'f', x: 12, y: 0, w: 2, h: 3, static: true },
         ];
 
         const { innerWidth: width, innerHeight: height } = window;
@@ -85,8 +85,8 @@ class MainBlock extends Component {
                     <GridLayout className="layout" layout={layout} cols={14} rowHeight={rowh} width={width} margin={[3, 1]} isResizable={true}>
                         <div key="a">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
-                                <Row style={{ height: 20 }}>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Lower View</p>
+                                {/* <Row style={{ height: 20 }}>
                                     <Col >
                                         <Autocomplete
                                             id="search"
@@ -102,7 +102,7 @@ class MainBlock extends Component {
                                     <Col >
                                         <SearchIcon style={{ marginTop: 20, marginLeft: -20, opacity: 0.6 }} />
                                     </Col>
-                                </Row>
+                                </Row> */}
                                 {/* target component img view */}
                             </Card>
                         </div>
@@ -111,6 +111,33 @@ class MainBlock extends Component {
                             <Card variant="outlined" overflow="visible" style={{ height: lowerHeight }} >
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Selected Targets</p>
                                 {/* <ScrollSyncPane> */}
+                                <Row style={{ height: 20 }}>
+                                    <Col >
+                                        <Autocomplete
+                                            id="search"
+                                            options={this.state.remainOptions}
+                                            popupIcon={false}
+                                            value={""}
+                                            size={'small'}
+                                            getOptionLabel={(option) => option.label}
+                                            style={{ width: width / 14 * 2, marginLeft: width / 14 * 0.2 }}
+                                            onChange={(e, value) => this.handleAddSelection(value)}
+                                            renderInput={(params) => <TextField {...params} size="small" label="Search" variant="standard" />}
+                                        ></Autocomplete>
+                                        {/* <Autocomplete
+                                            id="custom-input-demo"
+                                            options={this.state.remainOptions}
+                                            renderInput={(params) => (
+                                                <div ref={params.InputProps.ref}>
+                                                    <input style={{ width: 200 }} type="text" {...params.inputProps} />
+                                                </div>
+                                            )}
+                                        /> */}
+                                    </Col>
+                                    <Col >
+                                        <SearchIcon style={{ marginTop: 20, marginLeft: -20, opacity: 0.6 }} />
+                                    </Col>
+                                </Row>
                                 <br />
                                 <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} height={lowerHeight} />
                                 {/* </ScrollSyncPane> */}
@@ -135,7 +162,7 @@ class MainBlock extends Component {
 
                         <div key="c">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Upper View</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
                                 {/* <SimilarityGraph /> */}
                                 <DetailView height={upperHeight} width={width / 14 * 9} />
                             </Card>
@@ -143,7 +170,7 @@ class MainBlock extends Component {
 
                         <div key="e">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Right Upper View</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Right Lower View</p>
                             </Card>
                         </div>
                     </GridLayout>

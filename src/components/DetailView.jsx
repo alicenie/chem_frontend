@@ -170,7 +170,7 @@ class DetailView extends Component {
                     .style("opacity", 0.5)
 
                 d3.selectAll("path#" + d.id)
-                    .style("opacity", 1)
+                    .attr("opacity", 1)
             })
             .on("mousemove", (d) => {
                 tooltip
@@ -190,7 +190,7 @@ class DetailView extends Component {
                     .style("opacity", 1)
 
                 d3.selectAll("path#" + d.id)
-                    .style("opacity", 0.3)
+                    .attr("opacity", 0.3)
             })
         // .call(drag(simulation));
 
@@ -294,7 +294,7 @@ class DetailView extends Component {
                     .style("opacity", 0.5)
 
                 d3.selectAll("path#" + d.id)
-                    .style("opacity", 1)
+                    .attr("opacity", 1)
 
             })
             .on("mousemove", (d) => {
@@ -315,7 +315,7 @@ class DetailView extends Component {
                     .style("opacity", 1)
 
                 d3.selectAll("path#" + d.id)
-                    .style("opacity", 0.3)
+                    .attr("opacity", 0.3)
             })
 
     }
@@ -339,7 +339,7 @@ class DetailView extends Component {
                     .attr("d", path)
                     .attr("stroke-width", 2)
                     .attr("stroke", "#adb5bd")
-                    .style("opacity", 0.3)
+                    .attr("opacity", 0.3)
                     .attr("id", d.id)
                     .lower()
             })
