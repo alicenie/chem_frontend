@@ -116,67 +116,17 @@ class DetailView extends Component {
                 // console.log('d in collision', d)
                 return rScale(d.value)
             }))
-            // .force("size", [width / 2, height])
-            .on("tick", ticked)
-            .on("end", (d) => {
-                console.log("simulation end")
-                console.log(nodes)
-                node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y } })
-                console.log(node_pos)
-                this.setState({ node_pos })
-            });
+            .stop()
 
-        function ticked() {
-            link
-                .attr("x1", function (d) {
-                    return d.source.x;
-                })
-                .attr("y1", function (d) {
-                    return d.source.y;
-                })
-                .attr("x2", function (d) {
-                    return d.target.x;
-                })
-                .attr("y2", function (d) {
-                    return d.target.y;
-                });
+        // make the simulation run without drawing anything
+        for (var i = 0; i < 300; ++i) simulation.tick();
+        // console.log("simulation end")
+        console.log(nodes)
+        node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y } })
+        console.log(node_pos)
+        this.setState({ node_pos })
 
-            node
-                .attr("cx", function (d) {
-                    return d.x;
-                })
-                .attr("cy", function (d) {
-                    return d.y;
-                });
-        }
-
-        // function drag(simulation) {
-        //     function dragstarted(d) {
-        //         if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-        //         d.fx = d.x;
-        //         d.fy = d.y;
-        //     }
-
-        //     function dragged(d) {
-        //         d.fx = d3.event.x;
-        //         d.fy = d3.event.y;
-        //     }
-
-        //     function dragended(d) {
-        //         if (!d3.event.active) simulation.alphaTarget(0);
-        //         d.fx = null;
-        //         d.fy = null;
-        //     }
-
-        //     return d3
-        //         .drag()
-        //         .on("start", dragstarted)
-        //         .on("drag", dragged)
-        //         .on("end", dragended);
-        // }
-
-
-
+        // draw it manually using the x and y created by simulation
         var node = svg
             .selectAll("circle")
             .data(nodes)
@@ -184,18 +134,9 @@ class DetailView extends Component {
             .append("circle")
             .attr("class", "network")
             .attr("r", d => rScale(d.value))
-            // .attr("r", 8)
-            .style("fill", (d) => {
-                // console.log(d)
-                // store x and y of each node
-                // node_pos.push({
-                //     id: d.id,
-                //     x: d.x,
-                //     y: d.y
-                // })
-
-                return colorScale(d.group)
-            })
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y)
+            .style("fill", (d) => colorScale(d.group))
             .on("mouseover", (d) => {
                 // console.log(d.id)
 
@@ -227,6 +168,9 @@ class DetailView extends Component {
                 d3.selectAll("circle.network")
                     .filter((node) => node.id != d.id)
                     .style("opacity", 0.5)
+
+                d3.selectAll("path#" + d.id)
+                    .style("opacity", 1)
             })
             .on("mousemove", (d) => {
                 tooltip
@@ -244,6 +188,9 @@ class DetailView extends Component {
                 d3.selectAll("circle.network")
                     .style("stroke-width", 0)
                     .style("opacity", 1)
+
+                d3.selectAll("path#" + d.id)
+                    .style("opacity", 0.3)
             })
         // .call(drag(simulation));
 
@@ -346,6 +293,9 @@ class DetailView extends Component {
                     .filter((node) => node.id != d.id)
                     .style("opacity", 0.5)
 
+                d3.selectAll("path#" + d.id)
+                    .style("opacity", 1)
+
             })
             .on("mousemove", (d) => {
                 tooltip
@@ -363,6 +313,9 @@ class DetailView extends Component {
                 d3.selectAll("circle.network")
                     .style("stroke-width", 0)
                     .style("opacity", 1)
+
+                d3.selectAll("path#" + d.id)
+                    .style("opacity", 0.3)
             })
 
     }
@@ -384,8 +337,11 @@ class DetailView extends Component {
                 d3.select("svg#detail_svg")
                     .append("path")
                     .attr("d", path)
-                    .attr("stroke", "black")
-                    .attr("fill", "red");
+                    .attr("stroke-width", 2)
+                    .attr("stroke", "#adb5bd")
+                    .style("opacity", 0.3)
+                    .attr("id", d.id)
+                    .lower()
             })
         }
     }
