@@ -9,7 +9,11 @@ class DetailView extends Component {
             Height: this.props.height,
             Width: this.props.width,
             network: graph[0],
-            heatmap: graph[1]
+            heatmap: graph[1],
+
+            node_pos: [],
+            heat_pos: []
+
         }
     }
 
@@ -18,10 +22,10 @@ class DetailView extends Component {
 
         this.drawNetwork();
         this.drawHeatmap();
-        this.drawLinks();
     }
 
     componentDidUpdate() {
+        this.drawPaths();
     }
 
     drawBoundary() {
@@ -47,6 +51,7 @@ class DetailView extends Component {
 
     drawNetwork() {
         console.log("draw network")
+        var node_pos = []
         var margin = { top: 0, right: 0, bottom: 0, left: 0 },
             width = this.state.Width / 3 - 10 - margin.left - margin.right,
             height = this.state.Height - 40 - margin.top - margin.bottom;
@@ -113,7 +118,13 @@ class DetailView extends Component {
             }))
             // .force("size", [width / 2, height])
             .on("tick", ticked)
-            .alphaDecay(0.1);
+            .on("end", (d) => {
+                console.log("simulation end")
+                console.log(nodes)
+                node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y } })
+                console.log(node_pos)
+                this.setState({ node_pos })
+            });
 
         function ticked() {
             link
@@ -164,6 +175,8 @@ class DetailView extends Component {
         //         .on("end", dragended);
         // }
 
+
+
         var node = svg
             .selectAll("circle")
             .data(nodes)
@@ -172,7 +185,17 @@ class DetailView extends Component {
             .attr("class", "network")
             .attr("r", d => rScale(d.value))
             // .attr("r", 8)
-            .style("fill", (d) => colorScale(d.group))
+            .style("fill", (d) => {
+                // console.log(d)
+                // store x and y of each node
+                // node_pos.push({
+                //     id: d.id,
+                //     x: d.x,
+                //     y: d.y
+                // })
+
+                return colorScale(d.group)
+            })
             .on("mouseover", (d) => {
                 // console.log(d.id)
 
@@ -223,7 +246,8 @@ class DetailView extends Component {
                     .style("opacity", 1)
             })
         // .call(drag(simulation));
-        // })
+
+        // this.setState({ node_pos })
     }
 
     drawHeatmap() {
@@ -252,6 +276,17 @@ class DetailView extends Component {
             if (!yDomain.includes(d.id)) yDomain.push(d.id)
         })
         var yScale = d3.scaleBand().domain(yDomain).range(yRange)
+
+        // store positions for path
+        var heat_pos = []
+        yDomain.forEach(d => {
+            heat_pos.push({
+                id: d,
+                x: (20 + this.state.Width / 3 - 5 + margin.left),
+                y: yScale(d) + margin.top + 1 / 2 * yScale.bandwidth()
+            })
+        })
+        this.setState({ heat_pos })
 
         // color scale
         var colorScale = d3
@@ -332,8 +367,27 @@ class DetailView extends Component {
 
     }
 
-    drawLinks() {
+    drawPaths() {
 
+        console.log("node_pos", this.state.node_pos)
+        console.log("heat_pos", this.state.heat_pos)
+
+        const { node_pos, heat_pos } = this.state;
+
+        if (node_pos[0]) {
+            heat_pos.forEach(d => {
+                var path = d3.path()
+                var startNode = node_pos.find(node => node.id == d.id)
+                path.moveTo(startNode.x + 20, startNode.y)
+                path.lineTo(d.x, d.y)
+                path.closePath();
+                d3.select("svg#detail_svg")
+                    .append("path")
+                    .attr("d", path)
+                    .attr("stroke", "black")
+                    .attr("fill", "red");
+            })
+        }
     }
 
     render() {
