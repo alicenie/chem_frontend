@@ -12,6 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Typography from '@material-ui/core/Typography';
 import ReactTooltip from 'react-tooltip';
 import { ScrollSyncPane } from 'react-scroll-sync';
+import DetailsIcon from '@material-ui/icons/Details';
 
 
 // const useStyles = makeStyles((theme) => ({
@@ -34,8 +35,12 @@ class Selected extends Component {
         }
     }
 
-    handleClick = (target) => {
+    handleRemove = (target) => {
         this.props.handleRemoveSelection(target)
+    }
+
+    handleClick = (target) => {
+        this.props.handleSelectDetail(target)
     }
 
     render() {
@@ -87,6 +92,9 @@ class Selected extends Component {
                                             }
                                         />
                                         <IconButton aria-label="deleteOutlined" onClick={() => this.handleClick(i)}>
+                                            <DetailsIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="deleteOutlined" onClick={() => this.handleRemove(i)}>
                                             <DeleteOutlinedIcon />
                                         </IconButton>
                                     </ListItem>

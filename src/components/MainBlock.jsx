@@ -26,7 +26,8 @@ class MainBlock extends Component {
         super(props);
         this.state = {
             selectedTargets: [],
-            remainOptions: target_data
+            remainOptions: target_data,
+            selectDetail: [],
         }
         // this.handleAddSelection = this.handleAddSelection.bind(this);
     }
@@ -63,6 +64,13 @@ class MainBlock extends Component {
         this.setState({ selectedTargets, remainOptions });
     }
 
+    handleSelectDetail = (target) => {
+        if (target) {
+            console.log("set state in mainblock ", target)
+            this.setState({ selectDetail: target.detaildata })
+        }
+    }
+
     render() {
         const layout = [
             { i: 'a', x: 0, y: 3, w: 3, h: 4, static: true },
@@ -86,24 +94,6 @@ class MainBlock extends Component {
                         <div key="a">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Lower View</p>
-                                {/* <Row style={{ height: 20 }}>
-                                    <Col >
-                                        <Autocomplete
-                                            id="search"
-                                            options={this.state.remainOptions}
-                                            popupIcon={false}
-                                            value={""}
-                                            getOptionLabel={(option) => option.label}
-                                            style={{ width: width / 14 * 2, marginLeft: width / 14 * 0.2 }}
-                                            onChange={(e, value) => this.handleAddSelection(value)}
-                                            renderInput={(params) => <TextField {...params} label="Search" variant="standard" />}
-                                        ></Autocomplete>
-                                    </Col>
-                                    <Col >
-                                        <SearchIcon style={{ marginTop: 20, marginLeft: -20, opacity: 0.6 }} />
-                                    </Col>
-                                </Row> */}
-                                {/* target component img view */}
                             </Card>
                         </div>
 
@@ -139,7 +129,7 @@ class MainBlock extends Component {
                                     </Col>
                                 </Row>
                                 <br />
-                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} height={lowerHeight} />
+                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>
@@ -164,7 +154,7 @@ class MainBlock extends Component {
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
                                 {/* <SimilarityGraph /> */}
-                                <DetailView height={upperHeight} width={width / 14 * 9} />
+                                <DetailView height={upperHeight} detaildata={this.state.selectDetail} width={width / 14 * 9} />
                             </Card>
                         </div>
 
