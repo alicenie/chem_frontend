@@ -426,10 +426,14 @@ class DetailView extends Component {
             // this.setState({ vitro_heat_pos })
 
             // color scale
-            var colorScale = d3
-                .scaleSequential()
-                .interpolator(d3.interpolateOranges)
-                .domain([1, 8]);
+            // var colorScale = d3
+            //     .scaleSequential()
+            //     .interpolator(d3.interpolateOranges)
+            //     .domain([1, 8]);
+
+            var colorScale = d3.scaleOrdinal()
+                .domain([0, 1, 2, 3, 4, 5, 6])
+                .range(["white", "#fdf8e1", "#fcefb4", "#fae588", "#f9dc5c", "#ffc617", "#ffc000"])
 
             // set tooltips
             var tooltip = d3
@@ -556,10 +560,13 @@ class DetailView extends Component {
             // this.setState({ vivo_heat_pos })
 
             // color scale
-            var colorScale = d3
-                .scaleSequential()
-                .interpolator(d3.interpolateOranges)
-                .domain([1, 8]);
+            // var colorScale = d3
+            //     .scaleSequential()
+            //     .interpolator(d3.interpolateOranges)
+            //     .domain([0, 8]);
+            var colorScale = d3.scaleOrdinal()
+                .domain([0, 1, 2, 3, 4, 5, 6])
+                .range(["white", "#ffe3e0", "#fbc3bc", "#f7a399", "#f38375", "#ef6351", "#c32f27"])
 
             // set tooltips
             var tooltip = d3
