@@ -44,7 +44,8 @@ class DetailView extends Component {
             .attr("width", 20 + this.state.medchemWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
-            .style("stroke-width", "2px");
+            .style("stroke-width", "2px")
+            .lower();
         // }
 
         svg.append("rect")
@@ -319,7 +320,7 @@ class DetailView extends Component {
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
                 .style("fill", (d) => colorScale(d.group))
-                .on("mouseover", (d) => {
+                .on("mouseover", function (event, d) {
                     // console.log(d.id)
 
                     // tooltip
@@ -328,8 +329,8 @@ class DetailView extends Component {
                         .html(
                             `id: ${d.id}<br/>value: ${d.value}`
                         )
-                        .style("left", d3.event.pageX + 20 + "px")
-                        .style("top", d3.event.pageY + 20 + "px");
+                        .style("left", event.pageX + 20 + "px")
+                        .style("top", event.pageY + 20 + "px");
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -353,13 +354,14 @@ class DetailView extends Component {
 
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 1)
+                        .attr("stroke-width", 2)
                 })
-                .on("mousemove", (d) => {
+                .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", d3.event.pageX + 20 + "px")
-                        .style("top", d3.event.pageY + 20 + "px");
+                        .style("left", event.pageX + 20 + "px")
+                        .style("top", event.pageY + 20 + "px");
                 })
-                .on("mouseout", (d) => {
+                .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", 0);
 
                     d3.selectAll("rect.heatmap")
@@ -373,6 +375,7 @@ class DetailView extends Component {
 
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.3)
+                        .attr("stroke-width", 1)
                 })
             // .call(drag(simulation));
 
@@ -452,15 +455,15 @@ class DetailView extends Component {
                 })
                 .style("stroke-width", 2)
                 .style("stroke", "#adb5bd")
-                .on("mouseover", (d) => {
+                .on("mouseover", (event, d) => {
                     // tooltip
                     tooltip.transition().duration(200).style("opacity", 0.7);
                     tooltip
                         .html(
                             `id: ${d.id}<br/>  ${d.attr}: ${d.value}`
                         )
-                        .style("left", d3.event.pageX + 20 + "px")
-                        .style("top", d3.event.pageY + 20 + "px");
+                        .style("left", event.pageX + 20 + "px")
+                        .style("top", event.pageY + 20 + "px");
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -484,14 +487,15 @@ class DetailView extends Component {
 
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 1)
+                        .attr("stroke-width", 2)
 
                 })
-                .on("mousemove", (d) => {
+                .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", d3.event.pageX + 20 + "px")
-                        .style("top", d3.event.pageY + 20 + "px");
+                        .style("left", event.pageX + 20 + "px")
+                        .style("top", event.pageY + 20 + "px");
                 })
-                .on("mouseout", (d) => {
+                .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", 0);
 
                     d3.selectAll("rect.heatmap")
@@ -505,6 +509,7 @@ class DetailView extends Component {
 
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.3)
+                        .attr("stroke-width", 1)
                 })
         }
         return vitro_heat_pos
@@ -580,15 +585,15 @@ class DetailView extends Component {
                 })
                 .style("stroke-width", 2)
                 .style("stroke", "#adb5bd")
-                .on("mouseover", (d) => {
+                .on("mouseover", (event, d) => {
                     // tooltip
                     tooltip.transition().duration(200).style("opacity", 0.7);
                     tooltip
                         .html(
                             `id: ${d.id}<br/>  ${d.attr}: ${d.value}`
                         )
-                        .style("left", d3.event.pageX + 20 + "px")
-                        .style("top", d3.event.pageY + 20 + "px");
+                        .style("left", event.pageX + 20 + "px")
+                        .style("top", event.pageY + 20 + "px");
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -612,14 +617,15 @@ class DetailView extends Component {
 
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 1)
+                        .attr("stroke-width", 2)
 
                 })
-                .on("mousemove", (d) => {
+                .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", d3.event.pageX + 20 + "px")
-                        .style("top", d3.event.pageY + 20 + "px");
+                        .style("left", event.pageX + 20 + "px")
+                        .style("top", event.pageY + 20 + "px");
                 })
-                .on("mouseout", (d) => {
+                .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", 0);
 
                     d3.selectAll("rect.heatmap")
@@ -631,8 +637,10 @@ class DetailView extends Component {
                         .style("stroke-width", 0)
                         .style("opacity", 1)
 
+                    console.log(d)
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.3)
+                        .attr("stroke-width", 1)
                 })
         }
         return vivo_heat_pos
@@ -647,18 +655,21 @@ class DetailView extends Component {
             // draw path between vitro and network
             if (node_pos[0]) {
                 vitro_heat_pos.forEach(d => {
-                    var path = d3.path()
+                    // var path = d3.path()
+                    var curve = d3.line().curve(d3.curveBumpX)
                     var startNode = node_pos.find(node => node.id == d.id)
-                    path.moveTo(startNode.x + 20, startNode.y)
-                    path.lineTo(d.x_in, d.y)
-                    path.closePath();
+                    // path.moveTo(startNode.x + 20, startNode.y)
+                    // path.lineTo(d.x_in, d.y)
+                    // path.closePath();
+                    var points = [[startNode.x + 20, startNode.y], [d.x_in, d.y]]
                     d3.select("svg#detail_svg")
                         .append("path")
                         .attr("class", "detail_path")
-                        .attr("d", path)
-                        .attr("stroke-width", 2)
+                        .attr("d", curve(points))
+                        .attr("stroke-width", 1)
                         .attr("stroke", "#adb5bd")
                         .attr("opacity", 0.3)
+                        .attr("fill", "none")
                         .attr("id", d.id)
                         .lower()
                 })
@@ -667,20 +678,21 @@ class DetailView extends Component {
             // draw path between vivo and vitro
             if (vitro_heat_pos[0]) {
                 vivo_heat_pos.forEach(d => {
-                    var path = d3.path()
-                    // var curve = d3.line().curve(d3.curveBumpX)
+                    // var path = d3.path()
+                    var curve = d3.line().curve(d3.curveBumpX)
                     var startNode = vitro_heat_pos.find(node => node.id == d.id)
-                    path.moveTo(startNode.x_out, startNode.y)
-                    path.lineTo(d.x, d.y)
-                    path.closePath();
+                    // path.moveTo(startNode.x_out, startNode.y)
+                    // path.lineTo(d.x, d.y)
+                    // path.closePath();
                     var points = [[startNode.x_out, startNode.y], [d.x, d.y]]
                     d3.select("svg#detail_svg")
                         .append("path")
                         .attr("class", "detail_path")
-                        .attr("d", path)
-                        .attr("stroke-width", 2)
+                        .attr("d", curve(points))
+                        .attr("stroke-width", 1)
                         .attr("stroke", "#adb5bd")
                         .attr("opacity", 0.3)
+                        .attr("fill", "none")
                         .attr("id", d.id)
                         .lower()
                 })

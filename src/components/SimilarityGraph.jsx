@@ -110,30 +110,30 @@ class SimilarityGraph extends Component {
                 });
         }
 
-        function drag(simulation) {
-            function dragstarted(d) {
-                if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-                d.fx = d.x;
-                d.fy = d.y;
-            }
+        // function drag(simulation) {
+        //     function dragstarted(d) {
+        //         if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        //         d.fx = d.x;
+        //         d.fy = d.y;
+        //     }
 
-            function dragged(d) {
-                d.fx = d3.event.x;
-                d.fy = d3.event.y;
-            }
+        //     function dragged(d) {
+        //         d.fx = d3.event.x;
+        //         d.fy = d3.event.y;
+        //     }
 
-            function dragended(d) {
-                if (!d3.event.active) simulation.alphaTarget(0);
-                d.fx = null;
-                d.fy = null;
-            }
+        //     function dragended(d) {
+        //         if (!d3.event.active) simulation.alphaTarget(0);
+        //         d.fx = null;
+        //         d.fy = null;
+        //     }
 
-            return d3
-                .drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended);
-        }
+        //     return d3
+        //         .drag()
+        //         .on("start", dragstarted)
+        //         .on("drag", dragged)
+        //         .on("end", dragended);
+        // }
 
         var node = svg
             .selectAll("circle")
@@ -143,7 +143,7 @@ class SimilarityGraph extends Component {
             .attr("r", d => rScale(d.value))
             // .attr("r", 8)
             .style("fill", (d) => colorScale(d.group))
-            .on("mouseover", (d) => {
+            .on("mouseover", (event, d) => {
                 // console.log(d.id)
                 // svg.select(this).style("fill", "orange");
                 svg
@@ -158,13 +158,13 @@ class SimilarityGraph extends Component {
                     .html(
                         `id: ${d.id}<br/>value: ${d.value}`
                     )
-                    .style("left", d3.event.pageX + 20 + "px")
-                    .style("top", d3.event.pageY + 20 + "px");
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + 20 + "px");
             })
-            .on("mousemove", () => {
+            .on("mousemove", (event) => {
                 tooltip
-                    .style("left", d3.event.pageX + 20 + "px")
-                    .style("top", d3.event.pageY + 20 + "px");
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + 20 + "px");
             })
             .on("mouseout", () => {
                 svg.selectAll(".highlightNode").classed("highlightNode", false);

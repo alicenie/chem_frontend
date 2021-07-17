@@ -88,7 +88,7 @@ class StackedArea extends Component {
         // Add brushing
         var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
             .extent([[0, 0], [width, height]]) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-            .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+        // .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
 
         // Create the scatter variable: where both the circles and the brush take place
         var areaChart = svg.append('g')
@@ -120,26 +120,26 @@ class StackedArea extends Component {
         function idled() { idleTimeout = null; }
 
         // A function that update the chart for given boundaries
-        function updateChart() {
+        // function updateChart() {
 
-            var extent = d3.event.selection
+        //     var extent = d3.event.selection
 
-            // If no selection, back to initial coordinate. Otherwise, update X axis domain
-            if (!extent) {
-                if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
-                x.domain(d3.extent(newdata, function (d) { return d.year; }))
-            } else {
-                x.domain([x.invert(extent[0]), x.invert(extent[1])])
-                areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
-            }
+        //     // If no selection, back to initial coordinate. Otherwise, update X axis domain
+        //     if (!extent) {
+        //         if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+        //         x.domain(d3.extent(newdata, function (d) { return d.year; }))
+        //     } else {
+        //         x.domain([x.invert(extent[0]), x.invert(extent[1])])
+        //         areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+        //     }
 
-            // Update axis and area position
-            // xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
-            areaChart
-                .selectAll("path")
-                .transition().duration(1000)
-                .attr("d", area)
-        }
+        //     // Update axis and area position
+        //     // xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
+        //     areaChart
+        //         .selectAll("path")
+        //         .transition().duration(1000)
+        //         .attr("d", area)
+        // }
     }
 
     handleChange = (e, value) => {
