@@ -8,7 +8,7 @@ class StackedArea extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            Height: this.props.height - 100,
+            Height: this.props.height - 75,
             stackWidth: this.props.width / 12 * 2,
             targetList: this.props.value,
             trendRange: [2016, 2020]
@@ -162,7 +162,7 @@ class StackedArea extends Component {
                 {/* <p style={{ fontSize: "13px", paddingLeft: 30 }}>{this.state.trendRange[0]} - {this.state.trendRange[1]}</p> */}
 
                 <ScrollSyncPane>
-                    <div style={{ height: this.props.height - 100, width: 200, overflow: "auto" }}>
+                    <div style={{ height: this.props.height - 75, width: 200, overflow: "auto" }}>
                         {this.props.value.map((i, index) => {
                             // console.log("index", index)
                             return (

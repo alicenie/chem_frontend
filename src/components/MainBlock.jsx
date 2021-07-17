@@ -75,18 +75,18 @@ class MainBlock extends Component {
 
     render() {
         const layout = [
-            { i: 'a', x: 0, y: 3, w: 3, h: 4, static: true },
-            { i: 'b', x: 0, y: 0, w: 3, h: 3, static: true },
-            { i: 'c', x: 3, y: 3, w: 9, h: 4, static: true },
-            { i: 'd', x: 3, y: 0, w: 9, h: 3, static: true },
-            { i: 'e', x: 12, y: 3, w: 2, h: 4, static: true },
-            { i: 'f', x: 12, y: 0, w: 2, h: 3, static: true },
+            { i: 'a', x: 0, y: 4, w: 3, h: 7, static: true },
+            { i: 'b', x: 0, y: 0, w: 3, h: 4, static: true },
+            { i: 'c', x: 3, y: 4, w: 9, h: 7, static: true },
+            { i: 'd', x: 3, y: 0, w: 9, h: 4, static: true },
+            { i: 'e', x: 12, y: 4, w: 2, h: 7, static: true },
+            { i: 'f', x: 12, y: 0, w: 2, h: 4, static: true },
         ];
 
         const { innerWidth: width, innerHeight: height } = window;
         const m = 0;
-        const rowh = height / 7;
-        const upperHeight = rowh * 4, lowerHeight = rowh * 3;
+        const rowh = height / 11;
+        const upperHeight = rowh * 7, lowerHeight = rowh * 4;
         console.log("rowh", rowh)
 
         return (
@@ -139,7 +139,7 @@ class MainBlock extends Component {
 
                         <div key="d">
                             <Card variant="outlined" style={{ height: lowerHeight }}>
-                                <HeatSquare width={width / 14 * 11} height={lowerHeight} value={this.state.selectedTargets} />
+                                <HeatSquare width={width / 14 * 9} height={lowerHeight} value={this.state.selectedTargets} />
                             </Card>
                         </div>
 
@@ -155,7 +155,7 @@ class MainBlock extends Component {
 
                         <div key="c">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Middle Lower View</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Detail View</p>
                                 {/* <SimilarityGraph /> */}
                                 <DetailView height={upperHeight} detaildata={this.state.selectDetail} width={width / 14 * 9} />
                             </Card>
