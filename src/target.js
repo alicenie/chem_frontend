@@ -3,6 +3,11 @@ const target_data = [
     id: "junas_kinase",
     label: "Junas Kinase",
     img_path: "src/target_img/Janus_kinase.png",
+    tree: [
+      { name: "1", parents: [], children: ["2", "3"] },
+      { name: "2", parents: ["1"], children: ["4"] },
+      { name: "3", parents: ["1"], children: ["9", "10", "11"] },
+    ],
     heatsquaredata: [
       { label: "A", hvalue: 5, svalue: 5 },
       { label: "B", hvalue: 4, svalue: 3 },
@@ -154,6 +159,10 @@ const target_data = [
     id: "stat3",
     label: "STAT3",
     img_path: "./logo.svg",
+    tree: [
+      { name: "5", parents: [], children: ["6"] },
+      { name: "6", parents: ["5"], children: ["7", "8"] },
+    ],
     heatsquaredata: [
       { label: "A", hvalue: 5, svalue: 4 },
       { label: "B", hvalue: 4, svalue: 6 },
@@ -213,6 +222,10 @@ const target_data = [
     id: "a",
     label: "a",
     img_path: "./logo.svg",
+    tree: [
+      { name: "2", parents: ["1"], children: ["4"] },
+      { name: "4", parents: ["2"], children: [] },
+    ],
     heatsquaredata: [
       { label: "A", hvalue: 5, svalue: 2 },
       { label: "B", hvalue: 4, svalue: 1 },
@@ -272,6 +285,11 @@ const target_data = [
     id: "b",
     label: "b",
     img_path: "./logo.svg",
+    tree: [
+      { name: "6", parents: ["5"], children: ["7", "8"] },
+      { name: "7", parents: ["6"], children: [] },
+      { name: "8", parents: ["6"], children: [] },
+    ],
     heatsquaredata: [
       { label: "A", hvalue: 5, svalue: 3 },
       { label: "B", hvalue: 4, svalue: 4 },
@@ -331,6 +349,11 @@ const target_data = [
     id: "c",
     label: "c",
     img_path: "./logo.svg",
+    tree: [
+      { name: "3", parents: ["1"], children: ["9", "10", "11"] },
+      { name: "9", parents: ["3"], children: [] },
+      { name: "10", parents: ["3"], children: [] },
+    ],
     heatsquaredata: [
       { label: "A", hvalue: 5, svalue: 4 },
       { label: "B", hvalue: 4, svalue: 3 },
@@ -390,6 +413,11 @@ const target_data = [
     id: "d",
     label: "d",
     img_path: "./logo.svg",
+    tree: [
+      { name: "3", parents: ["1"], children: ["9", "10", "11"] },
+      { name: "11", parents: ["3"], children: ["12"] },
+      { name: "12", parents: ["11"], children: [] },
+    ],
     heatsquaredata: [
       { label: "A", hvalue: 5, svalue: 2 },
       { label: "B", hvalue: 4, svalue: 4 },

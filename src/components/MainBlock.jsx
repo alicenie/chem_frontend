@@ -16,7 +16,9 @@ import target_data from '../target'
 import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';
-import DetailView from './DetailView'
+import DetailView from './DetailView';
+import TargetTree from './TargetTree';
+import SankeyTest from './SankeyTest'
 
 
 
@@ -93,7 +95,8 @@ class MainBlock extends Component {
                     <GridLayout className="layout" layout={layout} cols={14} rowHeight={rowh} width={width} margin={[3, 1]} isResizable={true}>
                         <div key="a">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Lower View</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Target Tree</p>
+                                <TargetTree value={this.state.selectedTargets} />
                             </Card>
                         </div>
 
@@ -161,6 +164,7 @@ class MainBlock extends Component {
                         <div key="e">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Right Lower View</p>
+                                <SankeyTest />
                             </Card>
                         </div>
                     </GridLayout>

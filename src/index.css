@@ -48,3 +48,19 @@ div.tooltip {
   stroke: orange;
   stroke-width: 5px;
 }
+
+.root-node > circle {
+  opacity: 0;
+  fill: white;
+  stroke-width: 0;
+}
+
+.rd3t-leaf-node > circle,
+.rd3t-node > circle {
+  fill: darkgray;
+}
+path.root-path-class {
+  opacity: 0;
+  stroke-width: 0;
+  stroke: white;
+}
