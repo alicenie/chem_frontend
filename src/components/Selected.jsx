@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import JanusImg from '../target_img/Janus_kinase.png';
+import Unknown from '../target_img/unknown.png';
 // import StackedBar from './StackedBar.jsx';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import IconButton from '@material-ui/core/IconButton';
@@ -63,12 +63,12 @@ class Selected extends Component {
 
                             return (
                                 <div key={i}>
-                                    <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3 }}>
+                                    <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center" }}>
                                         <ListItemAvatar>
                                             {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                            <img src={JanusImg} width="50" data-tip />
+                                            <img src={Unknown} width="130" data-tip />
                                             <ReactTooltip type="light">
-                                                <img src={JanusImg} width="130" height="130" />
+                                                <img src={Unknown} width="200" />
                                             </ReactTooltip>
                                             {/* <StackedBar /> */}
                                             {/* </Avatar> */}
@@ -87,7 +87,7 @@ class Selected extends Component {
                                                     >
                                                         info
                                                     </Typography>
-                                                    {" — xxx"}
+                                                    {/* {" — xxx"} */}
                                                 </React.Fragment>
                                             }
                                         />

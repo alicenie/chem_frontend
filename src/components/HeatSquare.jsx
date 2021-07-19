@@ -10,8 +10,8 @@ class HeatSquare extends Component {
             Height: this.props.height - 75,
             heatWidth: this.props.width,
             targetList: this.props.value,
-            marginL: 30,
-            marginR: 30,
+            marginL: 10,
+            marginR: 20,
         }
     }
 
@@ -40,7 +40,7 @@ class HeatSquare extends Component {
             .attr("width", width + marginL)
             .attr("height", "80px")
             .append("g")
-            .attr("transform", "translate(" + marginL + ",10)");
+            .attr("transform", "translate(0 ,10)");
 
         // legend
         const colorLegend = ["#a9d6e5", "#468faf", "#01497c"]

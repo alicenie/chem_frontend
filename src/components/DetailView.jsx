@@ -54,19 +54,19 @@ class DetailView extends Component {
             .attr("x", 25 + this.state.medchemWidth)
             .attr("y", 0)
             .attr("height", this.state.Height - 40)
-            .attr("width", this.state.vitroWidth)
+            .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .style("stroke", "#ced4da")
             .style("fill", "none")
             .style("stroke-width", "2px");
 
-        svg.append("rect")
-            .attr("x", 30 + this.state.medchemWidth + this.state.vitroWidth)
-            .attr("y", 0)
-            .attr("height", this.state.Height - 40)
-            .attr("width", this.state.vivoWidth)
-            .style("stroke", "#ced4da")
-            .style("fill", "none")
-            .style("stroke-width", "2px");
+        // svg.append("rect")
+        //     .attr("x", 30 + this.state.medchemWidth + this.state.vitroWidth)
+        //     .attr("y", 0)
+        //     .attr("height", this.state.Height - 40)
+        //     .attr("width", this.state.vivoWidth)
+        //     .style("stroke", "#ced4da")
+        //     .style("fill", "none")
+        //     .style("stroke-width", "2px");
 
         svg.append("rect")
             .attr("x", 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth)
@@ -766,7 +766,7 @@ class DetailView extends Component {
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(" + (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left) + "," + margin.top + ")");
+                .attr("transform", "translate(" + (20 + 40 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left) + "," + margin.top + ")");
 
             console.log("sankeydata", this.props.sankeydata)
             var sankeydata = this.props.sankeydata;
@@ -787,6 +787,7 @@ class DetailView extends Component {
             // iterate data
             var cur_y_offset = 0; // starting y of each sankey chart
             var rectHeight = 15, rectWidth = 30; // height of each rect
+            var x_offset = (this.state.sankeyWidth - 3 * rectWidth) / 2;
             var sankey_pos = [];
             sankeydata.forEach(d => {
                 console.log(d["data"])
@@ -819,12 +820,12 @@ class DetailView extends Component {
                         .data(company_obj_list)
                         .enter()
                         .append("rect")
-                        .attr("x", (parseInt(phase) - 1) * 100)
+                        .attr("x", (parseInt(phase) - 1) * x_offset)
                         .attr("y", (d, i) => {
                             // store pos for path
-                            if (phase === "1") phase1_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * 100 + rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else if (phase === "2") phase2_pos.push({ id: d.company_name, x_in: (parseInt(phase) - 1) * 100, x_out: (parseInt(phase) - 1) * 100 + rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else phase3_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * 100, y: (i + 0.5) * rectHeight + offset });
+                            if (phase === "1") phase1_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else if (phase === "2") phase2_pos.push({ id: d.company_name, x_in: (parseInt(phase) - 1) * x_offset, x_out: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else phase3_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset, y: (i + 0.5) * rectHeight + offset });
 
                             return i * rectHeight + offset
                         })
@@ -899,7 +900,7 @@ class DetailView extends Component {
                 // store pos
                 sankey_pos.push({
                     id: d.name,
-                    x: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left),
+                    x: (20 + 40 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left),
                     y: cur_y_offset + 1 / 2 * max_num_of_company * rectHeight
                 })
                 // console.log("sankey pos", sankey_pos)
