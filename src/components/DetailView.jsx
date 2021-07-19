@@ -14,6 +14,7 @@ class DetailView extends Component {
             medchemWidth: (this.props.width - 30 - 30) / 14 * 3,
             vitroWidth: (this.props.width - 30 - 30) / 14 * 3,
             vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
+            sankeyWidth: (this.props.width - 30 - 30) / 14 * 6 + 5,
         }
     }
 
@@ -25,6 +26,7 @@ class DetailView extends Component {
     componentDidUpdate() {
         console.log("DetailView did update")
         this.drawWhole();
+        // this.drawSankeyChart(); // later merge into whole
     }
 
     drawBoundary() {
@@ -62,6 +64,15 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("height", this.state.Height - 40)
             .attr("width", this.state.vivoWidth)
+            .style("stroke", "#ced4da")
+            .style("fill", "none")
+            .style("stroke-width", "2px");
+
+        svg.append("rect")
+            .attr("x", 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth)
+            .attr("y", 0)
+            .attr("height", this.state.Height - 40)
+            .attr("width", this.state.sankeyWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
             .style("stroke-width", "2px");
@@ -226,8 +237,8 @@ class DetailView extends Component {
         d3.selectAll(".network").remove()
         d3.selectAll('.detail_path').remove()
         d3.selectAll(".heatmap").remove()
-        var vitro_heat_pos = this.drawVitroHeatmap(), node_pos = this.drawNetwork(), vivo_heat_pos = this.drawVivoHeatmap();
-        this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos)
+        var vitro_heat_pos = this.drawVitroHeatmap(), node_pos = this.drawNetwork(), vivo_heat_pos = this.drawVivoHeatmap(), sankey_pos = this.drawSankeyChart();
+        this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
     }
 
     drawNetwork() {
@@ -343,6 +354,10 @@ class DetailView extends Component {
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
+                    d3.selectAll("rect.sankey")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
                     d3.selectAll("circle.network")
                         .filter((node) => node.id == d.id)
                         .style("stroke", "orange")
@@ -367,6 +382,9 @@ class DetailView extends Component {
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
                         .style("stroke", "#adb5bd")
+                        .style("opacity", 1)
+
+                    d3.selectAll("rect.sankey")
                         .style("opacity", 1)
 
                     d3.selectAll("circle.network")
@@ -480,6 +498,10 @@ class DetailView extends Component {
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
+                    d3.selectAll("rect.sankey")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
                     d3.selectAll("circle.network")
                         .filter((node) => node.id == d.id)
                         .style("stroke", "orange")
@@ -505,6 +527,9 @@ class DetailView extends Component {
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
                         .style("stroke", "#adb5bd")
+                        .style("opacity", 1)
+
+                    d3.selectAll("rect.sankey")
                         .style("opacity", 1)
 
                     d3.selectAll("circle.network")
@@ -553,7 +578,8 @@ class DetailView extends Component {
             yDomain.forEach(d => {
                 vivo_heat_pos.push({
                     id: d,
-                    x: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left),
+                    x_in: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left),
+                    x_out: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + xDomain.length * xScale.bandwidth()),
                     y: yScale(d) + margin.top + 1 / 2 * yScale.bandwidth()
                 })
             })
@@ -613,6 +639,10 @@ class DetailView extends Component {
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
+                    d3.selectAll("rect.sankey")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
                     d3.selectAll("circle.network")
                         .filter((node) => node.id == d.id)
                         .style("stroke", "orange")
@@ -640,11 +670,13 @@ class DetailView extends Component {
                         .style("stroke", "#adb5bd")
                         .style("opacity", 1)
 
+                    d3.selectAll("rect.sankey")
+                        .style("opacity", 1)
+
                     d3.selectAll("circle.network")
                         .style("stroke-width", 0)
                         .style("opacity", 1)
 
-                    console.log(d)
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.3)
                         .attr("stroke-width", 1)
@@ -653,10 +685,10 @@ class DetailView extends Component {
         return vivo_heat_pos
     }
 
-    drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos) {
-        if (vitro_heat_pos && vivo_heat_pos && node_pos) {
-            console.log("vitro", vitro_heat_pos)
-            console.log("vivo", vivo_heat_pos)
+    drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos) {
+        if (vitro_heat_pos && vivo_heat_pos && node_pos && sankey_pos) {
+            // console.log("vitro", vitro_heat_pos)
+            // console.log("vivo", vivo_heat_pos)
 
 
             // draw path between vitro and network
@@ -685,12 +717,27 @@ class DetailView extends Component {
             // draw path between vivo and vitro
             if (vitro_heat_pos[0]) {
                 vivo_heat_pos.forEach(d => {
-                    // var path = d3.path()
                     var curve = d3.line().curve(d3.curveBumpX)
                     var startNode = vitro_heat_pos.find(node => node.id == d.id)
-                    // path.moveTo(startNode.x_out, startNode.y)
-                    // path.lineTo(d.x, d.y)
-                    // path.closePath();
+                    var points = [[startNode.x_out, startNode.y], [d.x_in, d.y]]
+                    d3.select("svg#detail_svg")
+                        .append("path")
+                        .attr("class", "detail_path")
+                        .attr("d", curve(points))
+                        .attr("stroke-width", 1)
+                        .attr("stroke", "#adb5bd")
+                        .attr("opacity", 0.3)
+                        .attr("fill", "none")
+                        .attr("id", d.id)
+                        .lower()
+                })
+            }
+
+            // draw path between vivo and sankey
+            if (vivo_heat_pos[0]) {
+                sankey_pos.forEach(d => {
+                    var curve = d3.line().curve(d3.curveBumpX)
+                    var startNode = vivo_heat_pos.find(node => node.id == d.id)
                     var points = [[startNode.x_out, startNode.y], [d.x, d.y]]
                     d3.select("svg#detail_svg")
                         .append("path")
@@ -706,6 +753,241 @@ class DetailView extends Component {
             }
 
         }
+    }
+
+    drawSankeyChart() {
+        if (this.props.sankeydata) {
+
+            console.log("draw sankey chart")
+            var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+                width = this.state.vivoWidth - margin.left - margin.right,
+                height = this.state.Height - 40 - margin.top - margin.bottom;
+
+            var svg = d3
+                .select("svg#detail_svg")
+                .append("g")
+                .attr("transform", "translate(" + (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left) + "," + margin.top + ")");
+
+            console.log("sankeydata", this.props.sankeydata)
+            var sankeydata = this.props.sankeydata;
+
+            // color scale for status
+            var colorScale = d3
+                .scaleSequential()
+                .interpolator(d3.interpolateRainbow)
+                .domain([0, 8]);
+
+            // set tooltips
+            var tooltip = d3
+                .select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            // iterate data
+            var cur_y_offset = 0; // starting y of each sankey chart
+            var rectHeight = 15, rectWidth = 30; // height of each rect
+            var sankey_pos = [];
+            sankeydata.forEach(d => {
+                console.log(d["data"])
+                var sankeysvg = svg.append("g").attr("transform", "translate(0," + cur_y_offset + ")")
+
+                // iterate each phase --> col
+                var phases = ["1", "2", "3"], max_num_of_company = 0;
+                var phase1_pos = [], phase2_pos = [], phase3_pos = [];
+                phases.forEach(phase => {
+                    console.log(phase)
+                    var company_list = d.data[`p${phase}_company`] // array of 9 list with company names of corresponding status
+
+                    var num_of_company = d.data[`p${phase}_company_num`], offset = 0
+                    if (phase === "1") max_num_of_company = d.data[`p${phase}_company_num`]
+                    else offset = (max_num_of_company - num_of_company) / 2 * rectHeight
+
+                    // iterate each company --> row
+                    // create a list of object
+                    var company_obj_list = []
+                    company_list.forEach((companies, status) => {
+                        if (companies) {
+                            companies.forEach(name => {
+                                company_obj_list.push({ id: d.name, company_name: name, status: status })
+                            })
+                        }
+                    })
+                    // console.log("company_obj_list", company_obj_list)
+                    var counter = 0; // counter for rect
+                    sankeysvg.selectAll("rect#sankey")
+                        .data(company_obj_list)
+                        .enter()
+                        .append("rect")
+                        .attr("x", (parseInt(phase) - 1) * 100)
+                        .attr("y", (d, i) => {
+                            // store pos for path
+                            if (phase === "1") phase1_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * 100 + rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else if (phase === "2") phase2_pos.push({ id: d.company_name, x_in: (parseInt(phase) - 1) * 100, x_out: (parseInt(phase) - 1) * 100 + rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else phase3_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * 100, y: (i + 0.5) * rectHeight + offset });
+
+                            return i * rectHeight + offset
+                        })
+                        .attr("width", rectWidth)
+                        .attr("height", rectHeight)
+                        .attr("id", d => d.id)
+                        .attr("class", "sankey")
+                        .style("fill", d => colorScale(d.status))
+                        .on("mouseover", (event, d) => {
+                            // tooltip
+                            tooltip.transition().duration(200).style("opacity", 0.7);
+                            tooltip
+                                .html(
+                                    `id: ${d.id}<br/>  company: ${d.company_name}<br/>  status: ${d.status}`
+                                )
+                                .style("left", event.pageX + 20 + "px")
+                                .style("top", event.pageY + 20 + "px");
+
+                            // highlight
+                            d3.selectAll("rect.heatmap")
+                                .filter((node) => node.id == d.id)
+                                .style("stroke", "orange")
+                                .style("stroke-width", 3)
+                                .classed("highlightRect", true);
+
+                            d3.selectAll("rect.heatmap")
+                                .filter((node) => node.id != d.id)
+                                .style("opacity", 0.5)
+
+                            d3.selectAll("rect.sankey")
+                                .filter((node) => node.id != d.id)
+                                .style("opacity", 0.5)
+
+                            d3.selectAll("circle.network")
+                                .filter((node) => node.id == d.id)
+                                .style("stroke", "orange")
+                                .style("stroke-width", 3)
+
+                            d3.selectAll("circle.network")
+                                .filter((node) => node.id != d.id)
+                                .style("opacity", 0.5)
+
+                            d3.selectAll("path#" + d.id)
+                                .attr("opacity", 1)
+                                .attr("stroke-width", 2)
+
+                        }).on("mousemove", (event, d) => {
+                            tooltip
+                                .style("left", event.pageX + 20 + "px")
+                                .style("top", event.pageY + 20 + "px");
+                        })
+                        .on("mouseout", (event, d) => {
+                            tooltip.transition().duration(200).style("opacity", 0);
+
+                            d3.selectAll("rect.heatmap")
+                                .style("stroke-width", 2)
+                                .style("stroke", "#adb5bd")
+                                .style("opacity", 1)
+
+                            d3.selectAll("rect.sankey")
+                                .style("opacity", 1)
+
+                            d3.selectAll("circle.network")
+                                .style("stroke-width", 0)
+                                .style("opacity", 1)
+
+                            d3.selectAll("path#" + d.id)
+                                .attr("opacity", 0.3)
+                                .attr("stroke-width", 1)
+                        })
+                })
+                // store pos
+                sankey_pos.push({
+                    id: d.name,
+                    x: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left),
+                    y: cur_y_offset + 1 / 2 * max_num_of_company * rectHeight
+                })
+                // console.log("sankey pos", sankey_pos)
+
+                cur_y_offset += max_num_of_company * rectHeight + 20;
+
+                // draw sankey path
+                // console.log(phase1_pos, phase2_pos, phase3_pos)
+                if (phase2_pos && phase3_pos && phase1_pos) {
+
+                    // draw path between phase1 and phase2
+                    if (phase1_pos[0]) {
+                        phase2_pos.forEach(d => {
+                            var curve = d3.line().curve(d3.curveBumpX)
+                            var startNode = phase1_pos.find(node => node.id == d.id)
+                            var points = [[startNode.x, startNode.y], [d.x_in, d.y]]
+                            sankeysvg
+                                .append("path")
+                                .attr("class", "detail_path")
+                                .attr("d", curve(points))
+                                .attr("stroke-width", 1)
+                                .attr("stroke", "#780000")
+                                .attr("opacity", 0.8)
+                                .attr("fill", "none")
+                                .attr("id", d.id)
+                                .lower()
+                                .on("mouseover", (event) => {
+                                    console.log(d)
+                                    // tooltip
+                                    tooltip.transition().duration(200).style("opacity", 0.7);
+                                    tooltip
+                                        .html(
+                                            `company: ${d.id}`
+                                        )
+                                        .style("left", event.pageX + 20 + "px")
+                                        .style("top", event.pageY + 20 + "px");
+                                }).on("mousemove", (event) => {
+                                    tooltip
+                                        .style("left", event.pageX + 20 + "px")
+                                        .style("top", event.pageY + 20 + "px");
+                                })
+                                .on("mouseout", () => {
+                                    tooltip.transition().duration(200).style("opacity", 0);
+                                })
+                        })
+                    }
+
+                    // draw path between phase2 and phase3
+                    if (phase2_pos[0]) {
+                        phase3_pos.forEach(d => {
+                            var curve = d3.line().curve(d3.curveBumpX)
+                            var startNode = phase2_pos.find(node => node.id == d.id)
+                            var points = [[startNode.x_out, startNode.y], [d.x, d.y]]
+                            sankeysvg
+                                .append("path")
+                                .attr("class", "detail_path")
+                                .attr("d", curve(points))
+                                .attr("stroke-width", 1)
+                                .attr("stroke", "#780000")
+                                .attr("opacity", 0.8)
+                                .attr("fill", "none")
+                                .attr("id", d.id)
+                                .lower()
+                                .on("mouseover", (event) => {
+                                    console.log(d)
+                                    // tooltip
+                                    tooltip.transition().duration(200).style("opacity", 0.7);
+                                    tooltip
+                                        .html(
+                                            `company: ${d.id}`
+                                        )
+                                        .style("left", event.pageX + 20 + "px")
+                                        .style("top", event.pageY + 20 + "px");
+                                }).on("mousemove", (event) => {
+                                    tooltip
+                                        .style("left", event.pageX + 20 + "px")
+                                        .style("top", event.pageY + 20 + "px");
+                                })
+                                .on("mouseout", () => {
+                                    tooltip.transition().duration(200).style("opacity", 0);
+                                })
+                        })
+                    }
+
+                }
+            })
+        }
+        return sankey_pos
     }
 
     render() {

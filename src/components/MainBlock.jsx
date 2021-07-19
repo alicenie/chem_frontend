@@ -30,6 +30,7 @@ class MainBlock extends Component {
             selectedTargets: [],
             remainOptions: target_data,
             selectDetail: [],
+            selectSankeyDetail: null,
         }
         // this.handleAddSelection = this.handleAddSelection.bind(this);
     }
@@ -70,6 +71,7 @@ class MainBlock extends Component {
         if (target) {
             console.log("set state in mainblock ", target)
             this.setState({ selectDetail: target.detaildata })
+            this.setState({ selectSankeyDetail: target.sankeydata })
         }
     }
 
@@ -157,7 +159,7 @@ class MainBlock extends Component {
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Detail View</p>
                                 {/* <SimilarityGraph /> */}
-                                <DetailView height={upperHeight} detaildata={this.state.selectDetail} width={width / 14 * 9} />
+                                <DetailView height={upperHeight} detaildata={this.state.selectDetail} sankeydata={this.state.selectSankeyDetail} width={width / 14 * 9} />
                             </Card>
                         </div>
 
