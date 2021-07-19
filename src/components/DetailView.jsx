@@ -9,8 +9,8 @@ class DetailView extends Component {
         this.state = {
             Height: this.props.height - 30,
             Width: this.props.width,
-            marginL: 30,
-            marginR: 30,
+            marginL: 10,
+            marginR: 0,
             medchemWidth: (this.props.width - 30 - 30) / 14 * 5,
             vitroWidth: (this.props.width - 30 - 30) / 14 * 3,
             vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
@@ -20,7 +20,7 @@ class DetailView extends Component {
 
     componentDidMount() {
         this.drawBoundary();
-        this.drawLowerAxis('lower-axis')
+        this.drawAxis('axis')
     }
 
     componentDidUpdate() {
@@ -78,9 +78,9 @@ class DetailView extends Component {
             .style("stroke-width", "2px");
     }
 
-    drawLowerAxis(container) {
+    drawAxis(container) {
         const { marginL, marginR } = this.state;
-        const width = this.state.Width - marginL - marginR
+        const width = this.state.Width - marginL - marginR, rectheight = 25
 
         d3.select("#" + container).selectAll("svg").remove()
         var svg = d3.select("#" + container).append("svg")
@@ -89,13 +89,45 @@ class DetailView extends Component {
             .append("g")
             .attr("transform", "translate(" + marginL + ",0)");
 
+        // line
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 0)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + this.state.sankeyWidth)
+            .attr("y2", 12)
+
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth)
+            .attr("y2", 25)
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
+            .attr("y2", 25)
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
+            .attr("y2", 25)
+
+
         // medicinical chemistry
         const medchemWidth = width / 14 * 3
         svg.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("width", medchemWidth)
-            .attr("height", 20)
+            .attr("width", 20 + this.state.medchemWidth)
+            .attr("height", rectheight)
             .style("fill", "#cce3de")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -103,20 +135,20 @@ class DetailView extends Component {
             .style("stroke-width", 2)
             .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", 1 / 2 * medchemWidth)
-            .attr("y", 14)
+            .attr("x", 1 / 2 * this.state.medchemWidth)
+            .attr("y", 10)
             .attr("text-anchor", "middle")
             .text("Medicinical Chemistry")
             .style("fill", "black")
             .style("font-size", 13);
 
         // Vitro
-        const vitroX = medchemWidth, vitroWidth = width / 14 * 3
+        const vitroX = 20 + this.state.medchemWidth, vitroWidth = width / 14 * 3
         svg.append("rect")
             .attr("x", vitroX)
             .attr("y", 0)
-            .attr("width", vitroWidth)
-            .attr("height", 20)
+            .attr("width", this.state.vitroWidth + this.state.vivoWidth)
+            .attr("height", rectheight)
             .style("fill", "#ecf8f8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -124,49 +156,49 @@ class DetailView extends Component {
             .style("stroke-width", 2)
             .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", vitroX + 1 / 2 * vitroWidth)
-            .attr("y", 14)
+            .attr("x", vitroX + 1 / 2 * this.state.vitroWidth)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("Vitro")
-            .style("fill", "black")
-            .style("font-size", 13);;
+            .style("fill", "grey")
+            .style("font-size", 13);
 
         // Vivo
-        const vivoX = vitroX + vitroWidth, vivoWidth = width / 14 * 2
-        svg.append("rect")
-            .attr("x", vivoX)
-            .attr("y", 0)
-            .attr("width", vivoWidth)
-            .attr("height", 20)
-            .style("fill", "#ecf8f8")
-            .style("opacity", 0.5)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da")
+        const vivoX = vitroX + this.state.vitroWidth, vivoWidth = width / 14 * 2
+        // svg.append("rect")
+        //     .attr("x", vivoX)
+        //     .attr("y", 0)
+        //     .attr("width", this.state.vivoWidth)
+        //     .attr("height", rectheight)
+        //     .style("fill", "#ecf8f8")
+        //     .style("opacity", 0.5)
+        //     .attr("rx", 5)
+        //     .attr("ry", 5)
+        //     .style("stroke-width", 2)
+        //     .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", vivoX + 1 / 2 * vivoWidth)
-            .attr("y", 14)
+            .attr("x", vivoX + 1 / 2 * this.state.vivoWidth)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("Vivo")
-            .style("fill", "black")
+            .style("fill", "grey")
             .style("font-size", 13);
 
         // Pharmocology
         svg.append("text")
-            .attr("x", 1 / 2 * (vitroX + 1 / 2 * vitroWidth + vivoX + 1 / 2 * vivoWidth))
-            .attr("y", 25)
+            .attr("x", 1 / 2 * (vitroX + 1 / 2 * this.state.vitroWidth + vivoX + 1 / 2 * this.state.vivoWidth))
+            .attr("y", 10)
             .attr("text-anchor", "middle")
             .text("Pharmocology")
             .style("font-size", 13)
 
         // Ph I
-        const ph1X = vivoX + vivoWidth, ph1Width = width / 14 * 2
+        const ph1X = vivoX + this.state.vivoWidth, phWidth = this.state.sankeyWidth / 3;
         svg.append("rect")
             .attr("x", ph1X)
             .attr("y", 0)
-            .attr("width", ph1Width)
-            .attr("height", 20)
+            .attr("width", this.state.sankeyWidth)
+            .attr("height", rectheight)
             .style("fill", "#fff8e8")
             .style("opacity", 0.5)
             .attr("rx", 5)
@@ -174,62 +206,61 @@ class DetailView extends Component {
             .style("stroke-width", 2)
             .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", ph1X + 1 / 2 * ph1Width)
-            .attr("y", 14)
+            .attr("x", ph1X + 1 / 2 * phWidth)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("I")
-            .style("fill", "black")
+            .style("fill", "grey")
             .style("font-size", 13);
 
         // Ph II
-        const ph2X = ph1X + ph1Width, ph2Width = width / 14 * 2
-        svg.append("rect")
-            .attr("x", ph2X)
-            .attr("y", 0)
-            .attr("width", ph2Width)
-            .attr("height", 20)
-            .style("fill", "#fff8e8")
-            .style("opacity", 0.5)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da")
+        const ph2X = ph1X + phWidth
+        // svg.append("rect")
+        //     .attr("x", ph2X)
+        //     .attr("y", 0)
+        //     .attr("width", phWidth)
+        //     .attr("height", rectheight)
+        //     .style("fill", "#fff8e8")
+        //     .style("opacity", 0.5)
+        //     .attr("rx", 5)
+        //     .attr("ry", 5)
+        //     .style("stroke-width", 2)
+        //     .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", ph2X + 1 / 2 * ph2Width)
-            .attr("y", 14)
+            .attr("x", ph2X + 1 / 2 * phWidth)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("II")
-            .style("fill", "black")
+            .style("fill", "grey")
             .style("font-size", 13);
 
         // Ph III
-        const ph3X = ph2X + ph2Width, ph3Width = width / 14 * 2
-        svg.append("rect")
-            .attr("x", ph3X)
-            .attr("y", 0)
-            .attr("width", ph3Width)
-            .attr("height", 20)
-            .style("fill", "#fff8e8")
-            .style("opacity", 0.5)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da")
+        const ph3X = ph2X + phWidth;
+        // svg.append("rect")
+        //     .attr("x", ph3X)
+        //     .attr("y", 0)
+        //     .attr("width", phWidth)
+        //     .attr("height", rectheight)
+        //     .style("fill", "#fff8e8")
+        //     .style("opacity", 0.5)
+        //     .attr("rx", 5)
+        //     .attr("ry", 5)
+        //     .style("stroke-width", 2)
+        //     .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", ph3X + 1 / 2 * ph3Width)
-            .attr("y", 14)
+            .attr("x", ph3X + 1 / 2 * phWidth)
+            .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("III")
-            .style("fill", "black").style("font-size", 13);
+            .style("fill", "grey").style("font-size", 13);
 
         // Pharmaceutics
         svg.append("text")
-            .attr("x", ph2X + 1 / 2 * ph2Width)
-            .attr("y", 25)
+            .attr("x", ph2X + 1 / 2 * phWidth)
+            .attr("y", 10)
             .attr("text-anchor", "middle")
             .text("Pharmaceutics")
             .style("font-size", 13);
-
     }
 
     drawWhole() {
@@ -248,7 +279,7 @@ class DetailView extends Component {
             var node_pos = []
             var margin = { top: 0, right: 0, bottom: 0, left: 0 },
                 width = this.state.medchemWidth + 20 - margin.left - margin.right,
-                height = this.state.Height / 1.5 - 40 - margin.top - margin.bottom;
+                height = this.state.Height - 40 - margin.top - margin.bottom;
 
             var svg = d3
                 .select("svg#detail_svg")
@@ -406,7 +437,7 @@ class DetailView extends Component {
         if (this.props.detaildata[1]) {
 
             console.log("draw vitro heatmap")
-            var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 35, right: 10, bottom: 10, left: 10 },
                 width = this.state.vitroWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -419,9 +450,17 @@ class DetailView extends Component {
             var data = this.props.detaildata[1];
 
             // x scale
-            var xDomain = ["a", "b", "c", "d", "e", "f", "g"],
+            var xDomain = ["IC50", "Ki", "Kd", "EC50", "se", "hERG", "sol"],
                 xRange = [0, width];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
+            svg.append("g").call(d3.axisTop(xScale))
+                .call(g => {
+                    g.select(".domain").remove();
+                    g.selectAll("line").remove();
+                })
+                .selectAll("text")
+                .attr("transform", "translate(10,-5), rotate(-90)")
+                .style("text-anchor", "start");
 
             // y scale (to make a square)
             var yDomain = [];
@@ -548,7 +587,7 @@ class DetailView extends Component {
         if (this.props.detaildata[2]) {
 
             console.log("draw vivo heatmap")
-            var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 35, right: 10, bottom: 10, left: 10 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -561,9 +600,16 @@ class DetailView extends Component {
             var data = this.props.detaildata[2];
 
             // x scale
-            var xDomain = ["a", "b", "c", "d", "e"],
+            var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
                 xRange = [0, width];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
+            svg.append("g").call(d3.axisTop(xScale))
+                .call(g => {
+                    g.select(".domain").remove();
+                    g.selectAll("line").remove();
+                }).selectAll("text")
+                .attr("transform", "translate(10,-5), rotate(-90)")
+                .style("text-anchor", "start");
 
             // y scale (to make a square)
             var yDomain = [];
@@ -759,7 +805,7 @@ class DetailView extends Component {
         if (this.props.sankeydata) {
 
             console.log("draw sankey chart")
-            var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 30, right: 10, bottom: 10, left: 10 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -994,7 +1040,7 @@ class DetailView extends Component {
     render() {
         return (
             <div>
-                <div id="lower-axis" />
+                <div id="axis" />
 
                 <div className="row" id="detail">
                     {/* <div className="col-4" id="medicinical">
