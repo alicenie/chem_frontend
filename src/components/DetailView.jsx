@@ -11,10 +11,10 @@ class DetailView extends Component {
             Width: this.props.width,
             marginL: 30,
             marginR: 30,
-            medchemWidth: (this.props.width - 30 - 30) / 14 * 3,
+            medchemWidth: (this.props.width - 30 - 30) / 14 * 5,
             vitroWidth: (this.props.width - 30 - 30) / 14 * 3,
             vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
-            sankeyWidth: (this.props.width - 30 - 30) / 14 * 6 + 5,
+            sankeyWidth: (this.props.width - 30 - 30) / 14 * 4 + 5,
         }
     }
 
@@ -248,7 +248,7 @@ class DetailView extends Component {
             var node_pos = []
             var margin = { top: 0, right: 0, bottom: 0, left: 0 },
                 width = this.state.medchemWidth + 20 - margin.left - margin.right,
-                height = this.state.Height / 2 - 40 - margin.top - margin.bottom;
+                height = this.state.Height / 1.5 - 40 - margin.top - margin.bottom;
 
             var svg = d3
                 .select("svg#detail_svg")
@@ -269,7 +269,7 @@ class DetailView extends Component {
                 .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"])
 
             // node r scale
-            var rScale = d3.scaleLinear().domain([1, 10]).range([5, 15])
+            var rScale = d3.scaleLinear().domain([1, 10]).range([10, 20])
 
             // set tooltips
             var tooltip = d3
@@ -300,11 +300,11 @@ class DetailView extends Component {
                         }) // This provide the id of a node
                         .distance(d => {
                             // console.log("link d", d)
-                            return d.value * 20
+                            return d.value * 30
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
                 )
-                .force("charge", d3.forceManyBody().strength(10)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+                .force("charge", d3.forceManyBody().strength(0)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
                 .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)

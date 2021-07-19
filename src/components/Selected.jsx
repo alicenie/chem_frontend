@@ -91,10 +91,10 @@ class Selected extends Component {
                                                 </React.Fragment>
                                             }
                                         />
-                                        <IconButton aria-label="deleteOutlined" onClick={() => this.handleClick(i)}>
+                                        <IconButton aria-label="deleteOutlined" style={{ padding: 0 }} onClick={() => this.handleClick(i)}>
                                             <DetailsIcon />
                                         </IconButton>
-                                        <IconButton aria-label="deleteOutlined" onClick={() => this.handleRemove(i)}>
+                                        <IconButton aria-label="deleteOutlined" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
                                             <DeleteOutlinedIcon />
                                         </IconButton>
                                     </ListItem>
