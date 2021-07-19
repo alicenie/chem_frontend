@@ -89,38 +89,6 @@ class DetailView extends Component {
             .append("g")
             .attr("transform", "translate(" + marginL + ",0)");
 
-        // line
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 0)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + this.state.sankeyWidth)
-            .attr("y2", 12)
-
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth)
-            .attr("y2", 25)
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
-            .attr("y2", 25)
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
-            .attr("y2", 25)
-
-
         // medicinical chemistry
         const medchemWidth = width / 14 * 3
         svg.append("rect")
@@ -128,7 +96,7 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", 20 + this.state.medchemWidth)
             .attr("height", rectheight)
-            .style("fill", "#cce3de")
+            .style("fill", "#edeec9")
             .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -147,7 +115,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", vitroX)
             .attr("y", 0)
-            .attr("width", this.state.vitroWidth + this.state.vivoWidth)
+            .attr("width", this.state.vitroWidth)
             .attr("height", rectheight)
             .style("fill", "#ecf8f8")
             .style("opacity", 0.5)
@@ -160,28 +128,28 @@ class DetailView extends Component {
             .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("Vitro")
-            .style("fill", "grey")
+            .style("fill", "black")
             .style("font-size", 13);
 
         // Vivo
         const vivoX = vitroX + this.state.vitroWidth, vivoWidth = width / 14 * 2
-        // svg.append("rect")
-        //     .attr("x", vivoX)
-        //     .attr("y", 0)
-        //     .attr("width", this.state.vivoWidth)
-        //     .attr("height", rectheight)
-        //     .style("fill", "#ecf8f8")
-        //     .style("opacity", 0.5)
-        //     .attr("rx", 5)
-        //     .attr("ry", 5)
-        //     .style("stroke-width", 2)
-        //     .style("stroke", "#ced4da")
+        svg.append("rect")
+            .attr("x", vivoX)
+            .attr("y", 0)
+            .attr("width", this.state.vivoWidth)
+            .attr("height", rectheight)
+            .style("fill", "#ecf8f8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", vivoX + 1 / 2 * this.state.vivoWidth)
             .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("Vivo")
-            .style("fill", "grey")
+            .style("fill", "black")
             .style("font-size", 13);
 
         // Pharmocology
@@ -197,7 +165,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", ph1X)
             .attr("y", 0)
-            .attr("width", this.state.sankeyWidth)
+            .attr("width", this.state.sankeyWidth / 3)
             .attr("height", rectheight)
             .style("fill", "#fff8e8")
             .style("opacity", 0.5)
@@ -206,53 +174,53 @@ class DetailView extends Component {
             .style("stroke-width", 2)
             .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", ph1X + 1 / 2 * phWidth)
+            .attr("x", ph1X + 1 / 2 * phWidth + 5)
             .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("I")
-            .style("fill", "grey")
+            .style("fill", "black")
             .style("font-size", 13);
 
         // Ph II
         const ph2X = ph1X + phWidth
-        // svg.append("rect")
-        //     .attr("x", ph2X)
-        //     .attr("y", 0)
-        //     .attr("width", phWidth)
-        //     .attr("height", rectheight)
-        //     .style("fill", "#fff8e8")
-        //     .style("opacity", 0.5)
-        //     .attr("rx", 5)
-        //     .attr("ry", 5)
-        //     .style("stroke-width", 2)
-        //     .style("stroke", "#ced4da")
+        svg.append("rect")
+            .attr("x", ph2X)
+            .attr("y", 0)
+            .attr("width", phWidth)
+            .attr("height", rectheight)
+            .style("fill", "#fff8e8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", ph2X + 1 / 2 * phWidth)
+            .attr("x", ph2X + 1 / 2 * phWidth + 5)
             .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("II")
-            .style("fill", "grey")
+            .style("fill", "black")
             .style("font-size", 13);
 
         // Ph III
         const ph3X = ph2X + phWidth;
-        // svg.append("rect")
-        //     .attr("x", ph3X)
-        //     .attr("y", 0)
-        //     .attr("width", phWidth)
-        //     .attr("height", rectheight)
-        //     .style("fill", "#fff8e8")
-        //     .style("opacity", 0.5)
-        //     .attr("rx", 5)
-        //     .attr("ry", 5)
-        //     .style("stroke-width", 2)
-        //     .style("stroke", "#ced4da")
+        svg.append("rect")
+            .attr("x", ph3X)
+            .attr("y", 0)
+            .attr("width", phWidth)
+            .attr("height", rectheight)
+            .style("fill", "#fff8e8")
+            .style("opacity", 0.5)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da")
         svg.append("text")
-            .attr("x", ph3X + 1 / 2 * phWidth)
+            .attr("x", ph3X + 1 / 2 * phWidth + 5)
             .attr("y", 25)
             .attr("text-anchor", "middle")
             .text("III")
-            .style("fill", "grey").style("font-size", 13);
+            .style("fill", "black").style("font-size", 13);
 
         // Pharmaceutics
         svg.append("text")
@@ -261,7 +229,253 @@ class DetailView extends Component {
             .attr("text-anchor", "middle")
             .text("Pharmaceutics")
             .style("font-size", 13);
+
+        // line
+        svg
+            .append('defs')
+            .append('marker')
+            .attr('id', 'arrow')
+            .attr('viewBox', [0, 0, 6, 6])
+            .attr('refX', 3)
+            .attr('refY', 3)
+            .attr('markerWidth', 6)
+            .attr('markerHeight', 6)
+            .attr('orient', 'auto-start-reverse')
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 6], [6, 3]]))
+            .attr('stroke', 'black');
+
+        svg.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .attr("x1", -5)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + this.state.sankeyWidth)
+            .attr("y2", 12)
+            .attr('marker-end', 'url(#arrow)')
+
+        svg.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + 1 / 2 * this.state.vitroWidth)
+            .attr("y1", 8)
+            .attr("x2", 20 + this.state.medchemWidth + 1 / 2 * this.state.vitroWidth)
+            .attr("y2", 16)
+        svg.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + 1 / 2 * this.state.vivoWidth)
+            .attr("y1", 8)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + 1 / 2 * this.state.vivoWidth)
+            .attr("y2", 16)
+
+        svg.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 6 * this.state.sankeyWidth)
+            .attr("y1", 8)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 6 * this.state.sankeyWidth)
+            .attr("y2", 16)
+        svg.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 3 / 6 * this.state.sankeyWidth)
+            .attr("y1", 8)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 3 / 6 * this.state.sankeyWidth)
+            .attr("y2", 16)
+        svg.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 5 / 6 * this.state.sankeyWidth)
+            .attr("y1", 8)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 5 / 6 * this.state.sankeyWidth)
+            .attr("y2", 16)
     }
+
+    // drawAxis(container) {
+    //     const { marginL, marginR } = this.state;
+    //     const width = this.state.Width - marginL - marginR, rectheight = 25
+
+    //     d3.select("#" + container).selectAll("svg").remove()
+    //     var svg = d3.select("#" + container).append("svg")
+    //         .attr("width", width + marginL)
+    //         .attr("height", "30px")
+    //         .append("g")
+    //         .attr("transform", "translate(" + marginL + ",0)");
+
+    //     // line
+    //     svg.append("line")
+    //         .style("stroke", "#ced4da")
+    //         .style("stroke-width", 2)
+    //         .attr("x1", 0)
+    //         .attr("y1", 12)
+    //         .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + this.state.sankeyWidth)
+    //         .attr("y2", 12)
+
+    //     svg.append("line")
+    //         .style("stroke", "#ced4da")
+    //         .style("stroke-width", 2)
+    //         .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth)
+    //         .attr("y1", 12)
+    //         .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth)
+    //         .attr("y2", 25)
+    //     svg.append("line")
+    //         .style("stroke", "#ced4da")
+    //         .style("stroke-width", 2)
+    //         .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
+    //         .attr("y1", 12)
+    //         .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
+    //         .attr("y2", 25)
+    //     svg.append("line")
+    //         .style("stroke", "#ced4da")
+    //         .style("stroke-width", 2)
+    //         .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
+    //         .attr("y1", 12)
+    //         .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
+    //         .attr("y2", 25)
+
+
+    //     // medicinical chemistry
+    //     const medchemWidth = width / 14 * 3
+    //     svg.append("rect")
+    //         .attr("x", 0)
+    //         .attr("y", 0)
+    //         .attr("width", 20 + this.state.medchemWidth)
+    //         .attr("height", rectheight)
+    //         .style("fill", "#cce3de")
+    //         .style("opacity", 0.5)
+    //         .attr("rx", 5)
+    //         .attr("ry", 5)
+    //         .style("stroke-width", 2)
+    //         .style("stroke", "#ced4da")
+    //     svg.append("text")
+    //         .attr("x", 1 / 2 * this.state.medchemWidth)
+    //         .attr("y", 10)
+    //         .attr("text-anchor", "middle")
+    //         .text("Medicinical Chemistry")
+    //         .style("fill", "black")
+    //         .style("font-size", 13);
+
+    //     // Vitro
+    //     const vitroX = 20 + this.state.medchemWidth, vitroWidth = width / 14 * 3
+    //     svg.append("rect")
+    //         .attr("x", vitroX)
+    //         .attr("y", 0)
+    //         .attr("width", this.state.vitroWidth + this.state.vivoWidth)
+    //         .attr("height", rectheight)
+    //         .style("fill", "#ecf8f8")
+    //         .style("opacity", 0.5)
+    //         .attr("rx", 5)
+    //         .attr("ry", 5)
+    //         .style("stroke-width", 2)
+    //         .style("stroke", "#ced4da")
+    //     svg.append("text")
+    //         .attr("x", vitroX + 1 / 2 * this.state.vitroWidth)
+    //         .attr("y", 25)
+    //         .attr("text-anchor", "middle")
+    //         .text("Vitro")
+    //         .style("fill", "grey")
+    //         .style("font-size", 13);
+
+    //     // Vivo
+    //     const vivoX = vitroX + this.state.vitroWidth, vivoWidth = width / 14 * 2
+    //     // svg.append("rect")
+    //     //     .attr("x", vivoX)
+    //     //     .attr("y", 0)
+    //     //     .attr("width", this.state.vivoWidth)
+    //     //     .attr("height", rectheight)
+    //     //     .style("fill", "#ecf8f8")
+    //     //     .style("opacity", 0.5)
+    //     //     .attr("rx", 5)
+    //     //     .attr("ry", 5)
+    //     //     .style("stroke-width", 2)
+    //     //     .style("stroke", "#ced4da")
+    //     svg.append("text")
+    //         .attr("x", vivoX + 1 / 2 * this.state.vivoWidth)
+    //         .attr("y", 25)
+    //         .attr("text-anchor", "middle")
+    //         .text("Vivo")
+    //         .style("fill", "grey")
+    //         .style("font-size", 13);
+
+    //     // Pharmocology
+    //     svg.append("text")
+    //         .attr("x", 1 / 2 * (vitroX + 1 / 2 * this.state.vitroWidth + vivoX + 1 / 2 * this.state.vivoWidth))
+    //         .attr("y", 10)
+    //         .attr("text-anchor", "middle")
+    //         .text("Pharmocology")
+    //         .style("font-size", 13)
+
+    //     // Ph I
+    //     const ph1X = vivoX + this.state.vivoWidth, phWidth = this.state.sankeyWidth / 3;
+    //     svg.append("rect")
+    //         .attr("x", ph1X)
+    //         .attr("y", 0)
+    //         .attr("width", this.state.sankeyWidth)
+    //         .attr("height", rectheight)
+    //         .style("fill", "#fff8e8")
+    //         .style("opacity", 0.5)
+    //         .attr("rx", 5)
+    //         .attr("ry", 5)
+    //         .style("stroke-width", 2)
+    //         .style("stroke", "#ced4da")
+    //     svg.append("text")
+    //         .attr("x", ph1X + 1 / 2 * phWidth)
+    //         .attr("y", 25)
+    //         .attr("text-anchor", "middle")
+    //         .text("I")
+    //         .style("fill", "grey")
+    //         .style("font-size", 13);
+
+    //     // Ph II
+    //     const ph2X = ph1X + phWidth
+    //     // svg.append("rect")
+    //     //     .attr("x", ph2X)
+    //     //     .attr("y", 0)
+    //     //     .attr("width", phWidth)
+    //     //     .attr("height", rectheight)
+    //     //     .style("fill", "#fff8e8")
+    //     //     .style("opacity", 0.5)
+    //     //     .attr("rx", 5)
+    //     //     .attr("ry", 5)
+    //     //     .style("stroke-width", 2)
+    //     //     .style("stroke", "#ced4da")
+    //     svg.append("text")
+    //         .attr("x", ph2X + 1 / 2 * phWidth)
+    //         .attr("y", 25)
+    //         .attr("text-anchor", "middle")
+    //         .text("II")
+    //         .style("fill", "grey")
+    //         .style("font-size", 13);
+
+    //     // Ph III
+    //     const ph3X = ph2X + phWidth;
+    //     // svg.append("rect")
+    //     //     .attr("x", ph3X)
+    //     //     .attr("y", 0)
+    //     //     .attr("width", phWidth)
+    //     //     .attr("height", rectheight)
+    //     //     .style("fill", "#fff8e8")
+    //     //     .style("opacity", 0.5)
+    //     //     .attr("rx", 5)
+    //     //     .attr("ry", 5)
+    //     //     .style("stroke-width", 2)
+    //     //     .style("stroke", "#ced4da")
+    //     svg.append("text")
+    //         .attr("x", ph3X + 1 / 2 * phWidth)
+    //         .attr("y", 25)
+    //         .attr("text-anchor", "middle")
+    //         .text("III")
+    //         .style("fill", "grey").style("font-size", 13);
+
+    //     // Pharmaceutics
+    //     svg.append("text")
+    //         .attr("x", ph2X + 1 / 2 * phWidth)
+    //         .attr("y", 10)
+    //         .attr("text-anchor", "middle")
+    //         .text("Pharmaceutics")
+    //         .style("font-size", 13);
+    // }
 
     drawWhole() {
         // clear svg
@@ -297,7 +511,10 @@ class DetailView extends Component {
             var colorScale = d3
                 .scaleLinear()
                 .domain([1, 2, 3, 4, 5])
-                .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"])
+                .range(["#f1dca7", "#ffcb69", "#e8ac65", "#d08c60", "#b58463"])
+            // .range(["#f7b267", "#f79d65", "#f4845f", "#f27059", "#f25c54"])
+            // .range(["#edeec9", "#dde7c7", "#bfd8bd", "#98c9a3", "#77bfa3"])
+            // .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"])
 
             // node r scale
             var rScale = d3.scaleLinear().domain([1, 10]).range([10, 20])
@@ -490,7 +707,8 @@ class DetailView extends Component {
 
             var colorScale = d3.scaleOrdinal()
                 .domain([0, 1, 2, 3, 4, 5, 6])
-                .range(["white", "#fdf8e1", "#fcefb4", "#fae588", "#f9dc5c", "#ffc617", "#ffc000"])
+                .range(["white", "#d8f3dc", "#b7e4c7", "#95d5b2", "#74c69d", "#52b788", "#40916c"])
+            // .range(["white", "#fdf8e1", "#fcefb4", "#fae588", "#f9dc5c", "#ffc617", "#ffc000"])
 
             // set tooltips
             var tooltip = d3
@@ -638,7 +856,8 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             var colorScale = d3.scaleOrdinal()
                 .domain([0, 1, 2, 3, 4, 5, 6])
-                .range(["white", "#ffe3e0", "#fbc3bc", "#f7a399", "#f38375", "#ef6351", "#c32f27"])
+                .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
+            // .range(["white", "#ffe3e0", "#fbc3bc", "#f7a399", "#f38375", "#ef6351", "#c32f27"])
 
             // set tooltips
             var tooltip = d3
@@ -818,10 +1037,14 @@ class DetailView extends Component {
             var sankeydata = this.props.sankeydata;
 
             // color scale for status
+            // var colorScale = d3
+            //     .scaleSequential()
+            //     .interpolator(d3.interpolateRainbow)
+            //     .domain([0, 8]);
             var colorScale = d3
-                .scaleSequential()
-                .interpolator(d3.interpolateRainbow)
-                .domain([0, 8]);
+                .scaleOrdinal()
+                .domain([0, 8])
+                .range(["#eddcd2", "#fde2e4", "#fad2e1", "#99c1de", "#c5dedd", "#fff1e6", "#dbe7e4", "#bcd4e6", "#d6e2e9"])
 
             // set tooltips
             var tooltip = d3
