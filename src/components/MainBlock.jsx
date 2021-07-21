@@ -36,6 +36,10 @@ class MainBlock extends Component {
         // this.handleAddSelection = this.handleAddSelection.bind(this);
     }
 
+    componentDidMount() {
+
+    }
+
     handleAddSelection = (selectedTarget) => {
         if (selectedTarget != null) {
             console.log("handle add selection in LeftBar:", selectedTarget)

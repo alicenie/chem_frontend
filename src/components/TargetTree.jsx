@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import Tree from 'react-d3-tree';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 class TreeNode {
     constructor(value) {
@@ -26,6 +32,7 @@ class TargetTree extends Component {
         super(props)
         this.state = {
             value: this.props.value,
+            // num_leaf: 1,
             // treeCharts: []
         }
     }
@@ -44,7 +51,7 @@ class TargetTree extends Component {
                 if (!nodes_list.find(node => node.name == e.name)) nodes_list.push(e)
             })
         })
-        console.log("nodes_list", nodes_list)
+        // console.log("nodes_list", nodes_list)
         const nodes_id = nodes_list.map(d => d.name) // selected id list
         nodes_list.forEach(d => {
             nodes[d.name] = new TreeNode(d.name)
@@ -62,6 +69,13 @@ class TargetTree extends Component {
             })
         })
         console.log("tree nodes:", nodes)
+        // calculate num of leaf node
+        var num_leaf = 0;
+        Object.keys(nodes).forEach(d => {
+            if (nodes[d]["children"][0] == null) num_leaf += 1
+        })
+        console.log(num_leaf)
+        // this.setState({ num_leaf })
 
         // construct chart data from tree
         var treeCharts = [] // >= 1 tree
@@ -72,7 +86,7 @@ class TargetTree extends Component {
                 treeHeads.push(value);
             }
         }
-        console.log("tree heads:", treeHeads)
+        // console.log("tree heads:", treeHeads)
         // build an object starting from each head
         treeHeads.forEach(head => {
             var treeObj = {
@@ -99,7 +113,7 @@ class TargetTree extends Component {
             name: '',
             children: treeCharts
         }
-        return treeChart
+        return { treeChart, num_leaf }
     }
 
     setChildren(startNode) {
@@ -166,10 +180,55 @@ class TargetTree extends Component {
             // ],
         };
 
-        const treeCharts = this.buildTree()
+        var tree = { treeChart: null, num_leaf: null }
+        tree = this.buildTree()
+        console.log(tree)
 
         return (
-            <div style={{ overflow: "auto" }}>
+            <TransformWrapper
+                initialScale={1}
+                initialPositionX={0}
+                initialPositionY={0}
+                // maxPositionY={300}
+                minScale={0.5}
+                // centerOnInit={true}
+                centerZoomedOut={true}>
+                {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                    <React.Fragment>
+                        <div className="tools" style={{ paddingLeft: 5, margin: 0 }}>
+                            <IconButton aria-label="add" size="small" onClick={() => zoomIn()}>
+                                <AddIcon fontSize="inherit" />
+                            </IconButton>
+                            <IconButton aria-label="add" size="small" onClick={() => zoomOut()}>
+                                <RemoveIcon fontSize="inherit" />
+                            </IconButton>
+                            <IconButton aria-label="add" size="small" onClick={() => resetTransform()}>
+                                <RefreshIcon fontSize="inherit" />
+                            </IconButton>
+                            {/* <Button size="sm" style={{ padding: 0, margin: 0 }} onClick={() => zoomIn()}>+</Button> */}
+                            {/* <Button style={{ padding: 0, margin: 0 }} onClick={() => zoomOut()}>-</Button> */}
+                            {/* <Button style={{ padding: 0, margin: 0 }} onClick={() => resetTransform()}>x</Button> */}
+                        </div>
+                        <TransformComponent>
+                            {/* <img src="image.jpg" alt="test" /> */}
+                            {/* <div>Example text</div> */}
+                            <div style={{ width: '20em', height: '30em' }}>
+                                <Tree data={tree.treeChart} orientation={'vertical'}
+                                    rootNodeClassName={'root-node'}
+                                    translate={{ x: 150, y: 0 }}
+                                    zoom={1 / tree.num_leaf}
+                                    zoomable={false}
+                                    collapsible={false}
+                                    pathClassFunc={(d) => {
+                                        // console.log("pathClassFunc", d)
+                                        if (!d.source.parent) return "root-path-class"
+                                        return "path-class"
+                                    }} />
+                            </div>
+                        </TransformComponent>
+                    </React.Fragment>
+                )}
+                {/* <div style={{ overflow: "auto" }}> */}
                 {/* `<Tree />` will fill width/height of its container; in this case `#treeWrapper`. */}
                 {/* <div id="treeWrapper" style={{ width: '10em', height: '10em' }}>
                     <Tree data={orgChart} orientation={'vertical'} />
@@ -178,20 +237,21 @@ class TargetTree extends Component {
                     <Tree data={orgChart} orientation={'vertical'} />
                 </div> */}
 
-                <div style={{ width: '20em', height: '30em' }}>
-                    <Tree data={this.buildTree()} orientation={'vertical'}
-                        rootNodeClassName={'root-node'}
-                        translate={{ x: 150, y: 10 }}
-                        zoom={0.2}
-                        collapsible={false}
-                        pathClassFunc={(d) => {
-                            // console.log("pathClassFunc", d)
-                            if (!d.source.parent) return "root-path-class"
-                            return "path-class"
-                        }} />
-                </div>
+                {/* <div style={{ width: '20em', height: '30em' }}>
+                            <Tree data={tree.treeChart} orientation={'vertical'}
+                                rootNodeClassName={'root-node'}
+                                translate={{ x: 150, y: 10 }}
+                                zoom={1.2 / tree.num_leaf}
+                                collapsible={false}
+                                pathClassFunc={(d) => {
+                                    // console.log("pathClassFunc", d)
+                                    if (!d.source.parent) return "root-path-class"
+                                    return "path-class"
+                                }} />
+                        </div> */}
 
-            </div>
+                {/* </div> */}
+            </TransformWrapper>
         );
     }
 }
