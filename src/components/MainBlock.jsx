@@ -97,8 +97,7 @@ class MainBlock extends Component {
             { i: 'f', x: 12, y: 0, w: 2, h: 4, static: true },
         ];
 
-        const { innerWidth: width, innerHeight: height
-        } = window;
+        const { innerWidth: width, innerHeight: height } = window;
         const m = 0;
         const rowh = height / 11;
         const upperHeight = rowh * 7, lowerHeight = rowh * 4;
@@ -152,7 +151,7 @@ class MainBlock extends Component {
                                         <SearchIcon style={{ marginTop: 6, marginLeft: -25, opacity: 0.6 }} />
                                     </Col>
                                 </Row>
-                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} />
+                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 14 * 3} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>

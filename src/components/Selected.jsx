@@ -33,6 +33,7 @@ class Selected extends Component {
         super(props)
         this.state = {
             Height: this.props.height - 75,
+            Width: this.props.width - 45,
             selected: null,
         }
     }
@@ -47,45 +48,59 @@ class Selected extends Component {
     }
 
     color = (i) => {
-        if (this.state.selected && i.id == this.state.selected.id) return "ivory"
-        return "white"
+        if (this.state.selected && i.id == this.state.selected.id) return "rgba(169, 214, 229,0.3)"
+        return "rgba(233, 236, 239,0.3)"
     }
 
     render() {
         return (
             <ScrollSyncPane>
-                <div style={{ overflow: "auto" }}>
+                <div style={{ overflow: "auto", marginTop: 15 }}>
 
 
-                    <List style={{
+                    {/* <List style={{
                         // position: 'relative',
                         // overflow: 'auto',
                         height: this.state.Height,
                         padding: 0
                         // maxHeight: 440,
-                    }}>
+                    }}> */}
+                    <ul style={{ height: this.state.Height, listStyleType: "none", margin: 5, paddingLeft: 14 }}>
 
                         {this.props.value.map(i => {
                             console.log("i", i)
                             // const img = require(`${'../target_img/Janus_kinase.png'}`)
 
                             return (
-                                <div key={i}>
-                                    <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center", backgroundColor: this.color(i) }}>
-                                        <ListItemAvatar style={{ height: this.state.Height / 3 }}>
-                                            {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                            <img src={Unknown} width="120" data-tip />
+                                <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
+                                    <div className="row" style={{ alignItems: "center", border: "1px solid #e9ecef", borderRadius: "10px", backgroundColor: this.color(i) }}>
+                                        <div className="col-4" style={{ paddingLeft: 6 }} >
+                                            <img src={Unknown} width="100" data-tip />
                                             <ReactTooltip type="light">
                                                 <img src={Unknown} width="200" />
                                             </ReactTooltip>
-                                            {/* <StackedBar /> */}
-                                            {/* </Avatar> */}
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={i.label}
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
+                                        </div>
+                                        <div className="col-6" style={{ marginLeft: 5, cursor: "pointer" }} onClick={() => this.handleClick(i)}>
+                                            {i.label}
+                                        </div>
+                                        <div className="col-1">
+                                            <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
+                                                <ClearIcon />
+                                            </IconButton>
+                                        </div>
+                                    </div>
+                                    {/* <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center", backgroundColor: this.color(i) }}> */}
+                                    {/* <ListItemAvatar style={{ height: this.state.Height / 3, paddingBottom: 5, paddingRight: 5, borderWidth: "2", borderColor: "black" }}>
+                                            <img src={Unknown} width="100" data-tip style={{ borderWidth: 5, borderColor: "black" }} />
+                                            <ReactTooltip type="light">
+                                                <img src={Unknown} width="200" />
+                                            </ReactTooltip>
+                                        </ListItemAvatar> */}
+                                    {/* <ListItemText */}
+                                    {/* primary={i.label} */}
+                                    {/* secondary={ */}
+                                    {/* <React.Fragment> */}
+                                    {/* <Typography
                                                         component="span"
                                                         variant="body2"
                                                         className={{
@@ -94,26 +109,24 @@ class Selected extends Component {
                                                         color="textPrimary"
                                                     >
                                                         info
-                                                    </Typography>
-                                                    {/* {" — xxx"} */}
-                                                </React.Fragment>
-                                            }
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => this.handleClick(i)}
-                                        />
-                                        {/* <IconButton aria-label="deleteOutlined" style={{ padding: 0 }} onClick={() => this.handleClick(i)}>
-                                            <DetailsIcon />
-                                        </IconButton> */}
-                                        <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
+                                                    </Typography> */}
+                                    {/* {" — xxx"} */}
+                                    {/* </React.Fragment> */}
+                                    {/* } */}
+                                    {/* style={{ cursor: "pointer" }} */}
+                                    {/* onClick={() => this.handleClick(i)} */}
+                                    {/* /> */}
+                                    {/* <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
                                             <ClearIcon />
-                                        </IconButton>
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                </div>
+                                        </IconButton> */}
+                                    {/* </ListItem> */}
+                                    {/* <Divider variant="inset" component="li" /> */}
+                                </li>
                             )
                         })
                         }
-                    </List>
+                        {/* </List> */}
+                    </ul>
                 </div>
             </ScrollSyncPane >
 

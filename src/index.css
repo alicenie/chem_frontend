@@ -40,9 +40,9 @@ div.tooltip {
   background-color: #e9ecef;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: inline;
-}
+} */
 
 .highlightRect {
   stroke: orange;
