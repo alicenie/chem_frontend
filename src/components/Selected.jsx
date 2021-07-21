@@ -32,7 +32,7 @@ class Selected extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            Height: this.props.height - 100,
+            Height: this.props.height - 75,
             selected: null,
         }
     }

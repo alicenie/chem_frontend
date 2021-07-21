@@ -44,6 +44,7 @@ class TargetTree extends Component {
 
     buildTree(value) {
         console.log("buildTree")
+        console.log(this.state.value)
         // construct tree data structure
         var nodes = {}, nodes_list = [];
         this.state.value.forEach(d => {

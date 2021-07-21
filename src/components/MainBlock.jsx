@@ -18,9 +18,8 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';
 import DetailView from './DetailView';
 import TargetTree from './TargetTree';
-import SankeyTest from './SankeyTest'
-
-
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 // setConfiguration({ maxScreenClass: 'xl', gutterWidth: 5 });
 class MainBlock extends Component {
@@ -30,6 +29,7 @@ class MainBlock extends Component {
             selectedTargets: [],
             remainOptions: target_data,
             selectedDetailTarget: null,
+            selected: null,
             // selectDetail: [],
             // selectSankeyDetail: null,
         }
@@ -41,21 +41,26 @@ class MainBlock extends Component {
     }
 
     handleAddSelection = (selectedTarget) => {
-        if (selectedTarget != null) {
+        if (selectedTarget.length !== 0) {
             console.log("handle add selection in LeftBar:", selectedTarget)
+
+            this.setState({ selected: selectedTarget })
 
             // add to selectedTargets
             let selectedTargets = this.state.selectedTargets
-            selectedTargets.push(selectedTarget)
+            selectedTargets.push(selectedTarget[0])
             // console.log(selectedTargets)
 
             // remove from remainOptions
             let remainOptions = this.state.remainOptions
-            remainOptions.splice(remainOptions.indexOf(selectedTarget), 1)
+            remainOptions.splice(remainOptions.indexOf(selectedTarget[0]), 1)
 
+            // console.log("selected targets", selectedTargets)
+            // console.log("remain targets", remainOptions)
             this.setState({ selectedTargets, remainOptions });
+        } else {
+            this.setState({ selected: "" })
         }
-
     }
 
     handleRemoveSelection = (removeTarget) => {
@@ -74,7 +79,7 @@ class MainBlock extends Component {
 
     handleSelectDetail = (target) => {
         if (target) {
-            console.log("set state in mainblock ", target)
+            // console.log("set state in mainblock ", target)
             // this.setState({ selectDetail: target.detaildata })
             // this.setState({ selectSankeyDetail: target.sankeydata })
             this.setState({ selectedDetailTarget: target })
@@ -82,6 +87,7 @@ class MainBlock extends Component {
     }
 
     render() {
+
         const layout = [
             { i: 'a', x: 0, y: 4, w: 3, h: 7, static: true },
             { i: 'b', x: 0, y: 0, w: 3, h: 4, static: true },
@@ -91,7 +97,8 @@ class MainBlock extends Component {
             { i: 'f', x: 12, y: 0, w: 2, h: 4, static: true },
         ];
 
-        const { innerWidth: width, innerHeight: height } = window;
+        const { innerWidth: width, innerHeight: height
+        } = window;
         const m = 0;
         const rowh = height / 11;
         const upperHeight = rowh * 7, lowerHeight = rowh * 4;
@@ -110,11 +117,26 @@ class MainBlock extends Component {
 
                         <div key="b">
                             <Card variant="outlined" overflow="visible" style={{ height: lowerHeight }} >
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Selected Targets</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Search Targets</p>
                                 {/* <ScrollSyncPane> */}
-                                <Row style={{ height: 20 }}>
-                                    <Col >
-                                        <Autocomplete
+                                <Row style={{ height: 20 }} justify="center">
+                                    <Col md={10}>
+                                        <Typeahead
+                                            clearButton={true}
+                                            id="basic-typeahead-single"
+                                            onChange={(selected) => {
+                                                // this.setState({ selected });
+                                                this.handleAddSelection(selected)
+                                                console.log("selectd", selected)
+                                            }}
+                                            options={this.state.remainOptions}
+                                            labelKey={option => option.label}
+                                            placeholder="Search..."
+                                            selected={this.state.selected}
+                                            style={{ marginTop: 2 }}
+                                            size={"sm"}>
+                                        </Typeahead>
+                                        {/* <Autocomplete
                                             id="search"
                                             options={this.state.remainOptions}
                                             popupIcon={false}
@@ -124,22 +146,12 @@ class MainBlock extends Component {
                                             style={{ width: width / 14 * 2, marginLeft: width / 14 * 0.2 }}
                                             onChange={(e, value) => this.handleAddSelection(value)}
                                             renderInput={(params) => <TextField {...params} size="small" label="Search" variant="standard" />}
-                                        ></Autocomplete>
-                                        {/* <Autocomplete
-                                            id="custom-input-demo"
-                                            options={this.state.remainOptions}
-                                            renderInput={(params) => (
-                                                <div ref={params.InputProps.ref}>
-                                                    <input style={{ width: 200 }} type="text" {...params.inputProps} />
-                                                </div>
-                                            )}
-                                        /> */}
+                                        ></Autocomplete> */}
                                     </Col>
-                                    <Col >
-                                        <SearchIcon style={{ marginTop: 20, marginLeft: -20, opacity: 0.6 }} />
+                                    <Col md={1}>
+                                        <SearchIcon style={{ marginTop: 6, marginLeft: -25, opacity: 0.6 }} />
                                     </Col>
                                 </Row>
-                                <br />
                                 <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
@@ -178,7 +190,6 @@ class MainBlock extends Component {
                         <div key="e">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Right Lower View</p>
-                                <SankeyTest />
                             </Card>
                         </div>
                     </GridLayout>
