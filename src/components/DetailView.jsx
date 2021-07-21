@@ -9,12 +9,12 @@ class DetailView extends Component {
         this.state = {
             Height: this.props.height - 30,
             Width: this.props.width,
-            marginL: 10,
+            marginL: 0,
             marginR: 0,
             medchemWidth: (this.props.width - 30 - 30) / 14 * 5,
             vitroWidth: (this.props.width - 30 - 30) / 14 * 3,
             vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
-            sankeyWidth: (this.props.width - 30 - 30) / 14 * 4 + 5,
+            sankeyWidth: (this.props.width - 30 - 30) / 14 * 4,
             vitroSortAttr: null,
             vivoSortAttr: null
         }
@@ -40,7 +40,7 @@ class DetailView extends Component {
             .attr("width", this.state.Width + 20)
             .attr("height", this.state.Height)
             .append("g")
-            .attr("transform", "translate(20,0)")
+            .attr("transform", "translate(8,0)")
 
         // for (var i = 0; i < 3; i++) {
         svg.append("rect")
@@ -51,6 +51,8 @@ class DetailView extends Component {
             .style("stroke", "#ced4da")
             .style("fill", "none")
             .style("stroke-width", "2px")
+            .attr("rx", 5)
+            .attr("ry", 5)
             .lower();
         // }
 
@@ -61,7 +63,9 @@ class DetailView extends Component {
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .style("stroke", "#ced4da")
             .style("fill", "none")
-            .style("stroke-width", "2px");
+            .style("stroke-width", "2px")
+            .attr("rx", 5)
+            .attr("ry", 5);
 
         // svg.append("rect")
         //     .attr("x", 30 + this.state.medchemWidth + this.state.vitroWidth)
@@ -79,7 +83,9 @@ class DetailView extends Component {
             .attr("width", this.state.sankeyWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
-            .style("stroke-width", "2px");
+            .style("stroke-width", "2px")
+            .attr("rx", 5)
+            .attr("ry", 5);
     }
 
     // drawAxis(container) {
@@ -305,39 +311,7 @@ class DetailView extends Component {
             .attr("width", width + marginL)
             .attr("height", "30px")
             .append("g")
-            .attr("transform", "translate(" + marginL + ",0)");
-
-        // line
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 0)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + this.state.sankeyWidth)
-            .attr("y2", 12)
-
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth)
-            .attr("y2", 25)
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
-            .attr("y2", 25)
-        svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
-            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
-            .attr("y1", 12)
-            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
-            .attr("y2", 25)
-
+            .attr("transform", "translate(8,0)");
 
         // medicinal chemistry
         const medchemWidth = width / 14 * 3
@@ -354,18 +328,18 @@ class DetailView extends Component {
             .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", 1 / 2 * this.state.medchemWidth)
-            .attr("y", 10)
+            .attr("y", 17)
             .attr("text-anchor", "middle")
             .text("Medicinal Chemistry")
             .style("fill", "black")
             .style("font-size", 13);
 
         // Vitro
-        const vitroX = 20 + this.state.medchemWidth, vitroWidth = width / 14 * 3
+        const vitroX = 25 + this.state.medchemWidth
         svg.append("rect")
             .attr("x", vitroX)
             .attr("y", 0)
-            .attr("width", this.state.vitroWidth + this.state.vivoWidth)
+            .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .attr("height", rectheight)
             .style("fill", "#ecf8f8")
             .style("opacity", 0.5)
@@ -382,7 +356,7 @@ class DetailView extends Component {
             .style("font-size", 13);
 
         // Vivo
-        const vivoX = vitroX + this.state.vitroWidth, vivoWidth = width / 14 * 2
+        const vivoX = vitroX + this.state.vitroWidth
         // svg.append("rect")
         //     .attr("x", vivoX)
         //     .attr("y", 0)
@@ -411,7 +385,7 @@ class DetailView extends Component {
             .style("font-size", 13)
 
         // Ph I
-        const ph1X = vivoX + this.state.vivoWidth, phWidth = this.state.sankeyWidth / 3;
+        const ph1X = 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth, phWidth = this.state.sankeyWidth / 3;
         svg.append("rect")
             .attr("x", ph1X)
             .attr("y", 0)
@@ -479,6 +453,62 @@ class DetailView extends Component {
             .attr("text-anchor", "middle")
             .text("Pharmaceutics")
             .style("font-size", 13);
+
+        // line
+        svg
+            .append('defs')
+            .append('marker')
+            .attr('id', 'arrow')
+            .attr('viewBox', [0, 0, 6, 6])
+            .attr('refX', 3)
+            .attr('refY', 3)
+            .attr('markerWidth', 6)
+            .attr('markerHeight', 6)
+            .attr('orient', 'auto-start-reverse')
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 6], [6, 3]]))
+            .style("fill", "#adb5bd");
+
+        svg.append("line")
+            .style("stroke", "#adb5bd")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth - 20)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + 20)
+            .attr("y2", 12)
+            .attr('marker-end', 'url(#arrow)')
+
+        svg.append("line")
+            .style("stroke", "#adb5bd")
+            .style("stroke-width", 2)
+            .attr("x1", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth - 20)
+            .attr("y1", 12)
+            .attr("x2", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 20)
+            .attr("y2", 12)
+            .attr('marker-end', 'url(#arrow)')
+
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth)
+            .attr("y2", 25)
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
+            .attr("y2", 25)
+        svg.append("line")
+            .style("stroke", "#ced4da")
+            .style("stroke-width", 2)
+            .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
+            .attr("y1", 12)
+            .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
+            .attr("y2", 25)
+
     }
 
     drawWhole() {
@@ -505,7 +535,7 @@ class DetailView extends Component {
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(20,0)");
+                .attr("transform", "translate(10,0)");
 
             // d3.json(this.props.detaildata[0])
             // .then(function (data) {
@@ -665,7 +695,7 @@ class DetailView extends Component {
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
-            .attr("transform", "translate(" + (20 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
         var xDomain = ["IC50", "Ki", "Kd", "EC50", "se", "hERG", "sol"],
@@ -707,7 +737,7 @@ class DetailView extends Component {
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(" + (20 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
+                .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
             console.log("vitro heatmap", this.props.detaildata[1])
             var data = this.props.detaildata[1];
@@ -739,8 +769,8 @@ class DetailView extends Component {
             yDomain.forEach(d => {
                 vitro_heat_pos.push({
                     id: d,
-                    x_in: (20 + 25 + this.state.medchemWidth + margin.left),
-                    x_out: (20 + 25 + this.state.medchemWidth + margin.left) + xDomain.length * xScale.bandwidth(),
+                    x_in: (10 + 25 + this.state.medchemWidth + margin.left),
+                    x_out: (10 + 25 + this.state.medchemWidth + margin.left) + xDomain.length * xScale.bandwidth(),
                     y: yScale(d) + margin.top + 1 / 2 * yScale.bandwidth()
                 })
             })
@@ -855,7 +885,7 @@ class DetailView extends Component {
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
-            .attr("transform", "translate(" + (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
         var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
@@ -917,7 +947,7 @@ class DetailView extends Component {
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(" + (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+                .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
             console.log("heatmap", this.props.detaildata[2])
             var data = this.props.detaildata[2];
@@ -952,8 +982,8 @@ class DetailView extends Component {
             yDomain.forEach(d => {
                 vivo_heat_pos.push({
                     id: d,
-                    x_in: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left),
-                    x_out: (20 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + xDomain.length * xScale.bandwidth()),
+                    x_in: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left),
+                    x_out: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + xDomain.length * xScale.bandwidth()),
                     y: yScale(d) + margin.top + 1 / 2 * yScale.bandwidth()
                 })
             })
@@ -1385,7 +1415,7 @@ class DetailView extends Component {
             <div>
                 <div id="axis" />
 
-                <div className="row" id="detail">
+                <div id="detail">
                     {/* <div className="col-4" id="medicinical">
                     medicinical
                 </div>

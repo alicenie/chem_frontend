@@ -175,10 +175,11 @@ class MainBlock extends Component {
 
                         <div key="c">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", justifyItems: "center" }}>
+                                <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", justifyItems: "center" }}>
                                     <span className="col-2" style={{ paddingLeft: 5 }}>Detail View</span>
-                                    <div className="col-5" ><span>You have chosen: {this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : ""}</span></div>
-                                </p>
+
+                                    <div className="col-10" style={{ textAlign: "right" }}>{this.state.selectedDetailTarget ? `You have chosen: ${this.state.selectedDetailTarget.label}` : ""}</div>
+                                </div>
                                 {/* <SimilarityGraph /> */}
                                 <DetailView height={upperHeight}
                                     detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
