@@ -29,8 +29,9 @@ class MainBlock extends Component {
         this.state = {
             selectedTargets: [],
             remainOptions: target_data,
-            selectDetail: [],
-            selectSankeyDetail: null,
+            selectedDetailTarget: null,
+            // selectDetail: [],
+            // selectSankeyDetail: null,
         }
         // this.handleAddSelection = this.handleAddSelection.bind(this);
     }
@@ -70,8 +71,9 @@ class MainBlock extends Component {
     handleSelectDetail = (target) => {
         if (target) {
             console.log("set state in mainblock ", target)
-            this.setState({ selectDetail: target.detaildata })
-            this.setState({ selectSankeyDetail: target.sankeydata })
+            // this.setState({ selectDetail: target.detaildata })
+            // this.setState({ selectSankeyDetail: target.sankeydata })
+            this.setState({ selectedDetailTarget: target })
         }
     }
 
@@ -157,9 +159,15 @@ class MainBlock extends Component {
 
                         <div key="c">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Detail View</p>
+                                <p className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", justifyItems: "center" }}>
+                                    <span className="col-2" style={{ paddingLeft: 5 }}>Detail View</span>
+                                    <div className="col-5" ><span>You have chosen: {this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : ""}</span></div>
+                                </p>
                                 {/* <SimilarityGraph /> */}
-                                <DetailView height={upperHeight} detaildata={this.state.selectDetail} sankeydata={this.state.selectSankeyDetail} width={width / 14 * 9} />
+                                <DetailView height={upperHeight}
+                                    detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
+                                    sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
+                                    width={width / 14 * 9} />
                             </Card>
                         </div>
 

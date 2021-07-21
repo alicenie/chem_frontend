@@ -41,7 +41,7 @@ div.tooltip {
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  display: inline;
 }
 
 .highlightRect {

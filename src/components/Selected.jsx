@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import ReactTooltip from 'react-tooltip';
 import { ScrollSyncPane } from 'react-scroll-sync';
 import DetailsIcon from '@material-ui/icons/Details';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 // const useStyles = makeStyles((theme) => ({
@@ -31,7 +32,8 @@ class Selected extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            Height: this.props.height - 100
+            Height: this.props.height - 100,
+            selected: null,
         }
     }
 
@@ -41,6 +43,12 @@ class Selected extends Component {
 
     handleClick = (target) => {
         this.props.handleSelectDetail(target)
+        this.setState({ selected: target })
+    }
+
+    color = (i) => {
+        if (this.state.selected && i.id == this.state.selected.id) return "ivory"
+        return "white"
     }
 
     render() {
@@ -58,15 +66,15 @@ class Selected extends Component {
                     }}>
 
                         {this.props.value.map(i => {
-                            // console.log("i", i)
+                            console.log("i", i)
                             // const img = require(`${'../target_img/Janus_kinase.png'}`)
 
                             return (
                                 <div key={i}>
-                                    <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center" }}>
-                                        <ListItemAvatar>
+                                    <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center", backgroundColor: this.color(i) }}>
+                                        <ListItemAvatar style={{ height: this.state.Height / 3 }}>
                                             {/* <Avatar variant="square" src="../target_img/Janus_kinase.png"> */}
-                                            <img src={Unknown} width="130" data-tip />
+                                            <img src={Unknown} width="120" data-tip />
                                             <ReactTooltip type="light">
                                                 <img src={Unknown} width="200" />
                                             </ReactTooltip>
@@ -90,12 +98,14 @@ class Selected extends Component {
                                                     {/* {" — xxx"} */}
                                                 </React.Fragment>
                                             }
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => this.handleClick(i)}
                                         />
-                                        <IconButton aria-label="deleteOutlined" style={{ padding: 0 }} onClick={() => this.handleClick(i)}>
+                                        {/* <IconButton aria-label="deleteOutlined" style={{ padding: 0 }} onClick={() => this.handleClick(i)}>
                                             <DetailsIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="deleteOutlined" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
-                                            <DeleteOutlinedIcon />
+                                        </IconButton> */}
+                                        <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
+                                            <ClearIcon />
                                         </IconButton>
                                     </ListItem>
                                     <Divider variant="inset" component="li" />
@@ -105,7 +115,7 @@ class Selected extends Component {
                         }
                     </List>
                 </div>
-            </ScrollSyncPane>
+            </ScrollSyncPane >
 
         );
     }
