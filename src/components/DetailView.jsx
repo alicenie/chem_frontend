@@ -16,7 +16,8 @@ class DetailView extends Component {
             vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
             sankeyWidth: (this.props.width - 30 - 30) / 14 * 4,
             vitroSortAttr: null,
-            vivoSortAttr: null
+            vivoSortAttr: null,
+            heatSquareLength: ((this.props.width - 30 - 30) / 14 * 5 - 40) / 12
         }
     }
 
@@ -744,7 +745,7 @@ class DetailView extends Component {
 
             // x scale
             var xDomain = ["IC50", "Ki", "Kd", "EC50", "se", "hERG", "sol"],
-                xRange = [0, width];
+                xRange = [0, xDomain.length * this.state.heatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
             //     .call(g => {
@@ -879,7 +880,7 @@ class DetailView extends Component {
     }
 
     drawVivoAxis() {
-        var margin = { top: 35, right: 10, bottom: 10, left: 10 },
+        var margin = { top: 35, right: 10, bottom: 10, left: 0 },
             width = this.state.vivoWidth - margin.left - margin.right;
 
         var svg = d3
@@ -889,7 +890,7 @@ class DetailView extends Component {
 
         // x scale
         var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
-            xRange = [0, width];
+            xRange = [0, xDomain.length * this.state.heatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
         var attr = null;
         svg.append("g").call(d3.axisTop(xScale))
@@ -940,7 +941,7 @@ class DetailView extends Component {
         if (this.props.detaildata[2]) {
 
             console.log("draw vivo heatmap")
-            var margin = { top: 35, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 35, right: 10, bottom: 10, left: 0 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -954,7 +955,7 @@ class DetailView extends Component {
 
             // x scale
             var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
-                xRange = [0, width];
+                xRange = [0, xDomain.length * this.state.heatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
             //     .call(g => {
@@ -1253,6 +1254,8 @@ class DetailView extends Component {
                         .attr("id", d => d.id)
                         .attr("class", "sankey")
                         .style("fill", d => colorScale(d.status))
+                        .style("stroke-width", 0.5)
+                        .style("stroke", "white")
                         .on("mouseover", (event, d) => {
                             // tooltip
                             tooltip.transition().duration(200).style("opacity", 0.7);

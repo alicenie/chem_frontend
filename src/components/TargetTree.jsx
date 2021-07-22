@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import { Step } from '@material-ui/core';
 
 class TreeNode {
     constructor(value) {
@@ -187,6 +188,7 @@ class TargetTree extends Component {
 
         return (
             <TransformWrapper
+                wheel={{ step: 0.01 }}
                 initialScale={1}
                 initialPositionX={0}
                 initialPositionY={0}
@@ -197,10 +199,10 @@ class TargetTree extends Component {
                 {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                     <React.Fragment>
                         <div className="tools" style={{ paddingLeft: 5, margin: 0 }}>
-                            <IconButton aria-label="add" size="small" onClick={() => zoomIn()}>
+                            <IconButton aria-label="add" size="small" onClick={() => zoomIn(0.2)}>
                                 <AddIcon fontSize="inherit" />
                             </IconButton>
-                            <IconButton aria-label="add" size="small" onClick={() => zoomOut()}>
+                            <IconButton aria-label="add" size="small" onClick={() => zoomOut(0.2)}>
                                 <RemoveIcon fontSize="inherit" />
                             </IconButton>
                             <IconButton aria-label="add" size="small" onClick={() => resetTransform()}>
@@ -213,11 +215,11 @@ class TargetTree extends Component {
                         <TransformComponent>
                             {/* <img src="image.jpg" alt="test" /> */}
                             {/* <div>Example text</div> */}
-                            <div style={{ width: '20em', height: '30em' }}>
+                            <div style={{ width: '30em', height: '30em' }}>
                                 <Tree data={tree.treeChart} orientation={'vertical'}
                                     rootNodeClassName={'root-node'}
-                                    translate={{ x: 150, y: 0 }}
-                                    zoom={1 / tree.num_leaf}
+                                    translate={{ x: 150, y: 50 }}
+                                    zoom={0.6 / Math.sqrt(tree.num_leaf)}
                                     zoomable={false}
                                     collapsible={false}
                                     pathClassFunc={(d) => {

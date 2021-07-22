@@ -75,13 +75,20 @@ class Selected extends Component {
                                 <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
                                     <div className="row" style={{ alignItems: "center", border: "1px solid #e9ecef", borderRadius: "10px", backgroundColor: this.color(i) }}>
                                         <div className="col-4" style={{ paddingLeft: 6 }} >
-                                            <img src={Unknown} width="100" data-tip />
-                                            <ReactTooltip type="light">
+                                            <img src={Unknown} width="100" data-tip data-for="img-tooltip" />
+                                            <ReactTooltip id="img-tooltip" type="light">
                                                 <img src={Unknown} width="200" />
                                             </ReactTooltip>
                                         </div>
-                                        <div className="col-6" style={{ marginLeft: 5, cursor: "pointer" }} onClick={() => this.handleClick(i)}>
-                                            {i.label}
+                                        <div
+                                            className="col-6"
+                                            style={{ marginLeft: 5, cursor: "pointer" }}
+                                            onClick={() => this.handleClick(i)}
+                                            data-tip data-for="text-tooltip">
+                                            <span>{i.label}</span>
+                                            <ReactTooltip id="text-tooltip" type="light" place="bottom" backgroundColor="#555" textColor="#fff">
+                                                <span>Show details</span>
+                                            </ReactTooltip>
                                         </div>
                                         <div className="col-1">
                                             <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>

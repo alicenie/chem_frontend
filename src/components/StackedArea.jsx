@@ -34,16 +34,16 @@ class StackedArea extends Component {
         })
         // console.log("newdata", newdata)
 
-        const width = this.state.stackWidth - 25, height = this.state.Height / 3 - 20, margin = 20;
+        const width = this.state.stackWidth - 30, height = this.state.Height / 3 - 20, margin = 20;
         d3
             .select(`#${container}`)
             .selectAll("svg").remove()
         var svg = d3.select(`#${container}`).
             append("svg")
-            .attr("width", width + 25)
+            .attr("width", width + 30)
             .attr("height", height + 20)
             .append("g")
-            .attr("transform", "translate(12,0)")
+            .attr("transform", "translate(18,0)")
 
         // GENERAL //
         // List of groups
