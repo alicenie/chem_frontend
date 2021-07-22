@@ -64,3 +64,31 @@ path.root-path-class {
   stroke-width: 0;
   stroke: white;
 }
+
+.thumb-text {
+  background-color: rgb(214, 213, 213);
+  height: 15px;
+  line-height: 15px;
+  width: 25px;
+  text-align: center;
+  border-radius: 15%;
+  cursor: grab;
+  font-size: 8px;
+}
+
+.example-thumb.active {
+  outline: none;
+}
+
+.example-thumb.active > .thumb-text {
+  outline: none;
+  background-color: rgb(179, 178, 178);
+}
+
+.horizontal-slider {
+  height: 35px;
+  width: 100px;
+  float: right;
+  margin-right: 10px;
+  /* background-color: grey; */
+}

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import * as d3 from "d3";
 import Slider from '@material-ui/core/Slider';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
-
+import ReactSlider from 'react-slider';
+import styled from 'styled-components';
 
 class StackedArea extends Component {
     constructor(props) {
@@ -142,21 +143,46 @@ class StackedArea extends Component {
         // }
     }
 
-    handleChange = (e, value) => {
+    handleChange = (value) => {
         // console.log("slider value:", value)
         this.setState({ trendRange: value })
     }
 
     render() {
+        const StyledTrack = styled.div`
+            top: 0;
+            bottom: 0;
+            height: 15px;
+            margin-top: 2px;
+            background: ${props => props.index === 1 ? 'rgb(206, 212, 218)' : 'rgba(206, 212, 218,0.5)'};
+            border-radius: 2px;
+        `;
+
+
         return (
             <div style={{ height: this.props.height - 20, }}>
-                <Slider
+                {/* <Slider
                     value={this.state.trendRange}
                     onChange={this.handleChange}
                     // valueLabelDisplay="disabled"
                     min={2016}
                     max={2020}
                     style={{ width: this.state.stackWidth / 2, float: "right", marginRight: "10px" }}
+                /> */}
+                <ReactSlider
+                    className="horizontal-slider"
+                    thumbClassName="example-thumb"
+                    trackClassName="example-track"
+                    defaultValue={[2016, 2020]}
+                    min={2016}
+                    max={2020}
+                    ariaLabel={['Lower thumb', 'Upper thumb']}
+                    ariaValuetext={state => `Thumb value ${state.valueNow}`}
+                    renderThumb={(props, state) => <div {...props}><div style={{ textAlign: state.index === 0 ? "start" : "end" }}>|</div><p className="thumb-text">{state.valueNow}</p></div>}
+                    renderTrack={(props, state) => <StyledTrack {...props} index={state.index} />}
+                    pearling
+                    minDistance={0}
+                    onChange={this.handleChange}
                 />
 
                 {/* <p style={{ fontSize: "13px", paddingLeft: 30 }}>{this.state.trendRange[0]} - {this.state.trendRange[1]}</p> */}

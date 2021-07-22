@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import Unknown from '../target_img/unknown.png';
-// import StackedBar from './StackedBar.jsx';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
+// import Divider from '@material-ui/core/Divider';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 // import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import ReactTooltip from 'react-tooltip';
 import { ScrollSyncPane } from 'react-scroll-sync';
-import DetailsIcon from '@material-ui/icons/Details';
 import ClearIcon from '@material-ui/icons/Clear';
 
 

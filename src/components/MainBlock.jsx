@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import LeftBar from './LeftBar';
-import SimilarityGraph from './SimilarityGraph';
 import HeatSquare from './HeatSquare';
 import { Container, Row, Col } from 'react-grid-system';
 import 'bootstrap/dist/css/bootstrap.min.css';
