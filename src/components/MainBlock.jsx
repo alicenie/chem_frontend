@@ -107,14 +107,14 @@ class MainBlock extends Component {
                     <GridLayout className="layout" layout={layout} cols={14} rowHeight={rowh} width={width} margin={[3, 1]} isResizable={true}>
                         <div key="a">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Target Tree</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Signaling Pathway</p>
                                 <TargetTree value={this.state.selectedTargets} />
                             </Card>
                         </div>
 
                         <div key="b">
                             <Card variant="outlined" overflow="visible" style={{ height: lowerHeight }} >
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Search Targets</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Drug Target Search</p>
                                 {/* <ScrollSyncPane> */}
                                 <Row style={{ height: 20 }} justify="center">
                                     <Col md={10}>
@@ -128,7 +128,7 @@ class MainBlock extends Component {
                                             }}
                                             options={this.state.remainOptions}
                                             labelKey={option => option.label}
-                                            placeholder="Search..."
+                                            placeholder="Drug target name..."
                                             selected={this.state.selected}
                                             style={{ marginTop: 2 }}
                                             size={"sm"}>
@@ -162,7 +162,7 @@ class MainBlock extends Component {
 
                         <div key="f">
                             <Card variant="outlined" style={{ height: lowerHeight, padding: 0 }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Topic Trend</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Publication Trend View</p>
                                 {/* <ScrollSyncPane> */}
                                 <StackedArea width={width / 14 * 11} height={lowerHeight} value={this.state.selectedTargets} />
                                 {/* </ScrollSyncPane> */}
@@ -187,7 +187,7 @@ class MainBlock extends Component {
 
                         <div key="e">
                             <Card variant="outlined" style={{ height: upperHeight }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Right Lower View</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Summary View</p>
                             </Card>
                         </div>
                     </GridLayout>

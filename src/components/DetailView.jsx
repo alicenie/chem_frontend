@@ -15,8 +15,8 @@ class DetailView extends Component {
             vitroWidth: (this.props.width - 30 - 30) / 14 * 3,
             vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
             sankeyWidth: (this.props.width - 30 - 30) / 14 * 4,
-            vitroSortAttr: null,
-            vivoSortAttr: null,
+            vitroSort: { attr: null, acsending: null },
+            vivoSort: { attr: null, acsending: null },
             heatSquareLength: ((this.props.width - 30 - 30) / 14 * 5 - 40) / 12
         }
     }
@@ -24,8 +24,10 @@ class DetailView extends Component {
     componentDidMount() {
         this.drawBoundary();
         this.drawAxis('axis');
-        this.drawVitroAxis();
-        this.drawVivoAxis();
+        // this.drawVitroAxis();
+        // this.drawVivoAxis();
+        this.drawVitroSort();
+        this.drawVivoSort();
     }
 
     componentDidUpdate() {
@@ -471,7 +473,7 @@ class DetailView extends Component {
             .style("fill", "#adb5bd");
 
         svg.append("line")
-            .style("stroke", "#adb5bd")
+            .style("stroke", "#e9ecef")
             .style("stroke-width", 2)
             .attr("x1", 20 + this.state.medchemWidth - 20)
             .attr("y1", 12)
@@ -480,7 +482,7 @@ class DetailView extends Component {
             .attr('marker-end', 'url(#arrow)')
 
         svg.append("line")
-            .style("stroke", "#adb5bd")
+            .style("stroke", "#e9ecef")
             .style("stroke-width", 2)
             .attr("x1", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth - 20)
             .attr("y1", 12)
@@ -517,9 +519,10 @@ class DetailView extends Component {
         d3.selectAll(".network").remove()
         d3.selectAll('.detail_path').remove()
         d3.selectAll(".heatmap").remove()
-        var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSortAttr),
+        d3.selectAll(".sankey").remove()
+        var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort),
             node_pos = this.drawNetwork(),
-            vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSortAttr),
+            vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort),
             sankey_pos = this.drawSankeyChart();
         this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
     }
@@ -667,7 +670,7 @@ class DetailView extends Component {
 
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
-                        .style("stroke", "#adb5bd")
+                        .style("stroke", "#e9ecef")
                         .style("opacity", 1)
 
                     d3.selectAll("rect.sankey")
@@ -688,10 +691,121 @@ class DetailView extends Component {
         return node_pos
     }
 
+    drawVitroSort() {
+        var margin = { top: 25, right: 10, bottom: 10, left: 10 },
+            width = this.state.vitroWidth - margin.left - margin.right;
+
+        var svg = d3
+            .select("svg#detail_svg")
+            .append("g")
+            .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
+
+        // x scale
+        var xDomain = ["IC50", "Ki", "Kd", "EC50", "se", "hERG", "sol"],
+            xRange = [0, xDomain.length * this.state.heatSquareLength];
+        var xScale = d3.scaleBand().domain(xDomain).range(xRange)
+
+        // set tooltips
+        var tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        svg.selectAll()
+            .data(xDomain).enter()
+            // .append('path')
+            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
+            // .attr("x", d => xScale(d))
+            // .attr("y", 0)
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 11) + ",5), rotate(-90)"; })
+            .style("fill", "rgba(218, 218, 218, 0.8)")
+            .attr("class", "vitro-sort-a")
+            .on("click", (_, d) => {
+                // console.log("click ", d)
+                this.setState({ vitroSort: { attr: d, acsending: true } })
+                d3.selectAll("path.vitro-sort-a").filter(i => i === d).style("fill", "grey")
+                d3.selectAll("path.vitro-sort-a").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll("path.vitro-sort-de").style("fill", "rgba(218, 218, 218, 0.8)")
+            })
+            .on("mouseover", (event) => {
+                d3.selectAll("path.vitro-sort-a").style("cursor", "pointer")
+                // tooltip
+                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip
+                    .html(
+                        `sort`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", () => {
+                // console.log(d3.selectAll("path.vitro-sort"));
+                d3.selectAll("path.vitro-sort-a").style("cursor", "default")
+                tooltip.transition().duration(400).style("opacity", 0);
+            });
+
+        svg.selectAll()
+            .data(xDomain).enter()
+            // .append('path')
+            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
+            // .attr("x", d => xScale(d))
+            // .attr("y", 0)
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 19) + ",8), rotate(90)"; })
+            .style("fill", "rgba(218, 218, 218, 0.8)")
+            .attr("class", "vitro-sort-de")
+            .on("click", (_, d) => {
+                // console.log("click ", d)
+                this.setState({ vitroSort: { attr: d, acsending: false } })
+                d3.selectAll("path.vitro-sort-de").filter(i => i === d).style("fill", "grey")
+                d3.selectAll("path.vitro-sort-de").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll("path.vitro-sort-a").style("fill", "rgba(218, 218, 218, 0.8)")
+            })
+            .on("mouseover", (event) => {
+                d3.selectAll("path.vitro-sort-de").style("cursor", "pointer")
+                // tooltip
+                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip
+                    .html(
+                        `sort`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", () => {
+                d3.selectAll("path.vitro-sort-de").style("cursor", "default")
+                tooltip.transition().duration(400).style("opacity", 0);
+            });
+
+        svg.append("g").call(d3.axisTop(xScale))
+            .call(g => {
+                g.select(".domain").remove();
+                g.selectAll("line").remove();
+            })
+            .selectAll("text")
+            .attr("transform", "translate(8,5), rotate(-90)")
+            .style("text-anchor", "middle")
+            .style("font-size", 12)
+
+    }
+
     drawVitroAxis() {
-        var margin = { top: 35, right: 10, bottom: 10, left: 10 },
-            width = this.state.vitroWidth - margin.left - margin.right,
-            height = this.state.Height - 40 - margin.top - margin.bottom;
+        var margin = { top: 70, right: 10, bottom: 10, left: 10 },
+            width = this.state.vitroWidth - margin.left - margin.right;
 
         var svg = d3
             .select("svg#detail_svg")
@@ -727,11 +841,11 @@ class DetailView extends Component {
             });
     }
 
-    drawVitroHeatmap(attr) {
+    drawVitroHeatmap(sort) {
         if (this.props.detaildata[1]) {
 
             console.log("draw vitro heatmap")
-            var margin = { top: 35, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 53, right: 10, bottom: 10, left: 10 },
                 width = this.state.vitroWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -761,7 +875,7 @@ class DetailView extends Component {
             data.forEach(d => {
                 if (!yDomain.includes(d.id)) yDomain.push(d.id)
             })
-            if (attr) yDomain = this.sortBy(data, attr);
+            if (sort.attr) yDomain = this.sortBy(data, sort.attr, sort.acsending);
             var yRange = [0, yDomain.length * xScale.bandwidth()]
             var yScale = d3.scaleBand().domain(yDomain).range(yRange)
 
@@ -811,7 +925,10 @@ class DetailView extends Component {
                     return colorScale(d.value);
                 })
                 .style("stroke-width", 2)
-                .style("stroke", "#adb5bd")
+                // .style("stroke", "#e9ecef")
+                .style("stroke", "#e9ecef")
+                .attr("rx", 2)
+                .attr("ry", 2)
                 .on("mouseover", (event, d) => {
                     // tooltip
                     tooltip.transition().duration(200).style("opacity", 0.7);
@@ -861,7 +978,7 @@ class DetailView extends Component {
 
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
-                        .style("stroke", "#adb5bd")
+                        .style("stroke", "#e9ecef")
                         .style("opacity", 1)
 
                     d3.selectAll("rect.sankey")
@@ -877,6 +994,117 @@ class DetailView extends Component {
                 })
         }
         return vitro_heat_pos
+    }
+
+    drawVivoSort() {
+        var margin = { top: 25, right: 10, bottom: 10, left: 10 };
+
+        var svg = d3
+            .select("svg#detail_svg")
+            .append("g")
+            .attr("transform", "translate(" + (30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+
+        // x scale
+        var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
+            xRange = [0, xDomain.length * this.state.heatSquareLength];
+        var xScale = d3.scaleBand().domain(xDomain).range(xRange)
+
+        // set tooltips
+        var tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        svg.selectAll()
+            .data(xDomain).enter()
+            // .append('path')
+            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
+            // .attr("x", d => xScale(d))
+            // .attr("y", 0)
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 11) + ",5), rotate(-90)"; })
+            .style("fill", "rgba(218, 218, 218, 0.8)")
+            .attr("class", "vivo-sort-a")
+            .on("click", (_, d) => {
+                // console.log("click ", d)
+                this.setState({ vivoSort: { attr: d, acsending: true } })
+                d3.selectAll("path.vivo-sort-a").filter(i => i === d).style("fill", "grey")
+                d3.selectAll("path.vivo-sort-a").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll("path.vivo-sort-de").style("fill", "rgba(218, 218, 218, 0.8)")
+            })
+            .on("mouseover", (event) => {
+                d3.selectAll("path.vivo-sort-a").style("cursor", "pointer")
+                // tooltip
+                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip
+                    .html(
+                        `sort`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", () => {
+                // console.log(d3.selectAll("path.vivo-sort"));
+                d3.selectAll("path.vivo-sort-a").style("cursor", "default")
+                tooltip.transition().duration(400).style("opacity", 0);
+            });
+
+        svg.selectAll()
+            .data(xDomain).enter()
+            // .append('path')
+            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
+            // .attr("x", d => xScale(d))
+            // .attr("y", 0)
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 19) + ",8), rotate(90)"; })
+            .style("fill", "rgba(218, 218, 218, 0.8)")
+            .attr("class", "vivo-sort-de")
+            .on("click", (_, d) => {
+                // console.log("click ", d)
+                this.setState({ vivoSort: { attr: d, acsending: false } })
+                d3.selectAll("path.vivo-sort-de").filter(i => i === d).style("fill", "grey")
+                d3.selectAll("path.vivo-sort-de").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll("path.vivo-sort-a").style("fill", "rgba(218, 218, 218, 0.8)")
+            })
+            .on("mouseover", (event) => {
+                d3.selectAll("path.vivo-sort-de").style("cursor", "pointer")
+                // tooltip
+                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip
+                    .html(
+                        `sort`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", () => {
+                d3.selectAll("path.vivo-sort-de").style("cursor", "default")
+                tooltip.transition().duration(400).style("opacity", 0);
+            });
+
+        svg.append("g").call(d3.axisTop(xScale))
+            .call(g => {
+                g.select(".domain").remove();
+                g.selectAll("line").remove();
+            })
+            .selectAll("text")
+            .attr("transform", "translate(8,5), rotate(-90)")
+            .style("text-anchor", "middle")
+            .style("font-size", 12)
+
     }
 
     drawVivoAxis() {
@@ -937,11 +1165,11 @@ class DetailView extends Component {
         //     });
     }
 
-    drawVivoHeatmap(attr) {
+    drawVivoHeatmap(sort) {
         if (this.props.detaildata[2]) {
 
             console.log("draw vivo heatmap")
-            var margin = { top: 35, right: 10, bottom: 10, left: 0 },
+            var margin = { top: 53, right: 10, bottom: 10, left: 0 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -974,7 +1202,7 @@ class DetailView extends Component {
                 if (!yDomain.includes(d.id)) yDomain.push(d.id)
             })
             // var attr = "ED50";
-            if (attr) yDomain = this.sortBy(data, attr);
+            if (sort.attr) yDomain = this.sortBy(data, sort.attr, sort.acsending);
             var yRange = [0, yDomain.length * xScale.bandwidth()]
             var yScale = d3.scaleBand().domain(yDomain).range(yRange)
 
@@ -1023,7 +1251,10 @@ class DetailView extends Component {
                     return colorScale(d.value);
                 })
                 .style("stroke-width", 2)
-                .style("stroke", "#adb5bd")
+                // .style("stroke", "#e9ecef")
+                .style("stroke", "#e9ecef")
+                .attr("rx", 2)
+                .attr("ry", 2)
                 .on("mouseover", (event, d) => {
                     // tooltip
                     tooltip.transition().duration(200).style("opacity", 0.7);
@@ -1039,7 +1270,7 @@ class DetailView extends Component {
                         .filter((node) => node.id == d.id)
                         .style("stroke", "orange")
                         .style("stroke-width", 3)
-                        .classed("highlightRect", true);
+                    // .classed("highlightRect", true);
 
                     d3.selectAll("rect.heatmap")
                         .filter((node) => node.id != d.id)
@@ -1073,7 +1304,7 @@ class DetailView extends Component {
 
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
-                        .style("stroke", "#adb5bd")
+                        .style("stroke", "#e9ecef")
                         .style("opacity", 1)
 
                     d3.selectAll("rect.sankey")
@@ -1091,12 +1322,12 @@ class DetailView extends Component {
         return vivo_heat_pos
     }
 
-    sortBy(data, attr) {
+    sortBy(data, attr, acsending) {
         var yDomain = [];
         data.forEach(d => {
             if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.value])
         })
-        yDomain = yDomain.sort((a, b) => b[1] - a[1]).map(d => d[0])
+        yDomain = yDomain.sort((a, b) => acsending ? (a[1] - b[1]) : (b[1] - a[1])).map(d => d[0])
         // console.log("ydomain", yDomain)
         return yDomain
     }
@@ -1286,6 +1517,9 @@ class DetailView extends Component {
                                 .style("stroke", "orange")
                                 .style("stroke-width", 3)
 
+                            console.log(d3.selectAll("rect.sankey")
+                                .filter((node) => node.id != d.id))
+
                             d3.selectAll("circle.network")
                                 .filter((node) => node.id != d.id)
                                 .style("opacity", 0.5)
@@ -1304,7 +1538,7 @@ class DetailView extends Component {
 
                             d3.selectAll("rect.heatmap")
                                 .style("stroke-width", 2)
-                                .style("stroke", "#adb5bd")
+                                .style("stroke", "#e9ecef")
                                 .style("opacity", 1)
 
                             d3.selectAll("rect.sankey")

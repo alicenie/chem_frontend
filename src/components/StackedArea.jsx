@@ -67,7 +67,8 @@ class StackedArea extends Component {
             .range([0, width]);
         var xAxis = svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(2))
+            .call(d3.axisBottom(x).ticks(2).tickFormat(d3.format("d")))
+
 
         // Add Y axis
         var y = d3.scaleLinear()

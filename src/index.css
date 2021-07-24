@@ -23,17 +23,17 @@ code {
 }
 
 div.tooltip {
-  color: black;
+  color: rgb(255, 254, 254);
   position: absolute;
   /* text-align: center; */
   /* width: 80px; */
   /* height: 35px; */
   padding: 2px;
   font: 13px sans-serif;
-  background: rgb(252, 252, 251);
-  border: 1px solid black;
+  background: rgb(71, 71, 71);
+  /* border: 1px solid black; */
   pointer-events: none;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .layout {
@@ -58,7 +58,9 @@ div.tooltip {
 .rd3t-leaf-node > circle,
 .rd3t-node > circle {
   fill: darkgray;
+  r: 35;
 }
+
 path.root-path-class {
   opacity: 0;
   stroke-width: 0;
