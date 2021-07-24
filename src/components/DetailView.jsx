@@ -678,7 +678,7 @@ class DetailView extends Component {
                         .style("opacity", 1)
 
                     d3.selectAll("path#" + d.id)
-                        .attr("opacity", 0.3)
+                        .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
                 })
             // .call(drag(simulation));
@@ -872,7 +872,7 @@ class DetailView extends Component {
                         .style("opacity", 1)
 
                     d3.selectAll("path#" + d.id)
-                        .attr("opacity", 0.3)
+                        .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
                 })
         }
@@ -1084,7 +1084,7 @@ class DetailView extends Component {
                         .style("opacity", 1)
 
                     d3.selectAll("path#" + d.id)
-                        .attr("opacity", 0.3)
+                        .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
                 })
         }
@@ -1123,7 +1123,7 @@ class DetailView extends Component {
                         .attr("d", curve(points))
                         .attr("stroke-width", 1)
                         .attr("stroke", "#adb5bd")
-                        .attr("opacity", 0.3)
+                        .attr("opacity", 0.5)
                         .attr("fill", "none")
                         .attr("id", d.id)
                         .lower()
@@ -1142,7 +1142,7 @@ class DetailView extends Component {
                         .attr("d", curve(points))
                         .attr("stroke-width", 1)
                         .attr("stroke", "#adb5bd")
-                        .attr("opacity", 0.3)
+                        .attr("opacity", 0.5)
                         .attr("fill", "none")
                         .attr("id", d.id)
                         .lower()
@@ -1161,7 +1161,7 @@ class DetailView extends Component {
                         .attr("d", curve(points))
                         .attr("stroke-width", 1)
                         .attr("stroke", "#adb5bd")
-                        .attr("opacity", 0.3)
+                        .attr("opacity", 0.5)
                         .attr("fill", "none")
                         .attr("id", d.id)
                         .lower()
@@ -1315,7 +1315,7 @@ class DetailView extends Component {
                                 .style("opacity", 1)
 
                             d3.selectAll("path#" + d.id)
-                                .attr("opacity", 0.3)
+                                .attr("opacity", 0.5)
                                 .attr("stroke-width", 1)
                         })
                 })

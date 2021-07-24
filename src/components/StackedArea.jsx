@@ -154,7 +154,7 @@ class StackedArea extends Component {
             bottom: 0;
             height: 15px;
             margin-top: 2px;
-            background: ${props => props.index === 1 ? 'rgb(206, 212, 218)' : 'rgba(206, 212, 218,0.5)'};
+            background: ${props => props.index === 1 ? 'rgb(206, 212, 218)' : 'rgba(206, 212, 218,0.3)'};
             border-radius: 2px;
         `;
 

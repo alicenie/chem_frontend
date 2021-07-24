@@ -66,7 +66,7 @@ path.root-path-class {
 }
 
 .thumb-text {
-  background-color: rgb(214, 213, 213);
+  background-color: rgba(218, 218, 218, 0.61);
   height: 15px;
   line-height: 15px;
   width: 25px;
@@ -82,7 +82,7 @@ path.root-path-class {
 
 .example-thumb.active > .thumb-text {
   outline: none;
-  background-color: rgb(179, 178, 178);
+  background-color: rgb(206, 204, 204);
 }
 
 .horizontal-slider {
