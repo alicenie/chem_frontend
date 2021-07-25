@@ -82,7 +82,10 @@ class Selected extends Component {
                                             style={{ marginLeft: 5, cursor: "pointer" }}
                                             onClick={() => this.handleClick(i)}
                                             data-tip data-for="text-tooltip">
-                                            <span>{i.label}</span>
+                                            <ul style={{ listStyleType: "none", margin: 0, padding: 0 }}>
+                                                <li>{i.label}</li>
+                                                <li style={{ fontSize: 11 }}>Discovery time: 2000</li>
+                                            </ul>
                                             <ReactTooltip id="text-tooltip" type="light" place="bottom" backgroundColor="#555" textColor="#fff">
                                                 <span>Show details</span>
                                             </ReactTooltip>

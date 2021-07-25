@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HeatSquare from './HeatSquare';
+import RateTarget from './RateTarget';
 import { Container, Row, Col } from 'react-grid-system';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { setConfiguration } from 'react-grid-system';
@@ -162,7 +163,7 @@ class MainBlock extends Component {
 
                         <div key="f">
                             <Card variant="outlined" style={{ height: lowerHeight, padding: 0 }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Publication Trend View</p>
+                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Publication Trend</p>
                                 {/* <ScrollSyncPane> */}
                                 <StackedArea width={width / 14 * 11} height={lowerHeight} value={this.state.selectedTargets} />
                                 {/* </ScrollSyncPane> */}
@@ -188,6 +189,7 @@ class MainBlock extends Component {
                         <div key="e">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Summary View</p>
+                                <RateTarget targets={this.state.selectedTargets} height={upperHeight} />
                             </Card>
                         </div>
                     </GridLayout>
