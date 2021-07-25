@@ -70,28 +70,28 @@ class Selected extends Component {
 
                             return (
                                 <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
-                                    <div className="row" style={{ alignItems: "center", border: "1px solid #e9ecef", borderRadius: "10px", backgroundColor: this.color(i) }}>
-                                        <div className="col-4" style={{ paddingLeft: 6 }} >
-                                            <img src={Unknown} width="100" data-tip data-for="img-tooltip" />
+                                    <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", border: "1px solid #e9ecef", borderRadius: "10px", backgroundColor: this.color(i) }}>
+                                        <div className="col-3" style={{ paddingLeft: 6 }} >
+                                            <img src={Unknown} width="80" data-tip data-for="img-tooltip" />
                                             <ReactTooltip id="img-tooltip" type="light">
                                                 <img src={Unknown} width="200" />
                                             </ReactTooltip>
                                         </div>
                                         <div
-                                            className="col-6"
-                                            style={{ marginLeft: 5, cursor: "pointer" }}
+                                            className="col-7"
+                                            style={{ marginLeft: 5, cursor: "pointer", paddingLeft: 20, paddingRight: 0 }}
                                             onClick={() => this.handleClick(i)}
                                             data-tip data-for="text-tooltip">
                                             <ul style={{ listStyleType: "none", margin: 0, padding: 0 }}>
                                                 <li>{i.label}</li>
-                                                <li style={{ fontSize: 11 }}>Discovery time: 2000</li>
+                                                <li style={{ fontSize: 10 }}>Discovery time: 2000</li>
                                             </ul>
                                             <ReactTooltip id="text-tooltip" type="light" place="bottom" backgroundColor="#555" textColor="#fff">
                                                 <span>Show details</span>
                                             </ReactTooltip>
                                         </div>
                                         <div className="col-1">
-                                            <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
+                                            <IconButton aria-label="clear" style={{ marginLeft: -20 }} onClick={() => this.handleRemove(i)}>
                                                 <ClearIcon />
                                             </IconButton>
                                         </div>
