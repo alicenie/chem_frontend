@@ -42,7 +42,7 @@ class HeatSquare extends Component {
             .append("g")
             .attr("transform", "translate(0 ,10)");
 
-        // legend
+        // left legend
         const colorLegend = ["#a9d6e5", "#468faf", "#01497c"]
         svg.selectAll("rect#color").data(colorLegend).enter()
             .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d)
@@ -69,7 +69,7 @@ class HeatSquare extends Component {
 
 
         // axis
-        const domain = ["IC50", "Ki", "Kd", "Selectivity", "IC50 ", "Ki ", "Kd ", "EC50", "Selectivity ", "hERG", "Solubility", "ED50", "t(1/2)", "AUC", "Bioavail", "Solubility ", "I Adv.", "II Adv.", "III Adv."]
+        const domain = ["IC50", "Ki", "Kd", "Selectivity", "IC50 ", "Ki ", "Kd ", "EC50", "Selectivity ", "hERG", "Solubility", "ED50", "t(1/2)", "AUC", "Bioavail", "Solubility ", "Adverse-I", "Adverse-II", "Adverse-III"]
         var xScale = d3.scaleBand()
             .domain(domain)
             .range([0, width - 5]);
@@ -88,7 +88,8 @@ class HeatSquare extends Component {
     drawHeatSquare(container, data) {
         const { marginL, marginR } = this.state;
         const width = this.state.heatWidth - marginL - marginR, height = (this.state.Height) / 3;
-        // console.log("height", height)
+        console.log("heat data", data)
+
         d3.select(`#${container}`).selectAll("svg").remove()
         var svg = d3
             .select(`#${container}`).append("svg")
@@ -97,26 +98,33 @@ class HeatSquare extends Component {
             .append("g")
             .attr("transform", "translate(" + marginL + ",0)")
 
+        ////////////////////////////////////
+        //////////// med chem //////////////
+        ////////////////////////////////////
+        var svg1 = svg.append("g"), width1 = (width - 20) / 19 * 4, data1 = data.filter((d, i) => i < 4);
+        console.log("data1", data1)
+
         // x scale
         var xDomain = []
-        data.forEach(element => {
+        data1.forEach(element => {
             xDomain.push(element.label)
         });
-        var xScale = d3.scaleBand().domain(xDomain).range([0, width]);
+        var xScale = d3.scaleBand().domain(xDomain).range([0, width1]);
 
         // color scale
-        var colorScale = d3
-            .scaleSequential()
-            .interpolator(d3.interpolateBlues)
-            .domain([0, 10]);
+        // var colorScale = d3
+        //     .scaleSequential()
+        //     .interpolator(d3.interpolateGreens)
+        //     .domain([0, 10]);
+        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(254, 217, 183,0.2)", "rgba(254, 217, 183,1)"])
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
 
         // draw heat
-        svg
+        svg1
             .selectAll()
-            .data(data)
+            .data(data1)
             .enter()
             .append("rect")
             .attr("x", (d) => {
@@ -132,9 +140,9 @@ class HeatSquare extends Component {
             .style("stroke", "#ced4da");
 
         // draw line
-        for (var i = 0; i < data.length; i++) {
-            var lineData = data[i].line,
-                x = xScale(data[i].label),
+        for (var i = 0; i < data1.length; i++) {
+            var lineData = data1[i].line,
+                x = xScale(data1[i].label),
                 y = 0;
 
             var xLineScale = d3
@@ -153,7 +161,7 @@ class HeatSquare extends Component {
                 .y((d) => yLineScale(d.pub))
                 .curve(d3.curveMonotoneX);
 
-            svg
+            svg1
                 .append("path")
                 .datum(lineData)
                 .attr("class", "overview-line")
@@ -164,7 +172,7 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
-            svg.selectAll()
+            svg1.selectAll()
                 .data(lineData)
                 .enter()
                 .append("circle")
@@ -175,8 +183,189 @@ class HeatSquare extends Component {
                 .style("opacity", 0.7)
 
             var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
-            svg.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
+            svg1.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
+            svg1.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
+        }
+
+        ////////////////////////////////////
+        ////////// pharmocology ////////////
+        ////////////////////////////////////
+        var svg2 = svg.append("g").attr("transform", "translate(" + ((width - 20) / 19 * 4 + 10) + ",0)");
+        var width2 = (width - 20) / 19 * 12, data2 = data.filter((d, i) => i >= 4 && i < 16);
+        console.log("data2", data2)
+
+        // x scale
+        var xDomain = []
+        data2.forEach(element => {
+            xDomain.push(element.label)
+        });
+        var xScale = d3.scaleBand().domain(xDomain).range([0, width2]);
+
+        // color scale
+        // var colorScale = d3
+        //     .scaleSequential()
+        //     .interpolator(d3.interpolateBlues)
+        //     .domain([0, 10]);
+        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,1)"])
+
+
+        // square scale
+        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
+
+        // draw heat
+        svg2
+            .selectAll()
+            .data(data2)
+            .enter()
+            .append("rect")
+            .attr("x", (d) => {
+                // console.log("x:", xScale(d.label))
+                return xScale(d.label)
+            })
+            .attr("y", "0")
+            .attr("width", xScale.bandwidth())
+            .attr("height", height)
+            .attr("fill", (d) => colorScale(d.hvalue))
+            .style("opacity", 0.8)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da");
+
+        // draw line
+        for (var i = 0; i < data2.length; i++) {
+            var lineData = data2[i].line,
+                x = xScale(data2[i].label),
+                y = 0;
+
+            var xLineScale = d3
+                .scaleLinear()
+                .range([x, x + xScale.bandwidth() - 14])
+                .domain(d3.extent(lineData, (d) => d.value));
+
+            var yLineScale = d3
+                .scaleLinear()
+                .range([height - 10, 0])
+                .domain([0, 15]); // fixed?
+
+            var line = d3
+                .line()
+                .x((d) => xLineScale(d.value))
+                .y((d) => yLineScale(d.pub))
+                .curve(d3.curveMonotoneX);
+
+            svg2
+                .append("path")
+                .datum(lineData)
+                .attr("class", "overview-line")
+                .attr("d", line)
+                .style("fill", "none")
+                .attr("stroke", "#6c757d")
+                .attr("stroke-width", 1)
+                .attr("transform", "translate(7,0)")
+                .style("opacity", 0.7);
+
+            svg2.selectAll()
+                .data(lineData)
+                .enter()
+                .append("circle")
+                .attr("cx", (d) => xLineScale(d.value) + 7)
+                .attr("cy", (d) => yLineScale(d.pub))
+                .attr("r", 1.5)
+                .style("fill", "#6c757d")
+                .style("opacity", 0.7)
+
+            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
+            svg2.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
+            svg2.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
+        }
+
+        ////////////////////////////////////
+        ////////// Pharmaceutics ///////////
+        ////////////////////////////////////
+        var svg3 = svg.append("g").attr("transform", "translate(" + ((width - 20) / 19 * 16 + 20) + ",0)");
+        var width2 = (width - 20) / 19 * 3, data3 = data.filter((d, i) => i >= 16);
+        console.log("data3", data3)
+
+        // x scale
+        var xDomain = []
+        data3.forEach(element => {
+            xDomain.push(element.label)
+        });
+        var xScale = d3.scaleBand().domain(xDomain).range([0, width2]);
+
+        // color scale
+        // var colorScale = d3
+        //     .scaleSequential()
+        //     .interpolator(d3.interpolateGreens)
+        //     .domain([0, 10]);
+        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(0, 175, 185,0.2)", "rgba(0, 175, 185,1)"])
+
+        // square scale
+        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
+
+        // draw heat
+        svg3
+            .selectAll()
+            .data(data3)
+            .enter()
+            .append("rect")
+            .attr("x", (d) => {
+                // console.log("x:", xScale(d.label))
+                return xScale(d.label)
+            })
+            .attr("y", "0")
+            .attr("width", xScale.bandwidth())
+            .attr("height", height)
+            .attr("fill", (d) => colorScale(d.hvalue))
+            .style("opacity", 0.8)
+            .style("stroke-width", 2)
+            .style("stroke", "#ced4da");
+
+        // draw line
+        for (var i = 0; i < data3.length; i++) {
+            var lineData = data3[i].line,
+                x = xScale(data3[i].label),
+                y = 0;
+
+            var xLineScale = d3
+                .scaleLinear()
+                .range([x, x + xScale.bandwidth() - 14])
+                .domain(d3.extent(lineData, (d) => d.value));
+
+            var yLineScale = d3
+                .scaleLinear()
+                .range([height - 10, 0])
+                .domain([0, 15]); // fixed?
+
+            var line = d3
+                .line()
+                .x((d) => xLineScale(d.value))
+                .y((d) => yLineScale(d.pub))
+                .curve(d3.curveMonotoneX);
+
+            svg3
+                .append("path")
+                .datum(lineData)
+                .attr("class", "overview-line")
+                .attr("d", line)
+                .style("fill", "none")
+                .attr("stroke", "#6c757d")
+                .attr("stroke-width", 1)
+                .attr("transform", "translate(7,0)")
+                .style("opacity", 0.7);
+
+            svg3.selectAll()
+                .data(lineData)
+                .enter()
+                .append("circle")
+                .attr("cx", (d) => xLineScale(d.value) + 7)
+                .attr("cy", (d) => yLineScale(d.pub))
+                .attr("r", 1.5)
+                .style("fill", "#6c757d")
+                .style("opacity", 0.7)
+
+            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
+            svg3.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
+            svg3.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
         }
 
         // draw square

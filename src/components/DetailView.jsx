@@ -323,8 +323,8 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", 20 + this.state.medchemWidth)
             .attr("height", rectheight)
-            .style("fill", "#edeec9")
-            .style("opacity", 0.5)
+            .style("fill", "rgba(240, 113, 103,0.2)")
+            // .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
             .style("stroke-width", 2)
@@ -358,8 +358,8 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .attr("height", rectheight)
-            .style("fill", "#ecf8f8")
-            .style("opacity", 0.5)
+            .style("fill", "rgba(179, 146, 172,0.2)")
+            // .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
             .style("stroke-width", 2)
@@ -408,7 +408,7 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", this.state.sankeyWidth)
             .attr("height", rectheight)
-            .style("fill", "#fff8e8")
+            .style("fill", "#f0f0f0")
             .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -548,6 +548,7 @@ class DetailView extends Component {
         d3.selectAll('.detail_path').remove()
         d3.selectAll(".heatmap").remove()
         d3.selectAll(".sankey").remove()
+        d3.selectAll("g.sort").style("opacity", 1)
         var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort),
             node_pos = this.drawNetwork(),
             vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort),
@@ -579,11 +580,12 @@ class DetailView extends Component {
             // node color scale
             var colorScale = d3
                 .scaleLinear()
-                .domain([1, 2, 3, 4, 5])
-                .range(["#f1dca7", "#ffcb69", "#e8ac65", "#d08c60", "#b58463"])
+                .domain([1, 5])
+                .range(["rgba(240, 113, 103,0.2)", "rgba(240, 113, 103,1)"])
+            // .range(["#f1dca7", "#ffcb69", "#e8ac65", "#d08c60", "#b58463"])
             // .range(["#f7b267", "#f79d65", "#f4845f", "#f27059", "#f25c54"])
             // .range(["#edeec9", "#dde7c7", "#bfd8bd", "#98c9a3", "#77bfa3"])
-            // .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"])
+            // .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"]) // pink
 
             // node r scale
             var rScale = d3.scaleLinear().domain([1, 10]).range([10, 20])
@@ -726,6 +728,8 @@ class DetailView extends Component {
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
+            .attr("class", "sort")
+            .style("opacity", 0)
             .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
@@ -925,9 +929,12 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([1, 8]);
 
-            var colorScale = d3.scaleOrdinal()
-                .domain([0, 1, 2, 3, 4, 5, 6])
-                .range(["white", "#d8f3dc", "#b7e4c7", "#95d5b2", "#74c69d", "#52b788", "#40916c"])
+            var colorScale = d3.scaleLinear()
+                .domain([0, 6])
+                .range(["rgba(179, 146, 172,0)", "rgba(179, 146, 172,1)"])
+            // .range(["white", "#efedf5", "#dadaeb", "#bcbddc", "#9e9ac8", "#807dba", "#6a51a3"]) // purple
+            // .range(["white", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5"]) // blue
+            // .range(["white", "#d8f3dc", "#b7e4c7", "#95d5b2", "#74c69d", "#52b788", "#40916c"])
             // .range(["white", "#fdf8e1", "#fcefb4", "#fae588", "#f9dc5c", "#ffc617", "#ffc000"])
 
             // set tooltips
@@ -1030,6 +1037,8 @@ class DetailView extends Component {
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
+            .attr("class", "sort")
+            .style("opacity", 0)
             .attr("transform", "translate(" + (30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
@@ -1251,9 +1260,11 @@ class DetailView extends Component {
             //     .scaleSequential()
             //     .interpolator(d3.interpolateOranges)
             //     .domain([0, 8]);
-            var colorScale = d3.scaleOrdinal()
-                .domain([0, 1, 2, 3, 4, 5, 6])
-                .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
+            var colorScale = d3.scaleLinear()
+                .domain([0, 6])
+                .range(["rgba(179, 146, 172,0)", "rgba(179, 146, 172,1)"])
+            // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
+            // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
             // .range(["white", "#ffe3e0", "#fbc3bc", "#f7a399", "#f38375", "#ef6351", "#c32f27"])
 
             // set tooltips
@@ -1454,7 +1465,8 @@ class DetailView extends Component {
             var colorScale = d3
                 .scaleOrdinal()
                 .domain([0, 8])
-                .range(["#eddcd2", "#fde2e4", "#fad2e1", "#99c1de", "#c5dedd", "#fff1e6", "#dbe7e4", "#bcd4e6", "#d6e2e9"])
+                .range(["#8dd3c7", "#c51b7d", "#bebada", "#b3de69", "#fccde5", "#d9d9d9", "#b35806", "#984ea3", "#bf812d"])
+            // .range(["#eddcd2", "#fde2e4", "#fad2e1", "#99c1de", "#c5dedd", "#fff1e6", "#dbe7e4", "#bcd4e6", "#d6e2e9"])
 
             // set tooltips
             var tooltip = d3

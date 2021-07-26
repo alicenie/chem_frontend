@@ -53,7 +53,9 @@ class StackedArea extends Component {
         // color palette
         var color = d3.scaleOrdinal()
             .domain(keys)
-            .range(["#cbc0d3", "#efd3d7", "#feeafa"]);
+            .range(["rgba(0, 175, 185,0.6)", "rgba(0, 129, 167,0.6)", "rgba(254, 217, 183,0.8)"])
+        //     .range(["#e31a1c", "#4292c6", "#fed976"])
+        // .range(["#fec5bb", "#bee1e6", "#ffe1a8"]); // red blue yellow
 
         //stack the data?
         var stackedData = d3.stack()
@@ -110,6 +112,7 @@ class StackedArea extends Component {
             .append("path")
             .attr("class", function (d) { return "myArea " + d.key })
             .style("fill", function (d) { return color(d.key); })
+            // .style("opacity", 0.5)
             .attr("d", area)
 
         // Add the brushing

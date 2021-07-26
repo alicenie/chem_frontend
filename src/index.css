@@ -61,6 +61,12 @@ div.tooltip {
   r: 35;
 }
 
+text.rd3t-label__title {
+  font-size: 50px;
+  fill: black;
+  stroke-width: 0;
+}
+
 path.root-path-class {
   opacity: 0;
   stroke-width: 0;
