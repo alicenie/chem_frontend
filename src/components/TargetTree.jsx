@@ -218,7 +218,7 @@ class TargetTree extends Component {
                             <div style={{ width: '30em', height: '30em' }}>
                                 <Tree data={tree.treeChart} orientation={'vertical'}
                                     rootNodeClassName={'root-node'}
-                                    translate={{ x: 150, y: 50 }}
+                                    translate={{ x: 130, y: 50 }}
                                     zoom={0.6 / Math.sqrt(tree.num_leaf)}
                                     zoomable={false}
                                     collapsible={false}

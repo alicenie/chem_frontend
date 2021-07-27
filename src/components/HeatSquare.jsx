@@ -10,8 +10,8 @@ class HeatSquare extends Component {
             Height: this.props.height - 75,
             heatWidth: this.props.width,
             targetList: this.props.value,
-            marginL: 10,
-            marginR: 20,
+            marginL: 6,
+            marginR: 12,
         }
     }
 
@@ -43,17 +43,31 @@ class HeatSquare extends Component {
             .attr("transform", "translate(0 ,10)");
 
         // left legend
-        const colorLegend = ["#a9d6e5", "#468faf", "#01497c"]
-        svg.selectAll("rect#color").data(colorLegend).enter()
-            .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d)
+        const colorLegend1 = ["rgba(254, 217, 183,0.2)", "rgba(254, 217, 183,0.6)", "rgba(254, 217, 183,1)"]
+        svg.selectAll("rect#color").data(colorLegend1).enter().append("rect").attr("x", (d, i) => i * 25).attr("y", -5)
+            .attr("width", 20).attr("height", 15).attr("fill", "white")
+        svg.selectAll("rect#color").data(colorLegend1).enter()
+            .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey");
 
-        const squareLegend = ["10", "15", "20"]
-        svg.selectAll("rect#square").data(squareLegend).enter()
-            .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", d => 2 - 1 / 2 * d)
-            .attr("width", d => d).attr("height", d => d)
-            .attr("fill", "white")
-            .style("stroke-width", 1)
-            .style("stroke", "#adb5bd")
+        const colorLegend2 = ["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,0.6)", "rgba(0, 129, 167,1)"]
+        svg.selectAll("rect#color").data(colorLegend2).enter()
+            .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
+        svg.selectAll("rect#color").data(colorLegend2).enter()
+            .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
+
+        const colorLegend3 = ["rgba(0, 175, 185,0.2)", "rgba(0, 175, 185,0.6)", "rgba(0, 175, 185,1)"]
+        svg.selectAll("rect#color").data(colorLegend3).enter()
+            .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
+        svg.selectAll("rect#color").data(colorLegend3).enter()
+            .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
+
+        // const squareLegend = ["10", "15", "20"]
+        // svg.selectAll("rect#square").data(squareLegend).enter()
+        //     .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", d => 2 - 1 / 2 * d)
+        //     .attr("width", d => d).attr("height", d => d)
+        //     .attr("fill", "white")
+        //     .style("stroke-width", 1)
+        //     .style("stroke", "#adb5bd")
     }
 
     drawUpperAxis(container) {
@@ -63,7 +77,7 @@ class HeatSquare extends Component {
         d3.select("#" + container).selectAll("svg").remove()
         var svg = d3.select("#" + container).append("svg")
             .attr("width", width + marginL)
-            .attr("height", "35px")
+            .attr("height", "38px")
             .append("g")
             .attr("transform", "translate(" + marginL + ",10)");
 
@@ -101,7 +115,7 @@ class HeatSquare extends Component {
         ////////////////////////////////////
         //////////// med chem //////////////
         ////////////////////////////////////
-        var svg1 = svg.append("g"), width1 = (width - 20) / 19 * 4, data1 = data.filter((d, i) => i < 4);
+        var svg1 = svg.append("g"), width1 = (width - 10) / 19 * 4, data1 = data.filter((d, i) => i < 4);
         console.log("data1", data1)
 
         // x scale
@@ -190,8 +204,8 @@ class HeatSquare extends Component {
         ////////////////////////////////////
         ////////// pharmocology ////////////
         ////////////////////////////////////
-        var svg2 = svg.append("g").attr("transform", "translate(" + ((width - 20) / 19 * 4 + 10) + ",0)");
-        var width2 = (width - 20) / 19 * 12, data2 = data.filter((d, i) => i >= 4 && i < 16);
+        var svg2 = svg.append("g").attr("transform", "translate(" + ((width - 10) / 19 * 4 + 5) + ",0)");
+        var width2 = (width - 10) / 19 * 12, data2 = data.filter((d, i) => i >= 4 && i < 16);
         console.log("data2", data2)
 
         // x scale
@@ -281,8 +295,8 @@ class HeatSquare extends Component {
         ////////////////////////////////////
         ////////// Pharmaceutics ///////////
         ////////////////////////////////////
-        var svg3 = svg.append("g").attr("transform", "translate(" + ((width - 20) / 19 * 16 + 20) + ",0)");
-        var width2 = (width - 20) / 19 * 3, data3 = data.filter((d, i) => i >= 16);
+        var svg3 = svg.append("g").attr("transform", "translate(" + ((width - 10) / 19 * 16 + 10) + ",0)");
+        var width2 = (width - 10) / 19 * 3, data3 = data.filter((d, i) => i >= 16);
         console.log("data3", data3)
 
         // x scale
@@ -396,8 +410,8 @@ class HeatSquare extends Component {
                     <div className="col-3 pl-1">
                         <p>Overview</p>
                     </div>
-                    <div className="col-6"></div>
-                    <div className="col-3" id="legend">
+                    <div className="col-5"></div>
+                    <div className="col-4" id="legend">
                     </div>
                 </div>
                 <div id="upper-axis"></div>

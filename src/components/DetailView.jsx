@@ -549,9 +549,9 @@ class DetailView extends Component {
         d3.selectAll(".heatmap").remove()
         d3.selectAll(".sankey").remove()
         d3.selectAll("g.sort").style("opacity", 1)
-        var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort),
-            node_pos = this.drawNetwork(),
-            vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort),
+        var { node_pos, initial_sort } = this.drawNetwork();
+        var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort, initial_sort),
+            vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort, initial_sort),
             sankey_pos = this.drawSankeyChart();
         this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
     }
@@ -588,7 +588,8 @@ class DetailView extends Component {
             // .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"]) // pink
 
             // node r scale
-            var rScale = d3.scaleLinear().domain([1, 10]).range([10, 20])
+            var radius = 15;
+            var rScale = d3.scaleLinear().domain([1, 10]).range([5, radius])
 
             // set tooltips
             var tooltip = d3
@@ -627,19 +628,20 @@ class DetailView extends Component {
                 .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
-                    return rScale(d.value)
+                    // return rScale(d.value)
+                    return radius + 3
                 }))
                 .stop()
 
             // make the simulation run without drawing anything
             for (var i = 0; i < 300; ++i) simulation.tick();
             // console.log("simulation end")
-            console.log(nodes)
+            console.log("nodes", nodes)
             node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y } })
             console.log(node_pos)
             // this.setState({ node_pos })
 
-            // draw it manually using the x and y created by simulation
+            // draw nodes manually using the x and y created by simulation
             var node = svg
                 .selectAll("circle")
                 .data(nodes)
@@ -649,7 +651,9 @@ class DetailView extends Component {
                 .attr("r", d => rScale(d.value))
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
-                .style("fill", (d) => colorScale(d.group))
+                // .style("stroke", (d) => colorScale(d.group))
+                // .style("stroke-width", 4)
+                .style("fill", (d) => "#f4978e")
                 .on("mouseover", function (event, d) {
                     // console.log(d.id)
 
@@ -716,9 +720,43 @@ class DetailView extends Component {
                 })
             // .call(drag(simulation));
 
-            // this.setState({ node_pos })
+            // draw arc
+            var arc_data = [{ position: 5, value: 1 }, { position: 10, value: 1 }, { position: 15, value: 1 }, { position: 20, value: 1 }]
+            nodes.forEach(node => {
+                var svg = d3
+                    .select("svg#detail_svg")
+                    .append("g")
+                    .attr("transform", "translate(" + (10 + node.x + "," + node.y + ")"))
+
+                var arc_data_ready = d3.pie().value(d => d.value)(arc_data)
+
+                var arc = d3.arc()
+                    .innerRadius(radius)
+                    .outerRadius(radius + 3)
+                    // .startAngle(0.5 * Math.PI)
+                    // .endAngle(Math.PI)
+                    .padAngle(0.03 * Math.PI);
+
+                // console.log("level", node.level)
+                svg.selectAll()
+                    .data(arc_data_ready)
+                    .enter()
+                    .append("path")
+                    .attr("class", "network")
+                    .attr("d", arc)
+                    .attr("fill", (d) => {
+                        // console.log(d.data.position)
+                        return d.data.position < node.level ? "#f4978e" : "lightgrey"
+                    })
+            })
+
+            // initial vitro heatmap order
+            var initial_sort = nodes.sort((a, b) => a.y - b.y).map(d => d.id)
+            console.log("initial_sort", initial_sort)
+
         }
-        return node_pos
+
+        return { node_pos, initial_sort }
     }
 
     drawVitroSort() {
@@ -873,7 +911,7 @@ class DetailView extends Component {
             });
     }
 
-    drawVitroHeatmap(sort) {
+    drawVitroHeatmap(sort, initial_sort) {
         if (this.props.detaildata[1]) {
 
             console.log("draw vitro heatmap")
@@ -908,6 +946,7 @@ class DetailView extends Component {
                 if (!yDomain.includes(d.id)) yDomain.push(d.id)
             })
             if (sort.attr) yDomain = this.sortBy(data, sort.attr, sort.acsending);
+            else if (initial_sort) yDomain = initial_sort.filter(d => yDomain.includes(d))
             var yRange = [0, yDomain.length * xScale.bandwidth()]
             var yScale = d3.scaleBand().domain(yDomain).range(yRange)
 
@@ -1202,7 +1241,7 @@ class DetailView extends Component {
         //     });
     }
 
-    drawVivoHeatmap(sort) {
+    drawVivoHeatmap(sort, initial_sort) {
         if (this.props.detaildata[2]) {
 
             console.log("draw vivo heatmap")
@@ -1240,6 +1279,7 @@ class DetailView extends Component {
             })
             // var attr = "ED50";
             if (sort.attr) yDomain = this.sortBy(data, sort.attr, sort.acsending);
+            else if (initial_sort) yDomain = initial_sort.filter(d => yDomain.includes(d))
             var yRange = [0, yDomain.length * xScale.bandwidth()]
             var yScale = d3.scaleBand().domain(yDomain).range(yRange)
 
@@ -1524,7 +1564,8 @@ class DetailView extends Component {
                         .attr("height", rectHeight)
                         .attr("id", d => d.id)
                         .attr("class", "sankey")
-                        .style("fill", d => colorScale(d.status))
+                        // .style("fill", d => colorScale(d.status))
+                        .style("fill", "lightgrey")
                         .style("stroke-width", 0.5)
                         .style("stroke", "white")
                         .on("mouseover", (event, d) => {
@@ -1592,6 +1633,25 @@ class DetailView extends Component {
                                 .attr("opacity", 0.5)
                                 .attr("stroke-width", 1)
                         })
+
+                    var statuslist = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+                    // add text
+                    sankeysvg.selectAll("rect#sankey")
+                        .data(company_obj_list)
+                        .enter()
+                        .append("text")
+                        .attr("x", (parseInt(phase) - 1) * x_offset + 1 / 2 * rectWidth)
+                        .attr("y", (d, i) => {
+                            // store pos for path
+                            if (phase === "1") phase1_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else if (phase === "2") phase2_pos.push({ id: d.company_name, x_in: (parseInt(phase) - 1) * x_offset, x_out: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else phase3_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset, y: (i + 0.5) * rectHeight + offset });
+
+                            return i * rectHeight + offset + 3 / 4 * rectHeight
+                        })
+                        .text(d => statuslist[d.status])
+                        .style("font-size", 12)
+                        .attr("text-anchor", "middle")
                 })
                 // store pos
                 sankey_pos.push({

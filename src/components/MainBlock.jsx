@@ -88,10 +88,10 @@ class MainBlock extends Component {
     render() {
 
         const layout = [
-            { i: 'a', x: 0, y: 9, w: 12, h: 14, static: true },
-            { i: 'b', x: 0, y: 0, w: 12, h: 9, static: true },
-            { i: 'c', x: 12, y: 9, w: 38, h: 14, static: true },
-            { i: 'd', x: 12, y: 0, w: 38, h: 9, static: true },
+            { i: 'a', x: 0, y: 9, w: 11, h: 14, static: true },
+            { i: 'b', x: 0, y: 0, w: 11, h: 9, static: true },
+            { i: 'c', x: 11, y: 9, w: 39, h: 14, static: true },
+            { i: 'd', x: 11, y: 0, w: 39, h: 9, static: true },
             { i: 'e', x: 50, y: 9, w: 10, h: 14, static: true },
             { i: 'f', x: 50, y: 0, w: 10, h: 9, static: true },
         ];
@@ -150,14 +150,14 @@ class MainBlock extends Component {
                                         <SearchIcon style={{ marginTop: 6, marginLeft: -25, opacity: 0.6 }} />
                                     </Col>
                                 </Row>
-                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 60 * 12} />
+                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 60 * 11} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>
 
                         <div key="d">
                             <Card variant="outlined" style={{ height: lowerHeight }}>
-                                <HeatSquare width={width / 60 * 38} height={lowerHeight} value={this.state.selectedTargets} />
+                                <HeatSquare width={width / 60 * 39} height={lowerHeight} value={this.state.selectedTargets} />
                             </Card>
                         </div>
 
@@ -182,7 +182,7 @@ class MainBlock extends Component {
                                 <DetailView height={upperHeight}
                                     detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
                                     sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
-                                    width={width / 60 * 38} />
+                                    width={width / 60 * 39} />
                             </Card>
                         </div>
 
