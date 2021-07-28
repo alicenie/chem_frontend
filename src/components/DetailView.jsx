@@ -11,13 +11,13 @@ class DetailView extends Component {
             Width: this.props.width,
             marginL: 0,
             marginR: 0,
-            medchemWidth: (this.props.width - 30 - 30) / 14 * 5,
-            vitroWidth: (this.props.width - 30 - 30) / 14 * 3,
-            vivoWidth: (this.props.width - 30 - 30) / 14 * 2,
-            sankeyWidth: (this.props.width - 30 - 30) / 14 * 4,
+            medchemWidth: (this.props.width - 30 - 30) / 7 * 2,
+            vitroWidth: (this.props.width - 30 - 30) / 7 * 1,
+            vivoWidth: (this.props.width - 30 - 30) / 7 * 1,
+            sankeyWidth: (this.props.width - 30 - 30) / 7 * 3,
             vitroSort: { attr: null, acsending: null },
             vivoSort: { attr: null, acsending: null },
-            heatSquareLength: ((this.props.width - 30 - 30) / 14 * 5 - 40) / 12
+            heatSquareLength: ((this.props.width - 30 - 30) / 7 * 2 - 40) / 14
         }
     }
 
@@ -323,7 +323,7 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", 20 + this.state.medchemWidth)
             .attr("height", rectheight)
-            .style("fill", "rgba(240, 113, 103,0.2)")
+            .style("fill", "rgba(240, 113, 103,0.1)")
             // .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -358,7 +358,7 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .attr("height", rectheight)
-            .style("fill", "rgba(179, 146, 172,0.2)")
+            .style("fill", "rgba(0, 129, 167,0.1)")
             // .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -408,7 +408,7 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", this.state.sankeyWidth)
             .attr("height", rectheight)
-            .style("fill", "#f0f0f0")
+            .style("fill", "rgba(209, 179, 196,0.4)")
             .style("opacity", 0.5)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -970,7 +970,7 @@ class DetailView extends Component {
 
             var colorScale = d3.scaleLinear()
                 .domain([0, 6])
-                .range(["rgba(179, 146, 172,0)", "rgba(179, 146, 172,1)"])
+                .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#efedf5", "#dadaeb", "#bcbddc", "#9e9ac8", "#807dba", "#6a51a3"]) // purple
             // .range(["white", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5"]) // blue
             // .range(["white", "#d8f3dc", "#b7e4c7", "#95d5b2", "#74c69d", "#52b788", "#40916c"])
@@ -1078,7 +1078,7 @@ class DetailView extends Component {
             .append("g")
             .attr("class", "sort")
             .style("opacity", 0)
-            .attr("transform", "translate(" + (30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
 
         // x scale
         var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
@@ -1190,7 +1190,7 @@ class DetailView extends Component {
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
-            .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
 
         // x scale
         var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
@@ -1252,7 +1252,7 @@ class DetailView extends Component {
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+                .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
 
             console.log("heatmap", this.props.detaildata[2])
             var data = this.props.detaildata[2];
@@ -1288,8 +1288,8 @@ class DetailView extends Component {
             yDomain.forEach(d => {
                 vivo_heat_pos.push({
                     id: d,
-                    x_in: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left),
-                    x_out: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + xDomain.length * xScale.bandwidth()),
+                    x_in: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength),
+                    x_out: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength + xDomain.length * xScale.bandwidth()),
                     y: yScale(d) + margin.top + 1 / 2 * yScale.bandwidth()
                 })
             })
@@ -1302,7 +1302,7 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             var colorScale = d3.scaleLinear()
                 .domain([0, 6])
-                .range(["rgba(179, 146, 172,0)", "rgba(179, 146, 172,1)"])
+                .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
             // .range(["white", "#ffe3e0", "#fbc3bc", "#f7a399", "#f38375", "#ef6351", "#c32f27"])
@@ -1565,7 +1565,7 @@ class DetailView extends Component {
                         .attr("id", d => d.id)
                         .attr("class", "sankey")
                         // .style("fill", d => colorScale(d.status))
-                        .style("fill", "lightgrey")
+                        .style("fill", "rgba(209, 179, 196,0.5)")
                         .style("stroke-width", 0.5)
                         .style("stroke", "white")
                         .on("mouseover", (event, d) => {

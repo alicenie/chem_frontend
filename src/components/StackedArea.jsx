@@ -53,7 +53,7 @@ class StackedArea extends Component {
         // color palette
         var color = d3.scaleOrdinal()
             .domain(keys)
-            .range(["rgba(0, 175, 185,0.6)", "rgba(0, 129, 167,0.6)", "rgba(254, 217, 183,0.8)"])
+            .range(["rgba(209, 179, 196,0.4)", "rgba(0, 129, 167,0.4)", "rgba(240, 128, 128,0.4)"])
         //     .range(["#e31a1c", "#4292c6", "#fed976"])
         // .range(["#fec5bb", "#bee1e6", "#ffe1a8"]); // red blue yellow
 

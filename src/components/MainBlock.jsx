@@ -90,7 +90,7 @@ class MainBlock extends Component {
         const layout = [
             { i: 'a', x: 0, y: 9, w: 11, h: 14, static: true },
             { i: 'b', x: 0, y: 0, w: 11, h: 9, static: true },
-            { i: 'c', x: 11, y: 9, w: 39, h: 14, static: true },
+            { i: 'c', x: 11, y: 9, w: 49, h: 14, static: true },
             { i: 'd', x: 11, y: 0, w: 39, h: 9, static: true },
             { i: 'e', x: 50, y: 9, w: 10, h: 14, static: true },
             { i: 'f', x: 50, y: 0, w: 10, h: 9, static: true },
@@ -182,16 +182,16 @@ class MainBlock extends Component {
                                 <DetailView height={upperHeight}
                                     detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
                                     sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
-                                    width={width / 60 * 39} />
+                                    width={width / 60 * 49} />
                             </Card>
                         </div>
 
-                        <div key="e">
+                        {/* <div key="e">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Summary View</p>
                                 <RateTarget targets={this.state.selectedTargets} height={upperHeight} />
                             </Card>
-                        </div>
+                        </div> */}
                     </GridLayout>
                 </ScrollSync>
 

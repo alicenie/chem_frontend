@@ -40,26 +40,60 @@ class HeatSquare extends Component {
             .attr("width", width + marginL)
             .attr("height", "80px")
             .append("g")
-            .attr("transform", "translate(0 ,10)");
+            .attr("transform", "translate(20 ,4)");
 
-        // left legend
-        const colorLegend1 = ["rgba(254, 217, 183,0.2)", "rgba(254, 217, 183,0.6)", "rgba(254, 217, 183,1)"]
-        svg.selectAll("rect#color").data(colorLegend1).enter().append("rect").attr("x", (d, i) => i * 25).attr("y", -5)
-            .attr("width", 20).attr("height", 15).attr("fill", "white")
-        svg.selectAll("rect#color").data(colorLegend1).enter()
-            .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey");
+        var colors = ["240, 128, 128", "0, 129, 167", "209, 179, 196"]
+        colors.forEach((color, i) => {
+            var linearGradient = svg.append("defs").append("linearGradient")
+                .attr("id", `linear-gradient-${i}`);
 
-        const colorLegend2 = ["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,0.6)", "rgba(0, 129, 167,1)"]
-        svg.selectAll("rect#color").data(colorLegend2).enter()
-            .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
-        svg.selectAll("rect#color").data(colorLegend2).enter()
-            .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
+            linearGradient
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "100%")
+                .attr("y2", "0%");
 
-        const colorLegend3 = ["rgba(0, 175, 185,0.2)", "rgba(0, 175, 185,0.6)", "rgba(0, 175, 185,1)"]
-        svg.selectAll("rect#color").data(colorLegend3).enter()
-            .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
-        svg.selectAll("rect#color").data(colorLegend3).enter()
-            .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
+            //Set the color for the start (0%)
+            linearGradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", "rgba(" + color + ",0.2)");
+
+            //Set the color for the end (100%)
+            linearGradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", "rgba(" + color + ",0.8)");
+
+            svg.append("rect")
+                .attr("width", 45)
+                .attr("height", 15)
+                .style("fill", "white")
+                .attr("x", 0 + i * 70)
+                .attr("y", 0);
+            svg.append("rect")
+                .attr("width", 45)
+                .attr("height", 15)
+                .style("fill", `url(#linear-gradient-${i})`)
+                .attr("x", 0 + i * 70)
+                .attr("y", 0);
+        })
+        // color legend
+        // const colorLegend1 = ["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,0.6)", "rgba(240, 128, 128,1)"]
+        // svg.selectAll("rect#color").data(colorLegend1).enter().append("rect").attr("x", (d, i) => i * 25).attr("y", -5)
+        //     .attr("width", 20).attr("height", 15).attr("fill", "white")
+        // svg.selectAll("rect#color").data(colorLegend1).enter()
+        //     .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey");
+
+        // const colorLegend2 = ["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,0.6)", "rgba(0, 129, 167,1)"]
+        // svg.selectAll("rect#color").data(colorLegend2).enter()
+        //     .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
+        // svg.selectAll("rect#color").data(colorLegend2).enter()
+        //     .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
+
+        // const colorLegend3 = ["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,0.6)", "rgba(209, 179, 196,1)"]
+        // svg.selectAll("rect#color").data(colorLegend3).enter()
+        //     .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
+        // svg.selectAll("rect#color").data(colorLegend3).enter()
+        //     .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
 
         // const squareLegend = ["10", "15", "20"]
         // svg.selectAll("rect#square").data(squareLegend).enter()
@@ -130,7 +164,7 @@ class HeatSquare extends Component {
         //     .scaleSequential()
         //     .interpolator(d3.interpolateGreens)
         //     .domain([0, 10]);
-        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(254, 217, 183,0.2)", "rgba(254, 217, 183,1)"])
+        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,1)"])
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
@@ -311,7 +345,7 @@ class HeatSquare extends Component {
         //     .scaleSequential()
         //     .interpolator(d3.interpolateGreens)
         //     .domain([0, 10]);
-        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(0, 175, 185,0.2)", "rgba(0, 175, 185,1)"])
+        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
@@ -410,8 +444,8 @@ class HeatSquare extends Component {
                     <div className="col-3 pl-1">
                         <p>Overview</p>
                     </div>
-                    <div className="col-5"></div>
-                    <div className="col-4" id="legend">
+                    <div className="col-6"></div>
+                    <div className="col-3" id="legend">
                     </div>
                 </div>
                 <div id="upper-axis"></div>
