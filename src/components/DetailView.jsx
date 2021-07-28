@@ -11,13 +11,13 @@ class DetailView extends Component {
             Width: this.props.width,
             marginL: 0,
             marginR: 0,
-            medchemWidth: (this.props.width - 30 - 30) / 7 * 2,
-            vitroWidth: (this.props.width - 30 - 30) / 7 * 1,
-            vivoWidth: (this.props.width - 30 - 30) / 7 * 1,
-            sankeyWidth: (this.props.width - 30 - 30) / 7 * 3,
+            medchemWidth: (this.props.width - 30 - 30) / 7 * 2.1,
+            vitroWidth: (this.props.width - 30 - 30) / 7 * 1.1,
+            vivoWidth: (this.props.width - 30 - 30) / 7 * 1.1,
+            sankeyWidth: (this.props.width - 30 - 30) / 7 * 2.7,
             vitroSort: { attr: null, acsending: null },
             vivoSort: { attr: null, acsending: null },
-            heatSquareLength: ((this.props.width - 30 - 30) / 7 * 2 - 40) / 14
+            heatSquareLength: ((this.props.width - 30 - 30) / 7 * 2.2 - 40) / 14
         }
     }
 
@@ -581,7 +581,7 @@ class DetailView extends Component {
             var colorScale = d3
                 .scaleLinear()
                 .domain([1, 5])
-                .range(["rgba(240, 113, 103,0.2)", "rgba(240, 113, 103,1)"])
+                .range(["rgba(240, 113, 103,0.1)", "rgba(240, 113, 103,1)"])
             // .range(["#f1dca7", "#ffcb69", "#e8ac65", "#d08c60", "#b58463"])
             // .range(["#f7b267", "#f79d65", "#f4845f", "#f27059", "#f25c54"])
             // .range(["#edeec9", "#dde7c7", "#bfd8bd", "#98c9a3", "#77bfa3"])
@@ -693,6 +693,9 @@ class DetailView extends Component {
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 1)
                         .attr("stroke-width", 2)
+
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 0.5)
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
@@ -717,6 +720,9 @@ class DetailView extends Component {
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
+
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 1)
                 })
             // .call(drag(simulation));
 
@@ -1041,6 +1047,9 @@ class DetailView extends Component {
                         .attr("opacity", 1)
                         .attr("stroke-width", 2)
 
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 0.5)
+
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
@@ -1065,6 +1074,9 @@ class DetailView extends Component {
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
+
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 1)
                 })
         }
         return vitro_heat_pos
@@ -1372,6 +1384,9 @@ class DetailView extends Component {
                         .attr("opacity", 1)
                         .attr("stroke-width", 2)
 
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 0.5)
+
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
@@ -1396,6 +1411,9 @@ class DetailView extends Component {
                     d3.selectAll("path#" + d.id)
                         .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
+
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 1)
                 })
         }
         return vivo_heat_pos
@@ -1485,14 +1503,14 @@ class DetailView extends Component {
         if (this.props.sankeydata) {
 
             console.log("draw sankey chart")
-            var margin = { top: 30, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 30, right: 10, bottom: 10, left: 0 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(" + (20 + 40 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left) + "," + margin.top + ")");
+                .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left + 1 / 6 * this.state.sankeyWidth) + "," + margin.top + ")");
 
             console.log("sankeydata", this.props.sankeydata)
             var sankeydata = this.props.sankeydata;
@@ -1517,7 +1535,7 @@ class DetailView extends Component {
 
             // iterate data
             var cur_y_offset = 0; // starting y of each sankey chart
-            var rectHeight = 15, rectWidth = 30; // height of each rect
+            var rectHeight = 15, rectWidth = 110; // height of each rect
             var x_offset = (this.state.sankeyWidth - 3 * rectWidth) / 2;
             var sankey_pos = [];
             sankeydata.forEach(d => {
@@ -1537,26 +1555,30 @@ class DetailView extends Component {
 
                     // iterate each company --> row
                     // create a list of object
-                    var company_obj_list = []
+                    var company_obj_list = [], border_list = [], height = 0;
                     company_list.forEach((companies, status) => {
-                        if (companies) {
-                            companies.forEach(name => {
-                                company_obj_list.push({ id: d.name, company_name: name, status: status })
+                        if (companies.length) {
+                            companies.forEach(company => {
+                                company_obj_list.push({ id: d.name, company_name: company, status: status })
                             })
+                            border_list.push({ id: d.name, length: companies.length, height })
+                            height += companies.length
                         }
                     })
-                    // console.log("company_obj_list", company_obj_list)
-                    var counter = 0; // counter for rect
+                    console.log("company_obj_list", company_obj_list)
+                    console.log("border_list", border_list)
+
                     sankeysvg.selectAll("rect#sankey")
                         .data(company_obj_list)
                         .enter()
                         .append("rect")
-                        .attr("x", (parseInt(phase) - 1) * x_offset)
+                        .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth)
                         .attr("y", (d, i) => {
+                            // console.log(d)
                             // store pos for path
-                            if (phase === "1") phase1_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else if (phase === "2") phase2_pos.push({ id: d.company_name, x_in: (parseInt(phase) - 1) * x_offset, x_out: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else phase3_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset, y: (i + 0.5) * rectHeight + offset });
+                            if (phase === "1") phase1_pos.push({ id: d.id, company: d.company_name, x: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 + 1 / 2 * rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else if (phase === "2") phase2_pos.push({ id: d.id, company: d.company_name, x_in: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth, x_out: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 + 1 / 2 * rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            else phase3_pos.push({ id: d.id, company: d.company_name, x: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth, y: (i + 0.5) * rectHeight + offset });
 
                             return i * rectHeight + offset
                         })
@@ -1609,6 +1631,10 @@ class DetailView extends Component {
                                 .attr("opacity", 1)
                                 .attr("stroke-width", 2)
 
+                            d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                                .style("opacity", 0.5)
+
+
                         }).on("mousemove", (event, d) => {
                             tooltip
                                 .style("left", event.pageX + 20 + "px")
@@ -1632,32 +1658,67 @@ class DetailView extends Component {
                             d3.selectAll("path#" + d.id)
                                 .attr("opacity", 0.5)
                                 .attr("stroke-width", 1)
+
+                            d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                                .style("opacity", 1)
                         })
 
-                    var statuslist = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+                    // draw status border
+                    sankeysvg.selectAll("rect#sankey")
+                        .data(border_list)
+                        .enter()
+                        .append("rect")
+                        .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth)
+                        .attr("y", (d, i) => d.height * rectHeight + offset)
+                        .attr("width", rectWidth)
+                        .attr("height", d => d.length * rectHeight)
+                        .attr("class", "sankey")
+                        .attr("id", d => d.id)
+                        // .style("fill", d => colorScale(d.status))
+                        .style("fill", "none")
+                        .style("stroke-width", 2)
+                        .style("stroke", "#adb5bd")
+
                     // add text
+                    var statuslist = ["A", "Terminated", "C", "Pause", "Active, not recruiting", "Recruiting", "Completed", "H", "I"]
                     sankeysvg.selectAll("rect#sankey")
                         .data(company_obj_list)
                         .enter()
                         .append("text")
-                        .attr("x", (parseInt(phase) - 1) * x_offset + 1 / 2 * rectWidth)
+                        .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3)
                         .attr("y", (d, i) => {
-                            // store pos for path
-                            if (phase === "1") phase1_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else if (phase === "2") phase2_pos.push({ id: d.company_name, x_in: (parseInt(phase) - 1) * x_offset, x_out: (parseInt(phase) - 1) * x_offset + rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else phase3_pos.push({ id: d.company_name, x: (parseInt(phase) - 1) * x_offset, y: (i + 0.5) * rectHeight + offset });
-
                             return i * rectHeight + offset + 3 / 4 * rectHeight
                         })
+                        .attr("class", "sankey")
                         .text(d => statuslist[d.status])
                         .style("font-size", 12)
                         .attr("text-anchor", "middle")
+                        .style("fill", "#495057")
+
                 })
+                // draw parenthesis
+                var p = [{ id: d.name, h: max_num_of_company * rectHeight }]
+                svg
+                    .selectAll("rect#sankey")
+                    .data(p)
+                    .enter()
+                    .append("rect")
+                    .attr("x", - 1 / 2 * rectWidth - 5)
+                    .attr("y", cur_y_offset)
+                    .attr("width", 5)
+                    .attr("height", d => d.h)
+                    .attr("class", "sankey")
+                    // .attr("id", d => d.id)
+                    .style("fill", "none")
+                    .style("stroke-width", 1)
+                    .style("stroke", "#adb5bd")
+                // .style("opacity", 0.5)
+
                 // store pos
                 sankey_pos.push({
                     id: d.name,
-                    x: (20 + 40 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left),
-                    y: cur_y_offset + 1 / 2 * max_num_of_company * rectHeight
+                    x: (10 + 30 - 5 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left + 1 / 6 * this.state.sankeyWidth - 1 / 2 * rectWidth),
+                    y: cur_y_offset + 1 / 2 * max_num_of_company * rectHeight + margin.top
                 })
                 // console.log("sankey pos", sankey_pos)
 
@@ -1670,16 +1731,17 @@ class DetailView extends Component {
                     // draw path between phase1 and phase2
                     if (phase1_pos[0]) {
                         phase2_pos.forEach(d => {
+                            console.log(d)
                             var curve = d3.line().curve(d3.curveBumpX)
-                            var startNode = phase1_pos.find(node => node.id == d.id)
+                            var startNode = phase1_pos.find(node => node.company == d.company)
                             var points = [[startNode.x, startNode.y], [d.x_in, d.y]]
                             sankeysvg
                                 .append("path")
                                 .attr("class", "detail_path")
                                 .attr("d", curve(points))
                                 .attr("stroke-width", 1)
-                                .attr("stroke", "#264653")
-                                .attr("opacity", 0.8)
+                                .attr("stroke", "#adb5bd")
+                                .attr("opacity", 0.5)
                                 .attr("fill", "none")
                                 .attr("id", d.id)
                                 .lower()
@@ -1689,7 +1751,7 @@ class DetailView extends Component {
                                     tooltip.transition().duration(200).style("opacity", 0.7);
                                     tooltip
                                         .html(
-                                            `company: ${d.id}`
+                                            `company: ${d.company}`
                                         )
                                         .style("left", event.pageX + 20 + "px")
                                         .style("top", event.pageY + 20 + "px");
@@ -1708,15 +1770,15 @@ class DetailView extends Component {
                     if (phase2_pos[0]) {
                         phase3_pos.forEach(d => {
                             var curve = d3.line().curve(d3.curveBumpX)
-                            var startNode = phase2_pos.find(node => node.id == d.id)
+                            var startNode = phase2_pos.find(node => node.company == d.company)
                             var points = [[startNode.x_out, startNode.y], [d.x, d.y]]
                             sankeysvg
                                 .append("path")
                                 .attr("class", "detail_path")
                                 .attr("d", curve(points))
                                 .attr("stroke-width", 1)
-                                .attr("stroke", "#264653")
-                                .attr("opacity", 0.8)
+                                .attr("stroke", "#adb5bd")
+                                .attr("opacity", 0.5)
                                 .attr("fill", "none")
                                 .attr("id", d.id)
                                 .lower()
@@ -1726,7 +1788,7 @@ class DetailView extends Component {
                                     tooltip.transition().duration(200).style("opacity", 0.7);
                                     tooltip
                                         .html(
-                                            `company: ${d.id}`
+                                            `company: ${d.company}`
                                         )
                                         .style("left", event.pageX + 20 + "px")
                                         .style("top", event.pageY + 20 + "px");

@@ -74,7 +74,9 @@ class HeatSquare extends Component {
                 .attr("height", 15)
                 .style("fill", `url(#linear-gradient-${i})`)
                 .attr("x", 0 + i * 70)
-                .attr("y", 0);
+                .attr("y", 0)
+                .attr("stroke-width", 0.5)
+                .attr("stroke", "#adb5bd");
         })
         // color legend
         // const colorLegend1 = ["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,0.6)", "rgba(240, 128, 128,1)"]
