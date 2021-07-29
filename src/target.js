@@ -4,9 +4,28 @@ const target_data = [
     label: "Junas Kinase",
     img_path: "src/target_img/Janus_kinase.png",
     tree: [
-      { name: "1", parents: [], children: ["2", "3"] },
-      { name: "2", parents: ["1"], children: ["4"] },
-      { name: "3", parents: ["1"], children: ["9", "10", "11"] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase",
+        parents: [],
+        children: ["a"],
+      },
+      {
+        name: "a",
+        id: "a",
+        parents: ["junas_kinase"],
+        children: ["b", "stat3"],
+      },
+      { name: "b", id: "b", parents: ["a"], children: [] },
+      { name: "STAT3", id: "stat3", parents: ["a"], children: [] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase_1",
+        parents: [],
+        children: ["c"],
+      },
+      { name: "c", id: "c", parents: ["junas_kinase_1"], children: ["d"] },
+      { name: "d", id: "d", parents: ["c"], children: [] },
     ],
     heatsquaredata: [
       {
@@ -885,8 +904,20 @@ const target_data = [
     label: "STAT3",
     img_path: "./logo.svg",
     tree: [
-      { name: "5", parents: [], children: ["6"] },
-      { name: "6", parents: ["5"], children: ["7", "8"] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase",
+        parents: [],
+        children: ["a"],
+      },
+      {
+        name: "a",
+        id: "a",
+        parents: ["junas_kinase"],
+        children: ["b", "stat3"],
+      },
+      { name: "b", id: "b", parents: ["a"], children: [] },
+      { name: "STAT3", id: "stat3", parents: ["a"], children: [] },
     ],
     heatsquaredata: [
       {
@@ -1784,8 +1815,20 @@ const target_data = [
     label: "a",
     img_path: "./logo.svg",
     tree: [
-      { name: "2", parents: ["1"], children: ["4"] },
-      { name: "4", parents: ["2"], children: [] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase",
+        parents: [],
+        children: ["a"],
+      },
+      {
+        name: "a",
+        id: "a",
+        parents: ["junas_kinase"],
+        children: ["b", "stat3"],
+      },
+      { name: "b", id: "b", parents: ["a"], children: [] },
+      { name: "STAT3", id: "stat3", parents: ["a"], children: [] },
     ],
     heatsquaredata: [
       {
@@ -2664,9 +2707,20 @@ const target_data = [
     label: "b",
     img_path: "./logo.svg",
     tree: [
-      { name: "6", parents: ["5"], children: ["7", "8"] },
-      { name: "7", parents: ["6"], children: [] },
-      { name: "8", parents: ["6"], children: [] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase",
+        parents: [],
+        children: ["a"],
+      },
+      {
+        name: "a",
+        id: "a",
+        parents: ["junas_kinase"],
+        children: ["b", "stat3"],
+      },
+      { name: "b", id: "b", parents: ["a"], children: [] },
+      { name: "STAT3", id: "stat3", parents: ["a"], children: [] },
     ],
     heatsquaredata: [
       {
@@ -3545,9 +3599,14 @@ const target_data = [
     label: "c",
     img_path: "./logo.svg",
     tree: [
-      { name: "3", parents: ["1"], children: ["9", "10", "11"] },
-      { name: "9", parents: ["3"], children: [] },
-      { name: "10", parents: ["3"], children: [] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase_1",
+        parents: [],
+        children: ["c"],
+      },
+      { name: "c", id: "c", parents: ["junas_kinase_1"], children: ["d"] },
+      { name: "d", id: "d", parents: ["c"], children: [] },
     ],
     heatsquaredata: [
       {
@@ -4439,9 +4498,14 @@ const target_data = [
     label: "d",
     img_path: "./logo.svg",
     tree: [
-      { name: "3", parents: ["1"], children: ["9", "10", "11"] },
-      { name: "11", parents: ["3"], children: ["12"] },
-      { name: "12", parents: ["11"], children: [] },
+      {
+        name: "Junas Kinase",
+        id: "junas_kinase_1",
+        parents: [],
+        children: ["c"],
+      },
+      { name: "c", id: "c", parents: ["junas_kinase_1"], children: ["d"] },
+      { name: "d", id: "d", parents: ["c"], children: [] },
     ],
     heatsquaredata: [
       {

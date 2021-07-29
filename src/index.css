@@ -100,11 +100,11 @@ path.root-path-class {
   background-color: rgba(218, 218, 218, 0.61);
   height: 15px;
   line-height: 15px;
-  width: 25px;
+  width: 20px;
   text-align: center;
   border-radius: 15%;
   cursor: grab;
-  font-size: 8px;
+  font-size: 7px;
 }
 
 .example-thumb.active {
@@ -122,4 +122,33 @@ path.root-path-class {
   float: right;
   margin-right: 10px;
   /* background-color: grey; */
+}
+
+.node-circle {
+  fill: rgb(189, 189, 189);
+}
+
+.select-node {
+  fill: rgb(134, 134, 134);
+}
+
+.detail-node {
+  fill: rgb(134, 134, 134);
+  stroke: orange;
+  stroke-width: 2px;
+}
+
+.node-text {
+  font-size: 13px;
+}
+
+.link {
+  fill: none;
+  stroke: rgb(146, 146, 146);
+  stroke-width: 1px;
+}
+
+.root-node,
+.root-link {
+  opacity: 0;
 }

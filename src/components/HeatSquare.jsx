@@ -24,6 +24,7 @@ class HeatSquare extends Component {
     componentDidUpdate() {
         console.log("component did update")
 
+        if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1)
         this.state.targetList.forEach(d => {
             // console.log(d)
             this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
@@ -114,6 +115,8 @@ class HeatSquare extends Component {
         var svg = d3.select("#" + container).append("svg")
             .attr("width", width + marginL)
             .attr("height", "38px")
+            .attr("id", "upper-axis")
+            .style("opacity", 0)
             .append("g")
             .attr("transform", "translate(" + marginL + ",10)");
 

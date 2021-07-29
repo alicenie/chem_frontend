@@ -7,16 +7,22 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { Step } from '@material-ui/core';
+import * as d3 from 'd3';
 
 class TreeNode {
-    constructor(value) {
-        this.value = value;
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
         this.children = [];
         this.parents = [];
     }
 
     getID() {
-        return this.value;
+        return this.id;
+    }
+
+    getName() {
+        return this.name;
     }
 
     getParents() {
@@ -32,7 +38,7 @@ class TargetTree extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.value,
+            value: this.props.select,
             // num_leaf: 1,
             // treeCharts: []
         }
@@ -41,36 +47,109 @@ class TargetTree extends Component {
     componentDidUpdate() {
         console.log("Target Tree update:")
         console.log(this.state.value)
+        // this.drawTargetTree();
     }
 
-    buildTree(value) {
+    drawTargetTree(treeData) {
+        // set the dimensions and margins of the diagram
+        var margin = { top: 30, right: 50, bottom: 40, left: 0 },
+            width = 250 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom;
+
+        // declares a tree layout and assigns the size
+        var treemap = d3.tree()
+            .size([width, height]);
+
+        //  assigns the data to a hierarchy using parent-child relationships
+        var nodes = d3.hierarchy(treeData, function (d) {
+            return d.children;
+        });
+
+        // maps the node data to the tree layout
+        nodes = treemap(nodes);
+
+        // append the svg object to the body of the page
+        // appends a 'group' element to 'svg'
+        // moves the 'group' element to the top left margin
+        d3.select("#target-tree").selectAll("svg").remove();
+        var svg = d3.select("#target-tree").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom),
+            g = svg.append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+        // adds the links between the nodes
+        var link = g.selectAll(".link")
+            .data(nodes.descendants().slice(1))
+            .enter().append("path")
+            .attr("class", d => d.parent.data.id === "root-node" ? "root-link" : "link")
+            .attr("d", function (d) {
+                // console.log("link", d)
+                return "M" + d.x + "," + d.y
+                    + "C" + (d.x + d.parent.x) / 2 + "," + d.parent.y + " "
+                    + (d.x + d.parent.x) / 2 + "," + d.y
+                    + " " + d.parent.x + "," + d.parent.y;
+            });
+
+        var search_label = this.props.select.map(d => d.label), detail_label = this.props.detail ? this.props.detail.label : "";
+        // adds each node as a group
+        var node = g.selectAll(".node")
+            .data(nodes.descendants())
+            .enter().append("g")
+            .attr("class", d => {
+                if (d.data.id === "root-node") return "root-node";
+                else if (d.data.name === detail_label) return "detail-node";
+                else if (search_label.indexOf(d.data.name) !== -1) return "select-node";
+                else return "node-circle";
+            })
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            })
+            .append("circle")
+            .attr("r", 10);
+
+        // adds the text to the node
+        g.selectAll("text")
+            .data(nodes.descendants())
+            .enter().append("g")
+            .append("text")
+            .attr("class", "node-text")
+            .attr("dy", ".35em")
+            .attr("x", d => d.x + 10)
+            .attr("y", d => d.y)
+            .text(function (d) { return d.data.name; });
+    }
+
+    buildTree() {
         console.log("buildTree")
         console.log(this.state.value)
         // construct tree data structure
         var nodes = {}, nodes_list = [];
         this.state.value.forEach(d => {
             d.tree.forEach(e => {
-                if (!nodes_list.find(node => node.name == e.name)) nodes_list.push(e)
+                if (!nodes_list.find(node => node.id == e.id)) nodes_list.push(e)
             })
         })
-        // console.log("nodes_list", nodes_list)
-        const nodes_id = nodes_list.map(d => d.name) // selected id list
+
+        const nodes_id = nodes_list.map(d => d.id) // selected id list
         nodes_list.forEach(d => {
-            nodes[d.name] = new TreeNode(d.name)
+            nodes[d.id] = new TreeNode(d.id, d.name)
         })
         nodes_list.forEach(d => {
             d.children.forEach(e => {
                 // if the element is selected
                 if (nodes_id.indexOf(e) !== -1) {
-                    nodes[d.name].children.push(nodes[e])
+                    nodes[d.id].children.push(nodes[e])
                 }
             })
             d.parents.forEach(e => {
                 // if the element is selected
-                if (nodes_id.indexOf(e) !== -1) nodes[d.name].parents.push(nodes[e])
+                if (nodes_id.indexOf(e) !== -1) nodes[d.id].parents.push(nodes[e])
             })
         })
         console.log("tree nodes:", nodes)
+        console.log("nodes_list", nodes_list)
         // calculate num of leaf node
         var num_leaf = 0;
         Object.keys(nodes).forEach(d => {
@@ -88,17 +167,19 @@ class TargetTree extends Component {
                 treeHeads.push(value);
             }
         }
-        // console.log("tree heads:", treeHeads)
+        console.log("tree heads:", treeHeads)
         // build an object starting from each head
         treeHeads.forEach(head => {
             var treeObj = {
-                name: head.getID(),
+                name: head.getName(),
+                id: head.getID(),
             }
             if (head.getChildren().length) {
                 treeObj["children"] = []
                 head.getChildren().forEach(child => {
                     var childObj = {
-                        name: child.getID(),
+                        name: child.getName(),
+                        id: child.getID(),
                     }
                     if (child.getChildren().length) {
                         childObj["children"] = this.setChildren(child.getChildren())
@@ -113,6 +194,7 @@ class TargetTree extends Component {
 
         var treeChart = {
             name: '',
+            id: 'root-node',
             children: treeCharts
         }
         return { treeChart, num_leaf }
@@ -122,7 +204,8 @@ class TargetTree extends Component {
         var children = []
         startNode.forEach(d => {
             var childObj = {
-                name: d.getID()
+                name: d.getName(),
+                id: d.getID()
             }
             if (d.getChildren().length) {
                 childObj["children"] = this.setChildren(d.getChildren())
@@ -215,8 +298,8 @@ class TargetTree extends Component {
                         <TransformComponent>
                             {/* <img src="image.jpg" alt="test" /> */}
                             {/* <div>Example text</div> */}
-                            <div style={{ width: '30em', height: '30em' }}>
-                                <Tree data={tree.treeChart} orientation={'vertical'}
+                            <div id="target-tree" style={{ width: '30em', height: '30em' }}>
+                                {/* <Tree data={tree.treeChart} orientation={'vertical'}
                                     rootNodeClassName={'root-node'}
                                     translate={{ x: 130, y: 50 }}
                                     zoom={0.5 / Math.sqrt(tree.num_leaf)}
@@ -226,7 +309,8 @@ class TargetTree extends Component {
                                         // console.log("pathClassFunc", d)
                                         if (!d.source.parent) return "root-path-class"
                                         return "path-class"
-                                    }} />
+                                    }} /> */}
+                                {this.drawTargetTree(tree.treeChart)}
                             </div>
                         </TransformComponent>
                     </React.Fragment>

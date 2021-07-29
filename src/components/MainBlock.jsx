@@ -109,7 +109,7 @@ class MainBlock extends Component {
                         <div key="a">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Signaling Pathway</p>
-                                <TargetTree value={this.state.selectedTargets} />
+                                <TargetTree select={this.state.selectedTargets} detail={this.state.selectedDetailTarget} />
                             </Card>
                         </div>
 

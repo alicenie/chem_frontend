@@ -574,7 +574,7 @@ class DetailView extends Component {
         d3.selectAll('.detail_path').remove()
         d3.selectAll(".heatmap").remove()
         d3.selectAll(".sankey").remove()
-        d3.selectAll("g.sort").style("opacity", 1)
+        if (this.props.detaildata[0]) d3.selectAll("g.sort").style("opacity", 1)
         var { node_pos, initial_sort } = this.drawNetwork();
         var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort, initial_sort),
             vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort, initial_sort),
@@ -1065,7 +1065,7 @@ class DetailView extends Component {
                     tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
                         .html(
-                            `id: ${d.id}<br/>  ${d.attr}: ${d.value}`
+                            `<span class="tooltip-label">${d.attr}:</span> ${d.value}`
                         )
                         .style("left", event.pageX + 10 + "px")
                         .style("top", event.pageY + 10 + "px");
@@ -1402,7 +1402,7 @@ class DetailView extends Component {
                     tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
                         .html(
-                            `id: ${d.id}<br/>  ${d.attr}: ${d.value}`
+                            `<span class="tooltip-label">${d.attr}:</span> ${d.value}`
                         )
                         .style("left", event.pageX + 10 + "px")
                         .style("top", event.pageY + 10 + "px");
@@ -1654,13 +1654,12 @@ class DetailView extends Component {
                             tooltip.transition().duration(200).style("opacity", 0.9);
                             tooltip
                                 .html(
-                                    `<div style="width:100px">
-                                    <span class="tooltip-label">ID:</span> ${d.id}<br/>  
+                                    `<div style="width:130px"> 
                                     <span class="tooltip-label">Company:</span> ${d.company_name}<br/>  
                                     ${terminatespan}
                                     </div>`
                                 )
-                                .style("left", event.pageX - 100 + "px")
+                                .style("left", event.pageX - 130 + "px")
                                 .style("top", event.pageY + 10 + "px");
 
                             // highlight
@@ -1700,7 +1699,7 @@ class DetailView extends Component {
 
                         }).on("mousemove", (event, d) => {
                             tooltip
-                                .style("left", event.pageX - 100 + "px")
+                                .style("left", event.pageX - 130 + "px")
                                 .style("top", event.pageY + 10 + "px");
                         })
                         .on("mouseout", (event, d) => {
@@ -1743,7 +1742,7 @@ class DetailView extends Component {
                         .style("stroke", "#adb5bd")
 
                     // add text
-                    var statuslist = ["A", "Terminated", "C", "Pause", "Active", "Recruiting", "Completed", "H", "I"]
+                    var statuslist = ["Not yet recruiting", "Recruiting", "Enrolling by invitation", "Active, not recruiting", "Suspended", "Terminated", "Completed", "Withdrawn", "Unknown status"]
                     sankeysvg.selectAll("text#sankey")
                         .data(border_list)
                         .enter()
