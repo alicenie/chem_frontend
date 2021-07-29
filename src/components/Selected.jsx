@@ -46,7 +46,7 @@ class Selected extends Component {
 
     color = (i) => {
         if (this.state.selected && i.id == this.state.selected.id) return "rgba(169, 214, 229,0.3)"
-        return "rgba(233, 236, 239,0.3)"
+        return "#f8f9fa"
     }
 
     render() {
@@ -70,7 +70,7 @@ class Selected extends Component {
 
                             return (
                                 <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
-                                    <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", border: "1px solid #e9ecef", borderRadius: "10px", backgroundColor: this.color(i) }}>
+                                    <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", borderRadius: "10px", backgroundColor: this.color(i) }}>
                                         <div className="col-3" style={{ paddingLeft: 6 }} >
                                             <img src={Unknown} width="80" data-tip data-for="img-tooltip" />
                                             <ReactTooltip id="img-tooltip" type="light">
@@ -91,7 +91,7 @@ class Selected extends Component {
                                             </ReactTooltip>
                                         </div>
                                         <div className="col-1">
-                                            <IconButton aria-label="clear" style={{ marginLeft: -20 }} onClick={() => this.handleRemove(i)}>
+                                            <IconButton aria-label="clear" style={{ marginLeft: -20, opacity: 0.5 }} onClick={() => this.handleRemove(i)}>
                                                 <ClearIcon />
                                             </IconButton>
                                         </div>

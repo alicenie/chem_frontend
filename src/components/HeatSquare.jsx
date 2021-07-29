@@ -75,8 +75,8 @@ class HeatSquare extends Component {
                 .style("fill", `url(#linear-gradient-${i})`)
                 .attr("x", 0 + i * 70)
                 .attr("y", 0)
-                .attr("stroke-width", 0.5)
-                .attr("stroke", "#adb5bd");
+            // .attr("stroke-width", 0.5)
+            // .attr("stroke", "#adb5bd");
         })
         // color legend
         // const colorLegend1 = ["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,0.6)", "rgba(240, 128, 128,1)"]
@@ -186,8 +186,8 @@ class HeatSquare extends Component {
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da");
+            .style("stroke-width", 0.5)
+            .style("stroke", "white");
 
         // draw line
         for (var i = 0; i < data1.length; i++) {
@@ -198,7 +198,8 @@ class HeatSquare extends Component {
             var xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale.bandwidth() - 14])
-                .domain(d3.extent(lineData, (d) => d.value));
+                .domain([2, 10])
+            // .domain(d3.extent(lineData, (d) => d.value));
 
             var yLineScale = d3
                 .scaleLinear()
@@ -233,8 +234,8 @@ class HeatSquare extends Component {
                 .style("opacity", 0.7)
 
             var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg1.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
-            svg1.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
+            svg1.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg1.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
         }
 
         ////////////////////////////////////
@@ -277,8 +278,8 @@ class HeatSquare extends Component {
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da");
+            .style("stroke-width", 0.5)
+            .style("stroke", "white");
 
         // draw line
         for (var i = 0; i < data2.length; i++) {
@@ -289,7 +290,8 @@ class HeatSquare extends Component {
             var xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale.bandwidth() - 14])
-                .domain(d3.extent(lineData, (d) => d.value));
+                // .domain(d3.extent(lineData, (d) => d.value));
+                .domain([2, 10])
 
             var yLineScale = d3
                 .scaleLinear()
@@ -324,8 +326,8 @@ class HeatSquare extends Component {
                 .style("opacity", 0.7)
 
             var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg2.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
-            svg2.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
+            svg2.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
         }
 
         ////////////////////////////////////
@@ -367,8 +369,8 @@ class HeatSquare extends Component {
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da");
+            .style("stroke-width", 0.5)
+            .style("stroke", "white");
 
         // draw line
         for (var i = 0; i < data3.length; i++) {
@@ -379,7 +381,8 @@ class HeatSquare extends Component {
             var xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale.bandwidth() - 14])
-                .domain(d3.extent(lineData, (d) => d.value));
+                // .domain(d3.extent(lineData, (d) => d.value));
+                .domain([2, 10])
 
             var yLineScale = d3
                 .scaleLinear()
@@ -414,8 +417,8 @@ class HeatSquare extends Component {
                 .style("opacity", 0.7)
 
             var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg3.append("text").attr("x", x + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10);
-            svg3.append("text").attr("x", x + xScale.bandwidth() - 15).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10);
+            svg3.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg3.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
         }
 
         // draw square

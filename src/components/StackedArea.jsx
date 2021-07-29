@@ -35,16 +35,16 @@ class StackedArea extends Component {
         })
         // console.log("newdata", newdata)
 
-        const width = this.state.stackWidth - 40, height = this.state.Height / 3 - 20, margin = 20;
+        const width = this.state.stackWidth - 70, height = this.state.Height / 3 - 28, margin = 20;
         d3
             .select(`#${container}`)
             .selectAll("svg").remove()
         var svg = d3.select(`#${container}`).
             append("svg")
-            .attr("width", width + 30)
-            .attr("height", height + 20)
+            .attr("width", width + 50)
+            .attr("height", height + 28)
             .append("g")
-            .attr("transform", "translate(18,0)")
+            .attr("transform", "translate(35,10)")
 
         // GENERAL //
         // List of groups
@@ -74,10 +74,10 @@ class StackedArea extends Component {
 
         // Add Y axis
         var y = d3.scaleLinear()
-            .domain([0, 100000])
+            .domain([0, 1000])
             .range([height, 0]);
-        // svg.append("g")
-        //     .call(d3.axisLeft(y).ticks(5))
+        svg.append("g")
+            .call(d3.axisLeft(y).ticks(3).tickFormat(d3.format("d")))
 
         // BRUSHING AND CHART //
         // Add a clipPath: everything out of this area won't be drawn.

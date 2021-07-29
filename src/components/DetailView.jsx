@@ -322,54 +322,72 @@ class DetailView extends Component {
             .attr("x", 0)
             .attr("y", 0)
             .attr("width", 20 + this.state.medchemWidth)
-            .attr("height", rectheight)
-            .style("fill", "rgba(240, 113, 103,0.1)")
-            // .style("opacity", 0.5)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da")
+            .attr("height", 13)
+            .style("fill", "rgb(240, 113, 103,0.8)")
+        svg.append("rect")
+            .attr("x", 0)
+            .attr("y", 13)
+            .attr("width", 20 + this.state.medchemWidth)
+            .attr("height", 13)
+            .style("fill", "rgb(240, 113, 103,0.6)")
+        // .style("opacity", 0.5)
+        // .attr("rx", 5)
+        // .attr("ry", 5)
+        // .style("stroke-width", 2)
+        // .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", 10 + 1 / 2 * this.state.medchemWidth)
             .attr("y", 10)
             .attr("text-anchor", "middle")
             .text("Medicinal Chemistry")
-            .style("fill", "black")
+            .style("fill", "white")
             .style("font-size", 13);
         svg.append("text")
             .attr("x", 10 + 1 / 4 * this.state.medchemWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("Design")
-            .style("fill", "grey")
+            .style("fill", "white")
             .style("font-size", 13);
         svg.append("text")
             .attr("x", 10 + 3 / 4 * this.state.medchemWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("Synthesis")
-            .style("fill", "grey")
+            .style("fill", "white")
             .style("font-size", 13);
 
         // Vitro
         const vitroX = 25 + this.state.medchemWidth
+        // svg.append("rect")
+        //     .attr("x", vitroX)
+        //     .attr("y", 0)
+        //     .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
+        //     .attr("height", rectheight)
+        //     .style("fill", "rgba(0, 129, 167,0.1)")
+        //     // .style("opacity", 0.5)
+        //     .attr("rx", 5)
+        //     .attr("ry", 5)
+        //     .style("stroke-width", 2)
+        //     .style("stroke", "#ced4da")
         svg.append("rect")
             .attr("x", vitroX)
             .attr("y", 0)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
-            .attr("height", rectheight)
-            .style("fill", "rgba(0, 129, 167,0.1)")
-            // .style("opacity", 0.5)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da")
+            .attr("height", 13)
+            .style("fill", "rgb(0, 129, 167,0.8)")
+        svg.append("rect")
+            .attr("x", vitroX)
+            .attr("y", 13)
+            .attr("width", (this.state.vitroWidth + this.state.vivoWidth + 5))
+            .attr("height", 13)
+            .style("fill", "rgb(0, 129, 167,0.6)")
         svg.append("text")
             .attr("x", vitroX + 1 / 2 * this.state.vitroWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("Vitro")
-            .style("fill", "grey")
+            .style("fill", "white")
             .style("font-size", 13);
 
         // Vivo
@@ -387,10 +405,10 @@ class DetailView extends Component {
         //     .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", vivoX + 1 / 2 * this.state.vivoWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("Vivo")
-            .style("fill", "grey")
+            .style("fill", "white")
             .style("font-size", 13);
 
         // Pharmocology
@@ -399,6 +417,7 @@ class DetailView extends Component {
             .attr("y", 10)
             .attr("text-anchor", "middle")
             .text("Pharmocology")
+            .style("fill", "white")
             .style("font-size", 13)
 
         // Ph I
@@ -407,19 +426,25 @@ class DetailView extends Component {
             .attr("x", ph1X)
             .attr("y", 0)
             .attr("width", this.state.sankeyWidth)
-            .attr("height", rectheight)
-            .style("fill", "rgba(209, 179, 196,0.4)")
-            .style("opacity", 0.5)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke-width", 2)
-            .style("stroke", "#ced4da")
+            .attr("height", 13)
+            .style("fill", "rgba(209, 179, 196)")
+        svg.append("rect")
+            .attr("x", ph1X)
+            .attr("y", 13)
+            .attr("width", this.state.sankeyWidth)
+            .attr("height", 13)
+            .style("fill", "rgba(209, 179, 196,0.8)")
+        // .style("opacity", 0.5)
+        // .attr("rx", 5)
+        // .attr("ry", 5)
+        // .style("stroke-width", 2)
+        // .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", ph1X + 1 / 2 * phWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("I")
-            .style("fill", "grey")
+            .style("fill", "white")
             .style("font-size", 13);
 
         // Ph II
@@ -437,10 +462,10 @@ class DetailView extends Component {
         //     .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", ph2X + 1 / 2 * phWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("II")
-            .style("fill", "grey")
+            .style("fill", "white")
             .style("font-size", 13);
 
         // Ph III
@@ -458,10 +483,10 @@ class DetailView extends Component {
         //     .style("stroke", "#ced4da")
         svg.append("text")
             .attr("x", ph3X + 1 / 2 * phWidth)
-            .attr("y", 23)
+            .attr("y", 24)
             .attr("text-anchor", "middle")
             .text("III")
-            .style("fill", "grey").style("font-size", 13);
+            .style("fill", "white").style("font-size", 13);
 
         // Pharmaceutics
         svg.append("text")
@@ -469,7 +494,8 @@ class DetailView extends Component {
             .attr("y", 10)
             .attr("text-anchor", "middle")
             .text("Pharmaceutics")
-            .style("font-size", 13);
+            .style("font-size", 13)
+            .style("fill", "white");
 
         // line
         svg
@@ -487,37 +513,37 @@ class DetailView extends Component {
             .style("fill", "#343a40");
 
         svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
+            .style("stroke", "white")
+            .style("stroke-width", 0.5)
             .attr("x1", 0)
-            .attr("y1", 12)
+            .attr("y1", 13)
             .attr("x2", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + this.state.sankeyWidth + 5)
             .attr("y2", 12)
 
         svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
+            .style("stroke", "white")
+            .style("stroke-width", 0.5)
             .attr("x1", 10 + 1 / 2 * this.state.medchemWidth)
-            .attr("y1", 12)
+            .attr("y1", 13)
             .attr("x2", 10 + 1 / 2 * this.state.medchemWidth)
-            .attr("y2", 25)
+            .attr("y2", 26)
         svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
+            .style("stroke", "white")
+            .style("stroke-width", 0.5)
             .attr("x1", 20 + this.state.medchemWidth + this.state.vitroWidth)
             .attr("y1", 12)
             .attr("x2", 20 + this.state.medchemWidth + this.state.vitroWidth)
             .attr("y2", 25)
         svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
+            .style("stroke", "white")
+            .style("stroke-width", 0.5)
             .attr("x1", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
             .attr("y1", 12)
             .attr("x2", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 1 / 3 * this.state.sankeyWidth)
             .attr("y2", 25)
         svg.append("line")
-            .style("stroke", "#ced4da")
-            .style("stroke-width", 2)
+            .style("stroke", "white")
+            .style("stroke-width", 0.5)
             .attr("x1", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
             .attr("y1", 12)
             .attr("x2", 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + 2 / 3 * this.state.sankeyWidth)
@@ -658,13 +684,38 @@ class DetailView extends Component {
                     // console.log(d.id)
 
                     // tooltip
-                    tooltip.transition().duration(200).style("opacity", 0.7);
+                    tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
-                        .html(
-                            `id: ${d.id}<br/>value: ${d.value}`
+                        .html(() => {
+                            var author = ""
+                            d.paper_author.forEach(d => author += (d.split(' ')[0][0] + '. ' + d.split(' ')[1] + ", "))
+
+                            var metrics = ""
+                            for (const [key, value] of Object.entries(d.medicinal_chemistry_metrics)) {
+                                if (value) metrics += `<span>${key}: ${value}</span><br/>`
+                            }
+                            return `<div class="network-tooltip" style="padding:2px;width:360px">
+                            <div class="row">
+                            <div class="col-3" style="margin:2px">
+                            <img src='${d.paper_abstract_image}' width=80/>
+                            ${metrics}
+                            </div>
+                            
+                            <div class="col-7" style="margin-left:3px;padding:0">
+                            <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
+                            <span class="tooltip-author">${author}</span><br/><br/>
+                            <span class="tooltip-label">Doi:</span><span class="tooltip-doi">${d.doi}</span><br/>
+                            <span class="tooltip-label">Cited:</span>${d.paper_cited}<br/>
+                            <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
+                            
+                            </div>
+                            </div>
+                            <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
+                            </div>
+                            `}
                         )
-                        .style("left", event.pageX + 20 + "px")
-                        .style("top", event.pageY + 20 + "px");
+                        .style("left", event.pageX - 360 + "px")
+                        .style("top", event.pageY - 160 + "px");
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -699,8 +750,8 @@ class DetailView extends Component {
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", event.pageX + 20 + "px")
-                        .style("top", event.pageY + 20 + "px");
+                        .style("left", event.pageX - 360 + "px")
+                        .style("top", event.pageY - 160 + "px");
                 })
                 .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", 0);
@@ -1011,13 +1062,13 @@ class DetailView extends Component {
                 .attr("ry", 2)
                 .on("mouseover", (event, d) => {
                     // tooltip
-                    tooltip.transition().duration(200).style("opacity", 0.7);
+                    tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
                         .html(
                             `id: ${d.id}<br/>  ${d.attr}: ${d.value}`
                         )
-                        .style("left", event.pageX + 20 + "px")
-                        .style("top", event.pageY + 20 + "px");
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -1053,8 +1104,8 @@ class DetailView extends Component {
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", event.pageX + 20 + "px")
-                        .style("top", event.pageY + 20 + "px");
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
                 })
                 .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", 0);
@@ -1348,13 +1399,13 @@ class DetailView extends Component {
                 .attr("ry", 2)
                 .on("mouseover", (event, d) => {
                     // tooltip
-                    tooltip.transition().duration(200).style("opacity", 0.7);
+                    tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
                         .html(
                             `id: ${d.id}<br/>  ${d.attr}: ${d.value}`
                         )
-                        .style("left", event.pageX + 20 + "px")
-                        .style("top", event.pageY + 20 + "px");
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -1390,8 +1441,8 @@ class DetailView extends Component {
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", event.pageX + 20 + "px")
-                        .style("top", event.pageY + 20 + "px");
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
                 })
                 .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("opacity", 0);
@@ -1535,7 +1586,7 @@ class DetailView extends Component {
 
             // iterate data
             var cur_y_offset = 0; // starting y of each sankey chart
-            var rectHeight = 15, rectWidth = 110; // height of each rect
+            var rectHeight = 15, rectWidth = 70; // height of each rect
             var x_offset = (this.state.sankeyWidth - 3 * rectWidth) / 2;
             var sankey_pos = [];
             sankeydata.forEach(d => {
@@ -1547,8 +1598,12 @@ class DetailView extends Component {
                 var phase1_pos = [], phase2_pos = [], phase3_pos = [];
                 phases.forEach(phase => {
                     console.log(phase)
-                    var company_list = d.data[`p${phase}_company`] // array of 9 list with company names of corresponding status
+                    var company_list = d.data[`p${phase}_company`]; // array of 9 list with company names of corresponding status
+                    var terminate_reason = d.data[`p${phase}_terminate_resaon`];
+                    console.log("terminate reason", d.data)
+                    // for (const[key,value] of Object.entries(terminate_reason)){
 
+                    // }
                     var num_of_company = d.data[`p${phase}_company_num`], offset = 0
                     if (phase === "1") max_num_of_company = d.data[`p${phase}_company_num`]
                     else offset = (max_num_of_company - num_of_company) / 2 * rectHeight
@@ -1559,9 +1614,11 @@ class DetailView extends Component {
                     company_list.forEach((companies, status) => {
                         if (companies.length) {
                             companies.forEach(company => {
-                                company_obj_list.push({ id: d.name, company_name: company, status: status })
+                                var reason;
+                                // if (Object.keys(terminate_reason).indexOf(company)) reason = terminate_reason[company]
+                                company_obj_list.push({ id: d.name, company_name: company, status: status, t_reason: reason ? reason : null })
                             })
-                            border_list.push({ id: d.name, length: companies.length, height })
+                            border_list.push({ id: d.name, status, length: companies.length, height })
                             height += companies.length
                         }
                     })
@@ -1576,13 +1633,13 @@ class DetailView extends Component {
                         .attr("y", (d, i) => {
                             // console.log(d)
                             // store pos for path
-                            if (phase === "1") phase1_pos.push({ id: d.id, company: d.company_name, x: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 + 1 / 2 * rectWidth, y: (i + 0.5) * rectHeight + offset });
-                            else if (phase === "2") phase2_pos.push({ id: d.id, company: d.company_name, x_in: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth, x_out: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 + 1 / 2 * rectWidth, y: (i + 0.5) * rectHeight + offset });
+                            if (phase === "1") phase1_pos.push({ id: d.id, company: d.company_name, x: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth + 30, y: (i + 0.5) * rectHeight + offset });
+                            else if (phase === "2") phase2_pos.push({ id: d.id, company: d.company_name, x_in: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth, x_out: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth + 30, y: (i + 0.5) * rectHeight + offset });
                             else phase3_pos.push({ id: d.id, company: d.company_name, x: (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth, y: (i + 0.5) * rectHeight + offset });
 
                             return i * rectHeight + offset
                         })
-                        .attr("width", rectWidth)
+                        .attr("width", 30)
                         .attr("height", rectHeight)
                         .attr("id", d => d.id)
                         .attr("class", "sankey")
@@ -1592,13 +1649,19 @@ class DetailView extends Component {
                         .style("stroke", "white")
                         .on("mouseover", (event, d) => {
                             // tooltip
-                            tooltip.transition().duration(200).style("opacity", 0.7);
+                            var terminatespan = ""
+                            if (d.status == 1) terminatespan = `<span class="tooltip-label">Terminate reason:</span> Death<br/>`
+                            tooltip.transition().duration(200).style("opacity", 0.9);
                             tooltip
                                 .html(
-                                    `id: ${d.id}<br/>  company: ${d.company_name}<br/>  status: ${d.status}`
+                                    `<div style="width:100px">
+                                    <span class="tooltip-label">ID:</span> ${d.id}<br/>  
+                                    <span class="tooltip-label">Company:</span> ${d.company_name}<br/>  
+                                    ${terminatespan}
+                                    </div>`
                                 )
-                                .style("left", event.pageX + 20 + "px")
-                                .style("top", event.pageY + 20 + "px");
+                                .style("left", event.pageX - 100 + "px")
+                                .style("top", event.pageY + 10 + "px");
 
                             // highlight
                             d3.selectAll("rect.heatmap")
@@ -1637,8 +1700,8 @@ class DetailView extends Component {
 
                         }).on("mousemove", (event, d) => {
                             tooltip
-                                .style("left", event.pageX + 20 + "px")
-                                .style("top", event.pageY + 20 + "px");
+                                .style("left", event.pageX - 100 + "px")
+                                .style("top", event.pageY + 10 + "px");
                         })
                         .on("mouseout", (event, d) => {
                             tooltip.transition().duration(200).style("opacity", 0);
@@ -1670,7 +1733,7 @@ class DetailView extends Component {
                         .append("rect")
                         .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 1 / 2 * rectWidth)
                         .attr("y", (d, i) => d.height * rectHeight + offset)
-                        .attr("width", rectWidth)
+                        .attr("width", 30)
                         .attr("height", d => d.length * rectHeight)
                         .attr("class", "sankey")
                         .attr("id", d => d.id)
@@ -1680,20 +1743,50 @@ class DetailView extends Component {
                         .style("stroke", "#adb5bd")
 
                     // add text
-                    var statuslist = ["A", "Terminated", "C", "Pause", "Active, not recruiting", "Recruiting", "Completed", "H", "I"]
-                    sankeysvg.selectAll("rect#sankey")
-                        .data(company_obj_list)
+                    var statuslist = ["A", "Terminated", "C", "Pause", "Active", "Recruiting", "Completed", "H", "I"]
+                    sankeysvg.selectAll("text#sankey")
+                        .data(border_list)
                         .enter()
                         .append("text")
                         .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3)
-                        .attr("y", (d, i) => {
-                            return i * rectHeight + offset + 3 / 4 * rectHeight
-                        })
+                        .attr("y", (d, i) => (d.height + 1 / 2 * d.length) * rectHeight + offset + 2)
+                        .attr("width", 40)
+                        .attr("height", d => d.length * rectHeight)
                         .attr("class", "sankey")
                         .text(d => statuslist[d.status])
-                        .style("font-size", 12)
-                        .attr("text-anchor", "middle")
+                        .style("font-size", 11)
+                        .attr("text-anchor", "start")
                         .style("fill", "#495057")
+
+                    // sankeysvg.selectAll("rect#sankey")
+                    //     .data(company_obj_list)
+                    //     .enter()
+                    //     .append("text")
+                    //     .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3)
+                    //     .attr("y", (d, i) => {
+                    //         return i * rectHeight + offset + 3 / 4 * rectHeight
+                    //     })
+                    //     .attr("class", "sankey")
+                    //     .text(d => statuslist[d.status])
+                    //     .style("font-size", 11)
+                    //     .attr("text-anchor", "start")
+                    //     .style("fill", "#495057")
+                    // .attr("transform", "translate(-5,0)")
+
+                    // sankeysvg.selectAll("rect#sankey")
+                    //     .data(company_obj_list)
+                    //     .enter()
+                    //     .append("text")
+                    //     .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3)
+                    //     .attr("y", (d, i) => {
+                    //         return i * rectHeight + offset + 3 / 4 * rectHeight
+                    //     })
+                    //     .attr("class", "sankey")
+                    //     .text(d => statuslist[d.status][0])
+                    //     .style("font-size", 12)
+                    //     .attr("text-anchor", "middle")
+                    //     .style("fill", "#495057")
+                    //     .attr("transform", "translate(-25,0)")
 
                 })
                 // draw parenthesis

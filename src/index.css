@@ -36,6 +36,24 @@ div.tooltip {
   border-radius: 2px;
 }
 
+.tooltip-title {
+  font-size: 12px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.network-tooltip {
+  font-size: 11px;
+}
+
+.tooltip-doi {
+  color: rgb(172, 192, 246);
+}
+
+.tooltip-label {
+  font-weight: 800;
+}
+
 .layout {
   background-color: #e9ecef;
 }
@@ -57,8 +75,13 @@ div.tooltip {
 
 .rd3t-leaf-node > circle,
 .rd3t-node > circle {
-  fill: darkgray;
+  fill: rgb(216, 214, 214);
   r: 35;
+  stroke-width: 0;
+}
+
+g#913230b6-7be8-445e-bf6b-2ac25a6420f4 > circle {
+  fill: rgb(156, 156, 156);
 }
 
 text.rd3t-label__title {

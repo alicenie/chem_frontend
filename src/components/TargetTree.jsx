@@ -219,7 +219,7 @@ class TargetTree extends Component {
                                 <Tree data={tree.treeChart} orientation={'vertical'}
                                     rootNodeClassName={'root-node'}
                                     translate={{ x: 130, y: 50 }}
-                                    zoom={0.6 / Math.sqrt(tree.num_leaf)}
+                                    zoom={0.5 / Math.sqrt(tree.num_leaf)}
                                     zoomable={false}
                                     collapsible={false}
                                     pathClassFunc={(d) => {
