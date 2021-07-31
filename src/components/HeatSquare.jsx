@@ -24,7 +24,8 @@ class HeatSquare extends Component {
     componentDidUpdate() {
         console.log("component did update")
 
-        if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1)
+        if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
+        else d3.selectAll("svg#upper-axis").style("opacity", 0);
         this.state.targetList.forEach(d => {
             // console.log(d)
             this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
@@ -122,7 +123,7 @@ class HeatSquare extends Component {
 
 
         // axis
-        const domain = ["IC50", "Ki", "Kd", "Selectivity", "IC50 ", "Ki ", "Kd ", "EC50", "Selectivity ", "hERG", "Solubility", "ED50", "t(1/2)", "AUC", "Bioavail", "Solubility ", "Adverse-I", "Adverse-II", "Adverse-III"]
+        const domain = ["IC50(nM)", "Ki(nM)", "Kd(nM)", "Sel(fold)", "IC50(nM) ", "Ki(nM) ", "Kd(nM) ", "EC50(nM)", "Sel(fold) ", "hERG(nM)", "Sol(ug/mL)", "ED50(ug/animal)", "t(1/2)(h)", "AUC(ng h/mL)", "Bioavail(%)", "Sol(ug/mL) ", "Adverse-I", "Adverse-II", "Adverse-III"]
         var xScale = d3.scaleBand()
             .domain(domain)
             .range([0, width - 5]);
@@ -134,7 +135,9 @@ class HeatSquare extends Component {
                 g.selectAll("line").remove();
             })
             .selectAll("text")
-            .attr("transform", "translate(-10,20), rotate(-30)")
+            // .text(d => d + "\nd")
+            // .append("<div>pp</div>")
+            .attr("transform", "translate(-10,20), rotate(-20)")
             .attr("text-anchor", "start")
     }
 

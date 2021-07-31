@@ -68,6 +68,9 @@ class MainBlock extends Component {
         // remove from selectedTargets
         let selectedTargets = this.state.selectedTargets
         selectedTargets.splice(selectedTargets.indexOf(removeTarget), 1)
+        // remove from selectdetailtarget if it is
+        if (this.state.selectedDetailTarget.id === removeTarget.id)
+            this.setState({ selectedDetailTarget: null })
 
         // add to remainOptions
         let remainOptions = this.state.remainOptions
@@ -180,6 +183,7 @@ class MainBlock extends Component {
                                 </div>
                                 {/* <SimilarityGraph /> */}
                                 <DetailView height={upperHeight}
+                                    label={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : null}
                                     detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
                                     sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
                                     width={width / 60 * 49} />

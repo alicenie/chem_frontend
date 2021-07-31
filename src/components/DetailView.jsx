@@ -30,9 +30,15 @@ class DetailView extends Component {
         this.drawVivoSort();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        console.log("prevProps", prevProps.label);
+        console.log("curprops", this.props.label)
         console.log("DetailView did update")
-        this.drawWhole();
+        var initial = (prevProps.label === this.props.label) ? false : true;
+        console.log(initial);
+        if (this.props.detaildata[0]) d3.selectAll("g.sort").style("opacity", 1);
+        else d3.selectAll("g.sort").style("opacity", 0);
+        this.drawWhole(initial);
         // this.drawSankeyChart(); // later merge into whole
     }
 
@@ -568,33 +574,35 @@ class DetailView extends Component {
             .attr('marker-end', 'url(#arrow)')
     }
 
-    drawWhole() {
+    drawWhole(initial) {
         // clear svg
         d3.selectAll(".network").remove()
         d3.selectAll('.detail_path').remove()
         d3.selectAll(".heatmap").remove()
         d3.selectAll(".sankey").remove()
-        if (this.props.detaildata[0]) d3.selectAll("g.sort").style("opacity", 1)
-        var { node_pos, initial_sort } = this.drawNetwork();
+        d3.selectAll(".sankey-border").remove()
+        var { node_pos, initial_sort } = this.drawNetwork(initial);
         var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort, initial_sort),
             vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort, initial_sort),
             sankey_pos = this.drawSankeyChart();
         this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
     }
 
-    drawNetwork() {
+    drawNetwork(initial) {
         if (this.props.detaildata[0]) {
-
             console.log("draw network")
+
             var node_pos = []
-            var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+            var margin = { top: 20, right: 0, bottom: 0, left: 0 },
                 width = this.state.medchemWidth + 20 - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(10,0)");
+                .attr("width", width)
+                .attr("height", height)
+                .attr("transform", "translate(10," + margin.top + ")");
 
             // d3.json(this.props.detaildata[0])
             // .then(function (data) {
@@ -614,8 +622,28 @@ class DetailView extends Component {
             // .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"]) // pink
 
             // node r scale
-            var radius = 15;
+            var radius = 12;
             var rScale = d3.scaleLinear().domain([1, 10]).range([5, radius])
+
+            // draw legend
+            // var circle_legend_svg = d3
+            //     .select("svg#detail_svg")
+            //     .append("g")
+            //     .attr("class", "network-legend")
+            //     .attr("transform", "translate(10,20)");
+
+            // circle_legend_svg.append("text")
+            //     .attr("x", 0)
+            //     .attr("y", 0)
+            //     .text("lengen")
+
+            // var circle_legend = [1, 5, 10]
+            // circle_legend_svg.selectAll().data(circle_legend).enter().append("circle")
+            //     .attr("r", d => rScale(d))
+            //     .attr("cx", (d, i) => 60 + rScale(d) + i * 20)
+            //     .attr("cy", 0)
+            //     .style("fill", "#f4978e")
+
 
             // set tooltips
             var tooltip = d3
@@ -660,10 +688,11 @@ class DetailView extends Component {
                 .stop()
 
             // make the simulation run without drawing anything
-            for (var i = 0; i < 300; ++i) simulation.tick();
+            if (initial)
+                for (var i = 0; i < 300; ++i) simulation.tick();
             // console.log("simulation end")
             console.log("nodes", nodes)
-            node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y } })
+            node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y + margin.top } })
             console.log(node_pos)
             // this.setState({ node_pos })
 
@@ -732,6 +761,16 @@ class DetailView extends Component {
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
+                    d3.selectAll("rect.sankey-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 1)
+                        .style("stroke", "orange")
+                        .style("stroke-width", 3)
+
+                    d3.selectAll("rect.sankey-border")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
                     d3.selectAll("circle.network")
                         .filter((node) => node.id == d.id)
                         .style("stroke", "orange")
@@ -764,6 +803,11 @@ class DetailView extends Component {
                     d3.selectAll("rect.sankey")
                         .style("opacity", 1)
 
+                    d3.selectAll("rect.sankey-border")
+                        .style("opacity", 1)
+                        .style("stroke-width", 2)
+                        .style("stroke", "#adb5bd")
+
                     d3.selectAll("circle.network")
                         .style("stroke-width", 0)
                         .style("opacity", 1)
@@ -783,7 +827,7 @@ class DetailView extends Component {
                 var svg = d3
                     .select("svg#detail_svg")
                     .append("g")
-                    .attr("transform", "translate(" + (10 + node.x + "," + node.y + ")"))
+                    .attr("transform", "translate(" + (10 + node.x + "," + (node.y + margin.top) + ")"))
 
                 var arc_data_ready = d3.pie().value(d => d.value)(arc_data)
 
@@ -828,7 +872,8 @@ class DetailView extends Component {
             .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
-        var xDomain = ["IC50", "Ki", "Kd", "EC50", "se", "hERG", "sol"],
+        var xDomain = ["IC50", "Ki", "Kd", "EC50", "Sel", "hERG", "Sol"],
+            xAttr = ["IC50", "Ki", "Kd", "EC50", "Selectivity", "hERG", "Solubility"],
             xRange = [0, xDomain.length * this.state.heatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
 
@@ -852,7 +897,7 @@ class DetailView extends Component {
             .attr("class", "vitro-sort-a")
             .on("click", (_, d) => {
                 // console.log("click ", d)
-                this.setState({ vitroSort: { attr: d, acsending: true } })
+                this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
                 d3.selectAll("path.vitro-sort-a").filter(i => i === d).style("fill", "grey")
                 d3.selectAll("path.vitro-sort-a").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
                 d3.selectAll("path.vitro-sort-de").style("fill", "rgba(218, 218, 218, 0.8)")
@@ -892,7 +937,7 @@ class DetailView extends Component {
             .attr("class", "vitro-sort-de")
             .on("click", (_, d) => {
                 // console.log("click ", d)
-                this.setState({ vitroSort: { attr: d, acsending: false } })
+                this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
                 d3.selectAll("path.vitro-sort-de").filter(i => i === d).style("fill", "grey")
                 d3.selectAll("path.vitro-sort-de").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
                 d3.selectAll("path.vitro-sort-a").style("fill", "rgba(218, 218, 218, 0.8)")
@@ -985,7 +1030,8 @@ class DetailView extends Component {
             var data = this.props.detaildata[1];
 
             // x scale
-            var xDomain = ["IC50", "Ki", "Kd", "EC50", "se", "hERG", "sol"],
+            var xDomain = ["IC50", "Ki", "Kd", "EC50", "Selectivity", "hERG", "Solubility"],
+                xMetric = ["nM", "nM", "nM", "nM", "fold", "uM", "ug/mL"],
                 xRange = [0, xDomain.length * this.state.heatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
@@ -1065,7 +1111,7 @@ class DetailView extends Component {
                     tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
                         .html(
-                            `<span class="tooltip-label">${d.attr}:</span> ${d.value}`
+                            `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
                         )
                         .style("left", event.pageX + 10 + "px")
                         .style("top", event.pageY + 10 + "px");
@@ -1082,6 +1128,16 @@ class DetailView extends Component {
                         .style("opacity", 0.5)
 
                     d3.selectAll("rect.sankey")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
+                    d3.selectAll("rect.sankey-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 1)
+                        .style("stroke", "orange")
+                        .style("stroke-width", 3)
+
+                    d3.selectAll("rect.sankey-border")
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
@@ -1118,6 +1174,11 @@ class DetailView extends Component {
                     d3.selectAll("rect.sankey")
                         .style("opacity", 1)
 
+                    d3.selectAll("rect.sankey-border")
+                        .style("opacity", 1)
+                        .style("stroke-width", 2)
+                        .style("stroke", "#adb5bd")
+
                     d3.selectAll("circle.network")
                         .style("stroke-width", 0)
                         .style("opacity", 1)
@@ -1144,7 +1205,8 @@ class DetailView extends Component {
             .attr("transform", "translate(" + (30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
 
         // x scale
-        var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
+        var xDomain = ["ED50", "t_half", "AUC", "Bio", "Sol"],
+            xAttr = ["ED50", "t_half", "AUC", "Bioavailability", "Solubility"],
             xRange = [0, xDomain.length * this.state.heatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
 
@@ -1168,7 +1230,7 @@ class DetailView extends Component {
             .attr("class", "vivo-sort-a")
             .on("click", (_, d) => {
                 // console.log("click ", d)
-                this.setState({ vivoSort: { attr: d, acsending: true } })
+                this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
                 d3.selectAll("path.vivo-sort-a").filter(i => i === d).style("fill", "grey")
                 d3.selectAll("path.vivo-sort-a").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
                 d3.selectAll("path.vivo-sort-de").style("fill", "rgba(218, 218, 218, 0.8)")
@@ -1208,7 +1270,7 @@ class DetailView extends Component {
             .attr("class", "vivo-sort-de")
             .on("click", (_, d) => {
                 // console.log("click ", d)
-                this.setState({ vivoSort: { attr: d, acsending: false } })
+                this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
                 d3.selectAll("path.vivo-sort-de").filter(i => i === d).style("fill", "grey")
                 d3.selectAll("path.vivo-sort-de").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
                 d3.selectAll("path.vivo-sort-a").style("fill", "rgba(218, 218, 218, 0.8)")
@@ -1321,7 +1383,8 @@ class DetailView extends Component {
             var data = this.props.detaildata[2];
 
             // x scale
-            var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
+            var xDomain = ["ED50", "t_half", "AUC", "Bioavailability", "Solubility"],
+                xMetric = ["ug/animal", "h", "ng h/mL", "%", "ug/mL"],
                 xRange = [0, xDomain.length * this.state.heatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
@@ -1402,7 +1465,7 @@ class DetailView extends Component {
                     tooltip.transition().duration(200).style("opacity", 0.9);
                     tooltip
                         .html(
-                            `<span class="tooltip-label">${d.attr}:</span> ${d.value}`
+                            `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
                         )
                         .style("left", event.pageX + 10 + "px")
                         .style("top", event.pageY + 10 + "px");
@@ -1419,6 +1482,16 @@ class DetailView extends Component {
                         .style("opacity", 0.5)
 
                     d3.selectAll("rect.sankey")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
+                    d3.selectAll("rect.sankey-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 1)
+                        .style("stroke", "orange")
+                        .style("stroke-width", 3)
+
+                    d3.selectAll("rect.sankey-border")
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
@@ -1454,6 +1527,11 @@ class DetailView extends Component {
 
                     d3.selectAll("rect.sankey")
                         .style("opacity", 1)
+
+                    d3.selectAll("rect.sankey-border")
+                        .style("opacity", 1)
+                        .style("stroke-width", 2)
+                        .style("stroke", "#adb5bd")
 
                     d3.selectAll("circle.network")
                         .style("stroke-width", 0)
@@ -1669,6 +1747,16 @@ class DetailView extends Component {
                                 .style("stroke-width", 3)
                                 .classed("highlightRect", true);
 
+                            d3.selectAll("rect.sankey-border")
+                                .filter((node) => node.id == d.id)
+                                .style("opacity", 1)
+                                .style("stroke", "orange")
+                                .style("stroke-width", 3)
+
+                            d3.selectAll("rect.sankey-border")
+                                .filter((node) => node.id != d.id)
+                                .style("opacity", 0.5)
+
                             d3.selectAll("rect.heatmap")
                                 .filter((node) => node.id != d.id)
                                 .style("opacity", 0.5)
@@ -1682,8 +1770,8 @@ class DetailView extends Component {
                                 .style("stroke", "orange")
                                 .style("stroke-width", 3)
 
-                            console.log(d3.selectAll("rect.sankey")
-                                .filter((node) => node.id != d.id))
+                            // console.log(d3.selectAll("rect.sankey")
+                            //     .filter((node) => node.id != d.id))
 
                             d3.selectAll("circle.network")
                                 .filter((node) => node.id != d.id)
@@ -1713,6 +1801,11 @@ class DetailView extends Component {
                             d3.selectAll("rect.sankey")
                                 .style("opacity", 1)
 
+                            d3.selectAll("rect.sankey-border")
+                                .style("opacity", 1)
+                                .style("stroke-width", 2)
+                                .style("stroke", "#adb5bd")
+
                             d3.selectAll("circle.network")
                                 .style("stroke-width", 0)
                                 .style("opacity", 1)
@@ -1734,7 +1827,7 @@ class DetailView extends Component {
                         .attr("y", (d, i) => d.height * rectHeight + offset)
                         .attr("width", 30)
                         .attr("height", d => d.length * rectHeight)
-                        .attr("class", "sankey")
+                        .attr("class", "sankey-border")
                         .attr("id", d => d.id)
                         // .style("fill", d => colorScale(d.status))
                         .style("fill", "none")

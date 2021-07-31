@@ -80,10 +80,6 @@ div.tooltip {
   stroke-width: 0;
 }
 
-g#913230b6-7be8-445e-bf6b-2ac25a6420f4 > circle {
-  fill: rgb(156, 156, 156);
-}
-
 text.rd3t-label__title {
   font-size: 50px;
   fill: black;
@@ -97,14 +93,69 @@ path.root-path-class {
 }
 
 .thumb-text {
-  background-color: rgba(218, 218, 218, 0.61);
+  background-color: rgb(255, 255, 255);
   height: 15px;
   line-height: 15px;
-  width: 20px;
+  width: 24px;
   text-align: center;
   border-radius: 15%;
+  border-style: solid;
+  border-color: rgb(190, 189, 189);
+  border-width: 0.2px;
+  /* padding: 0.5px; */
+  margin-top: 2px;
+  margin-left: -4px;
+  /* cursor: grab; */
+  font-size: 8px;
+  z-index: 10;
+}
+
+.mark {
+  font-size: 8px;
+  background: none;
+  margin-top: 10px;
+  margin-left: -2px;
+}
+
+.thumb-btn {
+  width: 15px;
+  height: 12px;
+  background-color: #dadada;
   cursor: grab;
-  font-size: 7px;
+}
+/* 
+.example-thumb-0 > .thumb-btn:active,
+.example-thumb-3 > .thumb-btn:active {
+  user-select: none;
+  draggable: "false";
+}
+
+.example-thumb-0 > .thumb-btn,
+.example-thumb-3 > .thumb-btn {
+  opacity: 0;
+  background: none;
+  cursor: default;
+  user-select: none;
+  draggable: "false";
+}
+
+.example-thumb-0,
+.example-thumb-3 {
+  z-index: 0;
+}
+.example-thumb-1,
+.example-thumb-2 {
+  z-index: 100;
+}
+.example-thumb-0 > .thumb-text,
+.example-thumb-3 > .thumb-text {
+  border: none;
+  background: none;
+  z-index: -1;
+} */
+
+.example-thumb {
+  width: 15px;
 }
 
 .example-thumb.active {
@@ -113,15 +164,20 @@ path.root-path-class {
 
 .example-thumb.active > .thumb-text {
   outline: none;
-  background-color: rgb(206, 204, 204);
+  z-index: 999;
+}
+
+.example-thumb.active > .thumb-btn {
+  outline: none;
+  background-color: rgb(194, 194, 194);
 }
 
 .horizontal-slider {
   height: 35px;
   width: 100px;
   float: right;
-  margin-right: 10px;
-  /* background-color: grey; */
+  margin-right: 20px;
+  /* background-color: #87bace; */
 }
 
 .node-circle {

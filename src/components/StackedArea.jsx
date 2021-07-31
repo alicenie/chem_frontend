@@ -148,7 +148,7 @@ class StackedArea extends Component {
     }
 
     handleChange = (value) => {
-        // console.log("slider value:", value)
+        console.log("slider value:", value)
         this.setState({ trendRange: value })
     }
 
@@ -156,9 +156,9 @@ class StackedArea extends Component {
         const StyledTrack = styled.div`
             top: 0;
             bottom: 0;
-            height: 15px;
-            margin-top: 2px;
-            background: ${props => props.index === 1 ? 'rgb(206, 212, 218)' : 'rgba(206, 212, 218,0.3)'};
+            height: 5px;
+            margin-top: 4px;
+            background: ${props => props.index === 1 ? '#87bace' : 'rgba(206, 212, 218,0.3)'};
             border-radius: 2px;
         `;
 
@@ -177,12 +177,17 @@ class StackedArea extends Component {
                     className="horizontal-slider"
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
-                    defaultValue={[2016, 2020]}
-                    min={2016}
+                    defaultValue={[2015, 2020]}
+                    min={2015}
                     max={2020}
+                    marks={[2015, 2020]}
                     ariaLabel={['Lower thumb', 'Upper thumb']}
                     ariaValuetext={state => `Thumb value ${state.valueNow}`}
-                    renderThumb={(props, state) => <div {...props}><div style={{ textAlign: state.index === 0 ? "start" : "end" }}>|</div><p className="thumb-text">{state.valueNow}</p></div>}
+                    renderMark={(props) => {
+                        console.log("props", props)
+                        return <span {...props} >{props.key}</span>
+                    }}
+                    renderThumb={(props, state) => <div style={{ width: 15 }} {...props} ><div class="thumb-btn"></div><p className="thumb-text">{state.valueNow}</p></div>}
                     renderTrack={(props, state) => <StyledTrack {...props} index={state.index} />}
                     pearling
                     minDistance={0}
