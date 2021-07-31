@@ -650,7 +650,14 @@ class DetailView extends Component {
                 .select("body")
                 .append("div")
                 .attr("class", "tooltip")
-                .style("opacity", 0);
+                .style('display', 'none')
+                .style("opacity", 0.9)
+                .on('mouseover', () => {
+                    tooltip.transition().duration(0).style("display", "block");
+                })
+                .on("mouseout", () => {
+                    tooltip.style("display", "none")
+                });
 
             // construct network
             var link = svg
@@ -713,7 +720,7 @@ class DetailView extends Component {
                     // console.log(d.id)
 
                     // tooltip
-                    tooltip.transition().duration(200).style("opacity", 0.9);
+                    tooltip.transition().duration(200);
                     tooltip
                         .html(() => {
                             var author = ""
@@ -733,7 +740,7 @@ class DetailView extends Component {
                             <div class="col-7" style="margin-left:3px;padding:0">
                             <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
                             <span class="tooltip-author">${author}</span><br/><br/>
-                            <span class="tooltip-label">Doi:</span><span class="tooltip-doi">${d.doi}</span><br/>
+                            <span class="tooltip-label">Doi:</span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a><br/>
                             <span class="tooltip-label">Cited:</span>${d.paper_cited}<br/>
                             <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
                             
@@ -744,7 +751,12 @@ class DetailView extends Component {
                             `}
                         )
                         .style("left", event.pageX - 360 + "px")
-                        .style("top", event.pageY - 160 + "px");
+                        .style("top", event.pageY - 160 + "px")
+                        .style("display", "block")
+                    // .on("mouseout", () => {
+                    // console.log("tooltip mouseout")
+                    // tooltip.transition().duration(200).style("opacity", 0);
+                    // });
 
                     // highlight
                     d3.selectAll("rect.heatmap")
@@ -793,7 +805,10 @@ class DetailView extends Component {
                         .style("top", event.pageY - 160 + "px");
                 })
                 .on("mouseout", (event, d) => {
-                    tooltip.transition().duration(200).style("opacity", 0);
+                    // tooltip.on("mouseout.tooltip", () => {
+                    // console.log("tooltip mouseout")
+                    tooltip.transition().delay(500).style("display", "none");
+                    // })
 
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
@@ -822,21 +837,17 @@ class DetailView extends Component {
             // .call(drag(simulation));
 
             // draw arc
-            var arc_data = [{ position: 5, value: 1 }, { position: 10, value: 1 }, { position: 15, value: 1 }, { position: 20, value: 1 }]
+            var arc_data = [{ position: 0, value: 1 }, { position: 5, value: 1 }, { position: 10, value: 1 }, { position: 15, value: 1 }]
+            var arc_data_ready = d3.pie().value(d => d.value)(arc_data)
+            var arc = d3.arc()
+                .innerRadius(radius)
+                .outerRadius(radius + 3)
+                .padAngle(0.03 * Math.PI);
             nodes.forEach(node => {
-                var svg = d3
+                let svg = d3
                     .select("svg#detail_svg")
                     .append("g")
-                    .attr("transform", "translate(" + (10 + node.x + "," + (node.y + margin.top) + ")"))
-
-                var arc_data_ready = d3.pie().value(d => d.value)(arc_data)
-
-                var arc = d3.arc()
-                    .innerRadius(radius)
-                    .outerRadius(radius + 3)
-                    // .startAngle(0.5 * Math.PI)
-                    // .endAngle(Math.PI)
-                    .padAngle(0.03 * Math.PI);
+                    .attr("transform", "translate(" + (10 + node.x) + "," + (node.y + margin.top) + ")")
 
                 // console.log("level", node.level)
                 svg.selectAll()
@@ -847,8 +858,49 @@ class DetailView extends Component {
                     .attr("d", arc)
                     .attr("fill", (d) => {
                         // console.log(d.data.position)
-                        return d.data.position < node.level ? "#f4978e" : "lightgrey"
+                        return node.level > d.data.position ? "#f4978e" : "lightgrey"
                     })
+
+            })
+
+            // draw legend
+            var legend_arc = d3.arc()
+                .innerRadius(8)
+                .outerRadius(10)
+                .padAngle(0.03 * Math.PI);
+            var arc_legend = [{ level: 1, text: "0~5" }, { level: 6, text: "5~10" }, { level: 11, text: "10~15" }, { level: 16, text: ">15" }]
+            var text = svg.append("text").attr("y", -15);
+            var legend_text = "synthesis route length";
+            text.selectAll("tspan.text")
+                .data(legend_text.split(" "))
+                .enter()
+                .append("tspan")
+                .attr("class", "network")
+                .text(d => d)
+                .attr("x", 35 + 1 / 2 * this.state.medchemWidth)
+                .attr("dy", 12)
+                .style("font-size", 12)
+                .style("text-anchor", "middle")
+
+            arc_legend.forEach((node, i) => {
+                let svg = d3
+                    .select("svg#detail_svg")
+                    .append("g")
+                    .attr("class", "network")
+                    .attr("transform", "translate(" + (this.state.medchemWidth - (2.7 - i) * 30) + ",20)")
+
+                svg.selectAll().data(arc_data_ready).enter()
+                    .append("path")
+                    .attr("d", legend_arc)
+                    .style("fill", d => node.level > d.data.position ? "#f4978e" : "lightgrey")
+
+                svg.append("text")
+                    .text(node.text)
+                    .attr("x", 0)
+                    .attr("y", 25)
+                    .style("font-size", 9)
+                    .style("text-anchor", "middle")
+
             })
 
             // initial vitro heatmap order

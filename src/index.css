@@ -32,9 +32,13 @@ div.tooltip {
   font: 13px sans-serif;
   background: rgb(71, 71, 71);
   /* border: 1px solid black; */
-  pointer-events: none;
+  pointer-events: auto;
   border-radius: 2px;
 }
+
+/* div.tooltip:hover {
+  color: rgb(129, 127, 127);
+} */
 
 .tooltip-title {
   font-size: 12px;
@@ -48,6 +52,7 @@ div.tooltip {
 
 .tooltip-doi {
   color: rgb(172, 192, 246);
+  text-decoration: underline;
 }
 
 .tooltip-label {
