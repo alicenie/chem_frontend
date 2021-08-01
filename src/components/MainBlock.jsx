@@ -19,8 +19,8 @@ import DetailView from './DetailView';
 import TargetTree from './TargetTree';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import real_output from '../processedOutput.json';
 
-// setConfiguration({ maxScreenClass: 'xl', gutterWidth: 5 });
 class MainBlock extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +36,7 @@ class MainBlock extends Component {
     }
 
     componentDidMount() {
-
+        console.log("real_output", real_output)
     }
 
     handleAddSelection = (selectedTarget) => {
@@ -183,6 +183,7 @@ class MainBlock extends Component {
                                 </div>
                                 {/* <SimilarityGraph /> */}
                                 <DetailView height={upperHeight}
+                                    value={this.state.selectedDetailTarget ? this.state.selectedDetailTarget : null}
                                     label={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : null}
                                     detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
                                     sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}

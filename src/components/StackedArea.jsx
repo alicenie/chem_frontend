@@ -12,7 +12,7 @@ class StackedArea extends Component {
             Height: this.props.height - 75,
             stackWidth: this.props.width,
             targetList: this.props.value,
-            trendRange: [2016, 2020]
+            trendRange: [2015, 2020]
         }
     }
 
@@ -23,12 +23,23 @@ class StackedArea extends Component {
     componentDidUpdate() {
         console.log("component did update")
         this.state.targetList.forEach(d => {
-            // console.log(d)
-            this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)
+            if (Object.keys(d).indexOf("paper_count_year") > -1) this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata, d["paper_count_year"])
+            else this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)
         })
     }
 
-    drawStackedArea(container, data) {
+    drawStackedArea(container, data, rawdata = null) {
+        if (rawdata) {
+            // handle rawdata
+            let temp_data = [];
+            for (const [key, value] of Object.entries(rawdata)) {
+                if (key >= 1999) {
+                    temp_data.push({ year: key, A: value[0], B: value[1], C: value[2] })
+                }
+            }
+            data = temp_data
+        }
+
         // trim the data
         var newdata = data.filter(d => {
             return d.year <= this.state.trendRange[1] && d.year >= this.state.trendRange[0]
@@ -74,7 +85,7 @@ class StackedArea extends Component {
 
         // Add Y axis
         var y = d3.scaleLinear()
-            .domain([0, 1000])
+            .domain([0, 50])
             .range([height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y).ticks(3).tickFormat(d3.format("d")))
@@ -158,7 +169,7 @@ class StackedArea extends Component {
             bottom: 0;
             height: 5px;
             margin-top: 4px;
-            background: ${props => props.index === 1 ? '#87bace' : 'rgba(206, 212, 218,0.3)'};
+            background: ${props => props.index === 1 ? '#a5cfc8' : 'rgba(206, 212, 218,0.3)'};
             border-radius: 2px;
         `;
 
@@ -178,9 +189,9 @@ class StackedArea extends Component {
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
                     defaultValue={[2015, 2020]}
-                    min={2015}
-                    max={2020}
-                    marks={[2015, 2020]}
+                    min={1999}
+                    max={2021}
+                    marks={[1999, 2021]}
                     ariaLabel={['Lower thumb', 'Upper thumb']}
                     ariaValuetext={state => `Thumb value ${state.valueNow}`}
                     renderMark={(props) => {

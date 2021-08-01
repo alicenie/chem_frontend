@@ -582,14 +582,59 @@ class DetailView extends Component {
         d3.selectAll(".sankey").remove()
         d3.selectAll(".sankey-border").remove()
         var { node_pos, initial_sort } = this.drawNetwork(initial);
-        var vitro_heat_pos = this.drawVitroHeatmap(this.state.vitroSort, initial_sort),
-            vivo_heat_pos = this.drawVivoHeatmap(this.state.vivoSort, initial_sort),
-            sankey_pos = this.drawSankeyChart();
+        var { vitroHeatData, vivoHeatData } = this.handleHeatmapData(); // handle sankey should be here
+        var vitro_heat_pos = this.drawVitroHeatmap(vitroHeatData, this.state.vitroSort, initial_sort);
+        var vivo_heat_pos = this.drawVivoHeatmap(vivoHeatData, this.state.vivoSort, initial_sort);
+        //     sankey_pos = this.drawSankeyChart();
+        var sankey_pos = [];
         this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
     }
 
+    handleHeatmapData() {
+        var vitroHeatData = [], vivoHeatData = []; // [{paper_id, attr, value}]
+        if (this.props.value) {
+            this.props.value.drug_molecule_paper.forEach(paper => {
+                // console.log("paper", paper)
+                let vitro_raw = paper.pharm_metrics_vitro, vivo_raw = paper.pharm_metrics_vivo;
+                // check if empty
+                let vivo_empty = true, vitro_empty = true;
+                Object.values(vivo_raw).forEach(d => {
+                    if (d) vivo_empty = false;
+                })
+                Object.values(vitro_raw).forEach(d => {
+                    if (d) vitro_empty = false;
+                })
+
+                if (vivo_empty) {
+                    // vitro not empty => only add vitro data
+                    if (!vitro_empty) {
+                        for (const [key, value] of Object.entries(vitro_raw)) {
+                            vitroHeatData.push({ id: paper.paper_id, attr: key, value: value })
+                        }
+                    }
+                }
+                else {
+                    // add both data
+                    for (const [key, value] of Object.entries(vitro_raw)) {
+                        vitroHeatData.push({ id: paper.paper_id, attr: key, value: value })
+                    }
+                    for (const [key, value] of Object.entries(vivo_raw)) {
+                        vivoHeatData.push({ id: paper.paper_id, attr: key, value: value })
+                    }
+                }
+            })
+        }
+        // console.log("vitroHeatData", vitroHeatData)
+        // console.log("vivoHeatData", vivoHeatData)
+        return { vitroHeatData, vivoHeatData }
+    }
+
     drawNetwork(initial) {
-        if (this.props.detaildata[0]) {
+        // if (this.props.detaildata[0]) {
+        if (this.props.value) {
+            var nodes = this.props.value.drug_molecule_paper.map(d => { let node = { ...d }; node["id"] = node.paper_id; return node }),
+                links = this.props.value.medicinal_chemistry_similarity;
+
             console.log("draw network")
 
             var node_pos = []
@@ -608,8 +653,8 @@ class DetailView extends Component {
             // .then(function (data) {
             // console.log('nodes', this.props.detaildata[0].nodes);
             // console.log('links', this.props.detaildata[0].links);
-            var nodes = this.props.detaildata[0].nodes,
-                links = this.props.detaildata[0].links;
+            // var nodes = this.props.detaildata[0].nodes,
+            //     links = this.props.detaildata[0].links;
 
             // node color scale
             var colorScale = d3
@@ -622,27 +667,35 @@ class DetailView extends Component {
             // .range(["#ffdab9", "#fbc4ab", "#f8ad9d", "#f4978e", "#f08080"]) // pink
 
             // node r scale
-            var radius = 12;
-            var rScale = d3.scaleLinear().domain([1, 10]).range([5, radius])
+            var radius = 8;
+            var rScale = d3.scaleLinear().domain([1, 10]).range([3, radius])
 
             // draw legend
-            // var circle_legend_svg = d3
-            //     .select("svg#detail_svg")
-            //     .append("g")
-            //     .attr("class", "network-legend")
-            //     .attr("transform", "translate(10,20)");
+            var circle_legend_svg = d3
+                .select("svg#detail_svg")
+                .append("g")
+                .attr("class", "network-legend")
+                .attr("transform", "translate(10,20)");
 
-            // circle_legend_svg.append("text")
-            //     .attr("x", 0)
-            //     .attr("y", 0)
-            //     .text("lengen")
+            var text = circle_legend_svg.append("text").attr("y", -15);
+            var legend_text = "the number of,proposed drug,compound";
+            text.selectAll("tspan.text")
+                .data(legend_text.split(","))
+                .enter()
+                .append("tspan")
+                .attr("class", "network")
+                .text(d => d)
+                .attr("x", 45)
+                .attr("dy", 12)
+                .style("font-size", 12)
+                .style("text-anchor", "middle")
 
-            // var circle_legend = [1, 5, 10]
-            // circle_legend_svg.selectAll().data(circle_legend).enter().append("circle")
-            //     .attr("r", d => rScale(d))
-            //     .attr("cx", (d, i) => 60 + rScale(d) + i * 20)
-            //     .attr("cy", 0)
-            //     .style("fill", "#f4978e")
+            var circle_legend = [1, 5, 10], circle_cx = [0, rScale(1) + rScale(5) + 5, rScale(1) + 2 * rScale(5) + 10 + rScale(10)]
+            circle_legend_svg.selectAll().data(circle_legend).enter().append("circle")
+                .attr("r", d => rScale(d))
+                .attr("cx", (d, i) => 100 + circle_cx[i])
+                .attr("cy", 5)
+                .style("fill", "#f4978e")
 
 
             // set tooltips
@@ -669,7 +722,6 @@ class DetailView extends Component {
             // .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
             // .attr("marker-end", "url(#arrowhead)");
 
-
             var simulation = d3
                 .forceSimulation(nodes) // Force algorithm is applied to data.nodes
                 .force(
@@ -681,7 +733,7 @@ class DetailView extends Component {
                         }) // This provide the id of a node
                         .distance(d => {
                             // console.log("link d", d)
-                            return d.value * 30
+                            return d.value * 500
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
                 )
@@ -695,8 +747,13 @@ class DetailView extends Component {
                 .stop()
 
             // make the simulation run without drawing anything
-            if (initial)
+            if (initial) {
+                console.log("simulation")
                 for (var i = 0; i < 300; ++i) simulation.tick();
+            } else {
+                for (var i = 0; i < 1; ++i) simulation.tick();
+            }
+
             // console.log("simulation end")
             console.log("nodes", nodes)
             node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y + margin.top } })
@@ -705,135 +762,136 @@ class DetailView extends Component {
 
             // draw nodes manually using the x and y created by simulation
             var node = svg
-                .selectAll("circle")
+                .selectAll()
                 .data(nodes)
                 .enter()
                 .append("circle")
                 .attr("class", "network")
-                .attr("r", d => rScale(d.value))
+                // .attr("r", d => rScale(d.value))
+                .attr("r", d => rScale(Math.floor(Math.random() * 10)))
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
                 // .style("stroke", (d) => colorScale(d.group))
                 // .style("stroke-width", 4)
                 .style("fill", (d) => "#f4978e")
-                .on("mouseover", function (event, d) {
-                    // console.log(d.id)
+            // .on("mouseover", function (event, d) {
+            //     // console.log(d.id)
 
-                    // tooltip
-                    tooltip.transition().duration(200);
-                    tooltip
-                        .html(() => {
-                            var author = ""
-                            d.paper_author.forEach(d => author += (d.split(' ')[0][0] + '. ' + d.split(' ')[1] + ", "))
+            //     // tooltip
+            //     tooltip.transition().duration(200);
+            //     tooltip
+            //         .html(() => {
+            //             var author = ""
+            //             d.paper_author.forEach(d => author += (d.split(' ')[0][0] + '. ' + d.split(' ')[1] + ", "))
 
-                            var metrics = ""
-                            for (const [key, value] of Object.entries(d.medicinal_chemistry_metrics)) {
-                                if (value) metrics += `<span>${key}: ${value}</span><br/>`
-                            }
-                            return `<div class="network-tooltip" style="padding:2px;width:360px">
-                            <div class="row">
-                            <div class="col-3" style="margin:2px">
-                            <img src='${d.paper_abstract_image}' width=80/>
-                            ${metrics}
-                            </div>
-                            
-                            <div class="col-7" style="margin-left:3px;padding:0">
-                            <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
-                            <span class="tooltip-author">${author}</span><br/><br/>
-                            <span class="tooltip-label">Doi:</span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a><br/>
-                            <span class="tooltip-label">Cited:</span>${d.paper_cited}<br/>
-                            <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
-                            
-                            </div>
-                            </div>
-                            <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
-                            </div>
-                            `}
-                        )
-                        .style("left", event.pageX - 360 + "px")
-                        .style("top", event.pageY - 160 + "px")
-                        .style("display", "block")
-                    // .on("mouseout", () => {
-                    // console.log("tooltip mouseout")
-                    // tooltip.transition().duration(200).style("opacity", 0);
-                    // });
+            //             var metrics = ""
+            //             for (const [key, value] of Object.entries(d.medicinal_chemistry_metrics)) {
+            //                 if (value) metrics += `<span>${key}: ${value}</span><br/>`
+            //             }
+            //             return `<div class="network-tooltip" style="padding:2px;width:360px">
+            //             <div class="row">
+            //             <div class="col-3" style="margin:2px">
+            //             <img src='${d.paper_abstract_image}' width=80/>
+            //             ${metrics}
+            //             </div>
 
-                    // highlight
-                    d3.selectAll("rect.heatmap")
-                        .filter((node) => node.id == d.id)
-                        .style("stroke", "orange")
-                        .style("stroke-width", 3)
-                    // .classed("highlightRect", true);
+            //             <div class="col-7" style="margin-left:3px;padding:0">
+            //             <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
+            //             <span class="tooltip-author">${author}</span><br/><br/>
+            //             <span class="tooltip-label">Doi:</span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a><br/>
+            //             <span class="tooltip-label">Cited:</span>${d.paper_cited}<br/>
+            //             <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
 
-                    d3.selectAll("rect.heatmap")
-                        .filter((node) => node.id != d.id)
-                        .style("opacity", 0.5)
+            //             </div>
+            //             </div>
+            //             <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
+            //             </div>
+            //             `}
+            //         )
+            //         .style("left", event.pageX - 360 + "px")
+            //         .style("top", event.pageY - 160 + "px")
+            //         .style("display", "block")
+            //     // .on("mouseout", () => {
+            //     // console.log("tooltip mouseout")
+            //     // tooltip.transition().duration(200).style("opacity", 0);
+            //     // });
 
-                    d3.selectAll("rect.sankey")
-                        .filter((node) => node.id != d.id)
-                        .style("opacity", 0.5)
+            //     // highlight
+            //     d3.selectAll("rect.heatmap")
+            //         .filter((node) => node.id == d.id)
+            //         .style("stroke", "orange")
+            //         .style("stroke-width", 3)
+            //     // .classed("highlightRect", true);
 
-                    d3.selectAll("rect.sankey-border")
-                        .filter((node) => node.id == d.id)
-                        .style("opacity", 1)
-                        .style("stroke", "orange")
-                        .style("stroke-width", 3)
+            //     d3.selectAll("rect.heatmap")
+            //         .filter((node) => node.id != d.id)
+            //         .style("opacity", 0.5)
 
-                    d3.selectAll("rect.sankey-border")
-                        .filter((node) => node.id != d.id)
-                        .style("opacity", 0.5)
+            //     d3.selectAll("rect.sankey")
+            //         .filter((node) => node.id != d.id)
+            //         .style("opacity", 0.5)
 
-                    d3.selectAll("circle.network")
-                        .filter((node) => node.id == d.id)
-                        .style("stroke", "orange")
-                        .style("stroke-width", 3)
+            //     d3.selectAll("rect.sankey-border")
+            //         .filter((node) => node.id == d.id)
+            //         .style("opacity", 1)
+            //         .style("stroke", "orange")
+            //         .style("stroke-width", 3)
 
-                    d3.selectAll("circle.network")
-                        .filter((node) => node.id != d.id)
-                        .style("opacity", 0.5)
+            //     d3.selectAll("rect.sankey-border")
+            //         .filter((node) => node.id != d.id)
+            //         .style("opacity", 0.5)
 
-                    d3.selectAll("path#" + d.id)
-                        .attr("opacity", 1)
-                        .attr("stroke-width", 2)
+            //     d3.selectAll("circle.network")
+            //         .filter((node) => node.id == d.id)
+            //         .style("stroke", "orange")
+            //         .style("stroke-width", 3)
 
-                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
-                        .style("opacity", 0.5)
-                })
-                .on("mousemove", (event, d) => {
-                    tooltip
-                        .style("left", event.pageX - 360 + "px")
-                        .style("top", event.pageY - 160 + "px");
-                })
-                .on("mouseout", (event, d) => {
-                    // tooltip.on("mouseout.tooltip", () => {
-                    // console.log("tooltip mouseout")
-                    tooltip.transition().delay(500).style("display", "none");
-                    // })
+            //     d3.selectAll("circle.network")
+            //         .filter((node) => node.id != d.id)
+            //         .style("opacity", 0.5)
 
-                    d3.selectAll("rect.heatmap")
-                        .style("stroke-width", 2)
-                        .style("stroke", "#e9ecef")
-                        .style("opacity", 1)
+            //     d3.selectAll("path#" + d.id)
+            //         .attr("opacity", 1)
+            //         .attr("stroke-width", 2)
 
-                    d3.selectAll("rect.sankey")
-                        .style("opacity", 1)
+            //     d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+            //         .style("opacity", 0.5)
+            // })
+            // .on("mousemove", (event, d) => {
+            //     tooltip
+            //         .style("left", event.pageX - 360 + "px")
+            //         .style("top", event.pageY - 160 + "px");
+            // })
+            // .on("mouseout", (event, d) => {
+            //     // tooltip.on("mouseout.tooltip", () => {
+            //     // console.log("tooltip mouseout")
+            //     tooltip.transition().delay(500).style("display", "none");
+            //     // })
 
-                    d3.selectAll("rect.sankey-border")
-                        .style("opacity", 1)
-                        .style("stroke-width", 2)
-                        .style("stroke", "#adb5bd")
+            //     d3.selectAll("rect.heatmap")
+            //         .style("stroke-width", 2)
+            //         .style("stroke", "#e9ecef")
+            //         .style("opacity", 1)
 
-                    d3.selectAll("circle.network")
-                        .style("stroke-width", 0)
-                        .style("opacity", 1)
+            //     d3.selectAll("rect.sankey")
+            //         .style("opacity", 1)
 
-                    d3.selectAll("path#" + d.id)
-                        .attr("opacity", 0.5)
-                        .attr("stroke-width", 1)
+            //     d3.selectAll("rect.sankey-border")
+            //         .style("opacity", 1)
+            //         .style("stroke-width", 2)
+            //         .style("stroke", "#adb5bd")
 
-                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
-                        .style("opacity", 1)
-                })
+            //     d3.selectAll("circle.network")
+            //         .style("stroke-width", 0)
+            //         .style("opacity", 1)
+
+            //     d3.selectAll("path#" + d.id)
+            //         .attr("opacity", 0.5)
+            //         .attr("stroke-width", 1)
+
+            //     d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+            //         .style("opacity", 1)
+            // })
             // .call(drag(simulation));
 
             // draw arc
@@ -841,12 +899,14 @@ class DetailView extends Component {
             var arc_data_ready = d3.pie().value(d => d.value)(arc_data)
             var arc = d3.arc()
                 .innerRadius(radius)
-                .outerRadius(radius + 3)
+                .outerRadius(radius + 2)
                 .padAngle(0.03 * Math.PI);
             nodes.forEach(node => {
                 let svg = d3
                     .select("svg#detail_svg")
                     .append("g")
+                    .attr("class", "network-arc")
+                    .attr("id", `network-arc-${node.id}`)
                     .attr("transform", "translate(" + (10 + node.x) + "," + (node.y + margin.top) + ")")
 
                 // console.log("level", node.level)
@@ -858,7 +918,8 @@ class DetailView extends Component {
                     .attr("d", arc)
                     .attr("fill", (d) => {
                         // console.log(d.data.position)
-                        return node.level > d.data.position ? "#f4978e" : "lightgrey"
+                        // return node.level > d.data.position ? "#f4978e" : "lightgrey"
+                        return Math.random() * 20 > d.data.position ? "#f4978e" : "lightgrey"
                     })
 
             })
@@ -903,8 +964,178 @@ class DetailView extends Component {
 
             })
 
+            // draw background circle for hover
+            var hover_border = svg
+                .selectAll()
+                .data(nodes)
+                .enter()
+                .append("circle")
+                .attr("class", "network-hover-border")
+                .attr("r", radius + 4)
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .style("fill", "none")
+                .style("stroke-width", 2)
+                .style("stroke", "orange")
+                .style("opacity", 0)
+
+            var background_circle = svg
+                .selectAll()
+                .data(nodes)
+                .enter()
+                .append("circle")
+                .attr("class", "network-hover")
+                .attr("r", radius + 3)
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .style("fill", "white")
+                .style("opacity", 0)
+                .on("mouseover", function (event, d) {
+                    // console.log(d.id)
+
+                    // tooltip
+                    tooltip.transition().duration(200);
+                    tooltip
+                        .html(() => {
+                            var author = ""
+                            d.paper_author.forEach(d => author += (d.split(' ')[0][0] + '. ' + d.split(' ')[1] + ", "))
+
+                            var metrics = ""
+                            for (const [key, value] of Object.entries(d.medicinal_chemistry_metrics)) {
+                                // if (value) metrics += `<span>${key}: ${value}</span><br/>`
+                                metrics += `<span>${key}: ${value ? value : 0}</span><br/>`
+                            }
+                            return `<div class="network-tooltip" style="padding:2px;width:330px">
+                        <div class="row">
+
+                        <div class="col-3" style="margin:0px;padding-left:15px;padding-right:0px">
+                        <img src='${d.paper_abstract_image}' width=60/>
+                        <span class="tooltip-label">Ki: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Ki"] : 0}
+                        <span class="tooltip-label"> Kd: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Kd"] : 0}
+                        <br/>
+                        <span class="tooltip-label">IC50: </span>${d.medicinal_chemistry_metrics["IC50"] ? d.medicinal_chemistry_metrics["IC50"] : 0}
+                        <span class="tooltip-label"> Sel: </span>${d.medicinal_chemistry_metrics["selectivity"] ? d.medicinal_chemistry_metrics["selectivity"] : 0}
+                        <br/>
+                        <span class="tooltip-label">Route: </span>${d.level}
+                        </div>
+
+                        <div class="col-9" style="margin:0px;padding:0px">
+                        <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
+                        <span class="tooltip-author">${author}</span><br/><br/>
+                        <div class="row">
+                        <div class="col-9">
+                        <span class="tooltip-label">Doi: </span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a>
+                        </div><div class="col-3" style="margin:0px;padding:0px;">
+                        <span class="tooltip-label">Cited: </span><span>${parseFloat(d.paper_cited)}</span>
+                        </div></div>
+                        <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
+                        <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
+                        </div>
+
+                        </div>
+                        </div>
+                        `}
+                        )
+                        .style("left", event.pageX - 350 + "px")
+                        .style("top", event.pageY - 150 + "px")
+                        .style("display", "block")
+                    // .on("mouseout", () => {
+                    // console.log("tooltip mouseout")
+                    // tooltip.transition().duration(200).style("opacity", 0);
+                    // });
+
+                    // highlight
+                    d3.selectAll("rect.heatmap")
+                        .filter((node) => node.id == d.id)
+                        .style("stroke", "orange")
+                        .style("stroke-width", 3)
+                    // .style("transform", "scale(1.1)")
+                    // .classed("highlightRect", true);
+
+                    d3.selectAll("rect.heatmap")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
+                    d3.selectAll("rect.sankey")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
+                    d3.selectAll("rect.sankey-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 1)
+                        .style("stroke", "orange")
+                        .style("stroke-width", 3)
+
+                    d3.selectAll("rect.sankey-border")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
+                    d3.selectAll("circle.network-hover-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 1)
+
+                    d3.selectAll("circle.network")
+                        .filter((node) => node.id != d.id)
+                        .style("opacity", 0.5)
+
+                    d3.selectAll("g.network-arc")
+                        .style("opacity", 0.5)
+
+                    d3.selectAll(`g#network-arc-${d.id}`)
+                        .style("opacity", 1)
+
+                    d3.selectAll("path#detailpath-" + d.id.toString())
+                        .attr("opacity", 1)
+                        .attr("stroke-width", 2)
+
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 0.5)
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip
+                        .style("left", event.pageX - 350 + "px")
+                        .style("top", event.pageY - 150 + "px");
+                })
+                .on("mouseout", (event, d) => {
+                    // tooltip.on("mouseout.tooltip", () => {
+                    // console.log("tooltip mouseout")
+                    tooltip.transition().delay(500).style("display", "none");
+                    // })
+
+                    d3.selectAll("rect.heatmap")
+                        .style("stroke-width", 2)
+                        .style("stroke", "#e9ecef")
+                        .style("opacity", 1)
+                    // .style("transform", "scale(1)")
+
+                    d3.selectAll("rect.sankey")
+                        .style("opacity", 1)
+
+                    d3.selectAll("rect.sankey-border")
+                        .style("opacity", 1)
+                        .style("stroke-width", 2)
+                        .style("stroke", "#adb5bd")
+
+                    d3.selectAll("circle.network-hover-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 0)
+
+                    d3.selectAll("circle.network")
+                        .style("opacity", 1)
+
+                    d3.selectAll("g.network-arc")
+                        .style("opacity", 1)
+
+                    d3.selectAll("path#detailpath-" + d.id.toString())
+                        .attr("opacity", 0.5)
+                        .attr("stroke-width", 1)
+
+                    d3.selectAll("text.sankey").filter((t) => t.id != d.id)
+                        .style("opacity", 1)
+                })
+
             // initial vitro heatmap order
-            var initial_sort = nodes.sort((a, b) => a.y - b.y).map(d => d.id)
+            var initial_sort = nodes.sort((a, b) => a.y - b.y).map(d => d.paper_id)
             console.log("initial_sort", initial_sort)
 
         }
@@ -913,7 +1144,7 @@ class DetailView extends Component {
     }
 
     drawVitroSort() {
-        var margin = { top: 25, right: 10, bottom: 10, left: 10 },
+        var margin = { top: 10, right: 10, bottom: 10, left: 10 },
             width = this.state.vitroWidth - margin.left - margin.right;
 
         var svg = d3
@@ -934,7 +1165,95 @@ class DetailView extends Component {
             .select("body")
             .append("div")
             .attr("class", "tooltip")
-            .style("opacity", 0);
+            .style("opacity", 0.9)
+            .style("display", "none");
+
+        // arrow
+        svg
+            .append('defs')
+            .append('marker')
+            .attr('id', 'arrow')
+            .attr('viewBox', [0, 0, 4, 4])
+            .attr('refX', 3)
+            .attr('refY', 3)
+            .attr('markerWidth', 4)
+            .attr('markerHeight', 4)
+            .attr('orient', 'auto-start-reverse')
+
+        // ascending icon
+        var ascendDef = svg.append('defs').append("g").attr("id", "ascending");
+
+        ascendDef.append("rect")
+            .attr("x", -3)
+            .attr("y", -8)
+            .attr("width", 17)
+            .attr("height", 18)
+            .style("fill", "#eeeeee")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        ascendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .text('0')
+            .style("font-size", 9)
+            .style("fill", "steelblue")
+
+        ascendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 8)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", "black")
+
+        ascendDef.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 1)
+            .attr("x1", 10)
+            .attr("y1", -6)
+            .attr("x2", 10)
+            .attr("y2", 6)
+            .attr('marker-end', 'url(#arrow)')
+
+        // descending icon
+        var descendDef = svg.append('defs').append("g").attr("id", "descending")
+            .attr("x", 20).attr("y", 20).style("border", "black").style("border-width", 1);
+
+        descendDef.append("rect")
+            .attr("x", -3)
+            .attr("y", -8)
+            .attr("width", 17)
+            .attr("height", 18)
+            .style("fill", "#eeeeee")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        descendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", "black")
+
+        descendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 8)
+            .text('0')
+            .style("font-size", 9)
+            .style("fill", "steelblue")
+
+        descendDef.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 1)
+            .attr("x1", 10)
+            .attr("y1", -6)
+            .attr("x2", 10)
+            .attr("y2", 6)
+            .attr('marker-end', 'url(#arrow)')
 
         svg.selectAll()
             .data(xDomain).enter()
@@ -942,22 +1261,23 @@ class DetailView extends Component {
             // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
             // .attr("x", d => xScale(d))
             // .attr("y", 0)
-            .append('path')
-            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 11) + ",5), rotate(-90)"; })
-            .style("fill", "rgba(218, 218, 218, 0.8)")
+            .append("use").attr("xlink:href", "#ascending")
+            // .append('path')
+            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 5) + ",5)"; })
+            .style("opacity", 0.5)
             .attr("class", "vitro-sort-a")
             .on("click", (_, d) => {
                 // console.log("click ", d)
                 this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
-                d3.selectAll("path.vitro-sort-a").filter(i => i === d).style("fill", "grey")
-                d3.selectAll("path.vitro-sort-a").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
-                d3.selectAll("path.vitro-sort-de").style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll(".vitro-sort-a").filter(i => i === d).style("opacity", 1)
+                d3.selectAll(".vitro-sort-a").filter(i => i !== d).style("opacity", 0.3)
+                d3.selectAll(".vitro-sort-de").style("opacity", 0.3)
             })
             .on("mouseover", (event) => {
-                d3.selectAll("path.vitro-sort-a").style("cursor", "pointer")
+                // d3.selectAll("path.vitro-sort-a").style("cursor", "pointer")
                 // tooltip
-                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip.transition().duration(200).style("display", "block");
                 tooltip
                     .html(
                         `sort`
@@ -972,8 +1292,8 @@ class DetailView extends Component {
             })
             .on("mouseout", () => {
                 // console.log(d3.selectAll("path.vitro-sort"));
-                d3.selectAll("path.vitro-sort-a").style("cursor", "default")
-                tooltip.transition().duration(400).style("opacity", 0);
+                // d3.selectAll("path.vitro-sort-a").style("cursor", "default")
+                tooltip.transition().duration(400).style("display", "none");
             });
 
         svg.selectAll()
@@ -982,22 +1302,23 @@ class DetailView extends Component {
             // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
             // .attr("x", d => xScale(d))
             // .attr("y", 0)
-            .append('path')
-            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 19) + ",8), rotate(90)"; })
-            .style("fill", "rgba(218, 218, 218, 0.8)")
+            // .append('path')
+            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .append("use").attr("xlink:href", "#descending")
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 5) + ",25)"; })
+            // .style("fill", "rgba(218, 218, 218, 0.8)")
             .attr("class", "vitro-sort-de")
+            .style("opacity", 0.5)
             .on("click", (_, d) => {
                 // console.log("click ", d)
                 this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
-                d3.selectAll("path.vitro-sort-de").filter(i => i === d).style("fill", "grey")
-                d3.selectAll("path.vitro-sort-de").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
-                d3.selectAll("path.vitro-sort-a").style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll(".vitro-sort-de").filter(i => i === d).style("opacity", 1)
+                d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.3)
+                d3.selectAll(".vitro-sort-a").style("opacity", 0.3)
             })
             .on("mouseover", (event) => {
-                d3.selectAll("path.vitro-sort-de").style("cursor", "pointer")
                 // tooltip
-                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip.transition().duration(200).style("display", "block");
                 tooltip
                     .html(
                         `sort`
@@ -1011,8 +1332,8 @@ class DetailView extends Component {
                     .style("top", event.pageY + 10 + "px");
             })
             .on("mouseout", () => {
-                d3.selectAll("path.vitro-sort-de").style("cursor", "default")
-                tooltip.transition().duration(400).style("opacity", 0);
+                // d3.selectAll("path.vitro-sort-de").style("cursor", "default")
+                tooltip.transition().duration(400).style("display", "none");
             });
 
         svg.append("g").call(d3.axisTop(xScale))
@@ -1021,7 +1342,7 @@ class DetailView extends Component {
                 g.selectAll("line").remove();
             })
             .selectAll("text")
-            .attr("transform", "translate(8,5), rotate(-90)")
+            .attr("transform", "translate(13,55), rotate(-90)")
             .style("text-anchor", "middle")
             .style("font-size", 12)
 
@@ -1065,11 +1386,12 @@ class DetailView extends Component {
             });
     }
 
-    drawVitroHeatmap(sort, initial_sort) {
-        if (this.props.detaildata[1]) {
+    drawVitroHeatmap(vitroHeatData, sort, initial_sort) {
+        // if (this.props.detaildata[1]) {
+        if (vitroHeatData[0]) {
 
             console.log("draw vitro heatmap")
-            var margin = { top: 53, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 85, right: 10, bottom: 10, left: 10 },
                 width = this.state.vitroWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -1078,11 +1400,12 @@ class DetailView extends Component {
                 .append("g")
                 .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
-            console.log("vitro heatmap", this.props.detaildata[1])
-            var data = this.props.detaildata[1];
+            console.log("vitro heatmap", vitroHeatData)
+            // var data = this.props.detaildata[1];
+            var data = vitroHeatData;
 
             // x scale
-            var xDomain = ["IC50", "Ki", "Kd", "EC50", "Selectivity", "hERG", "Solubility"],
+            var xDomain = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
                 xMetric = ["nM", "nM", "nM", "nM", "fold", "uM", "ug/mL"],
                 xRange = [0, xDomain.length * this.state.heatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
@@ -1124,7 +1447,7 @@ class DetailView extends Component {
             //     .domain([1, 8]);
 
             var colorScale = d3.scaleLinear()
-                .domain([0, 6])
+                .domain([0, 8])
                 .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#efedf5", "#dadaeb", "#bcbddc", "#9e9ac8", "#807dba", "#6a51a3"]) // purple
             // .range(["white", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5"]) // blue
@@ -1136,7 +1459,8 @@ class DetailView extends Component {
                 .select("body")
                 .append("div")
                 .attr("class", "tooltip")
-                .style("opacity", 0);
+                .style("opacity", 0.9)
+                .style("display", "none");
 
             // construct heatmap
             svg.selectAll()
@@ -1151,7 +1475,7 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    return colorScale(d.value);
+                    return colorScale(Math.log(d.value));
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -1160,7 +1484,7 @@ class DetailView extends Component {
                 .attr("ry", 2)
                 .on("mouseover", (event, d) => {
                     // tooltip
-                    tooltip.transition().duration(200).style("opacity", 0.9);
+                    tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
                             `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
@@ -1193,16 +1517,21 @@ class DetailView extends Component {
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
-                    d3.selectAll("circle.network")
+                    d3.selectAll("circle.network-hover-border")
                         .filter((node) => node.id == d.id)
-                        .style("stroke", "orange")
-                        .style("stroke-width", 3)
+                        .style("opacity", 1)
 
                     d3.selectAll("circle.network")
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
-                    d3.selectAll("path#" + d.id)
+                    d3.selectAll("g.network-arc")
+                        .style("opacity", 0.5)
+
+                    d3.selectAll(`g#network-arc-${d.id}`)
+                        .style("opacity", 1)
+
+                    d3.selectAll("path#detailpath-" + d.id.toString())
                         .attr("opacity", 1)
                         .attr("stroke-width", 2)
 
@@ -1216,7 +1545,7 @@ class DetailView extends Component {
                         .style("top", event.pageY + 10 + "px");
                 })
                 .on("mouseout", (event, d) => {
-                    tooltip.transition().duration(200).style("opacity", 0);
+                    tooltip.transition().duration(200).style("display", "none");
 
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
@@ -1231,11 +1560,17 @@ class DetailView extends Component {
                         .style("stroke-width", 2)
                         .style("stroke", "#adb5bd")
 
+                    d3.selectAll("circle.network-hover-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 0)
+
                     d3.selectAll("circle.network")
-                        .style("stroke-width", 0)
                         .style("opacity", 1)
 
-                    d3.selectAll("path#" + d.id)
+                    d3.selectAll("g.network-arc")
+                        .style("opacity", 1)
+
+                    d3.selectAll("path#detailpath-" + d.id.toString())
                         .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
 
@@ -1247,7 +1582,7 @@ class DetailView extends Component {
     }
 
     drawVivoSort() {
-        var margin = { top: 25, right: 10, bottom: 10, left: 10 };
+        var margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
         var svg = d3
             .select("svg#detail_svg")
@@ -1267,7 +1602,95 @@ class DetailView extends Component {
             .select("body")
             .append("div")
             .attr("class", "tooltip")
-            .style("opacity", 0);
+            .style("opacity", 0.9)
+            .style("display", "none");
+
+        // arrow
+        svg
+            .append('defs')
+            .append('marker')
+            .attr('id', 'arrow')
+            .attr('viewBox', [0, 0, 4, 4])
+            .attr('refX', 3)
+            .attr('refY', 3)
+            .attr('markerWidth', 4)
+            .attr('markerHeight', 4)
+            .attr('orient', 'auto-start-reverse')
+
+        // ascending icon
+        var ascendDef = svg.append('defs').append("g").attr("id", "ascending");
+
+        ascendDef.append("rect")
+            .attr("x", -3)
+            .attr("y", -8)
+            .attr("width", 17)
+            .attr("height", 18)
+            .style("fill", "#eeeeee")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        ascendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .text('0')
+            .style("font-size", 9)
+            .style("fill", "steelblue")
+
+        ascendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 8)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", "black")
+
+        ascendDef.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 1)
+            .attr("x1", 10)
+            .attr("y1", -6)
+            .attr("x2", 10)
+            .attr("y2", 6)
+            .attr('marker-end', 'url(#arrow)')
+
+        // descending icon
+        var descendDef = svg.append('defs').append("g").attr("id", "descending")
+            .attr("x", 20).attr("y", 20).style("border", "black").style("border-width", 1);
+
+        descendDef.append("rect")
+            .attr("x", -3)
+            .attr("y", -8)
+            .attr("width", 17)
+            .attr("height", 18)
+            .style("fill", "#eeeeee")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        descendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", "black")
+
+        descendDef
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 8)
+            .text('0')
+            .style("font-size", 9)
+            .style("fill", "steelblue")
+
+        descendDef.append("line")
+            .style("stroke", "black")
+            .style("stroke-width", 1)
+            .attr("x1", 10)
+            .attr("y1", -6)
+            .attr("x2", 10)
+            .attr("y2", 6)
+            .attr('marker-end', 'url(#arrow)')
 
         svg.selectAll()
             .data(xDomain).enter()
@@ -1275,22 +1698,23 @@ class DetailView extends Component {
             // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
             // .attr("x", d => xScale(d))
             // .attr("y", 0)
-            .append('path')
-            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 11) + ",5), rotate(-90)"; })
-            .style("fill", "rgba(218, 218, 218, 0.8)")
+            // .append('path')
+            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .append("use").attr("xlink:href", "#ascending")
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 5) + ",5)"; })
+            // .style("fill", "rgba(218, 218, 218, 0.8)")
+            .style("opacity", 0.5)
             .attr("class", "vivo-sort-a")
             .on("click", (_, d) => {
                 // console.log("click ", d)
                 this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
-                d3.selectAll("path.vivo-sort-a").filter(i => i === d).style("fill", "grey")
-                d3.selectAll("path.vivo-sort-a").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
-                d3.selectAll("path.vivo-sort-de").style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll(".vivo-sort-a").filter(i => i === d).style("opacity", 1)
+                d3.selectAll(".vivo-sort-a").filter(i => i !== d).style("opacity", 0.3)
+                d3.selectAll(".vivo-sort-de").style("opacity", 0.3)
             })
             .on("mouseover", (event) => {
-                d3.selectAll("path.vivo-sort-a").style("cursor", "pointer")
                 // tooltip
-                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip.transition().duration(200).style("display", "block");
                 tooltip
                     .html(
                         `sort`
@@ -1305,8 +1729,8 @@ class DetailView extends Component {
             })
             .on("mouseout", () => {
                 // console.log(d3.selectAll("path.vivo-sort"));
-                d3.selectAll("path.vivo-sort-a").style("cursor", "default")
-                tooltip.transition().duration(400).style("opacity", 0);
+                // d3.selectAll("path.vivo-sort-a").style("cursor", "default")
+                tooltip.transition().duration(400).style("display", "none");
             });
 
         svg.selectAll()
@@ -1315,22 +1739,23 @@ class DetailView extends Component {
             // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
             // .attr("x", d => xScale(d))
             // .attr("y", 0)
-            .append('path')
-            .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 19) + ",8), rotate(90)"; })
-            .style("fill", "rgba(218, 218, 218, 0.8)")
+            // .append('path')
+            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
+            .append("use").attr("xlink:href", "#descending")
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 5) + ",25)"; })
+            .style("opacity", 0.5)
             .attr("class", "vivo-sort-de")
             .on("click", (_, d) => {
                 // console.log("click ", d)
                 this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
-                d3.selectAll("path.vivo-sort-de").filter(i => i === d).style("fill", "grey")
-                d3.selectAll("path.vivo-sort-de").filter(i => i !== d).style("fill", "rgba(218, 218, 218, 0.8)")
-                d3.selectAll("path.vivo-sort-a").style("fill", "rgba(218, 218, 218, 0.8)")
+                d3.selectAll(".vivo-sort-de").filter(i => i === d).style("opacity", 1)
+                d3.selectAll(".vivo-sort-de").filter(i => i !== d).style("opacity", 0.3)
+                d3.selectAll(".vivo-sort-a").style("opacity", 0.3)
             })
             .on("mouseover", (event) => {
-                d3.selectAll("path.vivo-sort-de").style("cursor", "pointer")
+                // d3.selectAll("path.vivo-sort-de").style("cursor", "pointer")
                 // tooltip
-                tooltip.transition().duration(200).style("opacity", 0.9);
+                tooltip.transition().duration(200).style("display", "block");
                 tooltip
                     .html(
                         `sort`
@@ -1344,8 +1769,8 @@ class DetailView extends Component {
                     .style("top", event.pageY + 10 + "px");
             })
             .on("mouseout", () => {
-                d3.selectAll("path.vivo-sort-de").style("cursor", "default")
-                tooltip.transition().duration(400).style("opacity", 0);
+                // d3.selectAll("path.vivo-sort-de").style("cursor", "default")
+                tooltip.transition().duration(400).style("display", "none");
             });
 
         svg.append("g").call(d3.axisTop(xScale))
@@ -1354,7 +1779,7 @@ class DetailView extends Component {
                 g.selectAll("line").remove();
             })
             .selectAll("text")
-            .attr("transform", "translate(8,5), rotate(-90)")
+            .attr("transform", "translate(13,55), rotate(-90)")
             .style("text-anchor", "middle")
             .style("font-size", 12)
 
@@ -1418,11 +1843,12 @@ class DetailView extends Component {
         //     });
     }
 
-    drawVivoHeatmap(sort, initial_sort) {
-        if (this.props.detaildata[2]) {
+    drawVivoHeatmap(vivoHeatData, sort, initial_sort) {
+        // if (this.props.detaildata[2]) {
+        if (vivoHeatData[0]) {
 
             console.log("draw vivo heatmap")
-            var margin = { top: 53, right: 10, bottom: 10, left: 0 },
+            var margin = { top: 85, right: 10, bottom: 10, left: 0 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -1431,11 +1857,13 @@ class DetailView extends Component {
                 .append("g")
                 .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
 
-            console.log("heatmap", this.props.detaildata[2])
-            var data = this.props.detaildata[2];
+            // console.log("heatmap", this.props.detaildata[2])
+            // var data = this.props.detaildata[2];
+            console.log("heatmap", vivoHeatData)
+            var data = vivoHeatData;
 
             // x scale
-            var xDomain = ["ED50", "t_half", "AUC", "Bioavailability", "Solubility"],
+            var xDomain = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
                 xMetric = ["ug/animal", "h", "ng h/mL", "%", "ug/mL"],
                 xRange = [0, xDomain.length * this.state.heatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
@@ -1479,7 +1907,7 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([0, 8]);
             var colorScale = d3.scaleLinear()
-                .domain([0, 6])
+                .domain([0, 8])
                 .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
@@ -1490,7 +1918,8 @@ class DetailView extends Component {
                 .select("body")
                 .append("div")
                 .attr("class", "tooltip")
-                .style("opacity", 0);
+                .style("display", "none")
+                .style("opacity", 0.9);
 
             // construct heatmap
             svg.selectAll()
@@ -1505,7 +1934,7 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    return colorScale(d.value);
+                    return colorScale(Math.log(d.value));
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -1514,7 +1943,7 @@ class DetailView extends Component {
                 .attr("ry", 2)
                 .on("mouseover", (event, d) => {
                     // tooltip
-                    tooltip.transition().duration(200).style("opacity", 0.9);
+                    tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
                             `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
@@ -1547,16 +1976,21 @@ class DetailView extends Component {
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
-                    d3.selectAll("circle.network")
+                    d3.selectAll("circle.network-hover-border")
                         .filter((node) => node.id == d.id)
-                        .style("stroke", "orange")
-                        .style("stroke-width", 3)
+                        .style("opacity", 1)
 
                     d3.selectAll("circle.network")
                         .filter((node) => node.id != d.id)
                         .style("opacity", 0.5)
 
-                    d3.selectAll("path#" + d.id)
+                    d3.selectAll("g.network-arc")
+                        .style("opacity", 0.5)
+
+                    d3.selectAll(`g#network-arc-${d.id}`)
+                        .style("opacity", 1)
+
+                    d3.selectAll("path#detailpath-" + d.id.toString())
                         .attr("opacity", 1)
                         .attr("stroke-width", 2)
 
@@ -1570,7 +2004,7 @@ class DetailView extends Component {
                         .style("top", event.pageY + 10 + "px");
                 })
                 .on("mouseout", (event, d) => {
-                    tooltip.transition().duration(200).style("opacity", 0);
+                    tooltip.transition().duration(200).style("display", "none");
 
                     d3.selectAll("rect.heatmap")
                         .style("stroke-width", 2)
@@ -1585,11 +2019,17 @@ class DetailView extends Component {
                         .style("stroke-width", 2)
                         .style("stroke", "#adb5bd")
 
+                    d3.selectAll("circle.network-hover-border")
+                        .filter((node) => node.id == d.id)
+                        .style("opacity", 0)
+
                     d3.selectAll("circle.network")
-                        .style("stroke-width", 0)
                         .style("opacity", 1)
 
-                    d3.selectAll("path#" + d.id)
+                    d3.selectAll("g.network-arc")
+                        .style("opacity", 1)
+
+                    d3.selectAll("path#detailpath-" + d.id.toString())
                         .attr("opacity", 0.5)
                         .attr("stroke-width", 1)
 
@@ -1634,7 +2074,7 @@ class DetailView extends Component {
                         .attr("stroke", "#adb5bd")
                         .attr("opacity", 0.5)
                         .attr("fill", "none")
-                        .attr("id", d.id)
+                        .attr("id", "detailpath-" + d.id.toString())
                         .lower()
                 })
             }
@@ -1653,7 +2093,7 @@ class DetailView extends Component {
                         .attr("stroke", "#adb5bd")
                         .attr("opacity", 0.5)
                         .attr("fill", "none")
-                        .attr("id", d.id)
+                        .attr("id", "detailpath-" + d.id.toString())
                         .lower()
                 })
             }
@@ -1672,7 +2112,7 @@ class DetailView extends Component {
                         .attr("stroke", "#adb5bd")
                         .attr("opacity", 0.5)
                         .attr("fill", "none")
-                        .attr("id", d.id)
+                        .attr("id", "detailpath-" + d.id.toString())
                         .lower()
                 })
             }

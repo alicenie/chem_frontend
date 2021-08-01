@@ -22,14 +22,16 @@ class HeatSquare extends Component {
     }
 
     componentDidUpdate() {
-        console.log("component did update")
+        console.log("overview component did update")
 
         if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
         else d3.selectAll("svg#upper-axis").style("opacity", 0);
+
+
         this.state.targetList.forEach(d => {
             // console.log(d)
-            this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
-            this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
+            if (Object.keys(d).indexOf("metrics_paper_count" > -1)) this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata, d["metrics_paper_count"], d["metrics_distribution"])
+            else this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
         })
     }
 
@@ -141,7 +143,32 @@ class HeatSquare extends Component {
             .attr("text-anchor", "start")
     }
 
-    drawHeatSquare(container, data) {
+    drawHeatSquare(container, data, count = null, distribution = null) {
+        // handle real data
+        if (count !== null && distribution !== null) {
+            let temp_line = {}
+            for (const [key, line_array] of Object.entries(distribution)) {
+                let counts = {} // { value: pub }
+                line_array.forEach(d => {
+                    counts[d] = counts[d] ? counts[d] + 1 : 1;
+                })
+                let line = []; // [{value,pub}]
+                Object.keys(counts).forEach(d => line.push({ value: parseFloat(d), pub: counts[d] }))
+                line.sort((a, b) => a.value - b.value)
+                temp_line[key] = line;
+            }
+            let temp_data = [];
+            for (const [key, value] of Object.entries(count)) {
+                temp_data.push({
+                    label: key,
+                    hvalue: value,
+                    line: temp_line[key]
+                })
+            }
+            console.log("temp_data", temp_data)
+            data = temp_data
+        }
+
         const { marginL, marginR } = this.state;
         const width = this.state.heatWidth - marginL - marginR, height = (this.state.Height) / 3;
         console.log("heat data", data)
@@ -204,7 +231,7 @@ class HeatSquare extends Component {
             var xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale.bandwidth() - 14])
-                .domain([2, 10])
+                .domain([0, 20])
             // .domain(d3.extent(lineData, (d) => d.value));
 
             var yLineScale = d3
@@ -214,7 +241,7 @@ class HeatSquare extends Component {
 
             var line = d3
                 .line()
-                .x((d) => xLineScale(d.value))
+                .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
                 .curve(d3.curveMonotoneX);
 
@@ -297,7 +324,7 @@ class HeatSquare extends Component {
                 .scaleLinear()
                 .range([x, x + xScale.bandwidth() - 14])
                 // .domain(d3.extent(lineData, (d) => d.value));
-                .domain([2, 10])
+                .domain([0, 20])
 
             var yLineScale = d3
                 .scaleLinear()
@@ -306,7 +333,7 @@ class HeatSquare extends Component {
 
             var line = d3
                 .line()
-                .x((d) => xLineScale(d.value))
+                .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
                 .curve(d3.curveMonotoneX);
 
@@ -332,8 +359,8 @@ class HeatSquare extends Component {
                 .style("opacity", 0.7)
 
             var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg2.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
-            svg2.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
         }
 
         ////////////////////////////////////
@@ -444,8 +471,6 @@ class HeatSquare extends Component {
         //     .style("stroke", "#adb5bd");
 
     }
-
-
 
 
     render() {
