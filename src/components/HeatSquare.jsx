@@ -529,56 +529,6 @@ class HeatSquare extends Component {
                 tooltip.transition().duration(200).style("display", "none");
             })
 
-        // axis
-        // const domain = ["IC50", "Ki", "Kd", "Selectivity", "IC50 ", "Ki ", "Kd ", "EC50", "Selectivity ", "hERG", "Solubility", "ED50", "t 1/2", "AUC", "Bioavailability", "Solubility ", "Adverse Effects-I", "Adverse Effects-II", "Adverse Effects-III"]
-        const domain = this.state.curAttr.map(d => d.text), unit = this.state.curAttr.map(d => d.unit);
-        // const unit = ["(nM)", "(nM)", "(nM)", "(fold)", "(nM)", "(nM)", "(nM)", "(nM)", "(fold)", "(nM)", "(ug/mL)", "(ug/animal)", "(h)", "(ng h/mL)", "(%)", "(ug/mL)", "", "", ""]
-        var xScale = d3.scaleBand()
-            .domain(domain.map((d) => {
-                if (d.length > 6) return d.substr(0, 6) + "..."
-                else return d
-            }))
-            .range([0, width - 5]);
-
-        // svg.selectAll().data(this.state.curAttr).enter()
-        //     .append("text")
-        //     .text(d => {
-        //         let attr = d.text;
-        //         if (attr.length > 6) return attr.substr(0, 6) + "..."
-        //         else return attr
-        //     })
-        //     .attr("x", (_, i) => 20 + i * 48)
-        //     .attr("y", 0)
-        //     .attr("text-anchor", "middle")
-        //     .style("font-size", 10)
-        //     .on("click", (event, attr) => {
-        //         console.log("attr click", attr)
-        //         this.handleRemoveAttr(attr)
-        //     })
-
-        // svg.selectAll().data(unit).enter()
-        //     .append("text")
-        //     .text(d => {
-        //         if (d.length > 7) return d.substr(0, 7) + "..."
-        //         else return d
-        //     })
-        //     .attr("x", (d, i) => 20 + i * 48)
-        //     .attr("y", 13)
-        //     .attr("text-anchor", "middle")
-        //     .style("font-size", 10)
-
-        // var xAxis = svg.append("g")
-        //     .attr("transform", "translate(0,10)").call(d3.axisTop(xScale))
-        //     .call(g => {
-        //         g.select(".domain").remove();
-        //         g.selectAll("line").remove();
-        //     })
-        //     .selectAll("text")
-        //     // .text(d => d + "\nd")
-        //     // .append("<div>pp</div>")
-        //     .attr("transform", "translate(0,0)")
-        //     .attr("text-anchor", "middle")
-        //     .style("font-size", 12)
     }
 
     drawHeatSquare(container, data, count = null, distribution = null, line_domains = {}) {
@@ -606,7 +556,7 @@ class HeatSquare extends Component {
                         hvalue: value,
                         line: temp_line[key],
                         area: this.state.curAttr.filter(d => d.text === key)[0].area,
-                        // index: this.state.curAttr.filter(d => d.text === key)[0].index,
+                        unit: this.state.curAttr.filter(d => d.text === key)[0].unit,
                     })
                 }
             }
@@ -627,6 +577,15 @@ class HeatSquare extends Component {
             .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + marginL + ",0)")
+
+        // set tooltips
+        var tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .attr("id", "upper-axis-tooltip")
+            .style("opacity", 0.9)
+            .style("display", "none");
 
         ////////////////////////////////////
         //////////// med chem //////////////
@@ -686,23 +645,24 @@ class HeatSquare extends Component {
 
         // draw line
         for (var i = 0; i < data1.length; i++) {
-            var lineData = data1[i].line,
+            let lineData = data1[i].line,
+                unit = data1[i].unit,
                 x = xScale1(data1[i].label),
                 y = 0;
 
-            var xLineScale = d3
+            let xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale1.bandwidth() - 14])
                 // .domain([0, 12])
                 .domain(d3.extent(line_domains[data1[i].label].map(d => Math.log(d))))
             // .domain(d3.extent(lineData, (d) => d.value));
 
-            var yLineScale = d3
+            let yLineScale = d3
                 .scaleLinear()
                 .range([height - 10, 0])
                 .domain([0, 8]); // fixed?
 
-            var line = d3
+            let line = d3
                 .line()
                 .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
@@ -719,7 +679,7 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
-            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
+            let min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
             svg1.selectAll()
                 // .data(lineData.filter(d => d.value === min || d.value === max))
                 .data(lineData)
@@ -727,9 +687,28 @@ class HeatSquare extends Component {
                 .append("circle")
                 .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
-                .attr("r", 1.5)
+                .attr("r", 2)
                 .style("fill", "#6c757d")
                 .style("opacity", 0.7)
+                .on("mouseover", (event, d) => {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))}${unit}</span><br/>
+                            <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                })
+                .on("mouseout", (event, d) => {
+                    tooltip.transition().duration(200).style("display", "none");
+                })
+
             svg1.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
             svg1.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
@@ -794,11 +773,12 @@ class HeatSquare extends Component {
 
         // draw line
         for (var i = 0; i < data2.length; i++) {
-            var lineData = data2[i].line,
+            let lineData = data2[i].line,
+                unit = data2[i].unit,
                 x = xScale2(data2[i].label),
                 y = 0;
 
-            var xLineScale = d3
+            let xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale2.bandwidth() - 14])
                 // .domain(d3.extent(lineData, (d) => d.value));
@@ -806,12 +786,12 @@ class HeatSquare extends Component {
                 .domain(d3.extent(line_domains[data2[i].label].map(d => Math.log(d))))
 
 
-            var yLineScale = d3
+            let yLineScale = d3
                 .scaleLinear()
                 .range([height - 10, 0])
                 .domain([0, 8]); // fixed?
 
-            var line = d3
+            let line = d3
                 .line()
                 .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
@@ -828,7 +808,7 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
-            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
+            let min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
             svg2.selectAll()
                 // .data(lineData.filter(d => d.value === min || d.value === max))
                 .data(lineData)
@@ -836,9 +816,28 @@ class HeatSquare extends Component {
                 .append("circle")
                 .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
-                .attr("r", 1.5)
+                .attr("r", 2)
                 .style("fill", "#6c757d")
                 .style("opacity", 0.7)
+                .on("mouseover", (event, d) => {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))}${unit}</span><br/>
+                            <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                })
+                .on("mouseout", (event, d) => {
+                    tooltip.transition().duration(200).style("display", "none");
+                })
+
             svg2.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
             svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
@@ -902,23 +901,24 @@ class HeatSquare extends Component {
 
         // draw line
         for (var i = 0; i < data3.length; i++) {
-            var lineData = data3[i].line,
+            let lineData = data3[i].line,
+                unit = data3[i].unit,
                 x = xScale3(data3[i].label),
                 y = 0;
 
-            var xLineScale = d3
+            let xLineScale = d3
                 .scaleLinear()
                 .range([x, x + xScale3.bandwidth() - 14])
                 // .domain(d3.extent(lineData, (d) => d.value));
                 // .domain([2, 10])
                 .domain(d3.extent(line_domains[data3[i].label].map(d => Math.log(d))))
 
-            var yLineScale = d3
+            let yLineScale = d3
                 .scaleLinear()
                 .range([height - 10, 0])
                 .domain([0, 15]); // fixed?
 
-            var line = d3
+            let line = d3
                 .line()
                 .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
@@ -935,7 +935,7 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
-            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
+            let min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
             svg3.selectAll()
                 // .data(lineData.filter(d => d.value === min || d.value === max))
                 .data(lineData)
@@ -943,9 +943,28 @@ class HeatSquare extends Component {
                 .append("circle")
                 .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
-                .attr("r", 1.5)
+                .attr("r", 2)
                 .style("fill", "#6c757d")
                 .style("opacity", 0.7)
+                .on("mouseover", (event, d) => {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))}${unit}</span><br/>
+                            <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                })
+                .on("mousemove", (event, d) => {
+                    tooltip
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                })
+                .on("mouseout", (event, d) => {
+                    tooltip.transition().duration(200).style("display", "none");
+                })
+
             svg3.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
             svg3.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
