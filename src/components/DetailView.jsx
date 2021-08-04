@@ -12,12 +12,12 @@ class DetailView extends Component {
             marginL: 0,
             marginR: 0,
             medchemWidth: (this.props.width - 30 - 30) / 7 * 2.1,
-            vitroWidth: (this.props.width - 30 - 30) / 7 * 1.1,
-            vivoWidth: (this.props.width - 30 - 30) / 7 * 1.1,
-            sankeyWidth: (this.props.width - 30 - 30) / 7 * 2.7,
+            vitroWidth: (this.props.width - 30 - 30) / 7 * 1.2,
+            vivoWidth: (this.props.width - 30 - 30) / 7 * 1.2,
+            sankeyWidth: (this.props.width - 30 - 30) / 7 * 2.5,
             vitroSort: { attr: null, acsending: null },
             vivoSort: { attr: null, acsending: null },
-            heatSquareLength: ((this.props.width - 30 - 30) / 7 * 2.2 - 40) / 14,
+            heatSquareLength: ((this.props.width - 30 - 30) / 7 * 2.4 - 40) / 14,
             test: true,
         }
     }
@@ -660,10 +660,22 @@ class DetailView extends Component {
 
         console.log("class", d3.selectAll("rect.heatmap")
             .filter((node) => node.id == id)
-            .attr("class"))
-        d3.selectAll("rect.heatmap")
+            .attr("class"));
+        let rect_class = d3.selectAll("rect.heatmap")
             .filter((node) => node.id == id)
-            .classed("rect-click", true)
+            .attr("class").split(" ");
+        if (rect_class.indexOf("rect-click") > -1) {
+            this.handleUndoHighlight(id)
+            d3.selectAll("rect.heatmap")
+                .filter((node) => node.id == id)
+                .classed("rect-click", false)
+        }
+        else {
+            this.handleHighlight(id)
+            d3.selectAll("rect.heatmap")
+                .filter((node) => node.id == id)
+                .classed("rect-click", true)
+        }
 
         // d3.selectAll("rect.rect-click")
         //     .filter((node) => node.id == id)
@@ -717,8 +729,15 @@ class DetailView extends Component {
             .style("opacity", 0.5)
     }
 
+    handleUndoHighlight_click = (id) => {
+        d3.selectAll("rect.heatmap")
+            .filter(d => { console.log("filter", d); return 1 })
+            .style("opacity", 1)
+    }
+
     handleUndoHighlight = (id) => {
         d3.selectAll("rect.heatmap")
+            .filter(d => { console.log("filter", d); return 1 })
             .style("stroke-width", 2)
             .style("stroke", "#e9ecef")
             .style("opacity", 1)
@@ -1579,7 +1598,13 @@ class DetailView extends Component {
                 .on("mouseout", (event, d) => {
                     tooltip.transition().duration(200).style("display", "none");
 
-                    component.handleUndoHighlight(d.id)
+                    let rect_class = d3.selectAll("rect.heatmap")
+                        .filter((node) => node.id == d.id)
+                        .attr("class").split(" ");
+                    if (rect_class.indexOf("rect-click") === -1) {
+                        component.handleUndoHighlight(d.id)
+                    } else
+                        component.handleUndoHighlight_click(d.id)
                 })
                 .on("click", (event, d) => {
                     component.handleClick(d.id)
