@@ -12,7 +12,7 @@ class StackedArea extends Component {
             Height: this.props.height - 75,
             stackWidth: this.props.width,
             targetList: this.props.value,
-            trendRange: [2015, 2020]
+            trendRange: [1999, 2021]
         }
     }
 
@@ -78,14 +78,16 @@ class StackedArea extends Component {
         var x = d3.scaleLinear()
             .domain(d3.extent(newdata, function (d) { return d.year; }))
             .range([0, width]);
+        var min = d3.min(newdata.map(d => d.year)), max = d3.max(newdata.map(d => d.year));
+        var median = Math.floor(1 / 2 * (parseInt(min) + parseInt(max)));
         var xAxis = svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(2).tickFormat(d3.format("d")))
+            .call(d3.axisBottom(x).tickValues([min, median.toString(), max]).tickFormat(d3.format("d")))
 
 
         // Add Y axis
         var y = d3.scaleLinear()
-            .domain([0, 50])
+            .domain([0, 120])
             .range([height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y).ticks(3).tickFormat(d3.format("d")))
@@ -188,14 +190,14 @@ class StackedArea extends Component {
                     className="horizontal-slider"
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
-                    defaultValue={[2015, 2020]}
+                    defaultValue={[1999, 2021]}
                     min={1999}
                     max={2021}
                     marks={[1999, 2021]}
                     ariaLabel={['Lower thumb', 'Upper thumb']}
                     ariaValuetext={state => `Thumb value ${state.valueNow}`}
                     renderMark={(props) => {
-                        console.log("props", props)
+                        // console.log("props", props)
                         return <span {...props} >{props.key}</span>
                     }}
                     renderThumb={(props, state) => <div style={{ width: 15 }} {...props} ><div class="thumb-btn"></div><p className="thumb-text">{state.valueNow}</p></div>}

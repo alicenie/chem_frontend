@@ -2,6 +2,29 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-grid-system';
 import * as d3 from "d3";
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
+import AddColumn from './AddColumn';
+
+const domains = [
+    { text: "IC50_MC", label: "IC_50", unit: "(nM)", area: 1, index: 1 },
+    { text: "Ki_MC", label: "Ki", unit: "(nM)", area: 1, index: 2 },
+    { text: "Kd_MC", label: "Kd", unit: "(nM)", area: 1, index: 3 },
+    { text: "Selectivity_MC", label: "Selectivity", unit: "(fold)", area: 1, index: 4 },
+    { text: "IC50_Ph", label: "IC50", unit: "(nM)", area: 2, index: 5 },
+    { text: "Ki_Ph", label: "Ki", unit: "(nM)", area: 2, index: 6 },
+    { text: "Kd_Ph", label: "Kd", unit: "(nM)", area: 2, index: 7 },
+    { text: "EC50_Ph", label: "EC50", unit: "(nM)", area: 2, index: 8 },
+    { text: "Selectivity_Ph", label: "Selectivity", unit: "(fold)", area: 2, index: 9 },
+    { text: "hERG_Ph", label: "hERG", unit: "(nM)", area: 2, index: 10 },
+    { text: "solubility_Ph", label: "Solubility", unit: "(ug/mL)", area: 2, index: 11 },
+    { text: "ED50_Cl", label: "ED50", unit: "(ug/animal)", area: 2, index: 12 },
+    { text: "thalf_Cl", label: "t 1/2", unit: "(h)", area: 2, index: 13 },
+    { text: "AUC_Cl", label: "AUC", unit: "(ng h/mL)", area: 2, index: 14 },
+    { text: "bio_Cl", label: "Bioavailability", unit: "(%)", area: 2, index: 15 },
+    { text: "solubility_Cl", label: "Solubility", unit: "(ug/mL)", area: 2, index: 16 },
+    { text: "adverse_1", label: "Adverse Effects-I", unit: "", area: 3, index: 17 },
+    { text: "adverse_2", label: "Adverse Effects-II", unit: "", area: 3, index: 18 },
+    { text: "adverse_3", label: "Adverse Effects-III", unit: "", area: 3, index: 19 },
+]
 
 class HeatSquare extends Component {
     constructor(props) {
@@ -12,25 +35,43 @@ class HeatSquare extends Component {
             targetList: this.props.value,
             marginL: 6,
             marginR: 12,
+            removedAttr: [],
+            test: [],
+            curAttr: domains
         }
     }
 
     componentDidMount() {
         console.log("component did mount ")
         this.drawLegend("legend")
-        this.drawUpperAxis("upper-axis")
+
     }
 
     componentDidUpdate() {
         console.log("overview component did update")
 
+        this.drawUpperAxis("upper-axis")
+
         if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
         else d3.selectAll("svg#upper-axis").style("opacity", 0);
 
+        // get xscale for each col
+        let line_domains = {};
+        this.state.targetList.forEach(d => {
+            if (Object.keys(line_domains).length === 0)
+                Object.keys(d.metrics_distribution).forEach(key => {
+                    line_domains[key] = d.metrics_distribution[key];
+                })
+            else
+                Object.keys(d.metrics_distribution).forEach(key => {
+                    line_domains[key].push(d.metrics_distribution[key]);
+                })
+        })
+        // console.log(domains)
 
         this.state.targetList.forEach(d => {
             // console.log(d)
-            if (Object.keys(d).indexOf("metrics_paper_count" > -1)) this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata, d["metrics_paper_count"], d["metrics_distribution"])
+            if (Object.keys(d).indexOf("metrics_paper_count" > -1)) this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata, d["metrics_paper_count"], d["metrics_distribution"], line_domains)
             else this.drawHeatSquare(`heatsquare-${d.id}`, d.heatsquaredata)
         })
     }
@@ -42,9 +83,15 @@ class HeatSquare extends Component {
         d3.select("#" + container).selectAll("svg").remove()
         var svg = d3.select("#" + container).append("svg")
             .attr("width", width + marginL)
-            .attr("height", "80px")
+            .attr("height", "40px")
             .append("g")
             .attr("transform", "translate(20 ,4)");
+
+        svg.append("text")
+            .text("number of publication:")
+            .attr("x", -20)
+            .attr("y", 12)
+            .attr("font-size", 12);
 
         var colors = ["240, 128, 128", "0, 129, 167", "209, 179, 196"]
         colors.forEach((color, i) => {
@@ -68,46 +115,33 @@ class HeatSquare extends Component {
                 .attr("stop-color", "rgba(" + color + ",0.8)");
 
             svg.append("rect")
-                .attr("width", 45)
-                .attr("height", 15)
+                .attr("width", 40)
+                .attr("height", 16)
                 .style("fill", "white")
-                .attr("x", 0 + i * 70)
+                .attr("x", 115 + i * 80)
                 .attr("y", 0);
             svg.append("rect")
-                .attr("width", 45)
-                .attr("height", 15)
+                .attr("width", 40)
+                .attr("height", 16)
                 .style("fill", `url(#linear-gradient-${i})`)
-                .attr("x", 0 + i * 70)
+                .attr("x", 115 + i * 80)
                 .attr("y", 0)
             // .attr("stroke-width", 0.5)
             // .attr("stroke", "#adb5bd");
+
+            // text
+            svg.append("text")
+                .attr("x", 105 + i * 80)
+                .attr("y", 12)
+                .text("0")
+                .style("font-size", 12)
+
+            svg.append("text")
+                .attr("x", 155 + i * 80)
+                .attr("y", 12)
+                .text("100")
+                .style("font-size", 12)
         })
-        // color legend
-        // const colorLegend1 = ["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,0.6)", "rgba(240, 128, 128,1)"]
-        // svg.selectAll("rect#color").data(colorLegend1).enter().append("rect").attr("x", (d, i) => i * 25).attr("y", -5)
-        //     .attr("width", 20).attr("height", 15).attr("fill", "white")
-        // svg.selectAll("rect#color").data(colorLegend1).enter()
-        //     .append("rect").attr("x", (d, i) => i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey");
-
-        // const colorLegend2 = ["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,0.6)", "rgba(0, 129, 167,1)"]
-        // svg.selectAll("rect#color").data(colorLegend2).enter()
-        //     .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
-        // svg.selectAll("rect#color").data(colorLegend2).enter()
-        //     .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
-
-        // const colorLegend3 = ["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,0.6)", "rgba(209, 179, 196,1)"]
-        // svg.selectAll("rect#color").data(colorLegend3).enter()
-        //     .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", "white")
-        // svg.selectAll("rect#color").data(colorLegend3).enter()
-        //     .append("rect").attr("x", (d, i) => 200 + i * 25).attr("y", -5).attr("width", 20).attr("height", 15).attr("fill", d => d).attr("stroke", "lightgrey")
-
-        // const squareLegend = ["10", "15", "20"]
-        // svg.selectAll("rect#square").data(squareLegend).enter()
-        //     .append("rect").attr("x", (d, i) => 100 + i * 25).attr("y", d => 2 - 1 / 2 * d)
-        //     .attr("width", d => d).attr("height", d => d)
-        //     .attr("fill", "white")
-        //     .style("stroke-width", 1)
-        //     .style("stroke", "#adb5bd")
     }
 
     drawUpperAxis(container) {
@@ -115,55 +149,466 @@ class HeatSquare extends Component {
         const width = this.state.heatWidth - marginL - marginR
 
         d3.select("#" + container).selectAll("svg").remove()
+        d3.selectAll("#upper-axis-tooltip").style("display", "none")
         var svg = d3.select("#" + container).append("svg")
             .attr("width", width + marginL)
-            .attr("height", "38px")
+            .attr("height", "28px")
             .attr("id", "upper-axis")
             .style("opacity", 0)
             .append("g")
-            .attr("transform", "translate(" + marginL + ",10)");
+            .attr("transform", "translate(" + marginL + ",14) ");
 
+        // set tooltips
+        var tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .attr("id", "upper-axis-tooltip")
+            .style("opacity", 0.9)
+            .style("display", "none");
+
+        var num_attr = this.state.curAttr.length
+        var num_character = 7 + (19 - num_attr);
+
+        /////// med chem ////////
+        var svg1 = svg.append("g"), attr1 = this.state.curAttr.filter((d) => d.area === 1);
+        var width1 = (width - 10) / num_attr * attr1.length;
+        // x scale
+        var xDomain1 = [];
+        attr1.forEach(element => {
+            xDomain1.push(element.text)
+        });
+        var xScale1 = d3.scaleBand().domain(xDomain1).range([0, width1]);
+        svg1
+            .selectAll()
+            .data(attr1)
+            .enter()
+            .append("text")
+            .text(d => {
+                let attr = d.label;
+                if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                else return attr
+            })
+            .attr("x", (d) => {
+                return xScale1(d.text) + xScale1.bandwidth() / 2
+            })
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
+            .style("font-size", 10)
+            .style("cursor", "default")
+            .on("mouseover", (event, d) => {
+                if (d.label.length > num_character) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.label}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        svg1
+            .selectAll()
+            .data(attr1)
+            .enter()
+            .append("text")
+            .text(d => {
+                let unit = d.unit;
+                if (unit.length > num_character) return unit.substr(0, num_character) + "..."
+                else return unit
+            })
+            .attr("x", (d) => {
+                return xScale1(d.text) + xScale1.bandwidth() / 2 - 5
+            })
+            .attr("y", 11)
+            .attr("text-anchor", "middle")
+            .style("font-size", 10)
+            .style("cursor", "default")
+            .on("mouseover", (event, d) => {
+                if (d.unit.length > num_character) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.unit}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        svg1
+            .selectAll("path#cross")
+            .data(attr1)
+            .enter()
+            .append("g")
+            .attr("transform", d => "translate(" + (xScale1(d.text) + xScale1.bandwidth() - 5) + ",8), rotate(45)")
+            .append("path")
+            .attr("d", d3.symbol().type(d3.symbolCross).size(40)())
+            .style("fill", "#c1c1c1")
+            .style("stroke-width", 1)
+            .style("cursor", "pointer")
+            .on("click", (event, attr) => {
+                console.log("attr click", attr)
+                this.handleRemoveAttr(attr)
+            })
+            .on("mouseover", (event, d) => {
+                tooltip.transition().duration(200).style("display", "block");
+                tooltip
+                    .html(
+                        `<span class="overview-hover">remove column</span>`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+
+        /////// ph ////////
+        var svg2 = svg.append("g").attr("transform", "translate(" + (width1 + 5) + ",0)");
+        var attr2 = this.state.curAttr.filter((d) => d.area === 2);
+        var width2 = (width - 10) / num_attr * attr2.length;
+        // x scale
+        var xDomain2 = [];
+        attr2.forEach(element => {
+            xDomain2.push(element.text)
+        });
+        var xScale2 = d3.scaleBand().domain(xDomain2).range([0, width2]);
+        svg2
+            .selectAll()
+            .data(attr2)
+            .enter()
+            .append("text")
+            .text(d => {
+                let attr = d.label;
+                if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                else return attr
+            })
+            .attr("x", (d) => {
+                return xScale2(d.text) + xScale2.bandwidth() / 2
+            })
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
+            .style("font-size", 10)
+            .style("cursor", "default")
+            .on("click", (event, attr) => {
+                console.log("attr click", attr)
+                this.handleRemoveAttr(attr)
+            })
+            .on("mouseover", (event, d) => {
+                if (d.label.length > num_character) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.label}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        svg2
+            .selectAll()
+            .data(attr2)
+            .enter()
+            .append("text")
+            .text(d => {
+                let unit = d.unit;
+                if (unit.length > num_character) return unit.substr(0, num_character) + "..."
+                else return unit
+            })
+            .attr("x", (d) => {
+                return xScale2(d.text) + xScale2.bandwidth() / 2 - 5
+            })
+            .attr("y", 11)
+            .attr("text-anchor", "middle")
+            .style("font-size", 10)
+            .style("cursor", "default")
+            .on("mouseover", (event, d) => {
+                if (d.unit.length > num_character) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.unit}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        svg2
+            .selectAll("path#cross")
+            .data(attr2)
+            .enter()
+            .append("g")
+            .attr("transform", d => "translate(" + (xScale2(d.text) + xScale2.bandwidth() - 5) + ",8), rotate(45)")
+            .append("path")
+            .attr("d", d3.symbol().type(d3.symbolCross).size(40)())
+            .style("fill", "#c1c1c1")
+            .style("stroke-width", 1)
+            .style("cursor", "pointer")
+            .on("click", (event, attr) => {
+                console.log("attr click", attr)
+                this.handleRemoveAttr(attr)
+            })
+            .on("mouseover", (event, d) => {
+                tooltip.transition().duration(200).style("display", "block");
+                tooltip
+                    .html(
+                        `<span class="overview-hover">remove column</span>`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        /////// 3 ////////
+        var svg3 = svg.append("g").attr("transform", "translate(" + (width1 + width2 + 10) + ",0)");
+        var attr3 = this.state.curAttr.filter((d) => d.area === 3);
+        var width3 = (width - 10) / num_attr * attr3.length;
+        // x scale
+        var xDomain3 = [];
+        attr3.forEach(element => {
+            xDomain3.push(element.text)
+        });
+        var xScale3 = d3.scaleBand().domain(xDomain3).range([0, width3]);
+        svg3
+            .selectAll()
+            .data(attr3)
+            .enter()
+            .append("text")
+            .text(d => {
+                let attr = d.label.split(" ")[0];
+                if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                else return attr
+            })
+            .attr("x", (d) => {
+                return xScale3(d.text) + xScale3.bandwidth() / 2
+            })
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
+            .style("font-size", 10)
+            .style("cursor", "default")
+            .on("click", (event, attr) => {
+                console.log("attr click", attr)
+                this.handleRemoveAttr(attr)
+            })
+            .on("mouseover", (event, d) => {
+                if (d.label.length > num_character) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.label}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        svg3
+            .selectAll()
+            .data(attr3)
+            .enter()
+            .append("text")
+            .text(d => {
+                let attr = d.label.split(" ")[1];
+                // if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                return attr
+            })
+            .attr("x", (d) => {
+                return xScale3(d.text) + xScale3.bandwidth() / 2 - 5
+            })
+            .attr("y", 11)
+            .attr("text-anchor", "middle")
+            .style("font-size", 9)
+            .style("cursor", "default")
+            .on("mouseover", (event, d) => {
+                if (d.label.length > num_character) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.label}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
+
+        svg3
+            .selectAll("path#cross")
+            .data(attr3)
+            .enter()
+            .append("g")
+            .attr("transform", d => "translate(" + (xScale3(d.text) + xScale3.bandwidth() - 5) + ",8), rotate(45)")
+            .append("path")
+            .attr("d", d3.symbol().type(d3.symbolCross).size(40)())
+            .style("fill", "#c1c1c1")
+            .style("stroke-width", 1)
+            .style("cursor", "pointer")
+            .on("click", (event, attr) => {
+                console.log("attr click", attr)
+                this.handleRemoveAttr(attr)
+            })
+            .on("mouseover", (event, d) => {
+                tooltip.transition().duration(200).style("display", "block");
+                tooltip
+                    .html(
+                        `<span class="overview-hover">remove column</span>`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
 
         // axis
-        const domain = ["IC50(nM)", "Ki(nM)", "Kd(nM)", "Sel(fold)", "IC50(nM) ", "Ki(nM) ", "Kd(nM) ", "EC50(nM)", "Sel(fold) ", "hERG(nM)", "Sol(ug/mL)", "ED50(ug/animal)", "t(1/2)(h)", "AUC(ng h/mL)", "Bioavail(%)", "Sol(ug/mL) ", "Adverse-I", "Adverse-II", "Adverse-III"]
+        // const domain = ["IC50", "Ki", "Kd", "Selectivity", "IC50 ", "Ki ", "Kd ", "EC50", "Selectivity ", "hERG", "Solubility", "ED50", "t 1/2", "AUC", "Bioavailability", "Solubility ", "Adverse Effects-I", "Adverse Effects-II", "Adverse Effects-III"]
+        const domain = this.state.curAttr.map(d => d.text), unit = this.state.curAttr.map(d => d.unit);
+        // const unit = ["(nM)", "(nM)", "(nM)", "(fold)", "(nM)", "(nM)", "(nM)", "(nM)", "(fold)", "(nM)", "(ug/mL)", "(ug/animal)", "(h)", "(ng h/mL)", "(%)", "(ug/mL)", "", "", ""]
         var xScale = d3.scaleBand()
-            .domain(domain)
+            .domain(domain.map((d) => {
+                if (d.length > 6) return d.substr(0, 6) + "..."
+                else return d
+            }))
             .range([0, width - 5]);
 
-        var xAxis = svg.append("g")
-            .attr("transform", "translate(0,10)").call(d3.axisTop(xScale))
-            .call(g => {
-                g.select(".domain").remove();
-                g.selectAll("line").remove();
-            })
-            .selectAll("text")
-            // .text(d => d + "\nd")
-            // .append("<div>pp</div>")
-            .attr("transform", "translate(-10,20), rotate(-20)")
-            .attr("text-anchor", "start")
+        // svg.selectAll().data(this.state.curAttr).enter()
+        //     .append("text")
+        //     .text(d => {
+        //         let attr = d.text;
+        //         if (attr.length > 6) return attr.substr(0, 6) + "..."
+        //         else return attr
+        //     })
+        //     .attr("x", (_, i) => 20 + i * 48)
+        //     .attr("y", 0)
+        //     .attr("text-anchor", "middle")
+        //     .style("font-size", 10)
+        //     .on("click", (event, attr) => {
+        //         console.log("attr click", attr)
+        //         this.handleRemoveAttr(attr)
+        //     })
+
+        // svg.selectAll().data(unit).enter()
+        //     .append("text")
+        //     .text(d => {
+        //         if (d.length > 7) return d.substr(0, 7) + "..."
+        //         else return d
+        //     })
+        //     .attr("x", (d, i) => 20 + i * 48)
+        //     .attr("y", 13)
+        //     .attr("text-anchor", "middle")
+        //     .style("font-size", 10)
+
+        // var xAxis = svg.append("g")
+        //     .attr("transform", "translate(0,10)").call(d3.axisTop(xScale))
+        //     .call(g => {
+        //         g.select(".domain").remove();
+        //         g.selectAll("line").remove();
+        //     })
+        //     .selectAll("text")
+        //     // .text(d => d + "\nd")
+        //     // .append("<div>pp</div>")
+        //     .attr("transform", "translate(0,0)")
+        //     .attr("text-anchor", "middle")
+        //     .style("font-size", 12)
     }
 
-    drawHeatSquare(container, data, count = null, distribution = null) {
+    drawHeatSquare(container, data, count = null, distribution = null, line_domains = {}) {
+        var curAttrText = this.state.curAttr.map(d => d.text);
         // handle real data
         if (count !== null && distribution !== null) {
             let temp_line = {}
             for (const [key, line_array] of Object.entries(distribution)) {
-                let counts = {} // { value: pub }
-                line_array.forEach(d => {
-                    counts[d] = counts[d] ? counts[d] + 1 : 1;
-                })
-                let line = []; // [{value,pub}]
-                Object.keys(counts).forEach(d => line.push({ value: parseFloat(d), pub: counts[d] }))
-                line.sort((a, b) => a.value - b.value)
-                temp_line[key] = line;
+                if (curAttrText.indexOf(key) > -1) {
+                    let counts = {} // { value: pub }
+                    line_array.forEach(d => {
+                        counts[d] = counts[d] ? counts[d] + 1 : 1;
+                    })
+                    let line = []; // [{value,pub}]
+                    Object.keys(counts).forEach(d => line.push({ value: parseFloat(d), pub: counts[d] }))
+                    line.sort((a, b) => a.value - b.value)
+                    temp_line[key] = line;
+                }
             }
             let temp_data = [];
             for (const [key, value] of Object.entries(count)) {
-                temp_data.push({
-                    label: key,
-                    hvalue: value,
-                    line: temp_line[key]
-                })
+                if (curAttrText.indexOf(key) > -1) {
+                    temp_data.push({
+                        label: key,
+                        hvalue: value,
+                        line: temp_line[key],
+                        area: this.state.curAttr.filter(d => d.text === key)[0].area,
+                        // index: this.state.curAttr.filter(d => d.text === key)[0].index,
+                    })
+                }
             }
             console.log("temp_data", temp_data)
             data = temp_data
@@ -172,6 +617,8 @@ class HeatSquare extends Component {
         const { marginL, marginR } = this.state;
         const width = this.state.heatWidth - marginL - marginR, height = (this.state.Height) / 3;
         console.log("heat data", data)
+
+        var num_attr = data.length;
 
         d3.select(`#${container}`).selectAll("svg").remove()
         var svg = d3
@@ -184,15 +631,16 @@ class HeatSquare extends Component {
         ////////////////////////////////////
         //////////// med chem //////////////
         ////////////////////////////////////
-        var svg1 = svg.append("g"), width1 = (width - 10) / 19 * 4, data1 = data.filter((d, i) => i < 4);
+        var svg1 = svg.append("g"), data1 = data.filter((d) => d.area === 1);
+        var width1 = (width - 10) / num_attr * data1.length;
         console.log("data1", data1)
 
         // x scale
-        var xDomain = []
+        var xDomain1 = []
         data1.forEach(element => {
-            xDomain.push(element.label)
+            xDomain1.push(element.label)
         });
-        var xScale = d3.scaleBand().domain(xDomain).range([0, width1]);
+        var xScale1 = d3.scaleBand().domain(xDomain1).range([0, width1]);
 
         // color scale
         // var colorScale = d3
@@ -202,7 +650,7 @@ class HeatSquare extends Component {
         var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,1)"])
 
         // square scale
-        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
+        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale1.bandwidth()])
 
         // draw heat
         svg1
@@ -211,39 +659,54 @@ class HeatSquare extends Component {
             .enter()
             .append("rect")
             .attr("x", (d) => {
-                // console.log("x:", xScale(d.label))
-                return xScale(d.label)
+                // console.log("x:", xScale1(d.label))
+                return xScale1(d.label)
             })
             .attr("y", "0")
-            .attr("width", xScale.bandwidth())
+            .attr("width", xScale1.bandwidth())
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
             .style("stroke-width", 0.5)
             .style("stroke", "white");
 
+        // add number of publication
+        svg1
+            .selectAll()
+            .data(data1)
+            .enter()
+            .append("text")
+            .text(d => "num:" + d.hvalue)
+            .attr("x", (d) => {
+                return xScale1(d.label) + xScale1.bandwidth() - 28
+            })
+            .attr("y", "10")
+            .attr("fill", "black")
+            .attr("font-size", 7)
+
         // draw line
         for (var i = 0; i < data1.length; i++) {
             var lineData = data1[i].line,
-                x = xScale(data1[i].label),
+                x = xScale1(data1[i].label),
                 y = 0;
 
             var xLineScale = d3
                 .scaleLinear()
-                .range([x, x + xScale.bandwidth() - 14])
-                .domain([0, 20])
+                .range([x, x + xScale1.bandwidth() - 14])
+                // .domain([0, 12])
+                .domain(d3.extent(line_domains[data1[i].label].map(d => Math.log(d))))
             // .domain(d3.extent(lineData, (d) => d.value));
 
             var yLineScale = d3
                 .scaleLinear()
                 .range([height - 10, 0])
-                .domain([0, 15]); // fixed?
+                .domain([0, 8]); // fixed?
 
             var line = d3
                 .line()
                 .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
-                .curve(d3.curveMonotoneX);
+            // .curve(d3.curveMonotoneX);
 
             svg1
                 .append("path")
@@ -256,34 +719,35 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
+            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
             svg1.selectAll()
+                // .data(lineData.filter(d => d.value === min || d.value === max))
                 .data(lineData)
                 .enter()
                 .append("circle")
-                .attr("cx", (d) => xLineScale(d.value) + 7)
+                .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
                 .attr("r", 1.5)
                 .style("fill", "#6c757d")
                 .style("opacity", 0.7)
-
-            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg1.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
-            svg1.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg1.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
+            svg1.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
 
         ////////////////////////////////////
         ////////// pharmocology ////////////
         ////////////////////////////////////
-        var svg2 = svg.append("g").attr("transform", "translate(" + ((width - 10) / 19 * 4 + 5) + ",0)");
-        var width2 = (width - 10) / 19 * 12, data2 = data.filter((d, i) => i >= 4 && i < 16);
+        var svg2 = svg.append("g").attr("transform", "translate(" + (width1 + 5) + ",0)");
+        var data2 = data.filter((d) => d.area === 2);
+        var width2 = (width - 10) / num_attr * data2.length;
         console.log("data2", data2)
 
         // x scale
-        var xDomain = []
+        var xDomain2 = []
         data2.forEach(element => {
-            xDomain.push(element.label)
+            xDomain2.push(element.label)
         });
-        var xScale = d3.scaleBand().domain(xDomain).range([0, width2]);
+        var xScale2 = d3.scaleBand().domain(xDomain2).range([0, width2]);
 
         // color scale
         // var colorScale = d3
@@ -294,7 +758,7 @@ class HeatSquare extends Component {
 
 
         // square scale
-        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
+        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale2.bandwidth()])
 
         // draw heat
         svg2
@@ -303,39 +767,55 @@ class HeatSquare extends Component {
             .enter()
             .append("rect")
             .attr("x", (d) => {
-                // console.log("x:", xScale(d.label))
-                return xScale(d.label)
+                // console.log("x:", xScale2(d.label))
+                return xScale2(d.label)
             })
             .attr("y", "0")
-            .attr("width", xScale.bandwidth())
+            .attr("width", xScale2.bandwidth())
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
             .style("stroke-width", 0.5)
             .style("stroke", "white");
 
+        // add number of publication
+        svg2
+            .selectAll()
+            .data(data2)
+            .enter()
+            .append("text")
+            .text(d => "num:" + d.hvalue)
+            .attr("x", (d) => {
+                return xScale2(d.label) + xScale2.bandwidth() - 28
+            })
+            .attr("y", "10")
+            .attr("fill", "black")
+            .attr("font-size", 7)
+
         // draw line
         for (var i = 0; i < data2.length; i++) {
             var lineData = data2[i].line,
-                x = xScale(data2[i].label),
+                x = xScale2(data2[i].label),
                 y = 0;
 
             var xLineScale = d3
                 .scaleLinear()
-                .range([x, x + xScale.bandwidth() - 14])
+                .range([x, x + xScale2.bandwidth() - 14])
                 // .domain(d3.extent(lineData, (d) => d.value));
-                .domain([0, 20])
+                // .domain([0, 12])
+                .domain(d3.extent(line_domains[data2[i].label].map(d => Math.log(d))))
+
 
             var yLineScale = d3
                 .scaleLinear()
                 .range([height - 10, 0])
-                .domain([0, 15]); // fixed?
+                .domain([0, 8]); // fixed?
 
             var line = d3
                 .line()
                 .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
-                .curve(d3.curveMonotoneX);
+            // .curve(d3.curveMonotoneX);
 
             svg2
                 .append("path")
@@ -348,34 +828,35 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
+            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
             svg2.selectAll()
+                // .data(lineData.filter(d => d.value === min || d.value === max))
                 .data(lineData)
                 .enter()
                 .append("circle")
-                .attr("cx", (d) => xLineScale(d.value) + 7)
+                .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
                 .attr("r", 1.5)
                 .style("fill", "#6c757d")
                 .style("opacity", 0.7)
-
-            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg2.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
-            svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
 
         ////////////////////////////////////
         ////////// Pharmaceutics ///////////
         ////////////////////////////////////
-        var svg3 = svg.append("g").attr("transform", "translate(" + ((width - 10) / 19 * 16 + 10) + ",0)");
-        var width2 = (width - 10) / 19 * 3, data3 = data.filter((d, i) => i >= 16);
+        var svg3 = svg.append("g").attr("transform", "translate(" + (width1 + width2 + 10) + ",0)");
+        var data3 = data.filter((d) => d.area === 3);
+        var width3 = (width - 10) / num_attr * data3.length;
         console.log("data3", data3)
 
         // x scale
-        var xDomain = []
+        var xDomain3 = []
         data3.forEach(element => {
-            xDomain.push(element.label)
+            xDomain3.push(element.label)
         });
-        var xScale = d3.scaleBand().domain(xDomain).range([0, width2]);
+        var xScale3 = d3.scaleBand().domain(xDomain3).range([0, width3]);
 
         // color scale
         // var colorScale = d3
@@ -385,7 +866,7 @@ class HeatSquare extends Component {
         var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
 
         // square scale
-        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale.bandwidth()])
+        var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale3.bandwidth()])
 
         // draw heat
         svg3
@@ -394,28 +875,43 @@ class HeatSquare extends Component {
             .enter()
             .append("rect")
             .attr("x", (d) => {
-                // console.log("x:", xScale(d.label))
-                return xScale(d.label)
+                // console.log("x:", xScale3(d.label))
+                return xScale3(d.label)
             })
             .attr("y", "0")
-            .attr("width", xScale.bandwidth())
+            .attr("width", xScale3.bandwidth())
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
             .style("stroke-width", 0.5)
             .style("stroke", "white");
 
+        // add number of publication
+        svg3
+            .selectAll()
+            .data(data3)
+            .enter()
+            .append("text")
+            .text(d => "num:" + d.hvalue)
+            .attr("x", (d) => {
+                return xScale3(d.label) + xScale3.bandwidth() - 28
+            })
+            .attr("y", "10")
+            .attr("fill", "black")
+            .attr("font-size", 7)
+
         // draw line
         for (var i = 0; i < data3.length; i++) {
             var lineData = data3[i].line,
-                x = xScale(data3[i].label),
+                x = xScale3(data3[i].label),
                 y = 0;
 
             var xLineScale = d3
                 .scaleLinear()
-                .range([x, x + xScale.bandwidth() - 14])
+                .range([x, x + xScale3.bandwidth() - 14])
                 // .domain(d3.extent(lineData, (d) => d.value));
-                .domain([2, 10])
+                // .domain([2, 10])
+                .domain(d3.extent(line_domains[data3[i].label].map(d => Math.log(d))))
 
             var yLineScale = d3
                 .scaleLinear()
@@ -424,9 +920,9 @@ class HeatSquare extends Component {
 
             var line = d3
                 .line()
-                .x((d) => xLineScale(d.value))
+                .x((d) => xLineScale(Math.log(d.value)))
                 .y((d) => yLineScale(d.pub))
-                .curve(d3.curveMonotoneX);
+            // .curve(d3.curveMonotoneX);
 
             svg3
                 .append("path")
@@ -439,19 +935,19 @@ class HeatSquare extends Component {
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
 
+            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
             svg3.selectAll()
+                // .data(lineData.filter(d => d.value === min || d.value === max))
                 .data(lineData)
                 .enter()
                 .append("circle")
-                .attr("cx", (d) => xLineScale(d.value) + 7)
+                .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
                 .attr("r", 1.5)
                 .style("fill", "#6c757d")
                 .style("opacity", 0.7)
-
-            var min = d3.min(lineData.map(d => d.value)), max = d3.max(lineData.map(d => d.value));
-            svg3.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
-            svg3.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 10).attr("text-anchor", "middle");
+            svg3.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
+            svg3.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
 
         // draw square
@@ -472,17 +968,44 @@ class HeatSquare extends Component {
 
     }
 
+    handleAddAttr = (attr) => {
+        let removedAttr = this.state.removedAttr;
+        this.setState({ removedAttr: removedAttr.filter(d => d.text !== attr.text) });
+
+        let curAttr = this.state.curAttr;
+        curAttr.push(attr)
+        curAttr.sort((a, b) => a.index - b.index)
+        this.setState({ curAttr });
+    }
+
+    handleRemoveAttr = (attr) => {
+        let curAttr = this.state.curAttr;
+        this.setState({ curAttr: curAttr.filter(d => d.text !== attr.text) });
+
+        let removedAttr = this.state.removedAttr;
+        removedAttr.push(attr)
+        removedAttr.sort((a, b) => a.index - b.index)
+        this.setState({ removedAttr });
+
+    }
 
     render() {
         return (
             <div>
-                <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", height: "24px" }}  >
-                    <div className="col-3 pl-1">
-                        <p>Overview</p>
+                <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", height: "24px", marginBottom: 0 }}  >
+                    <div className="col-7 pl-1">
+                        <span>Overview</span>
+                        <span style={{ fontSize: 12 }}> (line: x axis--drug compound property, y axis--number of publication)</span>
                     </div>
-                    <div className="col-6"></div>
-                    <div className="col-3" id="legend">
+                    <div className="col-5" id="legend">
                     </div>
+                </div>
+                <div style={{ height: 15, marginTop: -3, marginBottom: 5, paddingLeft: 20 }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#c1c1c1" class="bi bi-plus-square" viewBox="0 0 16 16" style={{ marginTop: -3 }}>
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                    </svg>
+                    <AddColumn handleAddAttr={this.handleAddAttr} options={this.state.removedAttr} />
                 </div>
                 <div id="upper-axis"></div>
                 <ScrollSyncPane>

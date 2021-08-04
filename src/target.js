@@ -1,30 +1,30 @@
 const target_data = [
   {
-    id: "junas_kinase",
-    label: "Junas Kinase",
+    id: "janus_kinase",
+    label: "Janus Kinase",
     img_path: "src/target_img/Janus_kinase.png",
     tree: [
       {
-        name: "Junas Kinase",
-        id: "junas_kinase",
+        name: "Janus Kinase",
+        id: "janus_kinase",
         parents: [],
         children: ["a"],
       },
       {
         name: "a",
         id: "a",
-        parents: ["junas_kinase"],
+        parents: ["janus_kinase"],
         children: ["b", "stat3"],
       },
       { name: "b", id: "b", parents: ["a"], children: [] },
       { name: "STAT3", id: "stat3", parents: ["a"], children: [] },
       {
-        name: "Junas Kinase",
-        id: "junas_kinase_1",
+        name: "Janus Kinase",
+        id: "janus_kinase_1",
         parents: [],
         children: ["c"],
       },
-      { name: "c", id: "c", parents: ["junas_kinase_1"], children: ["d"] },
+      { name: "c", id: "c", parents: ["janus_kinase_1"], children: ["d"] },
       { name: "d", id: "d", parents: ["c"], children: [] },
     ],
     metrics_paper_count: {
@@ -44,24 +44,63 @@ const target_data = [
       AUC_Cl: 5,
       bio_Cl: 7,
       solubility_Cl: 0,
+      adverse_1: 39,
+      adverse_2: 32,
+      adverse_3: 6,
     },
     metrics_distribution: {
-      IC50_MC: [4.8, 7400.0, 13.0],
-      Ki_MC: [100.0, 1.6, 6.0],
-      Kd_MC: [],
-      Selectivity_MC: [13],
-      IC50_Ph: [11.0, 19430.0],
-      Ki_Ph: [],
-      Kd_Ph: [140000.0],
-      EC50_Ph: [224.0],
-      Selectivity_Ph: [],
-      hERG_Ph: [],
-      solubility_Ph: [53.0],
-      ED50_Cl: [],
-      thalf_Cl: [1.4, 4.7, 10.2, 2.2, 1.6, 40.0, 2.7, 6.7],
-      AUC_Cl: [241.3, 278.5, 4.73, 1.3, 917.0],
-      bio_Cl: [1.2, 18.2, 73.0, 70.0, 100.2, 72.0, 71.0],
-      solubility_Cl: [],
+      IC50_MC: [
+        224.0, 224.0, 224.0, 224.0, 40.0, 2.7, 120000.0, 120000.0, 120000.0,
+        120000.0, 120000.0,
+      ],
+      Ki_MC: [100.0, 6.0, 100.0, 100.0, 1.6, 6.0, 100.0, 1.6, 6.0, 1000, 1000],
+      Kd_MC: [0.2, 10.9, 10.9, 10.9, 3000, 3000, 3000, 3000, 3000, 3400, 3400],
+      Selectivity_MC: [13, 1400, 1400],
+      IC50_Ph: [
+        11.0, 19430.0, 11.0, 241.3, 241.3, 241.3, 19430.0, 11.0, 19430.0, 11.0,
+        19430.0,
+      ],
+      Ki_Ph: [
+        10.2, 2.2, 2.2, 2.2, 1.6, 40.0, 10.2, 10.2, 10.2, 10.2, 10.2, 10.2,
+        241.3, 241.3, 241.3,
+      ],
+      Kd_Ph: [
+        224.0, 224.0, 224.0, 224.0, 40.0, 2.7, 120000.0, 120000.0, 120000.0,
+        120000.0, 120000.0,
+      ],
+      EC50_Ph: [224.0, 224.0, 224.0, 224.0, 40.0, 2.7, 10.2, 40.0],
+      Selectivity_Ph: [
+        10.2, 40.0, 2.7, 53.0, 53.0, 53.0, 53.0, 53.0, 53.0, 241.3, 241.3,
+        241.3, 278.5,
+      ],
+      hERG_Ph: [1.4, 10.2, 241.3, 241.3, 278.5, 278.5],
+      solubility_Ph: [
+        450.0, 2.7, 10.2, 10.2, 40.0, 40.0, 40.0, 2.7, 53.0, 53.0, 53.0, 53.0,
+        53.0, 53.0, 241.3, 241.3, 241.3, 2780.5,
+      ],
+      ED50_Cl: [10.2, 400.0, 4.7, 4.7, 10.2, 40.0, 4.7, 10.2, 2.2, 40.0],
+      thalf_Cl: [
+        1.4, 4.7, 10.2, 2.2, 40.0, 40.0, 40.0, 2.7, 4.7, 10.2, 40.0, 2.7, 4.7,
+        10.2, 2.2, 40.0, 2.7, 500,
+      ],
+      AUC_Cl: [
+        241.3, 241.3, 241.3, 241.3, 241.3, 278.5, 278.5, 278.5, 4.73, 4.73,
+        4.73, 1.3, 917.0,
+      ],
+      bio_Cl: [
+        1.2, 18.2, 56.0, 100.2, 18.2, 56.0, 18.2, 18.2, 100.2, 18.2, 56.0, 56.0,
+        56.0, 100.2,
+      ],
+      solubility_Cl: [
+        1, 241.3, 241.3, 241.3, 2780.5, 100.2, 18.2, 70.0, 100.2, 18.2, 70.0,
+        100.2, 241.3, 241.3, 241.3,
+      ],
+      adverse_1: [2, 256, 256, 256, 789, 789, 256, 256, 256, 789, 789],
+      adverse_2: [2.0, 39, 39, 39, 39, 39, 65, 416, 65, 416, 65, 416],
+      adverse_3: [
+        5, 40, 40, 40, 200, 200, 5, 40, 40, 40, 200, 200, 5, 40, 40, 40, 200,
+        200,
+      ],
     },
     heatsquaredata: [
       {
@@ -970,7 +1009,7 @@ const target_data = [
     ],
     drug_molecule_paper: [
       {
-        paper_id: 0,
+        id: 0,
         paper_title:
           "Identification of a Potent Janus Kinase 3 Inhibitor with High Selectivity within the Janus Kinase Family",
         paper_author: [
@@ -1019,7 +1058,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 1,
+        id: 1,
         paper_title:
           "Discovery of Potent and Highly Selective Thienopyridine Janus Kinase 2 Inhibitors",
         paper_author: [
@@ -1083,7 +1122,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 2,
+        id: 2,
         paper_title:
           "Development of Selective Covalent Janus Kinase 3 Inhibitors",
         paper_author: [
@@ -1143,7 +1182,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 3,
+        id: 3,
         paper_title:
           "Discovery of Potent and Selective Pyrazolopyrimidine Janus Kinase 2 Inhibitors",
         paper_author: [
@@ -1207,7 +1246,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 4,
+        id: 4,
         paper_title:
           "Identification of Cyanamide-Based Janus Kinase 3 (JAK3) Covalent Inhibitors",
         paper_author: [
@@ -1269,7 +1308,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 5,
+        id: 5,
         paper_title:
           "Discovery of Potent and Orally Effective Dual Janus Kinase 2/FLT3 Inhibitors for the Treatment of Acute Myelogenous Leukemia and Myeloproliferative Neoplasms",
         paper_author: [
@@ -1323,7 +1362,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 6,
+        id: 6,
         paper_title:
           "Discovery of a Janus Kinase Inhibitor Bearing a Highly Three-Dimensional Spiro Scaffold: JTE-052 (Delgocitinib) as a New Dermatological Agent to Treat Inflammatory Skin Disorders",
         paper_author: [
@@ -1384,7 +1423,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 7,
+        id: 7,
         paper_title:
           "Design and Synthesis of a Pan-Janus Kinase Inhibitor Clinical Candidate (PF-06263276) Suitable for Inhaled and Topical Delivery for the Treatment of Inflammatory Diseases of the Lungs and Skin",
         paper_author: [
@@ -1461,7 +1500,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 8,
+        id: 8,
         paper_title:
           "Discovery of Janus Kinase 2 (JAK2) and Histone Deacetylase (HDAC) Dual Inhibitors as a Novel Strategy for the Combinational Treatment of Leukemia and Invasive Fungal Infections",
         paper_author: [
@@ -1508,7 +1547,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 9,
+        id: 9,
         paper_title:
           "Discovery of CP-690,550: A Potent and Selective Janus Kinase (JAK) Inhibitor for the Treatment of Autoimmune Diseases and Organ Transplant Rejection",
         paper_author: [
@@ -1572,7 +1611,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 10,
+        id: 10,
         paper_title:
           "Discovery of 1-Amino-5H-pyrido[4,3-b]indol-4-carboxamide Inhibitors of Janus Kinase 2 (JAK2) for the Treatment of Myeloproliferative Disorders",
         paper_author: [
@@ -1630,7 +1669,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 11,
+        id: 11,
         paper_title:
           "Design and Synthesis of Janus Kinase 2 (JAK2) and Histone Deacetlyase (HDAC) Bispecific Inhibitors Based on Pacritinib and Evidence of Dual Pathway Inhibition in Hematological Cell Lines",
         paper_author: [
@@ -1680,7 +1719,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 12,
+        id: 12,
         paper_title:
           "Design of a Janus Kinase 3 (JAK3) Specific Inhibitor 1-((2S,5R)-5-((7H-Pyrrolo[2,3-d]pyrimidin-4-yl)amino)-2-methylpiperidin-1-yl)prop-2-en-1-one (PF-06651600) Allowing for the Interrogation of JAK3 Signaling in Humans",
         paper_author: [
@@ -1767,7 +1806,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 13,
+        id: 13,
         paper_title:
           "Discovery of a Gut-Restricted JAK Inhibitor for the Treatment of Inflammatory Bowel Disease",
         paper_author: [
@@ -1829,7 +1868,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 14,
+        id: 14,
         paper_title:
           "Benzimidazole Derivatives as Potent JAK1-Selective Inhibitors",
         paper_author: [
@@ -1880,7 +1919,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 15,
+        id: 15,
         paper_title:
           "Inhibition of the Signal Transducer and Activator of Transcription-3 (STAT3) Signaling Pathway by 4-Oxo-1-Phenyl-1,4-Dihydroquinoline-3-Carboxylic Acid Esters",
         paper_author: [
@@ -1931,7 +1970,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 16,
+        id: 16,
         paper_title:
           "Discovery of 5-Chloro-N2-[(1S)-1-(5-fluoropyrimidin-2-yl)ethyl]-N4-(5-methyl-1H-pyrazol-3-yl)pyrimidine-2,4-diamine (AZD1480) as a Novel Inhibitor of the Jak/Stat Pathway",
         paper_author: [
@@ -2011,7 +2050,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 17,
+        id: 17,
         paper_title:
           "Discovery and Preclinical Profiling of 3-[4-(Morpholin-4-yl)-7H-pyrrolo[2,3-d]pyrimidin-5-yl]benzonitrile (PF-06447475), a Highly Potent, Selective, Brain Penetrant, and in Vivo Active LRRK2 Kinase Inhibitor",
         paper_author: [
@@ -2068,7 +2107,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 18,
+        id: 18,
         paper_title:
           "Hit to Lead Account of the Discovery of a New Class of Inhibitors of Pim Kinases and Crystallographic Studies Revealing an Unusual Kinase Binding Mode\u2020",
         paper_author: [
@@ -2128,7 +2167,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 19,
+        id: 19,
         paper_title:
           "Discovery of BIIB068: A Selective, Potent, Reversible Bruton\u2019s Tyrosine Kinase Inhibitor as an Orally Efficacious Agent for Autoimmune Diseases",
         paper_author: [
@@ -2212,7 +2251,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 20,
+        id: 20,
         paper_title:
           "Discovery of 3-[2-(Imidazo[1,2-b]pyridazin-3-yl)ethynyl]-4-methyl-N-{4-[(4-methylpiperazin-1-yl)methyl]-3-(trifluoromethyl)phenyl}benzamide (AP24534), a Potent, Orally Active Pan-Inhibitor of Breakpoint Cluster Region-Abelson (BCR-ABL) Kinase Including the T315I Gatekeeper Mutant",
         paper_author: [
@@ -2408,7 +2447,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 21,
+        id: 21,
         paper_title:
           "Fragment-Based Discovery of Pyrazolopyridones as JAK1 Inhibitors with Excellent Subtype Selectivity",
         paper_author: [
@@ -2464,7 +2503,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 22,
+        id: 22,
         paper_title:
           "Discovery of 6-Fluoro-5-(R)-(3-(S)-(8-fluoro-1-methyl-2,4-dioxo-1,2-dihydroquinazolin-3(4H)-yl)-2-methylphenyl)-2-(S)-(2-hydroxypropan-2-yl)-2,3,4,9-tetrahydro-1H-carbazole-8-carboxamide (BMS-986142): A Reversible Inhibitor of Bruton\u2019s Tyrosine Kinase (BTK) Conformationally Constrained by Two Locked Atropisomers",
         paper_author: [
@@ -2588,7 +2627,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 23,
+        id: 23,
         paper_title:
           "Identification of a Novel TAR RNA-Binding Protein 2 Modulator with Potential Therapeutic Activity against Hepatocellular Carcinoma",
         paper_author: [
@@ -2647,7 +2686,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 24,
+        id: 24,
         paper_title:
           "Optimization of a Novel Series of Ataxia-Telangiectasia Mutated Kinase Inhibitors as Potential Radiosensitizing Agents",
         paper_author: [
@@ -2701,7 +2740,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 25,
+        id: 25,
         paper_title:
           "Discovery of N2-(4-Amino-cyclohexyl)-9-cyclopentyl-N6-(4-morpholin-4-ylmethyl-phenyl)-9H-purine-2,6-diamine as a Potent FLT3 Kinase Inhibitor for Acute Myeloid Leukemia with FLT3 Mutations",
         paper_author: [
@@ -2754,7 +2793,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 26,
+        id: 26,
         paper_title:
           "Chemical Biology of Leucine-Rich Repeat Kinase 2 (LRRK2) Inhibitors",
         paper_author: ["Anthony A. Estrada", "Zachary K. Sweeney"],
@@ -2794,7 +2833,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 27,
+        id: 27,
         paper_title:
           "Discovery and Structure\u2013Activity Relationship Study of (Z)-5-Methylenethiazolidin-4-one Derivatives as Potent and Selective Pan-phosphatidylinositol 5-Phosphate 4-Kinase Inhibitors",
         paper_author: [
@@ -2851,7 +2890,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 28,
+        id: 28,
         paper_title:
           "Aurora Kinase Inhibitors Based on the Imidazo[1,2-a]pyrazine Core: Fluorine and Deuterium Incorporation Improve Oral Absorption and Exposure",
         paper_author: [
@@ -2907,7 +2946,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 29,
+        id: 29,
         paper_title:
           "Discovery of 3-(4-(2-((1H-Indol-5-yl)amino)-5-fluoropyrimidin-4-yl)-1H-pyrazol-1-yl)propanenitrile Derivatives as Selective TYK2 Inhibitors for the Treatment of Inflammatory Bowel Disease",
         paper_author: [
@@ -2958,7 +2997,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 30,
+        id: 30,
         paper_title:
           "Identification of Imidazo-Pyrrolopyridines as Novel and Potent JAK1 Inhibitors",
         paper_author: [
@@ -3029,7 +3068,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 31,
+        id: 31,
         paper_title:
           "Discovery of 1-Methyl-1H-imidazole Derivatives as Potent Jak2 Inhibitors",
         paper_author: [
@@ -3087,7 +3126,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 32,
+        id: 32,
         paper_title:
           "Noncyclam Tetraamines Inhibit CXC Chemokine Receptor Type 4 and Target Glioma-Initiating Cells",
         paper_author: [
@@ -3138,7 +3177,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 33,
+        id: 33,
         paper_title:
           "Lead Optimization of a 4-Aminopyridine Benzamide Scaffold To Identify Potent, Selective, and Orally Bioavailable TYK2 Inhibitors",
         paper_author: [
@@ -3216,7 +3255,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 34,
+        id: 34,
         paper_title:
           "Design, Synthesis, and Evaluation of Indolinones as Inhibitors of the Transforming Growth Factor \u03b2 Receptor I (TGF\u03b2RI)",
         paper_author: [
@@ -3267,7 +3306,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 35,
+        id: 35,
         paper_title:
           "Identification of TNO155, an Allosteric SHP2 Inhibitor for the Treatment of Cancer",
         paper_author: [
@@ -3412,7 +3451,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 36,
+        id: 36,
         paper_title:
           "6-Amino-3-methylpyrimidinones as Potent, Selective, and Orally Efficacious SHP2 Inhibitors",
         paper_author: [
@@ -3483,7 +3522,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 37,
+        id: 37,
         paper_title:
           "Optimization of Platelet-Derived Growth Factor Receptor (PDGFR) Inhibitors for Duration of Action, as an Inhaled Therapy for Lung Remodeling in Pulmonary Arterial Hypertension",
         paper_author: [
@@ -3551,7 +3590,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 38,
+        id: 38,
         paper_title:
           "Structure-Based Optimization of Potent, Selective, and Orally Bioavailable CDK8 Inhibitors Discovered by High-Throughput Screening",
         paper_author: [
@@ -3610,7 +3649,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 39,
+        id: 39,
         paper_title:
           "Investigation of the Binding Determinants of Phosphopeptides Targeted to the Src Homology 2 Domain of the Signal Transducer and Activator of Transcription 3. Development of a High-Affinity Peptide Inhibitor",
         paper_author: [
@@ -3661,7 +3700,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 40,
+        id: 40,
         paper_title:
           "Identification of 1-(3-(6,7-Dimethoxyquinazolin-4-yloxy)phenyl)-3-(5-(1,1,1-trifluoro-2-methylpropan-2-yl)isoxazol-3-yl)urea Hydrochloride (CEP-32496), a Highly Potent and Orally Efficacious Inhibitor of V-RAF Murine Sarcoma Viral Oncogene Homologue B1 (BRAF) V600E",
         paper_author: [
@@ -3754,7 +3793,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 41,
+        id: 41,
         paper_title:
           "Discovery and Evaluation of N-Cyclopropyl- 2,4-difluoro-5-((2-(pyridin-2-ylamino)thiazol-5- ylmethyl)amino)benzamide (BMS-605541), a Selective and Orally Efficacious Inhibitor of Vascular Endothelial Growth Factor Receptor-2",
         paper_author: [
@@ -3812,7 +3851,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 42,
+        id: 42,
         paper_title:
           "HER2 Kinase-Targeted Breast Cancer Therapy: Design, Synthesis, and In Vitro and In Vivo Evaluation of Novel Lapatinib Congeners as Selective and Potent HER2 Inhibitors with Favorable Metabolic Stability",
         paper_author: [
@@ -3863,7 +3902,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 43,
+        id: 43,
         paper_title:
           "Allosteric Inhibition of SHP2: Identification of a Potent, Selective, and Orally Efficacious Phosphatase Inhibitor",
         paper_author: [
@@ -3940,7 +3979,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 44,
+        id: 44,
         paper_title:
           "Structure-Based Design of a Potent and Selective Covalent Inhibitor for SRC Kinase That Targets a P-Loop Cysteine",
         paper_author: [
@@ -3995,7 +4034,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 45,
+        id: 45,
         paper_title:
           "Structure-Based Design of Novel 2-Amino-6-phenyl-pyrimido[5\u2032,4\u2032:5,6]pyrimido[1,2-a]benzimidazol-5(6H)-ones as Potent and Orally Active Inhibitors of Lymphocyte Specific Kinase (Lck): Synthesis, SAR, and In Vivo Anti-Inflammatory Activity",
         paper_author: [
@@ -4067,7 +4106,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 46,
+        id: 46,
         paper_title:
           "Discovery of Potent, Isoform-Selective Inhibitors of Histone Deacetylase Containing Chiral Heterocyclic Capping Groups and a N-(2-Aminophenyl)benzamide Binding Unit",
         paper_author: [
@@ -4116,7 +4155,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 47,
+        id: 47,
         paper_title:
           "Discovery of Allosteric, Potent, Subtype Selective, and Peripherally Restricted TrkA Kinase Inhibitors",
         paper_author: [
@@ -4178,7 +4217,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 48,
+        id: 48,
         paper_title:
           "Identification of N-(4-((1R,3S,5S)-3-Amino-5-methylcyclohexyl)pyridin-3-yl)-6-(2,6-difluorophenyl)-5-fluoropicolinamide (PIM447), a Potent and Selective Proviral Insertion Site of Moloney Murine Leukemia (PIM) 1, 2, and 3 Kinase Inhibitor in Clinical Trials for Hematological Malignancies",
         paper_author: [
@@ -4282,7 +4321,7 @@ const target_data = [
         },
       },
       {
-        paper_id: 49,
+        id: 49,
         paper_title:
           "Discovery, Synthesis, and Characterization of an Orally Bioavailable, Brain Penetrant Inhibitor of Mixed Lineage Kinase 3",
         paper_author: [
@@ -4336,7 +4375,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 50,
+        id: 50,
         paper_title:
           "Therapeutic Utility of Cannabinoid Receptor Type 2 (CB2) Selective Agonists",
         paper_author: [
@@ -4381,7 +4420,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 51,
+        id: 51,
         paper_title:
           "Discovery and Optimization of Quinazolinone-pyrrolopyrrolones as Potent and Orally Bioavailable Pan-Pim Kinase Inhibitors",
         paper_author: [
@@ -4456,7 +4495,7 @@ const target_data = [
         clinical_statistics: {},
       },
       {
-        paper_id: 52,
+        id: 52,
         paper_title:
           "Structural Fine-Tuning of Desmuramylpeptide NOD2 Agonists Defines Their In Vivo Adjuvant Activity",
         paper_author: [
@@ -5896,15 +5935,15 @@ const target_data = [
     img_path: "./logo.svg",
     tree: [
       {
-        name: "Junas Kinase",
-        id: "junas_kinase",
+        name: "Janus Kinase",
+        id: "janus_kinase",
         parents: [],
         children: ["a"],
       },
       {
         name: "a",
         id: "a",
-        parents: ["junas_kinase"],
+        parents: ["janus_kinase"],
         children: ["b", "stat3"],
       },
       { name: "b", id: "b", parents: ["a"], children: [] },
@@ -6928,15 +6967,15 @@ const target_data = [
     img_path: "./logo.svg",
     tree: [
       {
-        name: "Junas Kinase",
-        id: "junas_kinase",
+        name: "Janus Kinase",
+        id: "janus_kinase",
         parents: [],
         children: ["a"],
       },
       {
         name: "a",
         id: "a",
-        parents: ["junas_kinase"],
+        parents: ["janus_kinase"],
         children: ["b", "stat3"],
       },
       { name: "b", id: "b", parents: ["a"], children: [] },
@@ -7912,15 +7951,15 @@ const target_data = [
     img_path: "./logo.svg",
     tree: [
       {
-        name: "Junas Kinase",
-        id: "junas_kinase",
+        name: "Janus Kinase",
+        id: "janus_kinase",
         parents: [],
         children: ["a"],
       },
       {
         name: "a",
         id: "a",
-        parents: ["junas_kinase"],
+        parents: ["janus_kinase"],
         children: ["b", "stat3"],
       },
       { name: "b", id: "b", parents: ["a"], children: [] },
@@ -8804,12 +8843,12 @@ const target_data = [
     img_path: "./logo.svg",
     tree: [
       {
-        name: "Junas Kinase",
-        id: "junas_kinase_1",
+        name: "Janus Kinase",
+        id: "janus_kinase_1",
         parents: [],
         children: ["c"],
       },
-      { name: "c", id: "c", parents: ["junas_kinase_1"], children: ["d"] },
+      { name: "c", id: "c", parents: ["janus_kinase_1"], children: ["d"] },
       { name: "d", id: "d", parents: ["c"], children: [] },
     ],
     heatsquaredata: [
@@ -9703,12 +9742,12 @@ const target_data = [
     img_path: "./logo.svg",
     tree: [
       {
-        name: "Junas Kinase",
-        id: "junas_kinase_1",
+        name: "Janus Kinase",
+        id: "janus_kinase_1",
         parents: [],
         children: ["c"],
       },
-      { name: "c", id: "c", parents: ["junas_kinase_1"], children: ["d"] },
+      { name: "c", id: "c", parents: ["janus_kinase_1"], children: ["d"] },
       { name: "d", id: "d", parents: ["c"], children: [] },
     ],
     heatsquaredata: [

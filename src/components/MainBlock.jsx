@@ -134,7 +134,7 @@ class MainBlock extends Component {
                                             labelKey={option => option.label}
                                             placeholder="Drug target name..."
                                             selected={this.state.selected}
-                                            style={{ marginTop: 2 }}
+                                            style={{ marginTop: 2, height: 30 }}
                                             size={"sm"}>
                                         </Typeahead>
                                         {/* <Autocomplete
@@ -184,6 +184,7 @@ class MainBlock extends Component {
                                 {/* <SimilarityGraph /> */}
                                 <DetailView height={upperHeight}
                                     value={this.state.selectedDetailTarget ? this.state.selectedDetailTarget : null}
+                                    nodes={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.drug_molecule_paper.map(d => { let node = { ...d }; node["id"] = node.paper_id; return node }) : null}
                                     label={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : null}
                                     detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
                                     sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
