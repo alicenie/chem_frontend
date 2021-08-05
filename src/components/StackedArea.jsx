@@ -64,7 +64,7 @@ class StackedArea extends Component {
         // color palette
         var color = d3.scaleOrdinal()
             .domain(keys)
-            .range(["rgba(209, 179, 196,0.4)", "rgba(0, 129, 167,0.4)", "rgba(240, 128, 128,0.4)"])
+            .range(["#C5C5FD", "#BBE5F2", "#FCC8C8"]) // bottom --> up
         //     .range(["#e31a1c", "#4292c6", "#fed976"])
         // .range(["#fec5bb", "#bee1e6", "#ffe1a8"]); // red blue yellow
 
@@ -171,7 +171,7 @@ class StackedArea extends Component {
             bottom: 0;
             height: 5px;
             margin-top: 4px;
-            background: ${props => props.index === 1 ? '#a5cfc8' : 'rgba(206, 212, 218,0.3)'};
+            background: ${props => props.index === 1 ? '#ACCEAA' : 'rgba(206, 212, 218,0.3)'};
             border-radius: 2px;
         `;
 

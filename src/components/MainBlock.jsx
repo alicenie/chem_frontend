@@ -16,6 +16,7 @@ import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';
 import DetailView from './DetailView';
+import DetailWrapper from './DetailWrapper';
 import TargetTree from './TargetTree';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -182,7 +183,7 @@ class MainBlock extends Component {
                                     <div className="col-10" style={{ textAlign: "right" }}>{this.state.selectedDetailTarget ? `You have chosen: ${this.state.selectedDetailTarget.label}` : ""}</div>
                                 </div>
                                 {/* <SimilarityGraph /> */}
-                                <DetailView height={upperHeight}
+                                <DetailWrapper height={upperHeight}
                                     value={this.state.selectedDetailTarget ? this.state.selectedDetailTarget : null}
                                     nodes={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.drug_molecule_paper.map(d => { let node = { ...d }; node["id"] = node.paper_id; return node }) : null}
                                     label={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : null}

@@ -15,12 +15,12 @@ const domains = [
     { text: "EC50_Ph", label: "EC50", unit: "(nM)", area: 2, index: 8 },
     { text: "Selectivity_Ph", label: "Selectivity", unit: "(fold)", area: 2, index: 9 },
     { text: "hERG_Ph", label: "hERG", unit: "(nM)", area: 2, index: 10 },
-    { text: "solubility_Ph", label: "Solubility", unit: "(ug/mL)", area: 2, index: 11 },
-    { text: "ED50_Cl", label: "ED50", unit: "(ug/animal)", area: 2, index: 12 },
+    { text: "solubility_Ph", label: "Solubility", unit: "(µg/mL)", area: 2, index: 11 },
+    { text: "ED50_Cl", label: "ED50", unit: "(µg/animal)", area: 2, index: 12 },
     { text: "thalf_Cl", label: "t 1/2", unit: "(h)", area: 2, index: 13 },
-    { text: "AUC_Cl", label: "AUC", unit: "(ng h/mL)", area: 2, index: 14 },
+    { text: "AUC_Cl", label: "AUC", unit: "(ng•h/mL)", area: 2, index: 14 },
     { text: "bio_Cl", label: "Bioavailability", unit: "(%)", area: 2, index: 15 },
-    { text: "solubility_Cl", label: "Solubility", unit: "(ug/mL)", area: 2, index: 16 },
+    { text: "solubility_Cl", label: "Solubility", unit: "(µg/mL)", area: 2, index: 16 },
     { text: "adverse_1", label: "Adverse Effects-I", unit: "", area: 3, index: 17 },
     { text: "adverse_2", label: "Adverse Effects-II", unit: "", area: 3, index: 18 },
     { text: "adverse_3", label: "Adverse Effects-III", unit: "", area: 3, index: 19 },
@@ -533,6 +533,7 @@ class HeatSquare extends Component {
 
     drawHeatSquare(container, data, count = null, distribution = null, line_domains = {}) {
         var curAttrText = this.state.curAttr.map(d => d.text);
+        var lineColor = "#9F9A9A"
         // handle real data
         if (count !== null && distribution !== null) {
             let temp_line = {}
@@ -606,7 +607,10 @@ class HeatSquare extends Component {
         //     .scaleSequential()
         //     .interpolator(d3.interpolateGreens)
         //     .domain([0, 10]);
-        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,1)"])
+        // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,1)"])
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#F3C8C8", "#EBA9A0", "#EB9489", "#E78276", "#D86E63"])
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#FDEBEB", "#F8DADA", "#F2CACA", "#EDBABA", "#E2A7A7", "#DD9696"])  // light red
+        var colorScale = d3.scaleQuantize().domain([0, 5]).range(["#FDEBEB", "#F8DADA", "#F2BFBF", "#F2B1B1", "#F09C9C", "#E78A8A"])  // brighter red
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale1.bandwidth()])
@@ -674,7 +678,8 @@ class HeatSquare extends Component {
                 .attr("class", "overview-line")
                 .attr("d", line)
                 .style("fill", "none")
-                .attr("stroke", "#6c757d")
+                .attr("stroke", lineColor)
+                // .attr("stroke", "white")
                 .attr("stroke-width", 1)
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
@@ -688,7 +693,8 @@ class HeatSquare extends Component {
                 .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
                 .attr("r", 2)
-                .style("fill", "#6c757d")
+                .style("fill", lineColor)
+                // .style("fill", "white")
                 .style("opacity", 0.7)
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("display", "block");
@@ -709,7 +715,7 @@ class HeatSquare extends Component {
                     tooltip.transition().duration(200).style("display", "none");
                 })
 
-            svg1.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
+            svg1.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle");
             svg1.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
 
@@ -733,7 +739,11 @@ class HeatSquare extends Component {
         //     .scaleSequential()
         //     .interpolator(d3.interpolateBlues)
         //     .domain([0, 10]);
-        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,1)"])
+        // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(0, 129, 167,0.2)", "rgba(0, 129, 167,1)"])
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#B8D7F0", "#93BCDD", "#71A2CB", "#518BBC", "#3575AB"]) // fade blue
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#9BC7D7", "#7AAEC1", "#5896AD", "#41849C", "#2B6E86"]) // dark blue
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#CFF0FC", "#B4DDEB", "#9FD0E1", "#83BED3", "#70B4CD", "#5DA8C3"])  // light blue
+        var colorScale = d3.scaleQuantize().domain([0, 10]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])  // light fade blue
 
 
         // square scale
@@ -764,6 +774,7 @@ class HeatSquare extends Component {
             .enter()
             .append("text")
             .text(d => "num:" + d.hvalue)
+            // .style("fill", "white")
             .attr("x", (d) => {
                 return xScale2(d.label) + xScale2.bandwidth() - 28
             })
@@ -803,7 +814,8 @@ class HeatSquare extends Component {
                 .attr("class", "overview-line")
                 .attr("d", line)
                 .style("fill", "none")
-                .attr("stroke", "#6c757d")
+                .attr("stroke", lineColor)
+                // .attr("stroke", "white")
                 .attr("stroke-width", 1)
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
@@ -817,7 +829,8 @@ class HeatSquare extends Component {
                 .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
                 .attr("r", 2)
-                .style("fill", "#6c757d")
+                .style("fill", lineColor)
+                // .attr("fill", "white")
                 .style("opacity", 0.7)
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("display", "block");
@@ -838,8 +851,11 @@ class HeatSquare extends Component {
                     tooltip.transition().duration(200).style("display", "none");
                 })
 
-            svg2.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
-            svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
+                // .style("fill", "white")
+                .attr("text-anchor", "middle");
+            svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
+            // .style("fill", "white");
         }
 
         ////////////////////////////////////
@@ -862,7 +878,11 @@ class HeatSquare extends Component {
         //     .scaleSequential()
         //     .interpolator(d3.interpolateGreens)
         //     .domain([0, 10]);
-        var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
+        // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#BFE9D5", "#9FD3BB", "#7CC1A0", "#60AD88", "#43906B"])  // green
+        // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#E7E5F8", "#DAD6F3", "#C7C1ED", "#BBB5E6", "#AFA8E1"])  // purple
+        var colorScale = d3.scaleQuantize().domain([0, 10]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
+
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale3.bandwidth()])
@@ -930,7 +950,7 @@ class HeatSquare extends Component {
                 .attr("class", "overview-line")
                 .attr("d", line)
                 .style("fill", "none")
-                .attr("stroke", "#6c757d")
+                .attr("stroke", lineColor)
                 .attr("stroke-width", 1)
                 .attr("transform", "translate(7,0)")
                 .style("opacity", 0.7);
@@ -944,7 +964,7 @@ class HeatSquare extends Component {
                 .attr("cx", (d) => xLineScale(Math.log(d.value)) + 7)
                 .attr("cy", (d) => yLineScale(d.pub))
                 .attr("r", 2)
-                .style("fill", "#6c757d")
+                .style("fill", lineColor)
                 .style("opacity", 0.7)
                 .on("mouseover", (event, d) => {
                     tooltip.transition().duration(200).style("display", "block");
@@ -965,7 +985,7 @@ class HeatSquare extends Component {
                     tooltip.transition().duration(200).style("display", "none");
                 })
 
-            svg3.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", "#6c757d").attr("text-anchor", "middle");
+            svg3.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle");
             svg3.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
         }
 
