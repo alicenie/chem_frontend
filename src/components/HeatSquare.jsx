@@ -60,7 +60,7 @@ class HeatSquare extends Component {
         this.state.targetList.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
-                    line_domains[key] = d.metrics_distribution[key];
+                    line_domains[key] = [...d.metrics_distribution[key]];
                 })
             else
                 Object.keys(d.metrics_distribution).forEach(key => {
@@ -93,7 +93,8 @@ class HeatSquare extends Component {
             .attr("y", 12)
             .attr("font-size", 12);
 
-        var colors = ["240, 128, 128", "0, 129, 167", "209, 179, 196"]
+
+        var colors = [["#FDEBEB", "#E78A8A"], ["#DAEAF0", "#76B7CB"], ["#E5E5F8", "#AEAED3"]]
         colors.forEach((color, i) => {
             var linearGradient = svg.append("defs").append("linearGradient")
                 .attr("id", `linear-gradient-${i}`);
@@ -107,19 +108,19 @@ class HeatSquare extends Component {
             //Set the color for the start (0%)
             linearGradient.append("stop")
                 .attr("offset", "0%")
-                .attr("stop-color", "rgba(" + color + ",0.2)");
+                .attr("stop-color", colors[i][0]);
 
             //Set the color for the end (100%)
             linearGradient.append("stop")
                 .attr("offset", "100%")
-                .attr("stop-color", "rgba(" + color + ",0.8)");
+                .attr("stop-color", colors[i][1]);
 
-            svg.append("rect")
-                .attr("width", 40)
-                .attr("height", 16)
-                .style("fill", "white")
-                .attr("x", 115 + i * 80)
-                .attr("y", 0);
+            // svg.append("rect")
+            //     .attr("width", 40)
+            //     .attr("height", 16)
+            //     .style("fill", "white")
+            //     .attr("x", 115 + i * 80)
+            //     .attr("y", 0);
             svg.append("rect")
                 .attr("width", 40)
                 .attr("height", 16)
@@ -169,6 +170,7 @@ class HeatSquare extends Component {
 
         var num_attr = this.state.curAttr.length
         var num_character = 7 + (19 - num_attr);
+        var num_character_unit = 5 + (19 - num_attr);
 
         /////// med chem ////////
         var svg1 = svg.append("g"), attr1 = this.state.curAttr.filter((d) => d.area === 1);
@@ -223,7 +225,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let unit = d.unit;
-                if (unit.length > num_character) return unit.substr(0, num_character) + "..."
+                if (unit.length > num_character_unit) return unit.substr(0, num_character_unit) + "..."
                 else return unit
             })
             .attr("x", (d) => {
@@ -234,7 +236,7 @@ class HeatSquare extends Component {
             .style("font-size", 10)
             .style("cursor", "default")
             .on("mouseover", (event, d) => {
-                if (d.unit.length > num_character) {
+                if (d.unit.length > num_character_unit) {
                     tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
@@ -345,7 +347,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let unit = d.unit;
-                if (unit.length > num_character) return unit.substr(0, num_character) + "..."
+                if (unit.length > num_character_unit) return unit.substr(0, num_character_unit) + "..."
                 else return unit
             })
             .attr("x", (d) => {
@@ -356,7 +358,7 @@ class HeatSquare extends Component {
             .style("font-size", 10)
             .style("cursor", "default")
             .on("mouseover", (event, d) => {
-                if (d.unit.length > num_character) {
+                if (d.unit.length > num_character_unit) {
                     tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
@@ -476,25 +478,6 @@ class HeatSquare extends Component {
             .attr("text-anchor", "middle")
             .style("font-size", 9)
             .style("cursor", "default")
-            .on("mouseover", (event, d) => {
-                if (d.label.length > num_character) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.label}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
-            })
-            .on("mousemove", (event, d) => {
-                tooltip
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseout", (event, d) => {
-                tooltip.transition().duration(200).style("display", "none");
-            })
 
         svg3
             .selectAll("path#cross")

@@ -10,6 +10,20 @@ class DetailWrapper extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.label !== this.props.label) {
+            let click_nodes = this.state.click_nodes;
+            let sankey_nodes = this.state.sankey_nodes;
+            if (Object.values(click_nodes).indexOf(true) > -1 || sankey_nodes.length !== 0) {
+                Object.keys(click_nodes).forEach(d => {
+                    click_nodes[d] = false
+                });
+                sankey_nodes = [];
+                this.setState({ click_nodes, sankey_nodes })
+            }
+        }
+    }
+
     handleClick = (id, clear = false) => {
         console.log("clicked id", id)
         let click_nodes = this.state.click_nodes;

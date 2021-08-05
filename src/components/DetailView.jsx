@@ -40,6 +40,12 @@ class DetailView extends Component {
         console.log("DetailView did update")
         var initial = (prevProps.label === this.props.label) ? false : true;
         console.log(initial);
+        if (initial) {
+            console.log("this.state.vitroSort.attr", this.state.vitroSort.attr)
+            if (this.state.vitroSort.attr) this.setState({ vitroSort: { attr: null, acsending: null } });
+            if (this.state.vivoSort.attr !== null) this.setState({ vivoSort: { attr: null, acsending: null } });
+        }
+        console.log("this.state.vitroSort.attr", this.state.vitroSort.attr)
         this.drawWhole(initial);
 
         // hide/show axis
@@ -1622,7 +1628,7 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([1, 8]);
 
-            var colorScale = d3.scaleOrdinal().domain([0, 8]).range(["white", "#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["white", "#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
 
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
@@ -1720,12 +1726,12 @@ class DetailView extends Component {
         //Set the color for the start (0%)
         linearGradient.append("stop")
             .attr("offset", "0%")
-            .attr("stop-color", "rgba(0, 129, 167,0.2)");
+            .attr("stop-color", "#DAEAF0");
 
         //Set the color for the end (100%)
         linearGradient.append("stop")
             .attr("offset", "100%")
-            .attr("stop-color", "rgba(0, 129, 167,0.8)");
+            .attr("stop-color", "#76B7CB");
 
         svg.append("rect")
             .attr("width", 40)
@@ -1864,14 +1870,6 @@ class DetailView extends Component {
                 d3.selectAll(".vitro-sort-a").filter(i => i === d).style("opacity", 1)
                 d3.selectAll(".vitro-sort-a").filter(i => i !== d).style("opacity", 0.3)
                 d3.selectAll(".vitro-sort-de").style("opacity", 0.3)
-
-                tooltip.transition().duration(200).style("display", "block");
-                tooltip
-                    .html(
-                        "<span>sort in ascending order</span>"
-                    )
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
             })
             .on("mouseover", (event) => {
                 // d3.selectAll("path.vitro-sort-a").style("cursor", "grab")
@@ -1917,6 +1915,7 @@ class DetailView extends Component {
                 d3.selectAll(".vitro-sort-a").style("opacity", 0.3)
             })
             .on("mouseover", (event) => {
+                console.log("hover on sort descend")
                 // tooltip
                 tooltip.transition().duration(200).style("display", "block");
                 tooltip
@@ -1948,12 +1947,13 @@ class DetailView extends Component {
             .style("font-size", 10)
             .on("mouseover", (event, d) => {
                 // tooltip
-                if (d.length > 4)
+                if (d.length > 4) {
                     tooltip.transition().duration(200).style("display", "block");
-                tooltip
-                    .html(d)
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
+                    tooltip
+                        .html(d)
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
             })
             .on("mousemove", (event) => {
                 tooltip
@@ -2090,7 +2090,7 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
-            var colorScale = d3.scaleOrdinal().domain([0, 8]).range(["white", "#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["white", "#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
             // .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
@@ -2101,8 +2101,8 @@ class DetailView extends Component {
                 .select("body")
                 .append("div")
                 .attr("class", "tooltip")
+                .style("opacity", 0.9)
                 .style("display", "none")
-                .style("opacity", 0.9);
 
             // construct heatmap
             svg.selectAll()
