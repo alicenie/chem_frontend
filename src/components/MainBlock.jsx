@@ -70,8 +70,10 @@ class MainBlock extends Component {
         let selectedTargets = this.state.selectedTargets
         selectedTargets.splice(selectedTargets.indexOf(removeTarget), 1)
         // remove from selectdetailtarget if it is
-        if (this.state.selectedDetailTarget.id === removeTarget.id)
-            this.setState({ selectedDetailTarget: null })
+        if (this.state.selectedDetailTarget) {
+            if (this.state.selectedDetailTarget.id === removeTarget.id)
+                this.setState({ selectedDetailTarget: null })
+        }
 
         // add to remainOptions
         let remainOptions = this.state.remainOptions

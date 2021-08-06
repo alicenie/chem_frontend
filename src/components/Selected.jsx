@@ -37,6 +37,9 @@ class Selected extends Component {
 
     handleRemove = (target) => {
         this.props.handleRemoveSelection(target)
+        if (this.state.selected) {
+            if (this.state.selected.id === target.id) this.setState({ selected: null })
+        }
     }
 
     handleClick = (target) => {
@@ -45,8 +48,10 @@ class Selected extends Component {
     }
 
     color = (i) => {
-        if (this.state.selected && i.id == this.state.selected.id) return "rgba(169, 214, 229,0.3)"
-        return "#f8f9fa"
+        if (this.state.selected) {
+            if (i.id == this.state.selected.id) return "rgba(169, 214, 229,0.3)"
+            return "#f8f9fa"
+        }
     }
 
     render() {

@@ -12,8 +12,8 @@ class DetailView extends Component {
             marginL: 0,
             marginR: 0,
             medchemWidth: (this.props.width - 30 - 30) / 7 * 2.1,
-            vitroWidth: (this.props.width - 30 - 30) / 7 * 1.2,
-            vivoWidth: (this.props.width - 30 - 30) / 7 * 1.2,
+            vitroWidth: (this.props.width - 30 - 30) / 7 * 1.4,
+            vivoWidth: (this.props.width - 30 - 30) / 7 * 1.0,
             sankeyWidth: (this.props.width - 30 - 30) / 7 * 2.5,
             vitroSort: { attr: null, acsending: null },
             vivoSort: { attr: null, acsending: null },
@@ -27,8 +27,8 @@ class DetailView extends Component {
         this.drawAxis('axis');
         // this.drawVitroAxis();
         // this.drawVivoAxis();
-        this.drawVitroSort();
-        this.drawVivoSort();
+        // this.drawVitroSort();
+        // this.drawVivoSort();
         // this.drawWhole(true);
     }
 
@@ -47,10 +47,13 @@ class DetailView extends Component {
         }
         console.log("this.state.vitroSort.attr", this.state.vitroSort.attr)
         this.drawWhole(initial);
+        d3.selectAll("g.sort").remove()
+        this.drawVitroSort();
+        this.drawVivoSort();
 
         // hide/show axis
         if (this.props.detaildata[0]) d3.selectAll("g.sort").style("opacity", 1);
-        else d3.selectAll("g.sort").style("opacity", 0);
+        else d3.selectAll("g.sort").style("opacity", 1);
     }
 
     drawBoundary() {
@@ -1276,20 +1279,21 @@ class DetailView extends Component {
     }
 
     drawVitroSort() {
-        var margin = { top: 0, right: 10, bottom: 10, left: 10 },
+        var vitroHeatSquareLength = this.state.heatSquareLength + 1;
+        var margin = { top: 0, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
             width = this.state.vitroWidth - margin.left - margin.right;
 
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
             .attr("class", "sort")
-            .style("opacity", 0)
+            // .style("opacity", 0)
             .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
         var xDomain = ["IC50", "Ki", "Kd", "EC50", "Selectivity", "hERG", "Solubility"],
             xAttr = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
-            xRange = [0, xDomain.length * this.state.heatSquareLength];
+            xRange = [0, xDomain.length * vitroHeatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
 
         // set tooltips
@@ -1316,18 +1320,18 @@ class DetailView extends Component {
         // ascending icon
         var ascendDef = svg.append('defs').append("g").attr("id", "ascending");
 
-        // ascendDef.append("rect")
-        //     .attr("x", -3)
-        //     .attr("y", -8)
-        //     .attr("width", 17)
-        //     .attr("height", 18)
-        //     .style("fill", "#eeeeee")
-        //     .attr("rx", 2)
-        //     .attr("ry", 2)
+        ascendDef.append("rect")
+            .attr("x", -3)
+            .attr("y", -7)
+            .attr("width", 17)
+            .attr("height", 19)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
 
         ascendDef
             .append("text")
-            .attr("x", 4)
+            .attr("x", 6)
             .attr("y", 1)
             .text('1')
             .style("font-size", 9)
@@ -1335,7 +1339,7 @@ class DetailView extends Component {
 
         ascendDef
             .append("text")
-            .attr("x", 4)
+            .attr("x", 6)
             .attr("y", 10)
             .text('9')
             .style("font-size", 9)
@@ -1360,18 +1364,18 @@ class DetailView extends Component {
         var descendDef = svg.append('defs').append("g").attr("id", "descending")
         // .attr("x", 20).attr("y", 20).style("border", "black").style("border-width", 1);
 
-        // descendDef.append("rect")
-        //     .attr("x", -3)
-        //     .attr("y", -8)
-        //     .attr("width", 17)
-        //     .attr("height", 18)
-        //     .style("fill", "#eeeeee")
-        //     .attr("rx", 2)
-        //     .attr("ry", 2)
+        descendDef.append("rect")
+            .attr("x", -5)
+            .attr("y", -10)
+            .attr("width", 17)
+            .attr("height", 18)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
 
         descendDef
             .append("text")
-            .attr("x", 0)
+            .attr("x", 2)
             .attr("y", -4)
             .text('9')
             .style("font-size", 9)
@@ -1379,7 +1383,7 @@ class DetailView extends Component {
 
         descendDef
             .append("text")
-            .attr("x", 0)
+            .attr("x", 2)
             .attr("y", 5)
             .text('1')
             .style("font-size", 9)
@@ -1402,22 +1406,39 @@ class DetailView extends Component {
         // draw ascending
         svg.selectAll()
             .data(xDomain).enter()
-            // .append('path')
-            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
-            // .attr("x", d => xScale(d))
-            // .attr("y", 0)
             .append("use").attr("xlink:href", "#ascending")
-            // .append('path')
-            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 1) + ",40)"; })
-            .style("opacity", 0.6)
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 5) + ",40)"; })
+            .style("opacity", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) {
+                    return 1
+                } else if (this.state.vitroSort.attr) {
+                    return 0.3
+                } else {
+                    return 0.6
+                }
+            })
+            .style("display", d => {
+                if (this.state.vitroSort.acsending !== false) {
+                    return "block"
+                } else return "none"
+            })
             .attr("class", "vitro-sort-a")
             .on("click", (event, d) => {
-                console.log("click ", d)
-                this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
-                d3.selectAll(".vitro-sort-a").filter(i => i === d).style("opacity", 1)
-                d3.selectAll(".vitro-sort-a").filter(i => i !== d).style("opacity", 0.3)
-                d3.selectAll(".vitro-sort-de").style("opacity", 0.3)
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) {
+                    // already clicked --> hide ascending, click descending
+                    // d3.selectAll(".vitro-sort-a").filter(i => i === d).style("display", "none")
+                    // d3.selectAll(".vitro-sort-de").filter(i => i === d).style("display", "block").style("opacity", 1)
+                    this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
+
+                } else {
+                    // not clicked --> click ascending
+                    this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
+                    // d3.selectAll(".vitro-sort-a").filter(i => i === d).style("opacity", 1)
+
+                }
+                // others: fade
+                // d3.selectAll(".vitro-sort-a").filter(i => i !== d).style("opacity", 0.3)
+                // d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.3)
 
                 tooltip.transition().duration(200).style("display", "block");
                 tooltip
@@ -1459,16 +1480,37 @@ class DetailView extends Component {
             // .append('path')
             // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
             .append("use").attr("xlink:href", "#descending")
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 17) + ",45)"; })
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 10) + ",45)"; })
             // .style("fill", "rgba(218, 218, 218, 0.8)")
             .attr("class", "vitro-sort-de")
-            .style("opacity", 0.6)
+            .style("opacity", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) {
+                    return 1
+                } else if (this.state.vitroSort.attr) {
+                    return 0.3
+                } else {
+                    return 0.6
+                }
+            })
+            .style("display", d => {
+                if (this.state.vitroSort.acsending === false) {
+                    return "block"
+                } else return "none"
+            })
             .on("click", (_, d) => {
-                // console.log("click ", d)
-                this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
-                d3.selectAll(".vitro-sort-de").filter(i => i === d).style("opacity", 1)
-                d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.3)
-                d3.selectAll(".vitro-sort-a").style("opacity", 0.3)
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) {
+                    // clicked --> unclick both, show unclicked ascending, hide descending
+                    this.setState({ vitroSort: { attr: null, acsending: null } })
+                    // d3.selectAll(".vitro-sort-de").filter(i => i === d).style("display", "none")
+                    // d3.selectAll(".vitro-sort-a").filter(i => i === d).style("display", "block").style("opacity", 0.6)
+                } else {
+                    // not clicked --> click descending
+                    // d3.selectAll(".vitro-sort-de").filter(i => i === d).style("opacity", 1)
+                    this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
+                }
+                // others
+                // d3.selectAll(".vitro-sort-a").style("opacity", 0.6)
+                // d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.6)
             })
             .on("mouseover", (event) => {
                 // tooltip
@@ -1500,9 +1542,11 @@ class DetailView extends Component {
         //     .style("text-anchor", "middle")
         //     .style("font-size", 10)
 
+        // text
         svg.selectAll().data(xDomain).enter()
             .append("g").attr("transform", d => "translate(" + (xScale(d) + 13) + ",30)")
             .attr("text-anchor", "middle")
+            .attr("cursor", "default")
             // .append("g").attr("transform", d => "translate(" + (xScale(d) + 15) + ",50) rotate(-90)")
             .append("text").text(d => {
                 if (d.length > 4) return d.substr(0, 3) + "..";
@@ -1573,7 +1617,8 @@ class DetailView extends Component {
         if (vitroHeatData[0]) {
             var component = this;
             console.log("draw vitro heatmap")
-            var margin = { top: 55, right: 10, bottom: 10, left: 10 },
+            var vitroHeatSquareLength = this.state.heatSquareLength + 1;
+            var margin = { top: 55, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
                 width = this.state.vitroWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -1589,7 +1634,7 @@ class DetailView extends Component {
             // x scale
             var xDomain = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
                 xMetric = ["nM", "nM", "nM", "nM", "fold", "nM", "µg/mL"],
-                xRange = [0, xDomain.length * this.state.heatSquareLength];
+                xRange = [0, xDomain.length * vitroHeatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
             //     .call(g => {
@@ -1607,7 +1652,7 @@ class DetailView extends Component {
             })
             if (sort.attr) yDomain = this.sortBy(data, sort.attr, sort.acsending);
             else if (initial_sort) yDomain = initial_sort.filter(d => yDomain.includes(d))
-            var yRange = [0, yDomain.length * xScale.bandwidth()]
+            var yRange = [0, yDomain.length * this.state.heatSquareLength]
             var yScale = d3.scaleBand().domain(yDomain).range(yRange)
 
             // store positions for path
@@ -1704,14 +1749,14 @@ class DetailView extends Component {
     }
 
     drawVivoSort() {
-        var margin = { top: 0, right: 10, bottom: 10, left: 10 };
+        var margin = { top: 0, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) };
 
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
             .attr("class", "sort")
             .style("opacity", 0)
-            .attr("transform", "translate(" + (30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
         // add legend
         var linearGradient = svg.append("defs").append("linearGradient")
@@ -1768,18 +1813,18 @@ class DetailView extends Component {
         // ascending icon
         var ascendDef = svg.append('defs').append("g").attr("id", "ascending");
 
-        // ascendDef.append("rect")
-        //     .attr("x", -3)
-        //     .attr("y", -8)
-        //     .attr("width", 17)
-        //     .attr("height", 18)
-        //     .style("fill", "#eeeeee")
-        //     .attr("rx", 2)
-        //     .attr("ry", 2)
+        ascendDef.append("rect")
+            .attr("x", -3)
+            .attr("y", -7)
+            .attr("width", 17)
+            .attr("height", 19)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
 
         ascendDef
             .append("text")
-            .attr("x", 4)
+            .attr("x", 6)
             .attr("y", 1)
             .text('1')
             .style("font-size", 9)
@@ -1787,7 +1832,7 @@ class DetailView extends Component {
 
         ascendDef
             .append("text")
-            .attr("x", 4)
+            .attr("x", 6)
             .attr("y", 10)
             .text('9')
             .style("font-size", 9)
@@ -1812,18 +1857,18 @@ class DetailView extends Component {
         var descendDef = svg.append('defs').append("g").attr("id", "descending")
         // .attr("x", 20).attr("y", 20).style("border", "black").style("border-width", 1);
 
-        // descendDef.append("rect")
-        //     .attr("x", -3)
-        //     .attr("y", -8)
-        //     .attr("width", 17)
-        //     .attr("height", 18)
-        //     .style("fill", "#eeeeee")
-        //     .attr("rx", 2)
-        //     .attr("ry", 2)
+        descendDef.append("rect")
+            .attr("x", -5)
+            .attr("y", -10)
+            .attr("width", 17)
+            .attr("height", 18)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
 
         descendDef
             .append("text")
-            .attr("x", 0)
+            .attr("x", 2)
             .attr("y", -4)
             .text('9')
             .style("font-size", 9)
@@ -1831,7 +1876,7 @@ class DetailView extends Component {
 
         descendDef
             .append("text")
-            .attr("x", 0)
+            .attr("x", 2)
             .attr("y", 5)
             .text('1')
             .style("font-size", 9)
@@ -1854,22 +1899,38 @@ class DetailView extends Component {
         // draw ascending
         svg.selectAll()
             .data(xDomain).enter()
-            // .append('path')
-            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
-            // .attr("x", d => xScale(d))
-            // .attr("y", 0)
             .append("use").attr("xlink:href", "#ascending")
-            // .append('path')
-            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 1) + ",40)"; })
-            .style("opacity", 0.6)
-            .attr("class", "vitro-sort-a")
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 5) + ",40)"; })
+            .style("opacity", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) {
+                    return 1
+                } else if (this.state.vivoSort.attr) {
+                    return 0.3
+                } else {
+                    return 0.6
+                }
+            })
+            .style("display", d => {
+                if (this.state.vivoSort.acsending !== false) {
+                    return "block"
+                } else return "none"
+            })
             .on("click", (event, d) => {
-                console.log("click ", d)
-                this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
-                d3.selectAll(".vitro-sort-a").filter(i => i === d).style("opacity", 1)
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) {
+                    // already clicked --> hide ascending, click descending
+                    d3.selectAll(".vitro-sort-a").filter(i => i === d).style("display", "none")
+                    d3.selectAll(".vitro-sort-de").filter(i => i === d).style("display", "block").style("opacity", 1)
+                    this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
+
+                } else {
+                    // not clicked --> click ascending
+                    this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: true } })
+                    d3.selectAll(".vitro-sort-a").filter(i => i === d).style("opacity", 1)
+
+                }
+                // others: fade
                 d3.selectAll(".vitro-sort-a").filter(i => i !== d).style("opacity", 0.3)
-                d3.selectAll(".vitro-sort-de").style("opacity", 0.3)
+                d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.3)
             })
             .on("mouseover", (event) => {
                 // d3.selectAll("path.vitro-sort-a").style("cursor", "grab")
@@ -1896,23 +1957,37 @@ class DetailView extends Component {
         // draw descending
         svg.selectAll()
             .data(xDomain).enter()
-            // .append('path')
-            // .attr("d", d3.symbol().type(d3.symbolTriangle).size(60))
-            // .attr("x", d => xScale(d))
-            // .attr("y", 0)
-            // .append('path')
-            // .attr('d', d3.line()([[0, 0], [0, 8], [11, 4]]))
             .append("use").attr("xlink:href", "#descending")
-            .attr("transform", (d) => { return "translate(" + (xScale(d) + 17) + ",45)"; })
-            // .style("fill", "rgba(218, 218, 218, 0.8)")
+            .attr("transform", (d) => { return "translate(" + (xScale(d) + 10) + ",45)"; })
             .attr("class", "vitro-sort-de")
-            .style("opacity", 0.6)
+            .style("opacity", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) {
+                    return 1
+                } else if (this.state.vivoSort.attr) {
+                    return 0.3
+                } else {
+                    return 0.6
+                }
+            })
+            .style("display", d => {
+                if (this.state.vivoSort.acsending === false) {
+                    return "block"
+                } else return "none"
+            })
             .on("click", (_, d) => {
-                // console.log("click ", d)
-                this.setState({ vitroSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
-                d3.selectAll(".vitro-sort-de").filter(i => i === d).style("opacity", 1)
-                d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.3)
-                d3.selectAll(".vitro-sort-a").style("opacity", 0.3)
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) {
+                    // clicked --> unclick both, show unclicked ascending, hide descending
+                    this.setState({ vivoSort: { attr: null, acsending: null } })
+                    // d3.selectAll(".vitro-sort-de").filter(i => i === d).style("display", "none")
+                    // d3.selectAll(".vitro-sort-a").filter(i => i === d).style("display", "block").style("opacity", 0.6)
+                } else {
+                    // not clicked --> click descending
+                    // d3.selectAll(".vitro-sort-de").filter(i => i === d).style("opacity", 1)
+                    this.setState({ vivoSort: { attr: xAttr[xDomain.indexOf(d)], acsending: false } })
+                }
+                // others
+                // d3.selectAll(".vitro-sort-a").style("opacity", 0.6)
+                // d3.selectAll(".vitro-sort-de").filter(i => i !== d).style("opacity", 0.6)
             })
             .on("mouseover", (event) => {
                 console.log("hover on sort descend")
@@ -1939,6 +2014,7 @@ class DetailView extends Component {
         svg.selectAll().data(xDomain).enter()
             .append("g").attr("transform", d => "translate(" + (xScale(d) + 13) + ",30)")
             .attr("text-anchor", "middle")
+            .attr("cursor", "default")
             // .append("g").attr("transform", d => "translate(" + (xScale(d) + 15) + ",50) rotate(-90)")
             .append("text").text(d => {
                 if (d.length > 4) return d.substr(0, 3) + "..";
@@ -1974,7 +2050,7 @@ class DetailView extends Component {
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
-            .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
         var xDomain = ["ED50", "t_half", "AUC", "bio", "sol"],
@@ -2030,14 +2106,14 @@ class DetailView extends Component {
         if (vivoHeatData[0]) {
             var component = this;
             console.log("draw vivo heatmap")
-            var margin = { top: 55, right: 10, bottom: 10, left: 0 },
+            var margin = { top: 55, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
             var svg = d3
                 .select("svg#detail_svg")
                 .append("g")
-                .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength) + "," + margin.top + ")");
+                .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
             // console.log("heatmap", this.props.detaildata[2])
             // var data = this.props.detaildata[2];
@@ -2047,7 +2123,7 @@ class DetailView extends Component {
             // x scale
             var xDomain = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
                 xMetric = ["µg/animal", "h", "ng•h/mL", "%", "µg/mL"],
-                xRange = [0, xDomain.length * this.state.heatSquareLength];
+                xRange = [0, xDomain.length * (this.state.heatSquareLength)];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
             //     .call(g => {
@@ -2068,7 +2144,7 @@ class DetailView extends Component {
             // var attr = "ED50";
             if (sort.attr) yDomain = this.sortBy(data, sort.attr, sort.acsending);
             else if (initial_sort) yDomain = initial_sort.filter(d => yDomain.includes(d))
-            var yRange = [0, yDomain.length * xScale.bandwidth()]
+            var yRange = [0, yDomain.length * this.state.heatSquareLength]
             var yScale = d3.scaleBand().domain(yDomain).range(yRange)
 
             // store positions for path
@@ -2076,8 +2152,8 @@ class DetailView extends Component {
             yDomain.forEach(d => {
                 vivo_heat_pos.push({
                     id: d,
-                    x_in: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength),
-                    x_out: (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + margin.left + this.state.heatSquareLength + xDomain.length * xScale.bandwidth()),
+                    x_in: (10 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left),
+                    x_out: (10 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left + xDomain.length * xScale.bandwidth()),
                     y: yScale(d) + margin.top + 1 / 2 * yScale.bandwidth()
                 })
             })
@@ -2363,6 +2439,12 @@ class DetailView extends Component {
                     // console.log("company_obj_list", company_obj_list)
                     // console.log("border_list", border_list)
 
+                    if (phase !== 1) {
+                        // sort by company_count
+                        company_obj_list.sort((a, b) => {
+                            return a.status !== b.status ? a.status - b.status : a.company_count - b.company_count
+                        })
+                    }
                     var node = sankeysvg.selectAll("rect#sankey")
                         .data(company_obj_list)
                         .enter()
