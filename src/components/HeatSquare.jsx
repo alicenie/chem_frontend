@@ -5,25 +5,25 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import AddColumn from './AddColumn';
 
 const domains = [
-    { text: "IC50_MC", label: "IC_50", unit: "(nM)", area: 1, index: 1 },
-    { text: "Ki_MC", label: "Ki", unit: "(nM)", area: 1, index: 2 },
-    { text: "Kd_MC", label: "Kd", unit: "(nM)", area: 1, index: 3 },
-    { text: "Selectivity_MC", label: "Selectivity", unit: "(fold)", area: 1, index: 4 },
-    { text: "IC50_Ph", label: "IC50", unit: "(nM)", area: 2, index: 5 },
-    { text: "Ki_Ph", label: "Ki", unit: "(nM)", area: 2, index: 6 },
-    { text: "Kd_Ph", label: "Kd", unit: "(nM)", area: 2, index: 7 },
-    { text: "EC50_Ph", label: "EC50", unit: "(nM)", area: 2, index: 8 },
-    { text: "Selectivity_Ph", label: "Selectivity", unit: "(fold)", area: 2, index: 9 },
-    { text: "hERG_Ph", label: "hERG", unit: "(nM)", area: 2, index: 10 },
-    { text: "solubility_Ph", label: "Solubility", unit: "(µg/mL)", area: 2, index: 11 },
-    { text: "ED50_Cl", label: "ED50", unit: "(µg/animal)", area: 2, index: 12 },
-    { text: "thalf_Cl", label: "t 1/2", unit: "(h)", area: 2, index: 13 },
-    { text: "AUC_Cl", label: "AUC", unit: "(ng•h/mL)", area: 2, index: 14 },
-    { text: "bio_Cl", label: "Bioavailability", unit: "(%)", area: 2, index: 15 },
-    { text: "solubility_Cl", label: "Solubility", unit: "(µg/mL)", area: 2, index: 16 },
-    { text: "adverse_1", label: "Adverse Effects-I", unit: "", area: 3, index: 17 },
-    { text: "adverse_2", label: "Adverse Effects-II", unit: "", area: 3, index: 18 },
-    { text: "adverse_3", label: "Adverse Effects-III", unit: "", area: 3, index: 19 },
+    { text: "IC50_MC", label: "IC_50", unit: "nM", area: 1, index: 1 },
+    { text: "Ki_MC", label: "Ki", unit: "nM", area: 1, index: 2 },
+    { text: "Kd_MC", label: "Kd", unit: "nM", area: 1, index: 3 },
+    { text: "Selectivity_MC", label: "Selectivity", unit: "fold", area: 1, index: 4 },
+    { text: "IC50_Ph", label: "IC50", unit: "nM", area: 2, index: 5 },
+    { text: "Ki_Ph", label: "Ki", unit: "nM", area: 2, index: 6 },
+    { text: "Kd_Ph", label: "Kd", unit: "nM", area: 2, index: 7 },
+    { text: "EC50_Ph", label: "EC50", unit: "nM", area: 2, index: 8 },
+    { text: "Selectivity_Ph", label: "Selectivity", unit: "fold", area: 2, index: 9 },
+    { text: "hERG_Ph", label: "hERG", unit: "nM", area: 2, index: 10 },
+    { text: "solubility_Ph", label: "Solubility", unit: "µg/mL", area: 2, index: 11 },
+    { text: "ED50_Cl", label: "ED50", unit: "µg/animal", area: 2, index: 12 },
+    { text: "thalf_Cl", label: "t 1/2", unit: "h", area: 2, index: 13 },
+    { text: "AUC_Cl", label: "AUC", unit: "ng•h/mL", area: 2, index: 14 },
+    { text: "bio_Cl", label: "Bioavailability", unit: "%", area: 2, index: 15 },
+    { text: "solubility_Cl", label: "Solubility", unit: "µg/mL", area: 2, index: 16 },
+    { text: "adverse_1", label: "Adverse Effects-I", unit: "%", area: 3, index: 17 },
+    { text: "adverse_2", label: "Adverse Effects-II", unit: "%", area: 3, index: 18 },
+    { text: "adverse_3", label: "Adverse Effects-III", unit: "%", area: 3, index: 19 },
 ]
 
 class HeatSquare extends Component {
@@ -153,11 +153,11 @@ class HeatSquare extends Component {
         d3.selectAll("#upper-axis-tooltip").style("display", "none")
         var svg = d3.select("#" + container).append("svg")
             .attr("width", width + marginL)
-            .attr("height", "28px")
+            .attr("height", "26px")
             .attr("id", "upper-axis")
             .style("opacity", 0)
             .append("g")
-            .attr("transform", "translate(" + marginL + ",14) ");
+            .attr("transform", "translate(" + marginL + ",12) ");
 
         // set tooltips
         var tooltip = d3
@@ -169,8 +169,8 @@ class HeatSquare extends Component {
             .style("display", "none");
 
         var num_attr = this.state.curAttr.length
-        var num_character = 7 + (19 - num_attr);
-        var num_character_unit = 5 + (19 - num_attr);
+        var num_character = 6 + (19 - num_attr);
+        var num_character_unit = 3 + (19 - num_attr);
 
         /////// med chem ////////
         var svg1 = svg.append("g"), attr1 = this.state.curAttr.filter((d) => d.area === 1);
@@ -225,11 +225,11 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let unit = d.unit;
-                if (unit.length > num_character_unit) return unit.substr(0, num_character_unit) + "..."
-                else return unit
+                if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
+                else return "(" + unit + ")"
             })
             .attr("x", (d) => {
-                return xScale1(d.text) + xScale1.bandwidth() / 2 - 5
+                return xScale1(d.text) + xScale1.bandwidth() / 2
             })
             .attr("y", 11)
             .attr("text-anchor", "middle")
@@ -347,11 +347,11 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let unit = d.unit;
-                if (unit.length > num_character_unit) return unit.substr(0, num_character_unit) + "..."
-                else return unit
+                if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
+                else return "(" + unit + ")"
             })
             .attr("x", (d) => {
-                return xScale2(d.text) + xScale2.bandwidth() / 2 - 5
+                return xScale2(d.text) + xScale2.bandwidth() / 2
             })
             .attr("y", 11)
             .attr("text-anchor", "middle")
@@ -426,7 +426,7 @@ class HeatSquare extends Component {
             .enter()
             .append("text")
             .text(d => {
-                let attr = d.label.split(" ")[0];
+                let attr = d.label;
                 if (attr.length > num_character) return attr.substr(0, num_character) + "..."
                 else return attr
             })
@@ -467,17 +467,36 @@ class HeatSquare extends Component {
             .enter()
             .append("text")
             .text(d => {
-                let attr = d.label.split(" ")[1];
-                // if (attr.length > num_character) return attr.substr(0, num_character) + "..."
-                return attr
+                let unit = d.unit;
+                if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
+                else return "(" + unit + ")"
             })
             .attr("x", (d) => {
-                return xScale3(d.text) + xScale3.bandwidth() / 2 - 5
+                return xScale3(d.text) + xScale3.bandwidth() / 2
             })
             .attr("y", 11)
             .attr("text-anchor", "middle")
-            .style("font-size", 9)
+            .style("font-size", 10)
             .style("cursor", "default")
+            .on("mouseover", (event, d) => {
+                if (d.unit.length > num_character_unit) {
+                    tooltip.transition().duration(200).style("display", "block");
+                    tooltip
+                        .html(
+                            `<span class="overview-hover">${d.unit}</span>`
+                        )
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px");
+                }
+            })
+            .on("mousemove", (event, d) => {
+                tooltip
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseout", (event, d) => {
+                tooltip.transition().duration(200).style("display", "none");
+            })
 
         svg3
             .selectAll("path#cross")
@@ -511,7 +530,6 @@ class HeatSquare extends Component {
             .on("mouseout", (event, d) => {
                 tooltip.transition().duration(200).style("display", "none");
             })
-
     }
 
     drawHeatSquare(container, data, count = null, distribution = null, line_domains = {}) {
@@ -613,7 +631,7 @@ class HeatSquare extends Component {
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
-            .style("stroke-width", 0.5)
+            .style("stroke-width", 1)
             .style("stroke", "white");
 
         // add number of publication
@@ -683,7 +701,7 @@ class HeatSquare extends Component {
                     tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
-                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))}${unit}</span><br/>
+                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))} ${unit}</span><br/>
                             <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
                         )
                         .style("left", event.pageX + 10 + "px")
@@ -747,7 +765,7 @@ class HeatSquare extends Component {
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
-            .style("stroke-width", 0.5)
+            .style("stroke-width", 1)
             .style("stroke", "white");
 
         // add number of publication
@@ -819,7 +837,7 @@ class HeatSquare extends Component {
                     tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
-                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))}${unit}</span><br/>
+                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))} ${unit}</span><br/>
                             <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
                         )
                         .style("left", event.pageX + 10 + "px")
@@ -885,7 +903,7 @@ class HeatSquare extends Component {
             .attr("height", height)
             .attr("fill", (d) => colorScale(d.hvalue))
             .style("opacity", 0.8)
-            .style("stroke-width", 0.5)
+            .style("stroke-width", 1)
             .style("stroke", "white");
 
         // add number of publication
@@ -953,7 +971,7 @@ class HeatSquare extends Component {
                     tooltip.transition().duration(200).style("display", "block");
                     tooltip
                         .html(
-                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))}${unit}</span><br/>
+                            `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${Math.floor(Math.log(d.value))} ${unit}</span><br/>
                             <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
                         )
                         .style("left", event.pageX + 10 + "px")
@@ -1017,17 +1035,19 @@ class HeatSquare extends Component {
                 <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", height: "24px", marginBottom: 0 }}  >
                     <div className="col-7 pl-1">
                         <span>Overview</span>
-                        <span style={{ fontSize: 12 }}> (line: x axis--drug compound property, y axis--number of publication)</span>
+                        <span style={{ fontSize: 12 }}> (x axis--drug compound property, y axis--number of publication)</span>
                     </div>
                     <div className="col-5" id="legend">
                     </div>
                 </div>
-                <div style={{ height: 15, marginTop: -3, marginBottom: 5, paddingLeft: 20 }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#c1c1c1" class="bi bi-plus-square" viewBox="0 0 16 16" style={{ marginTop: -3 }}>
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
-                    <AddColumn handleAddAttr={this.handleAddAttr} options={this.state.removedAttr} />
+                <div className="row justify-content-end" style={{ height: 15, marginTop: -3, marginBottom: 5, paddingLeft: 20 }}>
+                    <div className="col-3 " style={{ justifySelf: "end", paddingLeft: 50 }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#c1c1c1" class="bi bi-plus-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                        </svg>
+                        <AddColumn handleAddAttr={this.handleAddAttr} options={this.state.removedAttr} />
+                    </div>
                 </div>
                 <div id="upper-axis"></div>
                 <ScrollSyncPane>

@@ -50,8 +50,8 @@ class Selected extends Component {
     color = (i) => {
         if (this.state.selected) {
             if (i.id == this.state.selected.id) return "rgba(169, 214, 229,0.3)"
-            return "#f8f9fa"
         }
+        return "#f8f9fa"
     }
 
     render() {

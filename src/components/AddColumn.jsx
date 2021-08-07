@@ -24,9 +24,10 @@ class AddColumn extends Component {
             <Relect options={this.props.options}
                 // chosen={this.state.chosen}
                 onChange={this.onChange.bind(this)}
-                height={15}
-                width={150}
+                height={10}
+                width={130}
                 placeholder={"add column..."}
+
             />
         );
     }
