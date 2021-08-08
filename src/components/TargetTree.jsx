@@ -34,6 +34,119 @@ class TreeNode {
     }
 }
 
+const cancer_tree = {
+    "name": "root",
+    "children": [
+        {
+            "name": "EGF",
+            "children": [
+                {
+                    "name": "EGFR",
+                    "children": [
+                        {
+                            "name": "Grb2",
+                            "children": [
+                                {
+                                    "name": "SOS",
+                                    "children": [
+                                        {
+                                            "name": "KRAS",
+                                            "children": [
+                                                {
+                                                    "name": "BRAF",
+                                                    "children": [
+                                                        {
+                                                            "name": "MEK",
+                                                            "children":
+                                                                [
+                                                                    {
+                                                                        "name": "ERK"
+                                                                    }
+                                                                ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "PI3K"
+                                                }
+
+                                            ]
+                                        }
+                                    ]
+
+                                }
+                            ]
+                        },
+                        {
+                            "name": "PI3K",
+                            "children": [
+                                {
+                                    "name": "Akt",
+                                    "children": [
+                                        {
+                                            "name": "mTOR"
+                                        }
+                                    ]
+
+                                }
+                            ]
+                        },
+                        {
+                            "name": "JAK",
+                            "children": [
+                                {
+                                    "name": "STAT3"
+                                }
+                            ]
+                        }
+                    ]
+                }
+
+            ]
+        },
+        {
+            "name": "subroot1",
+            "children": [
+                {
+                    "name": "ALK",
+                    "children": [
+                        {
+                            "name": "Grb2"
+                        },
+                        {
+                            "name": "PI3K"
+                        },
+                        {
+                            "name": "JAK"
+                        }
+                    ]
+                }
+
+            ]
+        },
+        {
+            "name": "subroot2",
+            "children": [
+                {
+                    "name": "HER2",
+                    "children": [
+                        {
+                            "name": "Grb2"
+                        },
+                        {
+                            "name": "PI3K"
+                        },
+                        {
+                            "name": "JAK"
+                        }
+                    ]
+                }
+
+            ]
+        }
+    ]
+}
+
 class TargetTree extends Component {
     constructor(props) {
         super(props)
@@ -47,7 +160,171 @@ class TargetTree extends Component {
     componentDidUpdate() {
         console.log("Target Tree update:")
         console.log(this.state.value)
-        // this.drawTargetTree();
+        this.drawTree();
+    }
+
+    drawTree() {
+        var width = 260,
+            height = 430;
+
+        var tree = d3.tree()
+            .size([width - 50, height - 50])
+            .separation(function (a, b) { return (a.parent == b.parent ? 4 : 1) * a.depth; });
+
+
+        // var diagonal = d3.svg.diagonal()
+        //     .projection(function (d) { return [d.x, d.y]; });
+
+        var svg = d3.select("#target-tree").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(0,10)");
+
+
+
+        // d3.json("cancer_tree.json").then(function (root) {
+        var root = cancer_tree;
+        //  assigns the data to a hierarchy using parent-child relationships
+        var nodes = d3.hierarchy(root, function (d) {
+            return d.children;
+        });
+
+        // maps the node data to the tree layout
+        nodes = tree(nodes);
+        var nodesraw = nodes.descendants();
+        // console.log("nodesraw", nodes.descendants())
+
+        var count = nodesraw.length;
+        var nodes = [nodesraw[count - 1]];
+        let node_name = [nodesraw[count - 1].data.name]
+
+        nodesraw.slice().reverse().forEach(node => {
+            let name = node.data.name;
+            if (node_name.indexOf(name) === -1) {
+                nodes.push(node)
+                node_name.push(name)
+            }
+        })
+        // console.log("nodes", nodes)
+        // adjust node position
+        let node_pi3k = nodes.filter(d => d.data.name === "PI3K")[0]
+        node_pi3k.y -= 40
+        let node_Akt = nodes.filter(d => d.data.name === "Akt")[0]
+        node_Akt.y += 110
+        let node_mTOR = nodes.filter(d => d.data.name === "mTOR")[0]
+        node_mTOR.y += 130
+
+        let temp_names = ["ALK", "HER2", "EGF", "EGFR"]
+        temp_names.forEach(name => {
+            let node = nodes.filter(d => d.data.name === name)[0]
+            node.y -= 42
+        })
+
+        temp_names = ["KRAS", "SOS", "STAT3"]
+        temp_names.forEach(name => {
+            let node = nodes.filter(d => d.data.name === name)[0]
+            node.x += 118
+        })
+        temp_names = ["BRAF", "MEK", "ERK"]
+        temp_names.forEach(name => {
+            let node = nodes.filter(d => d.data.name === name)[0]
+            node.x += 144
+        })
+
+        let node_MEK = nodes.filter(d => d.data.name === "MEK")[0]
+        node_MEK.y -= 10
+        let node_ERK = nodes.filter(d => d.data.name === "ERK")[0]
+        node_ERK.y -= 10
+
+        // console.log("nodes", nodes)
+
+        var links = [];
+        // m = d3.map(nodes, function (d) {
+        //     return d.name;
+        // })
+        let node_obj = {}
+        nodes.forEach(node => node_obj[node.data.name] = node)
+        // console.log("node_obj", node_obj)
+        function traverseTree(node) {
+            if (!node) {
+                return;
+            }
+            if (node.children && node.children.length > 0) {
+                var current = node_obj[node.name];
+                for (var i = 0; i < node.children.length; i++) {
+                    var templink = { source: current, target: node_obj[node.children[i].name] };
+                    // console.log(i, node, templink);
+                    links.push(templink);
+                    traverseTree(node.children[i]);
+                }
+            }
+        }
+        traverseTree(root);
+        // console.log("links", links)
+
+        // arrowhead
+        var arrow = svg
+            .append("defs")
+            .append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "-0 -5 10 10")
+            .attr("refX", 13)
+            .attr("refY", 0)
+            .attr("orient", "auto")
+            .attr("markerWidth", 5)
+            .attr("markerHeight", 5)
+            .attr("xoverflow", "visible")
+            .append("path")
+            .attr("d", "M 0,-5 L 10 ,0 L 0,5")
+            .attr("fill", "#999")
+            .style("stroke", "none");
+
+        var curve = d3.line()
+        // .curve(d3.curveBumpX)
+
+        var link = svg.selectAll(".link")
+            .data(links)
+            .enter()
+            .append("path")
+            .attr("class", d => {
+                if (!d.source.parent) return "root-link"
+                if (d.source.parent && d.source.data.name.indexOf("root") > -1) return "root-link"
+                return "link"
+            })
+            .attr("d", d => {
+                // if(d.source.data.name==="HER2")
+                let points = []
+                points = [[d.source.x, d.source.y], [d.target.x, d.target.y]]
+                return curve(points)
+            })
+            .attr('marker-end', 'url(#arrowhead)');
+
+        var node = svg.selectAll(".node")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            })
+            .attr("class", d => {
+                if (!d.parent || d.data.name.indexOf("root") > -1) return "root-node";
+                else return "tree-node"
+            })
+
+        node.append("circle")
+            .attr("r", 4.5);
+
+        node.append("text")
+            // .attr("dx", function (d) { return d.children ? -8 : 8; })
+            .attr("dx", 6)
+            .attr("dy", 12)
+            // .style("text-anchor", function (d) { return d.children ? "end" : "start"; })
+            .text(d => {
+                // console.log("d", d); 
+                return d.data.name;
+            });
+        // });
     }
 
     drawTargetTree(treeData) {
@@ -122,8 +399,8 @@ class TargetTree extends Component {
     }
 
     buildTree() {
-        console.log("buildTree")
-        console.log(this.state.value)
+        // console.log("buildTree")
+        // console.log(this.state.value)
         // construct tree data structure
         var nodes = {}, nodes_list = [];
         this.state.value.forEach(d => {
@@ -148,14 +425,14 @@ class TargetTree extends Component {
                 if (nodes_id.indexOf(e) !== -1) nodes[d.id].parents.push(nodes[e])
             })
         })
-        console.log("tree nodes:", nodes)
-        console.log("nodes_list", nodes_list)
+        // console.log("tree nodes:", nodes)
+        // console.log("nodes_list", nodes_list)
         // calculate num of leaf node
         var num_leaf = 0;
         Object.keys(nodes).forEach(d => {
             if (nodes[d]["children"][0] == null) num_leaf += 1
         })
-        console.log(num_leaf)
+        // console.log(num_leaf)
         // this.setState({ num_leaf })
 
         // construct chart data from tree
@@ -167,7 +444,7 @@ class TargetTree extends Component {
                 treeHeads.push(value);
             }
         }
-        console.log("tree heads:", treeHeads)
+        // console.log("tree heads:", treeHeads)
         // build an object starting from each head
         treeHeads.forEach(head => {
             var treeObj = {
@@ -190,7 +467,7 @@ class TargetTree extends Component {
             treeCharts.push(treeObj)
         })
 
-        console.log("treeCharts:", treeCharts)
+        // console.log("treeCharts:", treeCharts)
 
         var treeChart = {
             name: '',
@@ -266,8 +543,8 @@ class TargetTree extends Component {
         };
 
         var tree = { treeChart: null, num_leaf: null }
-        tree = this.buildTree()
-        console.log(tree)
+        // tree = this.buildTree()
+        // console.log(tree)
 
         return (
             <TransformWrapper
@@ -310,7 +587,8 @@ class TargetTree extends Component {
                                         if (!d.source.parent) return "root-path-class"
                                         return "path-class"
                                     }} /> */}
-                                {this.drawTargetTree(tree.treeChart)}
+                                {/* {this.drawTargetTree(tree.treeChart)} */}
+
                             </div>
                         </TransformComponent>
                     </React.Fragment>

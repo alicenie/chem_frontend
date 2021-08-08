@@ -149,7 +149,7 @@ path.root-path-class {
   margin-right: 20px;
   /* background-color: #87bace; */
 }
-
+/* 
 .node-circle {
   fill: rgb(189, 189, 189);
 }
@@ -179,10 +179,32 @@ path.root-path-class {
   fill: none;
   stroke: rgb(146, 146, 146);
   stroke-width: 1px;
-}
-.root-node > circle {
+} */
+
+/* .root-node > circle {
   fill: rgb(146, 146, 146);
   opacity: 0;
+} */
+
+.tree-node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.tree-node {
+  font: 10px sans-serif;
+}
+
+.root-node,
+.root-link {
+  opacity: 0;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
 }
 
 .overview-hover {

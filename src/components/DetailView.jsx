@@ -52,7 +52,7 @@ class DetailView extends Component {
         this.drawVivoSort();
 
         // hide/show axis
-        if (this.props.detaildata[0]) d3.selectAll("g.sort").style("opacity", 1);
+        if (this.props.label) d3.selectAll("g.sort").style("opacity", 1);
         else d3.selectAll("g.sort").style("opacity", 0);
     }
 
@@ -61,7 +61,7 @@ class DetailView extends Component {
             .append("svg")
             .attr("id", "detail_svg")
             .attr("width", this.state.Width + 20)
-            .attr("height", 850)
+            .attr("height", 20850)
             .append("g")
             .attr("transform", "translate(8,0)")
 
@@ -641,26 +641,26 @@ class DetailView extends Component {
                         // vitro not empty => only add vitro data
                         if (!vitro_empty) {
                             for (const [key, value] of Object.entries(vitro_raw)) {
-                                vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(Math.random() * 10) : value })
+                                vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value })
                             }
                         }
                     }
                     else {
                         // sankey empty, vivo not empty => add both data
                         for (const [key, value] of Object.entries(vitro_raw)) {
-                            vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(Math.random() * 10) : value })
+                            vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value })
                         }
                         for (const [key, value] of Object.entries(vivo_raw)) {
-                            vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(Math.random() * 10) : value })
+                            vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value })
                         }
                     }
                 } else {
                     // sankey not empty => add all
                     for (const [key, value] of Object.entries(vitro_raw)) {
-                        vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(Math.random() * 100) : value })
+                        vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 100) : value })
                     }
                     for (const [key, value] of Object.entries(vivo_raw)) {
-                        vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(Math.random() * 100) : value })
+                        vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 100) : value })
                     }
                 }
             })
@@ -835,10 +835,10 @@ class DetailView extends Component {
             //     links = this.props.detaildata[0].links;
 
             // node color scale
-            var colorScale = d3
-                .scaleLinear()
-                .domain([1, 5])
-                .range(["rgba(240, 113, 103,0.1)", "rgba(240, 113, 103,1)"])
+            // var colorScale = d3
+            //     .scaleLinear()
+            //     .domain([1, 5])
+            //     .range(["rgba(240, 113, 103,0.1)", "rgba(240, 113, 103,1)"])
             // .range(["#f1dca7", "#ffcb69", "#e8ac65", "#d08c60", "#b58463"])
             // .range(["#f7b267", "#f79d65", "#f4845f", "#f27059", "#f25c54"])
             // .range(["#edeec9", "#dde7c7", "#bfd8bd", "#98c9a3", "#77bfa3"])
@@ -846,7 +846,7 @@ class DetailView extends Component {
 
             // node r scale
             var radius = 8;
-            var rScale = d3.scaleLinear().domain([1, 10]).range([3, radius])
+            var rScale = d3.scaleLinear().domain([1, 15]).range([3, radius])
 
             // draw legend
             var circle_legend_svg = d3
@@ -927,7 +927,7 @@ class DetailView extends Component {
                         }) // This provide the id of a node
                         .distance(d => {
                             // console.log("link d", d)
-                            return d.value * 500
+                            return d.value * 450
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
                 )
@@ -961,131 +961,12 @@ class DetailView extends Component {
                 .append("circle")
                 .attr("class", "network")
                 // .attr("r", d => rScale(d.value))
-                .attr("r", d => rScale(Math.floor(Math.random() * 10)))
+                .attr("r", d => rScale(Math.sqrt(d.compound_count)))
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
                 // .style("stroke", (d) => colorScale(d.group))
                 // .style("stroke-width", 4)
                 .style("fill", (d) => "#f4978e")
-            // .on("mouseover", function (event, d) {
-            //     // console.log(d.id)
-
-            //     // tooltip
-            //     tooltip.transition().duration(200);
-            //     tooltip
-            //         .html(() => {
-            //             var author = ""
-            //             d.paper_author.forEach(d => author += (d.split(' ')[0][0] + '. ' + d.split(' ')[1] + ", "))
-
-            //             var metrics = ""
-            //             for (const [key, value] of Object.entries(d.medicinal_chemistry_metrics)) {
-            //                 if (value) metrics += `<span>${key}: ${value}</span><br/>`
-            //             }
-            //             return `<div class="network-tooltip" style="padding:2px;width:360px">
-            //             <div class="row">
-            //             <div class="col-3" style="margin:2px">
-            //             <img src='${d.paper_abstract_image}' width=80/>
-            //             ${metrics}
-            //             </div>
-
-            //             <div class="col-7" style="margin-left:3px;padding:0">
-            //             <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
-            //             <span class="tooltip-author">${author}</span><br/><br/>
-            //             <span class="tooltip-label">Doi:</span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a><br/>
-            //             <span class="tooltip-label">Cited:</span>${d.paper_cited}<br/>
-            //             <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
-
-            //             </div>
-            //             </div>
-            //             <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
-            //             </div>
-            //             `}
-            //         )
-            //         .style("left", event.pageX - 360 + "px")
-            //         .style("top", event.pageY - 160 + "px")
-            //         .style("display", "block")
-            //     // .on("mouseout", () => {
-            //     // console.log("tooltip mouseout")
-            //     // tooltip.transition().duration(200).style("opacity", 0);
-            //     // });
-
-            //     // highlight
-            //     d3.selectAll("rect.heatmap")
-            //         .filter((node) => node.id == d.id)
-            //         .style("stroke", "orange")
-            //         .style("stroke-width", 3)
-            //     // .classed("highlightRect", true);
-
-            //     d3.selectAll("rect.heatmap")
-            //         .filter((node) => node.id != d.id)
-            //         .style("opacity", 0.5)
-
-            //     d3.selectAll("rect.sankey")
-            //         .filter((node) => node.id != d.id)
-            //         .style("opacity", 0.5)
-
-            //     d3.selectAll("rect.sankey-border")
-            //         .filter((node) => node.id == d.id)
-            //         .style("opacity", 1)
-            //         .style("stroke", "orange")
-            //         .style("stroke-width", 3)
-
-            //     d3.selectAll("rect.sankey-border")
-            //         .filter((node) => node.id != d.id)
-            //         .style("opacity", 0.5)
-
-            //     d3.selectAll("circle.network")
-            //         .filter((node) => node.id == d.id)
-            //         .style("stroke", "orange")
-            //         .style("stroke-width", 3)
-
-            //     d3.selectAll("circle.network")
-            //         .filter((node) => node.id != d.id)
-            //         .style("opacity", 0.5)
-
-            //     d3.selectAll("path#" + d.id)
-            //         .attr("opacity", 1)
-            //         .attr("stroke-width", 2)
-
-            //     d3.selectAll("text.sankey").filter((t) => t.id != d.id)
-            //         .style("opacity", 0.5)
-            // })
-            // .on("mousemove", (event, d) => {
-            //     tooltip
-            //         .style("left", event.pageX - 360 + "px")
-            //         .style("top", event.pageY - 160 + "px");
-            // })
-            // .on("mouseout", (event, d) => {
-            //     // tooltip.on("mouseout.tooltip", () => {
-            //     // console.log("tooltip mouseout")
-            //     tooltip.transition().delay(500).style("display", "none");
-            //     // })
-
-            //     d3.selectAll("rect.heatmap")
-            //         .style("stroke-width", 2)
-            //         .style("stroke", "#e9ecef")
-            //         .style("opacity", 1)
-
-            //     d3.selectAll("rect.sankey")
-            //         .style("opacity", 1)
-
-            //     d3.selectAll("rect.sankey-border")
-            //         .style("opacity", 1)
-            //         .style("stroke-width", 2)
-            //         .style("stroke", "#adb5bd")
-
-            //     d3.selectAll("circle.network")
-            //         .style("stroke-width", 0)
-            //         .style("opacity", 1)
-
-            //     d3.selectAll("path#" + d.id)
-            //         .attr("opacity", 0.5)
-            //         .attr("stroke-width", 1)
-
-            //     d3.selectAll("text.sankey").filter((t) => t.id != d.id)
-            //         .style("opacity", 1)
-            // })
-            // .call(drag(simulation));
 
             // draw arc
             var arc_data = [{ position: 0, value: 1 }, { position: 5, value: 1 }, { position: 10, value: 1 }, { position: 15, value: 1 }]
@@ -1112,7 +993,7 @@ class DetailView extends Component {
                     .attr("fill", (d) => {
                         // console.log(d.data.position)
                         // return node.level > d.data.position ? "#f4978e" : "lightgrey"
-                        return Math.random() * 20 > d.data.position ? "#f4978e" : "lightgrey"
+                        return 0.000001 * 20 > d.data.position ? "#f4978e" : "lightgrey"
                     })
 
             })
@@ -2338,10 +2219,10 @@ class DetailView extends Component {
             //     .scaleSequential()
             //     .interpolator(d3.interpolateRainbow)
             //     .domain([0, 8]);
-            var colorScale = d3
-                .scaleOrdinal()
-                .domain([0, 8])
-                .range(["#8dd3c7", "#c51b7d", "#bebada", "#b3de69", "#fccde5", "#d9d9d9", "#b35806", "#984ea3", "#bf812d"])
+            // var colorScale = d3
+            //     .scaleOrdinal()
+            //     .domain([0, 8])
+            //     .range(["#8dd3c7", "#c51b7d", "#bebada", "#b3de69", "#fccde5", "#d9d9d9", "#b35806", "#984ea3", "#bf812d"])
             // .range(["#eddcd2", "#fde2e4", "#fad2e1", "#99c1de", "#c5dedd", "#fff1e6", "#dbe7e4", "#bcd4e6", "#d6e2e9"])
 
             // set tooltips
@@ -2614,7 +2495,9 @@ class DetailView extends Component {
                         phase2_pos.forEach(d => {
                             // console.log(d)
                             var curve = d3.line().curve(d3.curveBumpX)
+                            console.log("company", d.company)
                             var startNode = phase1_pos.find(node => node.company == d.company)
+                            console.log("startNode", startNode)
                             var points = [[startNode.x, startNode.y], [d.x_in, d.y]]
                             sankeysvg
                                 .append("path")

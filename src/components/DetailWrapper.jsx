@@ -66,8 +66,8 @@ class DetailWrapper extends Component {
             value={this.props.value}
             nodes={this.props.nodes}
             label={this.props.label}
-            detaildata={this.props.detaildata}
-            sankeydata={this.props.sankeydata}
+            // detaildata={this.props.detaildata}
+            // sankeydata={this.props.sankeydata}
             width={this.props.width} />);
     }
 }

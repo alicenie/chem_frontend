@@ -23,21 +23,21 @@ class StackedArea extends Component {
     componentDidUpdate() {
         console.log("component did update")
         this.state.targetList.forEach(d => {
-            if (Object.keys(d).indexOf("paper_count_year") > -1) this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata, d["paper_count_year"])
-            else this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)
+            // if (Object.keys(d).indexOf("paper_count_year") > -1) 
+            this.drawStackedArea(`stackedarea-${d.id}`, d["paper_count_year"])
+            // else this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)
         })
     }
 
-    drawStackedArea(container, data, rawdata = null) {
+    drawStackedArea(container, rawdata = null) {
+        let data = [];
         if (rawdata) {
             // handle rawdata
-            let temp_data = [];
             for (const [key, value] of Object.entries(rawdata)) {
                 if (key >= 1999) {
-                    temp_data.push({ year: key, A: value[0], B: value[1], C: value[2] })
+                    data.push({ year: key, A: value[0], B: value[1], C: value[2] })
                 }
             }
-            data = temp_data
         }
 
         // trim the data
@@ -87,7 +87,7 @@ class StackedArea extends Component {
 
         // Add Y axis
         var y = d3.scaleLinear()
-            .domain([0, 120])
+            .domain([0, 220])
             .range([height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y).ticks(3).tickFormat(d3.format("d")))

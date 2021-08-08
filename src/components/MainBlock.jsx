@@ -189,8 +189,8 @@ class MainBlock extends Component {
                                     value={this.state.selectedDetailTarget ? this.state.selectedDetailTarget : null}
                                     nodes={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.drug_molecule_paper.map(d => { let node = { ...d }; node["id"] = node.paper_id; return node }) : null}
                                     label={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.label : null}
-                                    detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
-                                    sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
+                                    // detaildata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.detaildata : []}
+                                    // sankeydata={this.state.selectedDetailTarget ? this.state.selectedDetailTarget.sankeydata : null}
                                     width={width / 60 * 49} />
                             </Card>
                         </div>
