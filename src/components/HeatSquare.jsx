@@ -57,6 +57,7 @@ class HeatSquare extends Component {
 
         // get xscale for each col
         let line_domains = {};
+        let without_log = ["adverse_1", "adverse_2", "adverse_3"];
         this.state.targetList.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
@@ -67,6 +68,7 @@ class HeatSquare extends Component {
                     line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(d => Math.floor(Math.log(d))));
                 })
         })
+        without_log.forEach(key => line_domains[key] = [0, 100])
         console.log("line_domains", line_domains)
 
         this.state.targetList.forEach(d => {
@@ -537,6 +539,7 @@ class HeatSquare extends Component {
         var curAttrText = this.state.curAttr.map(d => d.text);
         var lineColor = "#9F9A9A"
         let data = [];
+        let without_log = ["adverse_1", "adverse_2", "adverse_3"];
         // handle real data
         if (count !== null && distribution !== null) {
             let temp_line = {}
@@ -544,7 +547,8 @@ class HeatSquare extends Component {
                 if (curAttrText.indexOf(key) > -1) {
                     let counts = {} // { value: pub }
                     line_array.forEach(d => {
-                        d = Math.floor(Math.log(d))
+                        if (without_log.indexOf(key) === -1) d = Math.floor(Math.log(d))
+                        else d = d * 100
                         counts[d] = counts[d] ? counts[d] + 1 : 1;
                     })
                     let line = []; // [{value,pub}]
@@ -631,7 +635,7 @@ class HeatSquare extends Component {
             .attr("y", "0")
             .attr("width", xScale1.bandwidth())
             .attr("height", height)
-            .attr("fill", (d) => colorScale(d.hvalue))
+            .attr("fill", (d) => d.hvalue === 0 ? "white" : colorScale(d.hvalue))
             .style("opacity", 0.8)
             .style("stroke-width", 1)
             .style("stroke", "white");
@@ -669,7 +673,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 15]); // fixed?
+                    .domain([0, 14]); // fixed?
 
                 let line = d3
                     .line()
@@ -772,7 +776,7 @@ class HeatSquare extends Component {
             .attr("y", "0")
             .attr("width", xScale2.bandwidth())
             .attr("height", height)
-            .attr("fill", (d) => colorScale(d.hvalue))
+            .attr("fill", (d) => d.hvalue === 0 ? "white" : colorScale(d.hvalue))
             .style("opacity", 0.8)
             .style("stroke-width", 1)
             .style("stroke", "white");
@@ -811,7 +815,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 15]); // fixed?
+                    .domain([0, 14]); // fixed?
 
                 let line = d3
                     .line()
@@ -919,7 +923,7 @@ class HeatSquare extends Component {
             .attr("y", "0")
             .attr("width", xScale3.bandwidth())
             .attr("height", height)
-            .attr("fill", (d) => colorScale(d.hvalue))
+            .attr("fill", (d) => d.hvalue === 0 ? "white" : colorScale(d.hvalue))
             .style("opacity", 0.8)
             .style("stroke-width", 1)
             .style("stroke", "white");
@@ -957,7 +961,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 15]); // fixed?
+                    .domain([0, 5]); // fixed?
 
                 let line = d3
                     .line()
@@ -993,8 +997,8 @@ class HeatSquare extends Component {
                         tooltip.transition().duration(200).style("display", "block");
                         tooltip
                             .html(
-                                `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
-                            <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
+                                `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${d.value.toFixed(2)} ${unit}</span><br/>
+                            <span class="overview-hover">number of study: </span><span class="overview-hover">${d.pub}</span><br/>`
                             )
                             .style("left", event.pageX + 10 + "px")
                             .style("top", event.pageY + 10 + "px");

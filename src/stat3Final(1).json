@@ -880,9 +880,9 @@
           [],
           [],
           [
-            "Dizal (Jiangsu) Pharmaceutical Co., Ltd.",
-            "Frontage Clinical Services, Inc.",
             "Samsung Medical Center",
+            "Frontage Clinical Services, Inc.",
+            "Dizal (Jiangsu) Pharmaceutical Co., Ltd.",
             "Pharmaron CPC"
           ],
           [],
@@ -2364,9 +2364,9 @@
     "AUC_Cl": 8,
     "bio_Cl": 5,
     "solubility_Cl": 0,
-    "adverse_1": 26,
-    "adverse_2": 22,
-    "adverse_3": 10
+    "adverse_1": 29,
+    "adverse_2": 25,
+    "adverse_3": 12
   },
   "metrics_distribution": {
     "IC50_MC": [
@@ -2393,7 +2393,7 @@
     "bio_Cl": [44.7, 56.0, 30.0, 100.0, 5.6],
     "solubility_Cl": [],
     "adverse_1": [],
-    "adverse_2": [0.10526315789473684, 0.08333333333333333],
+    "adverse_2": [0.65, 0.0, 0.10526315789473684, 0.08333333333333333],
     "adverse_3": []
   }
 }

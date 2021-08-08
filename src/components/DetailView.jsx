@@ -811,6 +811,7 @@ class DetailView extends Component {
             // var nodes = this.props.value.drug_molecule_paper.map(d => { let node = { ...d }; node["id"] = node.id; return node }),
             var nodes = this.props.value.drug_molecule_paper,
                 links = this.props.value.medicinal_chemistry_similarity;
+            console.log('nodes', nodes);
 
             console.log("draw network")
 
@@ -927,12 +928,15 @@ class DetailView extends Component {
                         }) // This provide the id of a node
                         .distance(d => {
                             // console.log("link d", d)
-                            return d.value * 450
+                            let valueScale = d3.scaleQuantize().domain([0, 1]).range([0, 0.2, 0.4, 0.6, 0.8, 1])
+                            console.log("valuescale d", d.value, valueScale(d.value))
+                            return (1 - valueScale(d.value)) ** 1.5 * 190
+                            // return (1 - d.value) * 200
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
                 )
                 .force("charge", d3.forceManyBody().strength(0)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-                .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
+                .force("center", d3.forceCenter(width / 2 - 20, height / 2)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
                     // return rScale(d.value)
