@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import Unknown from '../target_img/unknown.png';
+import STAT3 from '../target_img/STAT3.png';
+import ALK from '../target_img/ALK.png';
+import EGFR from '../target_img/EGFR.png';
+import HER2 from '../target_img/HER2.png';
+import KRAS from '../target_img/KRAS.png';
 import IconButton from '@material-ui/core/IconButton';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
@@ -55,6 +59,13 @@ class Selected extends Component {
     }
 
     render() {
+        const img = {
+            ALK: ALK,
+            EGFR: EGFR,
+            HER2: HER2,
+            KRAS: KRAS,
+            STAT3: STAT3
+        }
         return (
             <ScrollSyncPane>
                 <div style={{ overflow: "auto", marginTop: 15 }}>
@@ -77,9 +88,9 @@ class Selected extends Component {
                                 <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
                                     <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", borderRadius: "10px", backgroundColor: this.color(i) }}>
                                         <div className="col-3" style={{ paddingLeft: 6 }} >
-                                            <img src={Unknown} width="80" data-tip data-for="img-tooltip" />
+                                            <img src={img[i.label]} width="80" data-tip data-for="img-tooltip" />
                                             <ReactTooltip id="img-tooltip" type="light">
-                                                <img src={Unknown} width="200" />
+                                                <img src={img[i.label]} width="200" />
                                             </ReactTooltip>
                                         </div>
                                         <div
@@ -87,9 +98,9 @@ class Selected extends Component {
                                             style={{ marginLeft: 5, cursor: "pointer", paddingLeft: 20, paddingRight: 0 }}
                                             onClick={() => this.handleClick(i)}
                                             data-tip data-for="text-tooltip">
-                                            <ul style={{ listStyleType: "none", margin: 0, padding: 0 }}>
+                                            <ul style={{ listStyleType: "none", marginLeft: 20, padding: 0, fontSize: 17 }}>
                                                 <li>{i.label}</li>
-                                                <li style={{ fontSize: 10 }}>Discovery time: 2000</li>
+                                                {/* <li style={{ fontSize: 10 }}>Discovery time: 2000</li> */}
                                             </ul>
                                             <ReactTooltip id="text-tooltip" type="light" place="bottom" backgroundColor="#555" textColor="#fff">
                                                 <span>Show details</span>

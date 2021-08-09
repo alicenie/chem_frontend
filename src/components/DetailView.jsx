@@ -33,6 +33,7 @@ class DetailView extends Component {
     }
 
     componentDidUpdate(prevProps) {
+
         if (this.state.test === true) this.setState({ test: false })
         console.log("test", this.state.test)
         console.log("prevProps", prevProps.label);
@@ -52,8 +53,14 @@ class DetailView extends Component {
         this.drawVivoSort();
 
         // hide/show axis
-        if (this.props.label) d3.selectAll("g.sort").style("opacity", 1);
-        else d3.selectAll("g.sort").style("opacity", 0);
+        if (this.props.label) {
+            d3.selectAll("g.sort").style("opacity", 1);
+            // d3.selectAll("g.boundary").style("opacity", 1)
+        }
+        else {
+            d3.selectAll("g.sort").style("opacity", 0);
+            // d3.selectAll("g.boundary").style("opacity", 0)
+        }
     }
 
     drawBoundary() {
@@ -61,15 +68,16 @@ class DetailView extends Component {
             .append("svg")
             .attr("id", "detail_svg")
             .attr("width", this.state.Width + 20)
-            .attr("height", 20850)
+            .attr("height", 10000)
             .append("g")
+            .attr("class", "boundary")
             .attr("transform", "translate(8,0)")
 
         // for (var i = 0; i < 3; i++) {
         svg.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("height", 800)
+            .attr("height", 10000)
             .attr("width", 20 + this.state.medchemWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -82,7 +90,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 25 + this.state.medchemWidth)
             .attr("y", 0)
-            .attr("height", 800)
+            .attr("height", 10000)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -102,7 +110,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth)
             .attr("y", 0)
-            .attr("height", 800)
+            .attr("height", 10000)
             .attr("width", this.state.sankeyWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -869,7 +877,7 @@ class DetailView extends Component {
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
 
-            var circle_legend = [1, 5, 10], circle_cx = [0, rScale(1) + rScale(5) + 5, rScale(1) + 2 * rScale(5) + 10 + rScale(10)]
+            var circle_legend = [1, 7, 15], circle_cx = [0, rScale(1) + rScale(5) + 5, rScale(1) + 2 * rScale(5) + 10 + rScale(10)]
             circle_legend_svg.selectAll().data(circle_legend).enter().append("circle")
                 .attr("r", d => rScale(d))
                 .attr("cx", (d, i) => 100 + circle_cx[i])
@@ -883,7 +891,7 @@ class DetailView extends Component {
                 .style("font-size", "12px")
                 .attr("class", "network")
                 .attr("text-anchor", "middle")
-                .text("0")
+                .text("1")
 
             circle_legend_svg.append("text")
                 .attr("x", 100 + circle_cx[2])
@@ -891,7 +899,7 @@ class DetailView extends Component {
                 .style("font-size", "12px")
                 .attr("class", "network")
                 .attr("text-anchor", "middle")
-                .text("10")
+                .text("15")
 
             // set tooltips
             var tooltip = d3
@@ -929,14 +937,14 @@ class DetailView extends Component {
                         .distance(d => {
                             // console.log("link d", d)
                             let valueScale = d3.scaleQuantize().domain([0, 1]).range([0, 0.2, 0.4, 0.6, 0.8, 1])
-                            console.log("valuescale d", d.value, valueScale(d.value))
+                            // console.log("valuescale d", d.value, valueScale(d.value))
                             return (1 - valueScale(d.value)) ** 1.5 * 190
                             // return (1 - d.value) * 200
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
                 )
                 .force("charge", d3.forceManyBody().strength(0)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-                .force("center", d3.forceCenter(width / 2 - 20, height / 2)) // This force attracts nodes to the center of the svg area
+                .force("center", d3.forceCenter(width / 2 - 6, height / 2)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
                     // return rScale(d.value)
@@ -973,7 +981,7 @@ class DetailView extends Component {
                 .style("fill", (d) => "#f4978e")
 
             // draw arc
-            var arc_data = [{ position: 0, value: 1 }, { position: 5, value: 1 }, { position: 10, value: 1 }, { position: 15, value: 1 }]
+            var arc_data = [{ position: 0, value: 1 }, { position: 3, value: 1 }, { position: 6, value: 1 }, { position: 10, value: 1 }]
             var arc_data_ready = d3.pie().value(d => d.value)(arc_data)
             var arc = d3.arc()
                 .innerRadius(radius)
@@ -1007,7 +1015,7 @@ class DetailView extends Component {
                 .innerRadius(8)
                 .outerRadius(10)
                 .padAngle(0.03 * Math.PI);
-            var arc_legend = [{ level: 1, text: "0~5" }, { level: 6, text: "5~10" }, { level: 11, text: "10~15" }, { level: 16, text: ">15" }]
+            var arc_legend = [{ level: 1, text: "1~3" }, { level: 6, text: "4~6" }, { level: 11, text: "7~10" }, { level: 16, text: ">10" }]
             var text = svg.append("text").attr("y", -75);
             var legend_text = "synthesis route length";
             text.selectAll("tspan.text")
@@ -1535,7 +1543,7 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([1, 8]);
 
-            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["white", "#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
 
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
@@ -1566,7 +1574,8 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    return colorScale(Math.log(d.value));
+                    if (d.value === 0) return "white"
+                    else return colorScale(Math.log(d.value));
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -2020,7 +2029,7 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
-            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["white", "#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
             // .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
@@ -2047,7 +2056,8 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    return colorScale(Math.log(d.value));
+                    if (d.value === 0) return "white";
+                    else return colorScale(Math.log(d.value));
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -2501,7 +2511,7 @@ class DetailView extends Component {
                             var curve = d3.line().curve(d3.curveBumpX)
                             console.log("company", d.company)
                             var startNode = phase1_pos.find(node => node.company == d.company)
-                            console.log("startNode", startNode)
+                            // console.log("startNode", startNode)
                             var points = [[startNode.x, startNode.y], [d.x_in, d.y]]
                             sankeysvg
                                 .append("path")

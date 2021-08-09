@@ -61,11 +61,17 @@ class HeatSquare extends Component {
         this.state.targetList.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
-                    line_domains[key] = [...d.metrics_distribution[key].map(d => Math.floor(Math.log(d)))];
+                    line_domains[key] = [...d.metrics_distribution[key].map(d => {
+                        d = Math.floor(Math.log(d))
+                        return d + d % 2
+                    })];
                 })
             else
                 Object.keys(d.metrics_distribution).forEach(key => {
-                    line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(d => Math.floor(Math.log(d))));
+                    line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(d => {
+                        d = Math.floor(Math.log(d))
+                        return d + d % 2
+                    }));
                 })
         })
         without_log.forEach(key => line_domains[key] = [0, 100])
@@ -97,7 +103,8 @@ class HeatSquare extends Component {
             .attr("font-size", 12);
 
 
-        var colors = [["#FDEBEB", "#E78A8A"], ["#DAEAF0", "#76B7CB"], ["#E5E5F8", "#AEAED3"]]
+        const colors = [["#FDEBEB", "#E78A8A"], ["#DAEAF0", "#76B7CB"], ["#E5E5F8", "#AEAED3"]],
+            text = [120, 120, 700];
         colors.forEach((color, i) => {
             var linearGradient = svg.append("defs").append("linearGradient")
                 .attr("id", `linear-gradient-${i}`);
@@ -143,7 +150,7 @@ class HeatSquare extends Component {
             svg.append("text")
                 .attr("x", 155 + i * 80)
                 .attr("y", 12)
-                .text("100")
+                .text(text[i])
                 .style("font-size", 12)
         })
     }
@@ -537,7 +544,7 @@ class HeatSquare extends Component {
 
     drawHeatSquare(container, count = null, distribution = null, line_domains = {}) {
         var curAttrText = this.state.curAttr.map(d => d.text);
-        var lineColor = "#9F9A9A"
+        var lineColor = "#8a8a8a"
         let data = [];
         let without_log = ["adverse_1", "adverse_2", "adverse_3"];
         // handle real data
@@ -547,14 +554,18 @@ class HeatSquare extends Component {
                 if (curAttrText.indexOf(key) > -1) {
                     let counts = {} // { value: pub }
                     line_array.forEach(d => {
-                        if (without_log.indexOf(key) === -1) d = Math.floor(Math.log(d))
-                        else d = d * 100
+                        if (without_log.indexOf(key) === -1) {
+                            d = Math.floor(Math.log(d))
+                            d = d + d % 2
+                        }
+                        else d = Math.floor(d * 10) * 10
                         counts[d] = counts[d] ? counts[d] + 1 : 1;
                     })
                     let line = []; // [{value,pub}]
                     Object.keys(counts).forEach(d => line.push({ value: parseFloat(d), pub: counts[d] }))
                     line.sort((a, b) => a.value - b.value)
                     temp_line[key] = line; // already log
+                    // console.log("LIne", line)
                 }
             }
 
@@ -617,7 +628,7 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,1)"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#F3C8C8", "#EBA9A0", "#EB9489", "#E78276", "#D86E63"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#FDEBEB", "#F8DADA", "#F2CACA", "#EDBABA", "#E2A7A7", "#DD9696"])  // light red
-        var colorScale = d3.scaleQuantize().domain([0, 5]).range(["#FDEBEB", "#F8DADA", "#F2BFBF", "#F2B1B1", "#F09C9C", "#E78A8A"])  // brighter red
+        var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#FDEBEB", "#F8DADA", "#F2BFBF", "#F2B1B1", "#F09C9C", "#E78A8A"])  // brighter red
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale1.bandwidth()])
@@ -648,7 +659,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => "num:" + d.hvalue)
             .attr("x", (d) => {
-                return xScale1(d.label) + xScale1.bandwidth() - 28
+                return xScale1(d.label) + xScale1.bandwidth() - 29
             })
             .attr("y", "10")
             .attr("fill", "black")
@@ -673,7 +684,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 14]); // fixed?
+                    .domain([0, 35]); // fixed?
 
                 let line = d3
                     .line()
@@ -728,8 +739,8 @@ class HeatSquare extends Component {
 
                 // svg1.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle");
                 // svg1.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
-                svg1.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle");
-                svg1.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
+                svg1.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle");
+                svg1.append("text").attr("x", xLineScale(max) + 7).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
             }
         }
 
@@ -757,7 +768,7 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#B8D7F0", "#93BCDD", "#71A2CB", "#518BBC", "#3575AB"]) // fade blue
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#9BC7D7", "#7AAEC1", "#5896AD", "#41849C", "#2B6E86"]) // dark blue
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#CFF0FC", "#B4DDEB", "#9FD0E1", "#83BED3", "#70B4CD", "#5DA8C3"])  // light blue
-        var colorScale = d3.scaleQuantize().domain([0, 10]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])  // light fade blue
+        var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])  // light fade blue
 
 
         // square scale
@@ -790,7 +801,7 @@ class HeatSquare extends Component {
             .text(d => "num:" + d.hvalue)
             // .style("fill", "white")
             .attr("x", (d) => {
-                return xScale2(d.label) + xScale2.bandwidth() - 28
+                return xScale2(d.label) + xScale2.bandwidth() - 29
             })
             .attr("y", "10")
             .attr("fill", "black")
@@ -811,11 +822,10 @@ class HeatSquare extends Component {
                     // .domain(d3.extent(line_domains[data2[i].label].map(d => Math.log(d))))
                     .domain(d3.extent(line_domains[data2[i].label]))
 
-
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 14]); // fixed?
+                    .domain([0, 35]); // fixed?
 
                 let line = d3
                     .line()
@@ -873,10 +883,10 @@ class HeatSquare extends Component {
                 //     .attr("text-anchor", "middle");
                 // svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
                 // .style("fill", "white");
-                svg2.append("text").attr("x", xLineScale(min) + 5).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
+                svg2.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
                     // .style("fill", "white")
                     .attr("text-anchor", "middle");
-                svg2.append("text").attr("x", xLineScale(max) + 5).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
+                svg2.append("text").attr("x", xLineScale(max) + 7).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
 
             }
         }
@@ -904,7 +914,7 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#BFE9D5", "#9FD3BB", "#7CC1A0", "#60AD88", "#43906B"])  // green
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#E7E5F8", "#DAD6F3", "#C7C1ED", "#BBB5E6", "#AFA8E1"])  // purple
-        var colorScale = d3.scaleQuantize().domain([0, 10]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
+        var colorScale = d3.scaleQuantize().domain([0, 700]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
 
 
         // square scale
@@ -936,7 +946,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => "num:" + d.hvalue)
             .attr("x", (d) => {
-                return xScale3(d.label) + xScale3.bandwidth() - 28
+                return xScale3(d.label) + xScale3.bandwidth() - 29
             })
             .attr("y", "10")
             .attr("fill", "black")
@@ -961,7 +971,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 5]); // fixed?
+                    .domain([0, 44]); // fixed?
 
                 let line = d3
                     .line()

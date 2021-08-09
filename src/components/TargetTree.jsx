@@ -151,7 +151,7 @@ class TargetTree extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: this.props.select,
+            value: this.props.visible,
             // num_leaf: 1,
             // treeCharts: []
         }
@@ -160,10 +160,32 @@ class TargetTree extends Component {
     componentDidUpdate() {
         console.log("Target Tree update:")
         console.log(this.state.value)
-        this.drawTree();
+        var { visible_nodes, visible_links, selected_nodes } = this.handleData()
+        this.drawTree(visible_nodes, visible_links, selected_nodes);
     }
 
-    drawTree() {
+    handleData() {
+        let visible_nodes = new Set(), visible_links = {}, selected_nodes = new Set();
+        this.props.visible.forEach(target => {
+            let tree = target.tree;
+            tree.nodes.forEach(d => visible_nodes.add(d))
+            tree.links.forEach(d => {
+                console.log(d)
+                if (visible_links[d[0]]) visible_links[d[0]].push(d[1])
+                else visible_links[d[0]] = [d[1]]
+            })
+            selected_nodes.add(target.label)
+        })
+        // if (this.props.highlight) selected_node = this.props.highlight.label
+
+        return ({ visible_nodes: visible_nodes, visible_links, selected_nodes })
+    }
+
+    drawTree(visible_nodes, visible_links, selected_nodes) {
+        console.log("visible_nodes", visible_nodes)
+        console.log("visible_links", visible_links)
+        console.log("selected_node", selected_nodes)
+        d3.select("#target-tree").selectAll("svg").remove()
         var width = 260,
             height = 430;
 
@@ -288,8 +310,14 @@ class TargetTree extends Component {
             .enter()
             .append("path")
             .attr("class", d => {
-                if (!d.source.parent) return "root-link"
-                if (d.source.parent && d.source.data.name.indexOf("root") > -1) return "root-link"
+                if (!visible_nodes.has(d.source.data.name) || !visible_nodes.has(d.target.data.name)) return "hidden-link";
+                else if (Object.keys(visible_links).indexOf(d.source.data.name) !== -1) {
+                    // console.log(visible_links)
+                    // console.log(d.source.data.name)
+                    if (visible_links[d.source.data.name].indexOf(d.target.data.name) === -1) return "hidden-link";
+                }
+                if (!d.source.parent) return "hidden-link"
+                if (d.source.parent && d.source.data.name.indexOf("root") > -1) return "hidden-link"
                 return "link"
             })
             .attr("d", d => {
@@ -308,7 +336,9 @@ class TargetTree extends Component {
                 return "translate(" + d.x + "," + d.y + ")";
             })
             .attr("class", d => {
-                if (!d.parent || d.data.name.indexOf("root") > -1) return "root-node";
+                if (!visible_nodes.has(d.data.name)) return "hidden-node";
+                else if (selected_nodes.has(d.data.name)) return "highlight-node";
+                else if (!d.parent || d.data.name.indexOf("root") > -1) return "hidden-node";
                 else return "tree-node"
             })
 
