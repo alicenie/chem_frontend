@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
-// import * as d3 from "https://cdn.skypack.dev/d3@7";
-import graph from '../graph_data'
 
 class DetailView extends Component {
     constructor(props) {
@@ -68,7 +66,7 @@ class DetailView extends Component {
             .append("svg")
             .attr("id", "detail_svg")
             .attr("width", this.state.Width + 20)
-            .attr("height", 10000)
+            .attr("height", 11000)
             .append("g")
             .attr("class", "boundary")
             .attr("transform", "translate(8,0)")
@@ -77,7 +75,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("height", 10000)
+            .attr("height", 10900)
             .attr("width", 20 + this.state.medchemWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -90,7 +88,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 25 + this.state.medchemWidth)
             .attr("y", 0)
-            .attr("height", 10000)
+            .attr("height", 10900)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -110,7 +108,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth)
             .attr("y", 0)
-            .attr("height", 10000)
+            .attr("height", 10900)
             .attr("width", this.state.sankeyWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -629,7 +627,7 @@ class DetailView extends Component {
                 // get sankey data and check empty
                 let sankey_empty = true;
                 if (Object.keys(paper.clinical_statistics).length) {
-                    sankeyData.push({ name: paper.id, data: paper.clinical_statistics })
+                    sankeyData.push({ name: paper.id, drug_name: paper.compound_name_drug, data: paper.clinical_statistics })
                     sankey_empty = false;
                 }
                 // console.log("sankeyData", sankeyData)
@@ -938,7 +936,7 @@ class DetailView extends Component {
                             // console.log("link d", d)
                             let valueScale = d3.scaleQuantize().domain([0, 1]).range([0, 0.2, 0.4, 0.6, 0.8, 1])
                             // console.log("valuescale d", d.value, valueScale(d.value))
-                            return (1 - valueScale(d.value)) ** 1.5 * 190
+                            return (1 - valueScale(d.value)) ** 1.5 * 185
                             // return (1 - d.value) * 200
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
@@ -1097,21 +1095,22 @@ class DetailView extends Component {
                                 // if (value) metrics += `<span>${key}: ${value}</span><br/>`
                                 metrics += `<span>${key}: ${value ? value : 0}</span><br/>`
                             }
-                            return `<div class="network-tooltip" style="padding:2px;width:330px">
-                        <div class="row">
-
-                        <div class="col-3" style="margin:0px;padding-left:15px;padding-right:0px">
-                        <img src='${d.paper_abstract_image}' width=60/>
-                        <span class="tooltip-label">Ki: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Ki"] : 0}
-                        <span class="tooltip-label"> Kd: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Kd"] : 0}
+                            return `<div class="network-tooltip" style="padding:2px;width:300px">
+                        
+                        <div class="row" style="margin:0px;padding-left:0px;padding-right:0px">
+                        <img class="col-6" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="200px">
+                        <div class="col-6">
+                        <span class="tooltip-label">Ki: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Ki"] : 0} nM
+                        <span class="tooltip-label"> Kd: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Kd"] : 0} nM
                         <br/>
-                        <span class="tooltip-label">IC50: </span>${d.medicinal_chemistry_metrics["IC50"] ? d.medicinal_chemistry_metrics["IC50"] : 0}
-                        <span class="tooltip-label"> Sel: </span>${d.medicinal_chemistry_metrics["selectivity"] ? d.medicinal_chemistry_metrics["selectivity"] : 0}
+                        <span class="tooltip-label">IC50: </span>${d.medicinal_chemistry_metrics["IC50"] ? d.medicinal_chemistry_metrics["IC50"] : 0} nM
+                        <span class="tooltip-label"> Sel: </span>${d.medicinal_chemistry_metrics["selectivity"] ? d.medicinal_chemistry_metrics["selectivity"] : 0} fold
                         <br/>
-                        <span class="tooltip-label">Route: </span>${d.level}
+                        <span class="tooltip-label">Route length: </span>${d.level ? d.level : 0}
+                        </div>
                         </div>
 
-                        <div class="col-9" style="margin:0px;padding:0px">
+                        <div  style="margin:0px;margin-top:5px;padding:0px">
                         <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
                         <span class="tooltip-author">${author}</span><br/><br/>
                         <div class="row">
@@ -1124,7 +1123,6 @@ class DetailView extends Component {
                         <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
                         </div>
 
-                        </div>
                         </div>
                         `}
                         )
@@ -1653,17 +1651,17 @@ class DetailView extends Component {
             .attr("width", 40)
             .attr("height", 13)
             .style("fill", `url(#linear-gradient-ph)`)
-            .attr("x", 80)
+            .attr("x", 78)
             .attr("y", 5)
 
         svg.append("text")
-            .text("drug compound property: 0")
-            .attr("x", -65)
+            .text("drug compound property: min")
+            .attr("x", -78)
             .attr("y", 15)
             .style("font-size", 12)
         svg.append("text")
-            .text("10")
-            .attr("x", 122)
+            .text("max")
+            .attr("x", 120)
             .attr("y", 15)
             .style("font-size", 12)
 
@@ -2213,7 +2211,7 @@ class DetailView extends Component {
         if (sankeyData[0]) {
             var component = this;
             console.log("draw sankey chart")
-            var margin = { top: 30, right: 10, bottom: 10, left: 0 },
+            var margin = { top: 40, right: 10, bottom: 10, left: 0 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -2222,6 +2220,26 @@ class DetailView extends Component {
                 .append("g")
                 .attr("class", "sankey")
                 .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left + 1 / 6 * this.state.sankeyWidth) + "," + margin.top + ")");
+
+            // legend
+            svg.append("rect")
+                .attr("x", 120)
+                .attr("y", -30)
+                .attr("width", 30)
+                .attr("height", 15)
+                .style("fill", "#E8E7F5")
+                .style("stroke-width", 0.5)
+                .style("stroke", "white")
+            svg.append("text")
+                .attr("x", 128)
+                .attr("y", -19)
+                .text("1-2")
+                .style("font-size", 10)
+            svg.append("text")
+                .attr("x", 155)
+                .attr("y", -20)
+                .text("1: drug number  2: company number")
+                .style("font-size", 10)
 
             // console.log("sankeydata", this.props.sankeydata)
             // var sankeydata = this.props.sankeydata;
@@ -2253,9 +2271,10 @@ class DetailView extends Component {
             var x_offset = (this.state.sankeyWidth - 3 * rectWidth) / 2;
             var sankey_pos = [];
             // identical number for each company
-            var company_count = 0;
+            // var company_count = 0;
 
-            sankeydata.forEach(d => {
+            sankeydata.forEach((d, i) => {
+                var company_count = 1;
                 // d --> one paper
                 // console.log("iterate sankeydata", d["data"])
                 var sankeysvg = svg.append("g").attr("transform", "translate(0," + cur_y_offset + ")")
@@ -2269,8 +2288,8 @@ class DetailView extends Component {
                     // console.log(phase)
                     var company_list = d.data[`p${phase}_company`]; // array of 9 list with company names of corresponding status
 
-                    var terminate_reason = d.data[`p${phase}_terminate_resaon`];
-                    // console.log("terminate reason", d.data)
+                    var terminate_reason = d.data[`p${phase}_terminate_reason`];
+                    console.log("terminate reason", terminate_reason)
                     // for (const[key,value] of Object.entries(terminate_reason)){
 
                     // }
@@ -2284,16 +2303,18 @@ class DetailView extends Component {
                     company_list.forEach((companies, status) => {
                         if (companies.length) {
                             companies.forEach(company => {
-                                var reason;
-                                // if (Object.keys(terminate_reason).indexOf(company)) reason = terminate_reason[company]
+                                var reason = null;
+                                if (Object.keys(terminate_reason).indexOf(company) !== -1) reason = terminate_reason[company]
+                                // console.log("reason", reason)
+                                // console.log("company", company)
                                 if (phase === "1") {
                                     // assign company count
                                     // console.log("company_count", company_count)
-                                    company_obj_list.push({ id: d.name, company_count: company_count, company_name: company, status: status, t_reason: reason ? reason : null })
-                                    company_count_temp[company] = company_count
+                                    company_obj_list.push({ id: d.name, company_count: (i + 1).toString() + "-" + company_count.toString(), company_name: company, status: status, drug_name: d.drug_name, t_reason: reason })
+                                    company_count_temp[company] = (i + 1).toString() + "-" + company_count.toString()
                                     company_count += 1;
                                 } else {
-                                    company_obj_list.push({ id: d.name, company_count: company_count_temp[company], company_name: company, status: status, t_reason: reason ? reason : null })
+                                    company_obj_list.push({ id: d.name, company_count: company_count_temp[company], company_name: company, status: status, drug_name: d.drug_name, t_reason: reason })
                                 }
                             })
                             border_list.push({ id: d.name, status, length: companies.length, height })
@@ -2306,7 +2327,7 @@ class DetailView extends Component {
                     if (phase !== 1) {
                         // sort by company_count
                         company_obj_list.sort((a, b) => {
-                            return a.status !== b.status ? a.status - b.status : a.company_count - b.company_count
+                            return a.status !== b.status ? a.status - b.status : a.company_count.split("-")[1] - b.company_count.split("-")[1]
                         })
                     }
                     var node = sankeysvg.selectAll("rect#sankey")
@@ -2317,12 +2338,14 @@ class DetailView extends Component {
                         .on("mouseover", (event, d) => {
                             // tooltip
                             var terminatespan = ""
-                            if (d.status == 5) terminatespan = `<span class="tooltip-label">Terminate reason:</span> Death<br/>`
+                            console.log("reason", d.t_reason)
+                            if (d.t_reason) terminatespan = `<span class="tooltip-label">Terminate reason:</span>${d.t_reason}<br/>`
                             tooltip.transition().duration(200).style("display", "block");
                             tooltip
                                 .html(
                                     `<div style="width:130px"> 
-                                    <span class="tooltip-label">Company:</span> ${d.company_name}<br/>  
+                                    <span class="tooltip-label">Company:</span> ${d.company_name}<br/>
+                                    <span class="tooltip-label">Drug:</span> ${d.drug_name}<br/>  
                                     ${terminatespan}
                                     </div>`
                                 )
@@ -2509,7 +2532,7 @@ class DetailView extends Component {
                         phase2_pos.forEach(d => {
                             // console.log(d)
                             var curve = d3.line().curve(d3.curveBumpX)
-                            console.log("company", d.company)
+                            // console.log("company", d.company)
                             var startNode = phase1_pos.find(node => node.company == d.company)
                             // console.log("startNode", startNode)
                             var points = [[startNode.x, startNode.y], [d.x_in, d.y]]

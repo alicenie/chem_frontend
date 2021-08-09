@@ -20,7 +20,6 @@ import DetailWrapper from './DetailWrapper';
 import TargetTree from './TargetTree';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import real_output from '../processedOutput.json';
 
 class MainBlock extends Component {
     constructor(props) {
@@ -37,7 +36,7 @@ class MainBlock extends Component {
     }
 
     componentDidMount() {
-        console.log("real_output", real_output)
+
     }
 
     handleAddSelection = (selectedTarget) => {

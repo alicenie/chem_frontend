@@ -768,7 +768,7 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#B8D7F0", "#93BCDD", "#71A2CB", "#518BBC", "#3575AB"]) // fade blue
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#9BC7D7", "#7AAEC1", "#5896AD", "#41849C", "#2B6E86"]) // dark blue
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#CFF0FC", "#B4DDEB", "#9FD0E1", "#83BED3", "#70B4CD", "#5DA8C3"])  // light blue
-        var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])  // light fade blue
+        var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#DEEDF3", "#C6DFE7", "#B0D4DF", "#96C7D7", "#7DBCD0", "#6EAFC4"])  // light fade blue
 
 
         // square scale
