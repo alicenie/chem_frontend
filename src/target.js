@@ -135,6 +135,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.02984635309354212 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 1,
@@ -195,7 +197,28 @@ const target_data = [
           t_half: 0.0,
           bioavailability: 0.0,
         },
-        clinical_statistics: {},
+        clinical_statistics: {
+          p1_company_num: 0,
+          p1_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p1_company: [[], [], [], [], [], [], [], [], []],
+          p1_terminate_reason: {},
+          p1_withdraw_reason: {},
+          p1_adverse_event: {},
+          p2_company_num: 0,
+          p2_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p2_company: [[], [], [], [], [], [], [], [], []],
+          p2_terminate_reason: {},
+          p2_withdraw_reason: {},
+          p2_adverse_event: {},
+          p3_company_num: 0,
+          p3_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p3_company: [[], [], [], [], [], [], [], [], []],
+          p3_terminate_reason: {},
+          p3_withdraw_reason: {},
+          p3_adverse_event: {},
+        },
+        norm_pharm_metrics_vitro: { IC50: 0.0, selectivity: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 2,
@@ -248,6 +271,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.016073478760045924 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 3,
@@ -303,6 +328,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 4,
@@ -359,6 +386,12 @@ const target_data = [
           bioavailability: 44.7,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.040442691469947604 },
+        norm_pharm_metrics_vivo: {
+          AUC: 1.0,
+          t_half: 0.1332694151486098,
+          bioavailability: 0.4141949152542373,
+        },
       },
       {
         id: 5,
@@ -412,6 +445,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0014128451168540649 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 6,
@@ -454,6 +489,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.05810325543062342 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 7,
@@ -507,6 +544,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 8,
@@ -565,6 +604,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.17760640489786308 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 9,
@@ -621,6 +662,8 @@ const target_data = [
           bioavailability: 56.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.27003002295873313 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5338983050847457 },
       },
       {
         id: 10,
@@ -672,6 +715,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 11,
@@ -722,6 +767,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.036910578677812445 },
+        norm_pharm_metrics_vivo: { t_half: 0.0 },
       },
       {
         id: 12,
@@ -775,6 +822,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.5706084959816303 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 13,
@@ -846,6 +895,12 @@ const target_data = [
           bioavailability: 30.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.001731385108086469,
+          t_half: 0.1342281879194631,
+          bioavailability: 0.2584745762711864,
+        },
       },
       {
         id: 14,
@@ -960,6 +1015,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { hERG: 0.5 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0,
+          t_half: 0.4793863854266539,
+          bioavailability: 1.0,
+        },
       },
       {
         id: 15,
@@ -1016,6 +1077,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.42426561488196857 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.1098879103282626,
+          t_half: 0.04410354745925216,
+        },
       },
       {
         id: 16,
@@ -1070,6 +1136,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.01395184552893389,
+          selectivity: 0.0,
+        },
+        norm_pharm_metrics_vivo: { AUC: 0.002602081665332266 },
       },
       {
         id: 17,
@@ -1124,6 +1195,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.03514452228174486 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 18,
@@ -1176,6 +1249,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.4949078707246718 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0014611689351481183,
+          t_half: 0.6308724832214765,
+        },
       },
       {
         id: 19,
@@ -1228,6 +1306,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.03867663507388003 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 20,
@@ -1269,6 +1349,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 21,
@@ -1320,6 +1402,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.39071054335668454 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 22,
@@ -1371,6 +1455,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.012185789132866309,
+          solubility: 0.5,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 23,
@@ -1422,6 +1511,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.1252133984811915 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 24,
@@ -1586,6 +1677,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.6962382998763761 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 25,
@@ -1639,6 +1732,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.28062636133513863 },
+        norm_pharm_metrics_vivo: { AUC: 0.012269815852682145, t_half: 1.0 },
       },
       {
         id: 26,
@@ -1691,6 +1786,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.10343203626302466 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 27,
@@ -1743,6 +1840,12 @@ const target_data = [
           bioavailability: 5.6,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { Kd: 0.5, IC50: 0.3648083828810267 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.6561248999199359,
+          t_half: 0.8437200383509109,
+          bioavailability: 0.0,
+        },
       },
       {
         id: 28,
@@ -1794,6 +1897,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.16995349384823688 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 29,
@@ -1845,6 +1950,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.001089597927827162 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 30,
@@ -1903,6 +2010,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.6467887207864838 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 31,
@@ -1952,6 +2061,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
     ],
     medicinal_chemistry_similarity: [
@@ -2497,8 +2608,14 @@ const target_data = [
       AUC_Cl: [500.8, 2.065, 1.2, 56.1, 2.5, 1.93, 7.33, 329.0],
       bio_Cl: [44.7, 56.0, 30.0, 100.0, 5.6],
       solubility_Cl: [],
-      adverse_1: [],
-      adverse_2: [0.65, 0.0, 0.10526315789473684, 0.08333333333333333],
+      adverse_1: [
+        0.265625, 0.17857142857142858, 0.08333333333333333, 0.08333333333333333,
+        0.08333333333333333, 0.13725490196078433,
+      ],
+      adverse_2: [
+        0.65, 0.0, 0.10526315789473684, 0.07142857142857142,
+        0.07142857142857142,
+      ],
       adverse_3: [],
     },
   },
@@ -2687,6 +2804,8 @@ const target_data = [
           bioavailability: 100.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { solubility: 0.0004901029216135388 },
+        norm_pharm_metrics_vivo: { bioavailability: 1.0 },
       },
       {
         id: 1,
@@ -2734,6 +2853,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 2,
@@ -2783,6 +2904,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 3,
@@ -2830,6 +2953,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.562000238691968,
+          t_half: 0.09292929292929292,
+        },
       },
       {
         id: 4,
@@ -2897,6 +3025,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 5,
@@ -3023,6 +3153,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0017782551617138084,
+          t_half: 1.0,
+          bioavailability: 0.6151452282157676,
+        },
       },
       {
         id: 6,
@@ -3105,6 +3241,11 @@ const target_data = [
           bioavailability: 94.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.07488960496479294,
+          bioavailability: 0.9377593360995851,
+        },
       },
       {
         id: 7,
@@ -3190,6 +3331,12 @@ const target_data = [
           bioavailability: 48.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.5, solubility: 1.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0,
+          t_half: 0.12121212121212122,
+          bioavailability: 0.4605809128630705,
+        },
       },
       {
         id: 8,
@@ -3296,6 +3443,12 @@ const target_data = [
           p3_terminate_reason: {},
           p3_withdraw_reason: {},
           p3_adverse_event: {},
+        },
+        norm_pharm_metrics_vitro: { IC50: 0.0030075187969924814 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.020050125313283207,
+          t_half: 0.01818181818181818,
+          bioavailability: 0.0,
         },
       },
       {
@@ -3423,6 +3576,14 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.006015037593984963,
+          solubility: 0.003315696296222207,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.0,
+          bioavailability: 0.25311203319502074,
+        },
       },
       {
         id: 10,
@@ -3481,6 +3642,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 11,
@@ -3531,6 +3694,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.09649122807017543 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 12,
@@ -3580,6 +3745,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.3233082706766917 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 13,
@@ -3632,6 +3799,15 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.03182957393483709,
+          hERG: 0.5,
+          solubility: 0.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.37510442773600666,
+          t_half: 0.022222222222222223,
+        },
       },
       {
         id: 14,
@@ -3680,6 +3856,12 @@ const target_data = [
           bioavailability: 22.5,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.02174561403508772 },
+        norm_pharm_metrics_vivo: {
+          AUC: 1.0,
+          t_half: 0.06262626262626263,
+          bioavailability: 0.19605809128630702,
+        },
       },
       {
         id: 15,
@@ -3734,6 +3916,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          Kd: 0.5,
+          solubility: 0.08314079289984229,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 16,
@@ -3786,6 +3973,11 @@ const target_data = [
           bioavailability: 17.8,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.011300751879699249 },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.32121212121212117,
+          bioavailability: 0.14730290456431536,
+        },
       },
     ],
     medicinal_chemistry_similarity: [
@@ -3967,8 +4159,8 @@ const target_data = [
       AUC_Cl: [4710.0, 15.9, 628.5, 1.0, 169.0, 3144.0, 8380.0],
       bio_Cl: [100.0, 62.9, 94.0, 48.0, 3.6, 28.0, 22.5, 17.8],
       solubility_Cl: [],
-      adverse_1: [0.0],
-      adverse_2: [],
+      adverse_1: [0.0, 0.125],
+      adverse_2: [0.027777777777777776],
       adverse_3: [],
     },
   },
@@ -4129,6 +4321,13 @@ const target_data = [
           bioavailability: 100.2,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.002730634057582849,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.02549019607843137,
+          bioavailability: 1.0,
+        },
       },
       {
         id: 1,
@@ -4217,6 +4416,10 @@ const target_data = [
           p3_terminate_reason: {},
           p3_withdraw_reason: {},
           p3_adverse_event: {},
+        },
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.00023757980019187204,
         },
       },
       {
@@ -4429,9 +4632,19 @@ const target_data = [
             [],
             [],
           ],
-          p3_terminate_reason: { "Hoffmann-La Roche": "Death" },
+          p3_terminate_reason: {
+            "Hoffmann-La Roche": "Death",
+          },
           p3_withdraw_reason: {},
-          p3_adverse_event: { "Hoffmann-La Roche": 0.2531017369727047 },
+          p3_adverse_event: {
+            "Hoffmann-La Roche": 0.2531017369727047,
+          },
+        },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.00014396038965278798,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 1.0,
         },
       },
       {
@@ -4489,6 +4702,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0,
+        },
       },
       {
         id: 4,
@@ -4534,6 +4751,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 5,
@@ -4615,6 +4834,10 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.007997314979399211,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 6,
@@ -4666,6 +4889,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.00042396114752150596,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 7,
@@ -4716,6 +4943,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.026664032170647074,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 8,
@@ -4765,6 +4996,12 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0026639672104712495,
+        },
+        norm_pharm_metrics_vivo: {
+          ED50: 0.5,
+        },
       },
       {
         id: 9,
@@ -4866,6 +5103,13 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.004130637846926439,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.007338352813537528,
+          bioavailability: 0.706984667802385,
+        },
       },
       {
         id: 10,
@@ -4927,7 +5171,34 @@ const target_data = [
           t_half: 2.3,
           bioavailability: 41.5,
         },
-        clinical_statistics: {},
+        clinical_statistics: {
+          p1_company_num: 0,
+          p1_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p1_company: [[], [], [], [], [], [], [], [], []],
+          p1_terminate_reason: {},
+          p1_withdraw_reason: {},
+          p1_adverse_event: {},
+          p2_company_num: 0,
+          p2_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p2_company: [[], [], [], [], [], [], [], [], []],
+          p2_terminate_reason: {},
+          p2_withdraw_reason: {},
+          p2_adverse_event: {},
+          p3_company_num: 0,
+          p3_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p3_company: [[], [], [], [], [], [], [], [], []],
+          p3_terminate_reason: {},
+          p3_withdraw_reason: {},
+          p3_adverse_event: {},
+        },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.07630179164301752,
+          t_half: 0.023809523809523805,
+          bioavailability: 0.0,
+        },
       },
       {
         id: 11,
@@ -4979,6 +5250,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 1.0,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 12,
@@ -5028,6 +5303,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.012770661232589735,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 13,
@@ -5078,6 +5357,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0033306356815872447,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 14,
@@ -5128,6 +5411,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 15,
@@ -5175,6 +5460,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 6.129349923440459e-5,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 16,
@@ -5284,7 +5573,9 @@ const target_data = [
           ],
           p2_terminate_reason: {},
           p2_withdraw_reason: {},
-          p2_adverse_event: { "Daiichi Sankyo, Inc.": 0.44 },
+          p2_adverse_event: {
+            "Daiichi Sankyo, Inc.": 0.44,
+          },
           p3_company_num: 1,
           p3_stat_company_num: [0, 1, 0, 0, 0, 0, 0, 0, 0],
           p3_company: [
@@ -5302,6 +5593,10 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          EC50: 0.0,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 17,
@@ -5351,6 +5646,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.06439746763581239,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 18,
@@ -5401,6 +5700,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.9066664140437607,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 19,
@@ -5448,6 +5751,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0015972976566856574,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 20,
@@ -5495,6 +5802,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0015972976566856574,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 21,
@@ -5542,6 +5853,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0015972976566856574,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 22,
@@ -5591,6 +5906,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.05626411228819725,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 23,
@@ -5642,6 +5961,14 @@ const target_data = [
           bioavailability: 72.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.13066431366474232,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.03305523604783742,
+          t_half: 0.018207282913165264,
+          bioavailability: 0.5195911413969335,
+        },
       },
       {
         id: 24,
@@ -5706,6 +6033,10 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0026639672104712495,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 25,
@@ -5758,6 +6089,12 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.04133073853519897,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 1.0,
+        },
       },
       {
         id: 26,
@@ -5819,360 +6156,1772 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.039997401592966976,
+          EC50: 1.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.009051137419571954,
+          t_half: 0.0,
+        },
       },
     ],
     medicinal_chemistry_similarity: [
-      { source: 0, target: 1, value: 0.04856895056374675 },
-      { source: 0, target: 2, value: 0.05285540704738761 },
-      { source: 0, target: 3, value: 0.04039497307001795 },
-      { source: 0, target: 4, value: 0.087890625 },
-      { source: 0, target: 5, value: 0.046840958605664486 },
-      { source: 0, target: 6, value: 0.053591790193842644 },
-      { source: 0, target: 7, value: 0.049403747870528106 },
-      { source: 0, target: 8, value: 0.021739130434782608 },
-      { source: 0, target: 9, value: 0.04934687953555878 },
-      { source: 0, target: 10, value: 0.05124450951683748 },
-      { source: 0, target: 11, value: 0.04698972099853157 },
-      { source: 0, target: 12, value: 0.04747774480712166 },
-      { source: 0, target: 13, value: 0.05673076923076923 },
-      { source: 0, target: 14, value: 0.048051948051948054 },
-      { source: 0, target: 15, value: 0.04403409090909091 },
-      { source: 0, target: 16, value: 0.05206655931293613 },
-      { source: 0, target: 17, value: 0.04785478547854786 },
-      { source: 0, target: 18, value: 0.04404945904173107 },
-      { source: 0, target: 19, value: 0.04338624338624339 },
-      { source: 0, target: 20, value: 0.04338624338624339 },
-      { source: 0, target: 21, value: 0.04338624338624339 },
-      { source: 0, target: 22, value: 0.09090909090909091 },
-      { source: 0, target: 23, value: 0.046908315565031986 },
-      { source: 0, target: 24, value: 0.01762114537444934 },
-      { source: 0, target: 25, value: 0.02860858257477243 },
-      { source: 0, target: 26, value: 0.05061349693251534 },
-      { source: 1, target: 2, value: 0.5024603608529251 },
-      { source: 1, target: 3, value: 0.82996632996633 },
-      { source: 1, target: 4, value: 0.3969816272965879 },
-      { source: 1, target: 5, value: 0.438136826783115 },
-      { source: 1, target: 6, value: 0.3083670715249663 },
-      { source: 1, target: 7, value: 0.4403846153846154 },
-      { source: 1, target: 8, value: 0.05711775043936731 },
-      { source: 1, target: 9, value: 0.497869750456482 },
-      { source: 1, target: 10, value: 0.4308231173380035 },
-      { source: 1, target: 11, value: 0.44780545670225386 },
-      { source: 1, target: 12, value: 0.35555555555555557 },
-      { source: 1, target: 13, value: 0.36917098445595853 },
-      { source: 1, target: 14, value: 0.28854314002828857 },
-      { source: 1, target: 15, value: 0.24643874643874644 },
-      { source: 1, target: 16, value: 0.5201839550332141 },
-      { source: 1, target: 17, value: 0.5325285043594903 },
-      { source: 1, target: 18, value: 0.46320346320346323 },
-      { source: 1, target: 19, value: 0.3566101694915254 },
-      { source: 1, target: 20, value: 0.3566101694915254 },
-      { source: 1, target: 21, value: 0.3566101694915254 },
-      { source: 1, target: 22, value: 0.3660949868073879 },
-      { source: 1, target: 23, value: 0.4143059490084986 },
-      { source: 1, target: 24, value: 0.0997352162400706 },
-      { source: 1, target: 25, value: 0.3002159827213823 },
-      { source: 1, target: 26, value: 0.4419588875453446 },
-      { source: 2, target: 3, value: 0.4791666666666667 },
-      { source: 2, target: 4, value: 0.4714364947310039 },
-      { source: 2, target: 5, value: 0.40291806958473625 },
-      { source: 2, target: 6, value: 0.3622787610619469 },
-      { source: 2, target: 7, value: 0.5175246440306681 },
-      { source: 2, target: 8, value: 0.05048661800486618 },
-      { source: 2, target: 9, value: 0.575197889182058 },
-      { source: 2, target: 10, value: 0.5616797900262467 },
-      { source: 2, target: 11, value: 0.5597054182009469 },
-      { source: 2, target: 12, value: 0.4251234229292375 },
-      { source: 2, target: 13, value: 0.4454794520547945 },
-      { source: 2, target: 14, value: 0.3405714285714286 },
-      { source: 2, target: 15, value: 0.298686464877213 },
-      { source: 2, target: 16, value: 0.741662518666003 },
-      { source: 2, target: 17, value: 0.520021645021645 },
-      { source: 2, target: 18, value: 0.5339702760084926 },
-      { source: 2, target: 19, value: 0.39118457300275483 },
-      { source: 2, target: 20, value: 0.39118457300275483 },
-      { source: 2, target: 21, value: 0.39118457300275483 },
-      { source: 2, target: 22, value: 0.4570466030320045 },
-      { source: 2, target: 23, value: 0.39667590027700833 },
-      { source: 2, target: 24, value: 0.08190709046454768 },
-      { source: 2, target: 25, value: 0.3261240751280592 },
-      { source: 2, target: 26, value: 0.5639784946236559 },
-      { source: 3, target: 4, value: 0.3641732283464567 },
-      { source: 3, target: 5, value: 0.43410275502606105 },
-      { source: 3, target: 6, value: 0.2973901098901099 },
-      { source: 3, target: 7, value: 0.4350097975179621 },
-      { source: 3, target: 8, value: 0.05974264705882353 },
-      { source: 3, target: 9, value: 0.49473031618102914 },
-      { source: 3, target: 10, value: 0.42408066429418745 },
-      { source: 3, target: 11, value: 0.4283154121863799 },
-      { source: 3, target: 12, value: 0.375 },
-      { source: 3, target: 13, value: 0.3341952165481577 },
-      { source: 3, target: 14, value: 0.2831281679942071 },
-      { source: 3, target: 15, value: 0.2399708242159008 },
-      { source: 3, target: 16, value: 0.49463464486458864 },
-      { source: 3, target: 17, value: 0.49899396378269617 },
-      { source: 3, target: 18, value: 0.4686112872542803 },
-      { source: 3, target: 19, value: 0.3418156808803301 },
-      { source: 3, target: 20, value: 0.3418156808803301 },
-      { source: 3, target: 21, value: 0.3418156808803301 },
-      { source: 3, target: 22, value: 0.33487450462351387 },
-      { source: 3, target: 23, value: 0.41909620991253643 },
-      { source: 3, target: 24, value: 0.10230414746543778 },
-      { source: 3, target: 25, value: 0.2997779422649889 },
-      { source: 3, target: 26, value: 0.42638973732437385 },
-      { source: 4, target: 5, value: 0.3503230437903805 },
-      { source: 4, target: 6, value: 0.29403508771929826 },
-      { source: 4, target: 7, value: 0.41392904073587383 },
-      { source: 4, target: 8, value: 0.07156673114119923 },
-      { source: 4, target: 9, value: 0.42788171394085694 },
-      { source: 4, target: 10, value: 0.4065671641791045 },
-      { source: 4, target: 11, value: 0.40059701492537314 },
-      { source: 4, target: 12, value: 0.3299731182795699 },
-      { source: 4, target: 13, value: 0.34242021276595747 },
-      { source: 4, target: 14, value: 0.2652014652014652 },
-      { source: 4, target: 15, value: 0.2509448223733938 },
-      { source: 4, target: 16, value: 0.5102254850550603 },
-      { source: 4, target: 17, value: 0.3922441195168468 },
-      { source: 4, target: 18, value: 0.3847560975609756 },
-      { source: 4, target: 19, value: 0.33660589060308554 },
-      { source: 4, target: 20, value: 0.33660589060308554 },
-      { source: 4, target: 21, value: 0.33660589060308554 },
-      { source: 4, target: 22, value: 0.6303630363036303 },
-      { source: 4, target: 23, value: 0.3403805496828753 },
-      { source: 4, target: 24, value: 0.07169459962756052 },
-      { source: 4, target: 25, value: 0.29425113464447805 },
-      { source: 4, target: 26, value: 0.39209726443769 },
-      { source: 5, target: 6, value: 0.2967791411042945 },
-      { source: 5, target: 7, value: 0.4601899196493791 },
-      { source: 5, target: 8, value: 0.0670391061452514 },
-      { source: 5, target: 9, value: 0.41315453384418904 },
-      { source: 5, target: 10, value: 0.3734413965087282 },
-      { source: 5, target: 11, value: 0.37924528301886795 },
-      { source: 5, target: 12, value: 0.328 },
-      { source: 5, target: 13, value: 0.29403606102635227 },
-      { source: 5, target: 14, value: 0.27037933817594834 },
-      { source: 5, target: 15, value: 0.2413223140495868 },
-      { source: 5, target: 16, value: 0.4158878504672897 },
-      { source: 5, target: 17, value: 0.42248603351955305 },
-      { source: 5, target: 18, value: 0.42434431741761935 },
-      { source: 5, target: 19, value: 0.3381679389312977 },
-      { source: 5, target: 20, value: 0.3381679389312977 },
-      { source: 5, target: 21, value: 0.3381679389312977 },
-      { source: 5, target: 22, value: 0.2984330484330484 },
-      { source: 5, target: 23, value: 0.5714285714285714 },
-      { source: 5, target: 24, value: 0.09790979097909791 },
-      { source: 5, target: 25, value: 0.27704918032786885 },
-      { source: 5, target: 26, value: 0.35253164556962024 },
-      { source: 6, target: 7, value: 0.31501340482573725 },
-      { source: 6, target: 8, value: 0.0863905325443787 },
-      { source: 6, target: 9, value: 0.34155363748458695 },
-      { source: 6, target: 10, value: 0.3545966228893058 },
-      { source: 6, target: 11, value: 0.35512256442489 },
-      { source: 6, target: 12, value: 0.303935860058309 },
-      { source: 6, target: 13, value: 0.30642857142857144 },
-      { source: 6, target: 14, value: 0.21598101265822786 },
-      { source: 6, target: 15, value: 0.24680851063829787 },
-      { source: 6, target: 16, value: 0.3844570252187339 },
-      { source: 6, target: 17, value: 0.31926121372031663 },
-      { source: 6, target: 18, value: 0.3331197950032031 },
-      { source: 6, target: 19, value: 0.274888558692422 },
-      { source: 6, target: 20, value: 0.274888558692422 },
-      { source: 6, target: 21, value: 0.274888558692422 },
-      { source: 6, target: 22, value: 0.2793696275071633 },
-      { source: 6, target: 23, value: 0.2766592095451156 },
-      { source: 6, target: 24, value: 0.06896551724137931 },
-      { source: 6, target: 25, value: 0.22760290556900725 },
-      { source: 6, target: 26, value: 0.32075471698113206 },
-      { source: 7, target: 8, value: 0.057808455565142365 },
-      { source: 7, target: 9, value: 0.4954846478025286 },
-      { source: 7, target: 10, value: 0.44678362573099417 },
-      { source: 7, target: 11, value: 0.47368421052631576 },
-      { source: 7, target: 12, value: 0.38507265521796563 },
-      { source: 7, target: 13, value: 0.3804909560723514 },
-      { source: 7, target: 14, value: 0.3020465772759351 },
-      { source: 7, target: 15, value: 0.2673338098641887 },
-      { source: 7, target: 16, value: 0.5303726391015824 },
-      { source: 7, target: 17, value: 0.47664747280870123 },
-      { source: 7, target: 18, value: 0.4912609238451935 },
-      { source: 7, target: 19, value: 0.3602150537634409 },
-      { source: 7, target: 20, value: 0.3602150537634409 },
-      { source: 7, target: 21, value: 0.3602150537634409 },
-      { source: 7, target: 22, value: 0.3677335075114304 },
-      { source: 7, target: 23, value: 0.4086471408647141 },
-      { source: 7, target: 24, value: 0.11806167400881057 },
-      { source: 7, target: 25, value: 0.28893587033121915 },
-      { source: 7, target: 26, value: 0.4427801078490114 },
-      { source: 8, target: 9, value: 0.053401609363569864 },
-      { source: 8, target: 10, value: 0.06319702602230483 },
-      { source: 8, target: 11, value: 0.06847253574115876 },
-      { source: 8, target: 12, value: 0.0755873340143003 },
-      { source: 8, target: 13, value: 0.06634146341463415 },
-      { source: 8, target: 14, value: 0.05952380952380952 },
-      { source: 8, target: 15, value: 0.06578947368421052 },
-      { source: 8, target: 16, value: 0.048845947396672036 },
-      { source: 8, target: 17, value: 0.06040268456375839 },
-      { source: 8, target: 18, value: 0.05572998430141287 },
-      { source: 8, target: 19, value: 0.053763440860215055 },
-      { source: 8, target: 20, value: 0.053763440860215055 },
-      { source: 8, target: 21, value: 0.053763440860215055 },
-      { source: 8, target: 22, value: 0.07802874743326489 },
-      { source: 8, target: 23, value: 0.05059203444564048 },
-      { source: 8, target: 24, value: 0.07655502392344497 },
-      { source: 8, target: 25, value: 0.05510752688172043 },
-      { source: 8, target: 26, value: 0.06479313036690086 },
-      { source: 9, target: 10, value: 0.5143661971830986 },
-      { source: 9, target: 11, value: 0.49776286353467564 },
-      { source: 9, target: 12, value: 0.37970149253731345 },
-      { source: 9, target: 13, value: 0.40107270560190705 },
-      { source: 9, target: 14, value: 0.29905362776025235 },
-      { source: 9, target: 15, value: 0.2902597402597403 },
-      { source: 9, target: 16, value: 0.6230419403739262 },
-      { source: 9, target: 17, value: 0.4835294117647059 },
-      { source: 9, target: 18, value: 0.4985607369027058 },
-      { source: 9, target: 19, value: 0.3823347745521927 },
-      { source: 9, target: 20, value: 0.3823347745521927 },
-      { source: 9, target: 21, value: 0.3823347745521927 },
-      { source: 9, target: 22, value: 0.3795576808129109 },
-      { source: 9, target: 23, value: 0.4166138237159163 },
-      { source: 9, target: 24, value: 0.06767458603311735 },
-      { source: 9, target: 25, value: 0.32748538011695905 },
-      { source: 9, target: 26, value: 0.505166475315729 },
-      { source: 10, target: 11, value: 0.49971894322653176 },
-      { source: 10, target: 12, value: 0.3894927536231884 },
-      { source: 10, target: 13, value: 0.4110910186859554 },
-      { source: 10, target: 14, value: 0.345370978332239 },
-      { source: 10, target: 15, value: 0.2829331602855289 },
-      { source: 10, target: 16, value: 0.607429718875502 },
-      { source: 10, target: 17, value: 0.5059952038369304 },
-      { source: 10, target: 18, value: 0.5058072009291521 },
-      { source: 10, target: 19, value: 0.37276648182378314 },
-      { source: 10, target: 20, value: 0.37276648182378314 },
-      { source: 10, target: 21, value: 0.37276648182378314 },
-      { source: 10, target: 22, value: 0.37604790419161677 },
-      { source: 10, target: 23, value: 0.36107711138310894 },
-      { source: 10, target: 24, value: 0.06430635838150289 },
-      { source: 10, target: 25, value: 0.2949044585987261 },
-      { source: 10, target: 26, value: 0.5239206534422404 },
-      { source: 11, target: 12, value: 0.43997485857950974 },
-      { source: 11, target: 13, value: 0.39413875598086123 },
-      { source: 11, target: 14, value: 0.30287539936102237 },
-      { source: 11, target: 15, value: 0.26739690721649484 },
-      { source: 11, target: 16, value: 0.6137512639029322 },
-      { source: 11, target: 17, value: 0.4631578947368421 },
-      { source: 11, target: 18, value: 0.4634560906515581 },
-      { source: 11, target: 19, value: 0.36660505237215035 },
-      { source: 11, target: 20, value: 0.36660505237215035 },
-      { source: 11, target: 21, value: 0.36660505237215035 },
-      { source: 11, target: 22, value: 0.3841500302480339 },
-      { source: 11, target: 23, value: 0.36666666666666664 },
-      { source: 11, target: 24, value: 0.07811348563006633 },
-      { source: 11, target: 25, value: 0.29182630906768836 },
-      { source: 11, target: 26, value: 0.5031773541305604 },
-      { source: 12, target: 13, value: 0.32345013477088946 },
-      { source: 12, target: 14, value: 0.2831926323867997 },
-      { source: 12, target: 15, value: 0.2374323279195669 },
-      { source: 12, target: 16, value: 0.4531893004115226 },
-      { source: 12, target: 17, value: 0.36683738796414855 },
-      { source: 12, target: 18, value: 0.38847117794486213 },
-      { source: 12, target: 19, value: 0.29350104821802936 },
-      { source: 12, target: 20, value: 0.29350104821802936 },
-      { source: 12, target: 21, value: 0.29350104821802936 },
-      { source: 12, target: 22, value: 0.32300275482093666 },
-      { source: 12, target: 23, value: 0.29796205200281095 },
-      { source: 12, target: 24, value: 0.09272183449651047 },
-      { source: 12, target: 25, value: 0.24417731029301276 },
-      { source: 12, target: 26, value: 0.3762315270935961 },
-      { source: 13, target: 14, value: 0.2728624535315985 },
-      { source: 13, target: 15, value: 0.3632585203657523 },
-      { source: 13, target: 16, value: 0.4722507708119219 },
-      { source: 13, target: 17, value: 0.402321083172147 },
-      { source: 13, target: 18, value: 0.3798165137614679 },
-      { source: 13, target: 19, value: 0.330752990851513 },
-      { source: 13, target: 20, value: 0.330752990851513 },
-      { source: 13, target: 21, value: 0.330752990851513 },
-      { source: 13, target: 22, value: 0.3276912660798917 },
-      { source: 13, target: 23, value: 0.29069767441860467 },
-      { source: 13, target: 24, value: 0.07473982970671712 },
-      { source: 13, target: 25, value: 0.26096654275092934 },
-      { source: 13, target: 26, value: 0.4069264069264069 },
-      { source: 14, target: 15, value: 0.20680393912264997 },
-      { source: 14, target: 16, value: 0.33454356846473027 },
-      { source: 14, target: 17, value: 0.3121951219512195 },
-      { source: 14, target: 18, value: 0.30498338870431896 },
-      { source: 14, target: 19, value: 0.2610410094637224 },
-      { source: 14, target: 20, value: 0.2610410094637224 },
-      { source: 14, target: 21, value: 0.2610410094637224 },
-      { source: 14, target: 22, value: 0.2558314522197141 },
-      { source: 14, target: 23, value: 0.25887924230465664 },
-      { source: 14, target: 24, value: 0.12383488681757657 },
-      { source: 14, target: 25, value: 0.22193211488250653 },
-      { source: 14, target: 26, value: 0.3326612903225806 },
-      { source: 15, target: 16, value: 0.3087388801674516 },
-      { source: 15, target: 17, value: 0.2602644398051496 },
-      { source: 15, target: 18, value: 0.26639892904953144 },
-      { source: 15, target: 19, value: 0.2526661197703035 },
-      { source: 15, target: 20, value: 0.2526661197703035 },
-      { source: 15, target: 21, value: 0.2526661197703035 },
-      { source: 15, target: 22, value: 0.22469325153374234 },
-      { source: 15, target: 23, value: 0.23519870235198703 },
-      { source: 15, target: 24, value: 0.061898211829436035 },
-      { source: 15, target: 25, value: 0.2231404958677686 },
-      { source: 15, target: 26, value: 0.26556291390728476 },
-      { source: 16, target: 17, value: 0.5418994413407822 },
-      { source: 16, target: 18, value: 0.5878757004584819 },
-      { source: 16, target: 19, value: 0.42590673575129534 },
-      { source: 16, target: 20, value: 0.42590673575129534 },
-      { source: 16, target: 21, value: 0.42590673575129534 },
-      { source: 16, target: 22, value: 0.46979166666666666 },
-      { source: 16, target: 23, value: 0.42531120331950206 },
-      { source: 16, target: 24, value: 0.06336528221512247 },
-      { source: 16, target: 25, value: 0.3262448132780083 },
-      { source: 16, target: 26, value: 0.6 },
-      { source: 17, target: 18, value: 0.5178236397748592 },
-      { source: 17, target: 19, value: 0.35390676296782664 },
-      { source: 17, target: 20, value: 0.35390676296782664 },
-      { source: 17, target: 21, value: 0.35390676296782664 },
-      { source: 17, target: 22, value: 0.36754329698524696 },
-      { source: 17, target: 23, value: 0.41735537190082644 },
-      { source: 17, target: 24, value: 0.09372384937238494 },
-      { source: 17, target: 25, value: 0.2858126721763085 },
-      { source: 17, target: 26, value: 0.4594272076372315 },
-      { source: 18, target: 19, value: 0.3623649078194533 },
-      { source: 18, target: 20, value: 0.3623649078194533 },
-      { source: 18, target: 21, value: 0.3623649078194533 },
-      { source: 18, target: 22, value: 0.3685837971552257 },
-      { source: 18, target: 23, value: 0.42220744680851063 },
-      { source: 18, target: 24, value: 0.10685805422647528 },
-      { source: 18, target: 25, value: 0.29953302201467646 },
-      { source: 18, target: 26, value: 0.4481375358166189 },
-      { source: 19, target: 20, value: 1.0 },
-      { source: 19, target: 21, value: 1.0 },
-      { source: 19, target: 22, value: 0.2968421052631579 },
-      { source: 19, target: 23, value: 0.3179791976225854 },
-      { source: 19, target: 24, value: 0.07345225603357818 },
-      { source: 19, target: 25, value: 0.2890879478827362 },
-      { source: 19, target: 26, value: 0.3520950594121326 },
-      { source: 20, target: 21, value: 1.0 },
-      { source: 20, target: 22, value: 0.2968421052631579 },
-      { source: 20, target: 23, value: 0.3179791976225854 },
-      { source: 20, target: 24, value: 0.07345225603357818 },
-      { source: 20, target: 25, value: 0.2890879478827362 },
-      { source: 20, target: 26, value: 0.3520950594121326 },
-      { source: 21, target: 22, value: 0.2968421052631579 },
-      { source: 21, target: 23, value: 0.3179791976225854 },
-      { source: 21, target: 24, value: 0.07345225603357818 },
-      { source: 21, target: 25, value: 0.2890879478827362 },
-      { source: 21, target: 26, value: 0.3520950594121326 },
-      { source: 22, target: 23, value: 0.29859154929577464 },
-      { source: 22, target: 24, value: 0.07262021589793916 },
-      { source: 22, target: 25, value: 0.24379232505643342 },
-      { source: 22, target: 26, value: 0.3803339517625232 },
-      { source: 23, target: 24, value: 0.08983957219251337 },
-      { source: 23, target: 25, value: 0.26623897353648757 },
-      { source: 23, target: 26, value: 0.3529780564263323 },
-      { source: 24, target: 25, value: 0.07253886010362694 },
-      { source: 24, target: 26, value: 0.06914893617021277 },
-      { source: 25, target: 26, value: 0.29152987524622453 },
+      {
+        source: 0,
+        target: 1,
+        value: 0.04856895056374675,
+      },
+      {
+        source: 0,
+        target: 2,
+        value: 0.05285540704738761,
+      },
+      {
+        source: 0,
+        target: 3,
+        value: 0.04039497307001795,
+      },
+      {
+        source: 0,
+        target: 4,
+        value: 0.087890625,
+      },
+      {
+        source: 0,
+        target: 5,
+        value: 0.046840958605664486,
+      },
+      {
+        source: 0,
+        target: 6,
+        value: 0.053591790193842644,
+      },
+      {
+        source: 0,
+        target: 7,
+        value: 0.049403747870528106,
+      },
+      {
+        source: 0,
+        target: 8,
+        value: 0.021739130434782608,
+      },
+      {
+        source: 0,
+        target: 9,
+        value: 0.04934687953555878,
+      },
+      {
+        source: 0,
+        target: 10,
+        value: 0.05124450951683748,
+      },
+      {
+        source: 0,
+        target: 11,
+        value: 0.04698972099853157,
+      },
+      {
+        source: 0,
+        target: 12,
+        value: 0.04747774480712166,
+      },
+      {
+        source: 0,
+        target: 13,
+        value: 0.05673076923076923,
+      },
+      {
+        source: 0,
+        target: 14,
+        value: 0.048051948051948054,
+      },
+      {
+        source: 0,
+        target: 15,
+        value: 0.04403409090909091,
+      },
+      {
+        source: 0,
+        target: 16,
+        value: 0.05206655931293613,
+      },
+      {
+        source: 0,
+        target: 17,
+        value: 0.04785478547854786,
+      },
+      {
+        source: 0,
+        target: 18,
+        value: 0.04404945904173107,
+      },
+      {
+        source: 0,
+        target: 19,
+        value: 0.04338624338624339,
+      },
+      {
+        source: 0,
+        target: 20,
+        value: 0.04338624338624339,
+      },
+      {
+        source: 0,
+        target: 21,
+        value: 0.04338624338624339,
+      },
+      {
+        source: 0,
+        target: 22,
+        value: 0.09090909090909091,
+      },
+      {
+        source: 0,
+        target: 23,
+        value: 0.046908315565031986,
+      },
+      {
+        source: 0,
+        target: 24,
+        value: 0.01762114537444934,
+      },
+      {
+        source: 0,
+        target: 25,
+        value: 0.02860858257477243,
+      },
+      {
+        source: 0,
+        target: 26,
+        value: 0.05061349693251534,
+      },
+      {
+        source: 1,
+        target: 2,
+        value: 0.5024603608529251,
+      },
+      {
+        source: 1,
+        target: 3,
+        value: 0.82996632996633,
+      },
+      {
+        source: 1,
+        target: 4,
+        value: 0.3969816272965879,
+      },
+      {
+        source: 1,
+        target: 5,
+        value: 0.438136826783115,
+      },
+      {
+        source: 1,
+        target: 6,
+        value: 0.3083670715249663,
+      },
+      {
+        source: 1,
+        target: 7,
+        value: 0.4403846153846154,
+      },
+      {
+        source: 1,
+        target: 8,
+        value: 0.05711775043936731,
+      },
+      {
+        source: 1,
+        target: 9,
+        value: 0.497869750456482,
+      },
+      {
+        source: 1,
+        target: 10,
+        value: 0.4308231173380035,
+      },
+      {
+        source: 1,
+        target: 11,
+        value: 0.44780545670225386,
+      },
+      {
+        source: 1,
+        target: 12,
+        value: 0.35555555555555557,
+      },
+      {
+        source: 1,
+        target: 13,
+        value: 0.36917098445595853,
+      },
+      {
+        source: 1,
+        target: 14,
+        value: 0.28854314002828857,
+      },
+      {
+        source: 1,
+        target: 15,
+        value: 0.24643874643874644,
+      },
+      {
+        source: 1,
+        target: 16,
+        value: 0.5201839550332141,
+      },
+      {
+        source: 1,
+        target: 17,
+        value: 0.5325285043594903,
+      },
+      {
+        source: 1,
+        target: 18,
+        value: 0.46320346320346323,
+      },
+      {
+        source: 1,
+        target: 19,
+        value: 0.3566101694915254,
+      },
+      {
+        source: 1,
+        target: 20,
+        value: 0.3566101694915254,
+      },
+      {
+        source: 1,
+        target: 21,
+        value: 0.3566101694915254,
+      },
+      {
+        source: 1,
+        target: 22,
+        value: 0.3660949868073879,
+      },
+      {
+        source: 1,
+        target: 23,
+        value: 0.4143059490084986,
+      },
+      {
+        source: 1,
+        target: 24,
+        value: 0.0997352162400706,
+      },
+      {
+        source: 1,
+        target: 25,
+        value: 0.3002159827213823,
+      },
+      {
+        source: 1,
+        target: 26,
+        value: 0.4419588875453446,
+      },
+      {
+        source: 2,
+        target: 3,
+        value: 0.4791666666666667,
+      },
+      {
+        source: 2,
+        target: 4,
+        value: 0.4714364947310039,
+      },
+      {
+        source: 2,
+        target: 5,
+        value: 0.40291806958473625,
+      },
+      {
+        source: 2,
+        target: 6,
+        value: 0.3622787610619469,
+      },
+      {
+        source: 2,
+        target: 7,
+        value: 0.5175246440306681,
+      },
+      {
+        source: 2,
+        target: 8,
+        value: 0.05048661800486618,
+      },
+      {
+        source: 2,
+        target: 9,
+        value: 0.575197889182058,
+      },
+      {
+        source: 2,
+        target: 10,
+        value: 0.5616797900262467,
+      },
+      {
+        source: 2,
+        target: 11,
+        value: 0.5597054182009469,
+      },
+      {
+        source: 2,
+        target: 12,
+        value: 0.4251234229292375,
+      },
+      {
+        source: 2,
+        target: 13,
+        value: 0.4454794520547945,
+      },
+      {
+        source: 2,
+        target: 14,
+        value: 0.3405714285714286,
+      },
+      {
+        source: 2,
+        target: 15,
+        value: 0.298686464877213,
+      },
+      {
+        source: 2,
+        target: 16,
+        value: 0.741662518666003,
+      },
+      {
+        source: 2,
+        target: 17,
+        value: 0.520021645021645,
+      },
+      {
+        source: 2,
+        target: 18,
+        value: 0.5339702760084926,
+      },
+      {
+        source: 2,
+        target: 19,
+        value: 0.39118457300275483,
+      },
+      {
+        source: 2,
+        target: 20,
+        value: 0.39118457300275483,
+      },
+      {
+        source: 2,
+        target: 21,
+        value: 0.39118457300275483,
+      },
+      {
+        source: 2,
+        target: 22,
+        value: 0.4570466030320045,
+      },
+      {
+        source: 2,
+        target: 23,
+        value: 0.39667590027700833,
+      },
+      {
+        source: 2,
+        target: 24,
+        value: 0.08190709046454768,
+      },
+      {
+        source: 2,
+        target: 25,
+        value: 0.3261240751280592,
+      },
+      {
+        source: 2,
+        target: 26,
+        value: 0.5639784946236559,
+      },
+      {
+        source: 3,
+        target: 4,
+        value: 0.3641732283464567,
+      },
+      {
+        source: 3,
+        target: 5,
+        value: 0.43410275502606105,
+      },
+      {
+        source: 3,
+        target: 6,
+        value: 0.2973901098901099,
+      },
+      {
+        source: 3,
+        target: 7,
+        value: 0.4350097975179621,
+      },
+      {
+        source: 3,
+        target: 8,
+        value: 0.05974264705882353,
+      },
+      {
+        source: 3,
+        target: 9,
+        value: 0.49473031618102914,
+      },
+      {
+        source: 3,
+        target: 10,
+        value: 0.42408066429418745,
+      },
+      {
+        source: 3,
+        target: 11,
+        value: 0.4283154121863799,
+      },
+      {
+        source: 3,
+        target: 12,
+        value: 0.375,
+      },
+      {
+        source: 3,
+        target: 13,
+        value: 0.3341952165481577,
+      },
+      {
+        source: 3,
+        target: 14,
+        value: 0.2831281679942071,
+      },
+      {
+        source: 3,
+        target: 15,
+        value: 0.2399708242159008,
+      },
+      {
+        source: 3,
+        target: 16,
+        value: 0.49463464486458864,
+      },
+      {
+        source: 3,
+        target: 17,
+        value: 0.49899396378269617,
+      },
+      {
+        source: 3,
+        target: 18,
+        value: 0.4686112872542803,
+      },
+      {
+        source: 3,
+        target: 19,
+        value: 0.3418156808803301,
+      },
+      {
+        source: 3,
+        target: 20,
+        value: 0.3418156808803301,
+      },
+      {
+        source: 3,
+        target: 21,
+        value: 0.3418156808803301,
+      },
+      {
+        source: 3,
+        target: 22,
+        value: 0.33487450462351387,
+      },
+      {
+        source: 3,
+        target: 23,
+        value: 0.41909620991253643,
+      },
+      {
+        source: 3,
+        target: 24,
+        value: 0.10230414746543778,
+      },
+      {
+        source: 3,
+        target: 25,
+        value: 0.2997779422649889,
+      },
+      {
+        source: 3,
+        target: 26,
+        value: 0.42638973732437385,
+      },
+      {
+        source: 4,
+        target: 5,
+        value: 0.3503230437903805,
+      },
+      {
+        source: 4,
+        target: 6,
+        value: 0.29403508771929826,
+      },
+      {
+        source: 4,
+        target: 7,
+        value: 0.41392904073587383,
+      },
+      {
+        source: 4,
+        target: 8,
+        value: 0.07156673114119923,
+      },
+      {
+        source: 4,
+        target: 9,
+        value: 0.42788171394085694,
+      },
+      {
+        source: 4,
+        target: 10,
+        value: 0.4065671641791045,
+      },
+      {
+        source: 4,
+        target: 11,
+        value: 0.40059701492537314,
+      },
+      {
+        source: 4,
+        target: 12,
+        value: 0.3299731182795699,
+      },
+      {
+        source: 4,
+        target: 13,
+        value: 0.34242021276595747,
+      },
+      {
+        source: 4,
+        target: 14,
+        value: 0.2652014652014652,
+      },
+      {
+        source: 4,
+        target: 15,
+        value: 0.2509448223733938,
+      },
+      {
+        source: 4,
+        target: 16,
+        value: 0.5102254850550603,
+      },
+      {
+        source: 4,
+        target: 17,
+        value: 0.3922441195168468,
+      },
+      {
+        source: 4,
+        target: 18,
+        value: 0.3847560975609756,
+      },
+      {
+        source: 4,
+        target: 19,
+        value: 0.33660589060308554,
+      },
+      {
+        source: 4,
+        target: 20,
+        value: 0.33660589060308554,
+      },
+      {
+        source: 4,
+        target: 21,
+        value: 0.33660589060308554,
+      },
+      {
+        source: 4,
+        target: 22,
+        value: 0.6303630363036303,
+      },
+      {
+        source: 4,
+        target: 23,
+        value: 0.3403805496828753,
+      },
+      {
+        source: 4,
+        target: 24,
+        value: 0.07169459962756052,
+      },
+      {
+        source: 4,
+        target: 25,
+        value: 0.29425113464447805,
+      },
+      {
+        source: 4,
+        target: 26,
+        value: 0.39209726443769,
+      },
+      {
+        source: 5,
+        target: 6,
+        value: 0.2967791411042945,
+      },
+      {
+        source: 5,
+        target: 7,
+        value: 0.4601899196493791,
+      },
+      {
+        source: 5,
+        target: 8,
+        value: 0.0670391061452514,
+      },
+      {
+        source: 5,
+        target: 9,
+        value: 0.41315453384418904,
+      },
+      {
+        source: 5,
+        target: 10,
+        value: 0.3734413965087282,
+      },
+      {
+        source: 5,
+        target: 11,
+        value: 0.37924528301886795,
+      },
+      {
+        source: 5,
+        target: 12,
+        value: 0.328,
+      },
+      {
+        source: 5,
+        target: 13,
+        value: 0.29403606102635227,
+      },
+      {
+        source: 5,
+        target: 14,
+        value: 0.27037933817594834,
+      },
+      {
+        source: 5,
+        target: 15,
+        value: 0.2413223140495868,
+      },
+      {
+        source: 5,
+        target: 16,
+        value: 0.4158878504672897,
+      },
+      {
+        source: 5,
+        target: 17,
+        value: 0.42248603351955305,
+      },
+      {
+        source: 5,
+        target: 18,
+        value: 0.42434431741761935,
+      },
+      {
+        source: 5,
+        target: 19,
+        value: 0.3381679389312977,
+      },
+      {
+        source: 5,
+        target: 20,
+        value: 0.3381679389312977,
+      },
+      {
+        source: 5,
+        target: 21,
+        value: 0.3381679389312977,
+      },
+      {
+        source: 5,
+        target: 22,
+        value: 0.2984330484330484,
+      },
+      {
+        source: 5,
+        target: 23,
+        value: 0.5714285714285714,
+      },
+      {
+        source: 5,
+        target: 24,
+        value: 0.09790979097909791,
+      },
+      {
+        source: 5,
+        target: 25,
+        value: 0.27704918032786885,
+      },
+      {
+        source: 5,
+        target: 26,
+        value: 0.35253164556962024,
+      },
+      {
+        source: 6,
+        target: 7,
+        value: 0.31501340482573725,
+      },
+      {
+        source: 6,
+        target: 8,
+        value: 0.0863905325443787,
+      },
+      {
+        source: 6,
+        target: 9,
+        value: 0.34155363748458695,
+      },
+      {
+        source: 6,
+        target: 10,
+        value: 0.3545966228893058,
+      },
+      {
+        source: 6,
+        target: 11,
+        value: 0.35512256442489,
+      },
+      {
+        source: 6,
+        target: 12,
+        value: 0.303935860058309,
+      },
+      {
+        source: 6,
+        target: 13,
+        value: 0.30642857142857144,
+      },
+      {
+        source: 6,
+        target: 14,
+        value: 0.21598101265822786,
+      },
+      {
+        source: 6,
+        target: 15,
+        value: 0.24680851063829787,
+      },
+      {
+        source: 6,
+        target: 16,
+        value: 0.3844570252187339,
+      },
+      {
+        source: 6,
+        target: 17,
+        value: 0.31926121372031663,
+      },
+      {
+        source: 6,
+        target: 18,
+        value: 0.3331197950032031,
+      },
+      {
+        source: 6,
+        target: 19,
+        value: 0.274888558692422,
+      },
+      {
+        source: 6,
+        target: 20,
+        value: 0.274888558692422,
+      },
+      {
+        source: 6,
+        target: 21,
+        value: 0.274888558692422,
+      },
+      {
+        source: 6,
+        target: 22,
+        value: 0.2793696275071633,
+      },
+      {
+        source: 6,
+        target: 23,
+        value: 0.2766592095451156,
+      },
+      {
+        source: 6,
+        target: 24,
+        value: 0.06896551724137931,
+      },
+      {
+        source: 6,
+        target: 25,
+        value: 0.22760290556900725,
+      },
+      {
+        source: 6,
+        target: 26,
+        value: 0.32075471698113206,
+      },
+      {
+        source: 7,
+        target: 8,
+        value: 0.057808455565142365,
+      },
+      {
+        source: 7,
+        target: 9,
+        value: 0.4954846478025286,
+      },
+      {
+        source: 7,
+        target: 10,
+        value: 0.44678362573099417,
+      },
+      {
+        source: 7,
+        target: 11,
+        value: 0.47368421052631576,
+      },
+      {
+        source: 7,
+        target: 12,
+        value: 0.38507265521796563,
+      },
+      {
+        source: 7,
+        target: 13,
+        value: 0.3804909560723514,
+      },
+      {
+        source: 7,
+        target: 14,
+        value: 0.3020465772759351,
+      },
+      {
+        source: 7,
+        target: 15,
+        value: 0.2673338098641887,
+      },
+      {
+        source: 7,
+        target: 16,
+        value: 0.5303726391015824,
+      },
+      {
+        source: 7,
+        target: 17,
+        value: 0.47664747280870123,
+      },
+      {
+        source: 7,
+        target: 18,
+        value: 0.4912609238451935,
+      },
+      {
+        source: 7,
+        target: 19,
+        value: 0.3602150537634409,
+      },
+      {
+        source: 7,
+        target: 20,
+        value: 0.3602150537634409,
+      },
+      {
+        source: 7,
+        target: 21,
+        value: 0.3602150537634409,
+      },
+      {
+        source: 7,
+        target: 22,
+        value: 0.3677335075114304,
+      },
+      {
+        source: 7,
+        target: 23,
+        value: 0.4086471408647141,
+      },
+      {
+        source: 7,
+        target: 24,
+        value: 0.11806167400881057,
+      },
+      {
+        source: 7,
+        target: 25,
+        value: 0.28893587033121915,
+      },
+      {
+        source: 7,
+        target: 26,
+        value: 0.4427801078490114,
+      },
+      {
+        source: 8,
+        target: 9,
+        value: 0.053401609363569864,
+      },
+      {
+        source: 8,
+        target: 10,
+        value: 0.06319702602230483,
+      },
+      {
+        source: 8,
+        target: 11,
+        value: 0.06847253574115876,
+      },
+      {
+        source: 8,
+        target: 12,
+        value: 0.0755873340143003,
+      },
+      {
+        source: 8,
+        target: 13,
+        value: 0.06634146341463415,
+      },
+      {
+        source: 8,
+        target: 14,
+        value: 0.05952380952380952,
+      },
+      {
+        source: 8,
+        target: 15,
+        value: 0.06578947368421052,
+      },
+      {
+        source: 8,
+        target: 16,
+        value: 0.048845947396672036,
+      },
+      {
+        source: 8,
+        target: 17,
+        value: 0.06040268456375839,
+      },
+      {
+        source: 8,
+        target: 18,
+        value: 0.05572998430141287,
+      },
+      {
+        source: 8,
+        target: 19,
+        value: 0.053763440860215055,
+      },
+      {
+        source: 8,
+        target: 20,
+        value: 0.053763440860215055,
+      },
+      {
+        source: 8,
+        target: 21,
+        value: 0.053763440860215055,
+      },
+      {
+        source: 8,
+        target: 22,
+        value: 0.07802874743326489,
+      },
+      {
+        source: 8,
+        target: 23,
+        value: 0.05059203444564048,
+      },
+      {
+        source: 8,
+        target: 24,
+        value: 0.07655502392344497,
+      },
+      {
+        source: 8,
+        target: 25,
+        value: 0.05510752688172043,
+      },
+      {
+        source: 8,
+        target: 26,
+        value: 0.06479313036690086,
+      },
+      {
+        source: 9,
+        target: 10,
+        value: 0.5143661971830986,
+      },
+      {
+        source: 9,
+        target: 11,
+        value: 0.49776286353467564,
+      },
+      {
+        source: 9,
+        target: 12,
+        value: 0.37970149253731345,
+      },
+      {
+        source: 9,
+        target: 13,
+        value: 0.40107270560190705,
+      },
+      {
+        source: 9,
+        target: 14,
+        value: 0.29905362776025235,
+      },
+      {
+        source: 9,
+        target: 15,
+        value: 0.2902597402597403,
+      },
+      {
+        source: 9,
+        target: 16,
+        value: 0.6230419403739262,
+      },
+      {
+        source: 9,
+        target: 17,
+        value: 0.4835294117647059,
+      },
+      {
+        source: 9,
+        target: 18,
+        value: 0.4985607369027058,
+      },
+      {
+        source: 9,
+        target: 19,
+        value: 0.3823347745521927,
+      },
+      {
+        source: 9,
+        target: 20,
+        value: 0.3823347745521927,
+      },
+      {
+        source: 9,
+        target: 21,
+        value: 0.3823347745521927,
+      },
+      {
+        source: 9,
+        target: 22,
+        value: 0.3795576808129109,
+      },
+      {
+        source: 9,
+        target: 23,
+        value: 0.4166138237159163,
+      },
+      {
+        source: 9,
+        target: 24,
+        value: 0.06767458603311735,
+      },
+      {
+        source: 9,
+        target: 25,
+        value: 0.32748538011695905,
+      },
+      {
+        source: 9,
+        target: 26,
+        value: 0.505166475315729,
+      },
+      {
+        source: 10,
+        target: 11,
+        value: 0.49971894322653176,
+      },
+      {
+        source: 10,
+        target: 12,
+        value: 0.3894927536231884,
+      },
+      {
+        source: 10,
+        target: 13,
+        value: 0.4110910186859554,
+      },
+      {
+        source: 10,
+        target: 14,
+        value: 0.345370978332239,
+      },
+      {
+        source: 10,
+        target: 15,
+        value: 0.2829331602855289,
+      },
+      {
+        source: 10,
+        target: 16,
+        value: 0.607429718875502,
+      },
+      {
+        source: 10,
+        target: 17,
+        value: 0.5059952038369304,
+      },
+      {
+        source: 10,
+        target: 18,
+        value: 0.5058072009291521,
+      },
+      {
+        source: 10,
+        target: 19,
+        value: 0.37276648182378314,
+      },
+      {
+        source: 10,
+        target: 20,
+        value: 0.37276648182378314,
+      },
+      {
+        source: 10,
+        target: 21,
+        value: 0.37276648182378314,
+      },
+      {
+        source: 10,
+        target: 22,
+        value: 0.37604790419161677,
+      },
+      {
+        source: 10,
+        target: 23,
+        value: 0.36107711138310894,
+      },
+      {
+        source: 10,
+        target: 24,
+        value: 0.06430635838150289,
+      },
+      {
+        source: 10,
+        target: 25,
+        value: 0.2949044585987261,
+      },
+      {
+        source: 10,
+        target: 26,
+        value: 0.5239206534422404,
+      },
+      {
+        source: 11,
+        target: 12,
+        value: 0.43997485857950974,
+      },
+      {
+        source: 11,
+        target: 13,
+        value: 0.39413875598086123,
+      },
+      {
+        source: 11,
+        target: 14,
+        value: 0.30287539936102237,
+      },
+      {
+        source: 11,
+        target: 15,
+        value: 0.26739690721649484,
+      },
+      {
+        source: 11,
+        target: 16,
+        value: 0.6137512639029322,
+      },
+      {
+        source: 11,
+        target: 17,
+        value: 0.4631578947368421,
+      },
+      {
+        source: 11,
+        target: 18,
+        value: 0.4634560906515581,
+      },
+      {
+        source: 11,
+        target: 19,
+        value: 0.36660505237215035,
+      },
+      {
+        source: 11,
+        target: 20,
+        value: 0.36660505237215035,
+      },
+      {
+        source: 11,
+        target: 21,
+        value: 0.36660505237215035,
+      },
+      {
+        source: 11,
+        target: 22,
+        value: 0.3841500302480339,
+      },
+      {
+        source: 11,
+        target: 23,
+        value: 0.36666666666666664,
+      },
+      {
+        source: 11,
+        target: 24,
+        value: 0.07811348563006633,
+      },
+      {
+        source: 11,
+        target: 25,
+        value: 0.29182630906768836,
+      },
+      {
+        source: 11,
+        target: 26,
+        value: 0.5031773541305604,
+      },
+      {
+        source: 12,
+        target: 13,
+        value: 0.32345013477088946,
+      },
+      {
+        source: 12,
+        target: 14,
+        value: 0.2831926323867997,
+      },
+      {
+        source: 12,
+        target: 15,
+        value: 0.2374323279195669,
+      },
+      {
+        source: 12,
+        target: 16,
+        value: 0.4531893004115226,
+      },
+      {
+        source: 12,
+        target: 17,
+        value: 0.36683738796414855,
+      },
+      {
+        source: 12,
+        target: 18,
+        value: 0.38847117794486213,
+      },
+      {
+        source: 12,
+        target: 19,
+        value: 0.29350104821802936,
+      },
+      {
+        source: 12,
+        target: 20,
+        value: 0.29350104821802936,
+      },
+      {
+        source: 12,
+        target: 21,
+        value: 0.29350104821802936,
+      },
+      {
+        source: 12,
+        target: 22,
+        value: 0.32300275482093666,
+      },
+      {
+        source: 12,
+        target: 23,
+        value: 0.29796205200281095,
+      },
+      {
+        source: 12,
+        target: 24,
+        value: 0.09272183449651047,
+      },
+      {
+        source: 12,
+        target: 25,
+        value: 0.24417731029301276,
+      },
+      {
+        source: 12,
+        target: 26,
+        value: 0.3762315270935961,
+      },
+      {
+        source: 13,
+        target: 14,
+        value: 0.2728624535315985,
+      },
+      {
+        source: 13,
+        target: 15,
+        value: 0.3632585203657523,
+      },
+      {
+        source: 13,
+        target: 16,
+        value: 0.4722507708119219,
+      },
+      {
+        source: 13,
+        target: 17,
+        value: 0.402321083172147,
+      },
+      {
+        source: 13,
+        target: 18,
+        value: 0.3798165137614679,
+      },
+      {
+        source: 13,
+        target: 19,
+        value: 0.330752990851513,
+      },
+      {
+        source: 13,
+        target: 20,
+        value: 0.330752990851513,
+      },
+      {
+        source: 13,
+        target: 21,
+        value: 0.330752990851513,
+      },
+      {
+        source: 13,
+        target: 22,
+        value: 0.3276912660798917,
+      },
+      {
+        source: 13,
+        target: 23,
+        value: 0.29069767441860467,
+      },
+      {
+        source: 13,
+        target: 24,
+        value: 0.07473982970671712,
+      },
+      {
+        source: 13,
+        target: 25,
+        value: 0.26096654275092934,
+      },
+      {
+        source: 13,
+        target: 26,
+        value: 0.4069264069264069,
+      },
+      {
+        source: 14,
+        target: 15,
+        value: 0.20680393912264997,
+      },
+      {
+        source: 14,
+        target: 16,
+        value: 0.33454356846473027,
+      },
+      {
+        source: 14,
+        target: 17,
+        value: 0.3121951219512195,
+      },
+      {
+        source: 14,
+        target: 18,
+        value: 0.30498338870431896,
+      },
+      {
+        source: 14,
+        target: 19,
+        value: 0.2610410094637224,
+      },
+      {
+        source: 14,
+        target: 20,
+        value: 0.2610410094637224,
+      },
+      {
+        source: 14,
+        target: 21,
+        value: 0.2610410094637224,
+      },
+      {
+        source: 14,
+        target: 22,
+        value: 0.2558314522197141,
+      },
+      {
+        source: 14,
+        target: 23,
+        value: 0.25887924230465664,
+      },
+      {
+        source: 14,
+        target: 24,
+        value: 0.12383488681757657,
+      },
+      {
+        source: 14,
+        target: 25,
+        value: 0.22193211488250653,
+      },
+      {
+        source: 14,
+        target: 26,
+        value: 0.3326612903225806,
+      },
+      {
+        source: 15,
+        target: 16,
+        value: 0.3087388801674516,
+      },
+      {
+        source: 15,
+        target: 17,
+        value: 0.2602644398051496,
+      },
+      {
+        source: 15,
+        target: 18,
+        value: 0.26639892904953144,
+      },
+      {
+        source: 15,
+        target: 19,
+        value: 0.2526661197703035,
+      },
+      {
+        source: 15,
+        target: 20,
+        value: 0.2526661197703035,
+      },
+      {
+        source: 15,
+        target: 21,
+        value: 0.2526661197703035,
+      },
+      {
+        source: 15,
+        target: 22,
+        value: 0.22469325153374234,
+      },
+      {
+        source: 15,
+        target: 23,
+        value: 0.23519870235198703,
+      },
+      {
+        source: 15,
+        target: 24,
+        value: 0.061898211829436035,
+      },
+      {
+        source: 15,
+        target: 25,
+        value: 0.2231404958677686,
+      },
+      {
+        source: 15,
+        target: 26,
+        value: 0.26556291390728476,
+      },
+      {
+        source: 16,
+        target: 17,
+        value: 0.5418994413407822,
+      },
+      {
+        source: 16,
+        target: 18,
+        value: 0.5878757004584819,
+      },
+      {
+        source: 16,
+        target: 19,
+        value: 0.42590673575129534,
+      },
+      {
+        source: 16,
+        target: 20,
+        value: 0.42590673575129534,
+      },
+      {
+        source: 16,
+        target: 21,
+        value: 0.42590673575129534,
+      },
+      {
+        source: 16,
+        target: 22,
+        value: 0.46979166666666666,
+      },
+      {
+        source: 16,
+        target: 23,
+        value: 0.42531120331950206,
+      },
+      {
+        source: 16,
+        target: 24,
+        value: 0.06336528221512247,
+      },
+      {
+        source: 16,
+        target: 25,
+        value: 0.3262448132780083,
+      },
+      {
+        source: 16,
+        target: 26,
+        value: 0.6,
+      },
+      {
+        source: 17,
+        target: 18,
+        value: 0.5178236397748592,
+      },
+      {
+        source: 17,
+        target: 19,
+        value: 0.35390676296782664,
+      },
+      {
+        source: 17,
+        target: 20,
+        value: 0.35390676296782664,
+      },
+      {
+        source: 17,
+        target: 21,
+        value: 0.35390676296782664,
+      },
+      {
+        source: 17,
+        target: 22,
+        value: 0.36754329698524696,
+      },
+      {
+        source: 17,
+        target: 23,
+        value: 0.41735537190082644,
+      },
+      {
+        source: 17,
+        target: 24,
+        value: 0.09372384937238494,
+      },
+      {
+        source: 17,
+        target: 25,
+        value: 0.2858126721763085,
+      },
+      {
+        source: 17,
+        target: 26,
+        value: 0.4594272076372315,
+      },
+      {
+        source: 18,
+        target: 19,
+        value: 0.3623649078194533,
+      },
+      {
+        source: 18,
+        target: 20,
+        value: 0.3623649078194533,
+      },
+      {
+        source: 18,
+        target: 21,
+        value: 0.3623649078194533,
+      },
+      {
+        source: 18,
+        target: 22,
+        value: 0.3685837971552257,
+      },
+      {
+        source: 18,
+        target: 23,
+        value: 0.42220744680851063,
+      },
+      {
+        source: 18,
+        target: 24,
+        value: 0.10685805422647528,
+      },
+      {
+        source: 18,
+        target: 25,
+        value: 0.29953302201467646,
+      },
+      {
+        source: 18,
+        target: 26,
+        value: 0.4481375358166189,
+      },
+      {
+        source: 19,
+        target: 20,
+        value: 1.0,
+      },
+      {
+        source: 19,
+        target: 21,
+        value: 1.0,
+      },
+      {
+        source: 19,
+        target: 22,
+        value: 0.2968421052631579,
+      },
+      {
+        source: 19,
+        target: 23,
+        value: 0.3179791976225854,
+      },
+      {
+        source: 19,
+        target: 24,
+        value: 0.07345225603357818,
+      },
+      {
+        source: 19,
+        target: 25,
+        value: 0.2890879478827362,
+      },
+      {
+        source: 19,
+        target: 26,
+        value: 0.3520950594121326,
+      },
+      {
+        source: 20,
+        target: 21,
+        value: 1.0,
+      },
+      {
+        source: 20,
+        target: 22,
+        value: 0.2968421052631579,
+      },
+      {
+        source: 20,
+        target: 23,
+        value: 0.3179791976225854,
+      },
+      {
+        source: 20,
+        target: 24,
+        value: 0.07345225603357818,
+      },
+      {
+        source: 20,
+        target: 25,
+        value: 0.2890879478827362,
+      },
+      {
+        source: 20,
+        target: 26,
+        value: 0.3520950594121326,
+      },
+      {
+        source: 21,
+        target: 22,
+        value: 0.2968421052631579,
+      },
+      {
+        source: 21,
+        target: 23,
+        value: 0.3179791976225854,
+      },
+      {
+        source: 21,
+        target: 24,
+        value: 0.07345225603357818,
+      },
+      {
+        source: 21,
+        target: 25,
+        value: 0.2890879478827362,
+      },
+      {
+        source: 21,
+        target: 26,
+        value: 0.3520950594121326,
+      },
+      {
+        source: 22,
+        target: 23,
+        value: 0.29859154929577464,
+      },
+      {
+        source: 22,
+        target: 24,
+        value: 0.07262021589793916,
+      },
+      {
+        source: 22,
+        target: 25,
+        value: 0.24379232505643342,
+      },
+      {
+        source: 22,
+        target: 26,
+        value: 0.3803339517625232,
+      },
+      {
+        source: 23,
+        target: 24,
+        value: 0.08983957219251337,
+      },
+      {
+        source: 23,
+        target: 25,
+        value: 0.26623897353648757,
+      },
+      {
+        source: 23,
+        target: 26,
+        value: 0.3529780564263323,
+      },
+      {
+        source: 24,
+        target: 25,
+        value: 0.07253886010362694,
+      },
+      {
+        source: 24,
+        target: 26,
+        value: 0.06914893617021277,
+      },
+      {
+        source: 25,
+        target: 26,
+        value: 0.29152987524622453,
+      },
     ],
     metrics_paper_count: {
       IC50_MC: 23,
@@ -6191,9 +7940,9 @@ const target_data = [
       AUC_Cl: 7,
       bio_Cl: 4,
       solubility_Cl: 0,
-      adverse_1: 76,
-      adverse_2: 57,
-      adverse_3: 10,
+      adverse_1: 72,
+      adverse_2: 53,
+      adverse_3: 9,
     },
     metrics_distribution: {
       IC50_MC: [
@@ -6219,10 +7968,13 @@ const target_data = [
       AUC_Cl: [5.63, 0.9, 147.0, 1520.0, 659.0, 19910.0, 181.1],
       bio_Cl: [100.2, 83.0, 41.5, 72.0],
       solubility_Cl: [],
-      adverse_1: [],
+      adverse_1: [
+        0.0784313725490196, 0.0, 0.052873563218390804, 0.0,
+        0.030612244897959183, 0.4482758620689655,
+      ],
       adverse_2: [
         0.10135135135135136, 0.0784313725490196, 1.0, 0.1, 0.4666666666666667,
-        0.44,
+        0.1, 0.44,
       ],
       adverse_3: [0.2531017369727047],
     },
@@ -6432,6 +8184,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0014417026249550521 },
+        norm_pharm_metrics_vivo: { AUC: 0.02525511790043963, t_half: 0.0 },
       },
       {
         id: 1,
@@ -6568,6 +8322,15 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          Ki: 0.0625,
+          IC50: 0.0022698669543329735,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.20351703006350194,
+          t_half: 0.3229461756373938,
+          bioavailability: 0.978021978021978,
+        },
       },
       {
         id: 2,
@@ -6622,6 +8385,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0028766630708378276,
+          EC50: 0.00793055513885972,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 3,
@@ -6694,6 +8462,15 @@ const target_data = [
           bioavailability: 77,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.028339626033800788,
+          solubility: 0.22135706340378195,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0027265864381189222,
+          t_half: 0.44900849858356934,
+          bioavailability: 0.7252747252747253,
+        },
       },
       {
         id: 4,
@@ -6756,6 +8533,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0029440848615605894 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 5,
@@ -6810,6 +8589,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0016293599424667385,
+          solubility: 0.0,
+        },
+        norm_pharm_metrics_vivo: { AUC: 0.07988809449797948 },
       },
       {
         id: 6,
@@ -6877,6 +8661,17 @@ const target_data = [
           bioavailability: 102.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          Kd: 0.0,
+          IC50: 0.002382236605537576,
+          selectivity: 0.04006677796327212,
+          hERG: 1.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.285581064878547,
+          t_half: 0.3654390934844193,
+          bioavailability: 1.0,
+        },
       },
       {
         id: 7,
@@ -6941,6 +8736,12 @@ const target_data = [
           bioavailability: 43.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.011147069399496584 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.1957014077001643,
+          t_half: 0.4220963172804532,
+          bioavailability: 0.3516483516483517,
+        },
       },
       {
         id: 8,
@@ -7039,6 +8840,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          Kd: 1.0,
+          IC50: 0.052723840345199564,
+          solubility: 1.0,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 9,
@@ -7102,6 +8909,11 @@ const target_data = [
           bioavailability: 11.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          t_half: 0.7620396600566571,
+          bioavailability: 0.0,
+        },
       },
       {
         id: 10,
@@ -7156,6 +8968,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0010338007910823442,
+          selectivity: 0.018363939899833055,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 11,
@@ -7216,6 +9033,12 @@ const target_data = [
           bioavailability: 38.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0066522833513124775 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.11665704516186332,
+          t_half: 0.0821529745042493,
+          bioavailability: 0.2967032967032967,
+        },
       },
       {
         id: 12,
@@ -7442,6 +9265,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: { Pfizer: 0.4423076923076923 },
         },
+        norm_pharm_metrics_vitro: { IC50: 0.002157497303128371 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 13,
@@ -7597,6 +9422,16 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.004483549083063646,
+          selectivity: 0.015025041736227046,
+          hERG: 0.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 1.0,
+          t_half: 0.8186968838526912,
+          bioavailability: 0.4835164835164835,
+        },
       },
       {
         id: 14,
@@ -7657,6 +9492,15 @@ const target_data = [
           bioavailability: 71.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.004517259978425027,
+          selectivity: 1.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.5365691194102757,
+          t_half: 0.1954674220963173,
+          bioavailability: 0.6593406593406593,
+        },
       },
       {
         id: 15,
@@ -7714,6 +9558,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 16,
@@ -7765,6 +9611,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 17,
@@ -7827,6 +9675,12 @@ const target_data = [
           bioavailability: 38.2,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.05773552678892485 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.08059860562191927,
+          t_half: 0.23796033994334279,
+          bioavailability: 0.29890109890109895,
+        },
       },
       {
         id: 18,
@@ -7878,6 +9732,13 @@ const target_data = [
           bioavailability: 87.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00013484358144552318 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.4447355566410587,
+          solubility: 0.5,
+          t_half: 0.17280453257790368,
+          bioavailability: 0.8351648351648352,
+        },
       },
       {
         id: 19,
@@ -8016,6 +9877,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.0031688241639697945 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.40210488920467163,
+          t_half: 0.6203966005665722,
+          bioavailability: 0.45054945054945056,
+        },
       },
       {
         id: 20,
@@ -8076,6 +9943,12 @@ const target_data = [
           bioavailability: 28.2,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.5800879257515875,
+          t_half: 0.8257790368271954,
+          bioavailability: 0.189010989010989,
+        },
       },
       {
         id: 21,
@@ -8160,6 +10033,12 @@ const target_data = [
           bioavailability: 86.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { Ki: 0.0, IC50: 0.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.11772281184777299,
+          t_half: 0.0679886685552408,
+          bioavailability: 0.8241758241758241,
+        },
       },
       {
         id: 22,
@@ -8213,6 +10092,12 @@ const target_data = [
           bioavailability: 12.1,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.15182734579688265,
+          t_half: 0.34985835694050993,
+          bioavailability: 0.012087912087912085,
+        },
       },
       {
         id: 23,
@@ -8267,6 +10152,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 24,
@@ -8327,6 +10214,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0019327580007191655,
+          selectivity: 0.025041736227045076,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 25,
@@ -8412,6 +10304,17 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.00126977705861201,
+          selectivity: 0.0,
+          hERG: 0.06171428571428572,
+          solubility: 0.34816462736373743,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.252542297615347,
+          t_half: 0.29461756373937675,
+          bioavailability: 0.43956043956043955,
+        },
       },
       {
         id: 26,
@@ -8461,6 +10364,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 27,
@@ -8517,6 +10422,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 28,
@@ -8569,6 +10476,11 @@ const target_data = [
           bioavailability: 75.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.002382236605537576 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.00012433944668946225,
+          bioavailability: 0.7032967032967034,
+        },
       },
       {
         id: 29,
@@ -8621,6 +10533,14 @@ const target_data = [
           bioavailability: 17.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.010360481841064365,
+          selectivity: 0.02337228714524207,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.1246458923512748,
+          bioavailability: 0.06593406593406594,
+        },
       },
       {
         id: 30,
@@ -8687,6 +10607,16 @@ const target_data = [
           bioavailability: 100.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.010922330097087377,
+          selectivity: 0.09849749582637729,
+          hERG: 0.8057142857142858,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.00842843820773569,
+          t_half: 0.38101983002832857,
+          bioavailability: 0.978021978021978,
+        },
       },
       {
         id: 31,
@@ -8735,6 +10665,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 32,
@@ -8788,6 +10720,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.07182668104998202,
+          selectivity: 0.03171953255425709,
+        },
+        norm_pharm_metrics_vivo: { AUC: 0.03567653981082641, t_half: 0.0 },
       },
       {
         id: 33,
@@ -8839,6 +10776,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.002157497303128371 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 34,
@@ -9215,6 +11154,11 @@ const target_data = [
             "Hoffmann-La Roche": 0.1298283261802575,
           },
         },
+        norm_pharm_metrics_vitro: { IC50: 0.033620999640417114 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.23406900839291264,
+          t_half: 0.5198300283286118,
+        },
       },
       {
         id: 35,
@@ -9266,6 +11210,8 @@ const target_data = [
           bioavailability: 16.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: { bioavailability: 0.054945054945054944 },
       },
       {
         id: 36,
@@ -9322,6 +11268,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00010113268608414237 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 37,
@@ -9371,6 +11319,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.004404890327220424 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 38,
@@ -9424,6 +11374,15 @@ const target_data = [
           bioavailability: 23.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.001483279395900755,
+          selectivity: 0.048414023372287146,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.8008792575158755,
+          t_half: 0.9886685552407932,
+          bioavailability: 0.13186813186813187,
+        },
       },
       {
         id: 39,
@@ -9474,6 +11433,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 40,
@@ -9526,6 +11487,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0006854548723480762 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 41,
@@ -9577,6 +11540,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0022698669543329735 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 42,
@@ -9638,6 +11603,12 @@ const target_data = [
           bioavailability: 16.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.229522270083041,
+          t_half: 0.18130311614730876,
+          bioavailability: 0.054945054945054944,
+        },
       },
       {
         id: 43,
@@ -9745,6 +11716,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          Ki: 1.0,
+          IC50: 5.618482560230132e-5,
+          selectivity: 0.0651085141903172,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 44,
@@ -9798,6 +11775,12 @@ const target_data = [
           bioavailability: 24.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.22785203605843954,
+          t_half: 0.11756373937677055,
+          bioavailability: 0.14285714285714285,
+        },
       },
       {
         id: 45,
@@ -9848,6 +11831,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.001921521035598705 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 46,
@@ -9899,6 +11884,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.002157497303128371 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 47,
@@ -9947,6 +11934,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.8426824883135562 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 48,
@@ -9995,6 +11984,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0010338007910823442 },
+        norm_pharm_metrics_vivo: { t_half: 0.0821529745042493 },
       },
       {
         id: 49,
@@ -10053,6 +12044,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0013709097446961522 },
+        norm_pharm_metrics_vivo: { AUC: 0.0, t_half: 1.0 },
       },
       {
         id: 50,
@@ -10106,6 +12099,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 51,
@@ -10160,6 +12155,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.025755124056094928 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 52,
@@ -10210,6 +12207,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
     ],
     medicinal_chemistry_similarity: [
@@ -11609,9 +13608,9 @@ const target_data = [
       AUC_Cl: 24,
       bio_Cl: 22,
       solubility_Cl: 1,
-      adverse_1: 235,
-      adverse_2: 169,
-      adverse_3: 37,
+      adverse_1: 186,
+      adverse_2: 135,
+      adverse_3: 30,
     },
     metrics_distribution: {
       IC50_MC: [
@@ -11629,7 +13628,7 @@ const target_data = [
         640.0, 20.0, 300.0, 1.7, 40.0, 14.0, 6.9, 21.0, 1.3, 17.9, 20.0, 7500.0,
         10.0, 13.0, 8900.0, 230,
       ],
-      Ki_Ph: [0.7, 0.2, 8.2],
+      Ki_Ph: [21.0, 0.8, 1.3],
       Kd_Ph: [2.0, 89.0],
       EC50_Ph: [800.0, 7.0, 100000.0],
       Selectivity_Ph: [25, 12, 10, 600, 16, 1, 15, 60, 20, 30, 40],
@@ -11650,15 +13649,17 @@ const target_data = [
         86.0, 12.1, 51.0, 75.0, 17.0, 100.0, 16.0, 23.0, 16.0, 24.0,
       ],
       solubility_Cl: [960.0],
-      adverse_1: [0.0, 0.0, 0.0, 0.0],
+      adverse_1: [
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.043478260869565216,
+        0.0333333333333333, 0.0333333333333333,
+      ],
       adverse_2: [
-        0.5056285178236398, 0.5, 0.3333333333333333, 0.07142857142857142,
-        0.4032258064516129, 0.5321100917431193, 0.2826086956521739,
-        0.3333333333333333, 0.46153846153846156, 1.0, 0.45, 1.0,
-        0.5321100917431193, 0.0, 0.0, 0.65, 0.0, 0.4666666666666667,
-        0.3055555555555556, 0.1, 0.25, 0.14285714285714285, 0.0, 0.0, 0.0,
-        0.03333333333333333, 0.0967741935483871, 0.0, 0.13725490196078433,
-        0.058823529411764705, 0.0, 0.043478260869565216,
+        0.5056285178236398, 0.5, 0.07142857142857142, 0.4032258064516129,
+        0.5321100917431193, 0.2826086956521739, 0.3333333333333333,
+        0.46153846153846156, 1.0, 0.45, 1.0, 0.5321100917431193, 0.0, 0.0, 0.65,
+        0.0, 0.4666666666666667, 0.1, 0.25, 0.14285714285714285, 0.0,
+        0.3333333333333333, 0.0967741935483871, 0.0, 0.13725490196078433,
+        0.058823529411764705,
       ],
       adverse_3: [
         0.4423076923076923, 0.17942583732057416, 0.015503875968992248, 0.1,
@@ -11792,6 +13793,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00899448352784546 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 1,
@@ -11917,6 +13920,14 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 2.1888893868901777e-5,
+          solubility: 0.01738405131805553,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.04010965572618689,
+          bioavailability: 0.005890012808496975,
+        },
       },
       {
         id: 2,
@@ -11986,6 +13997,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 3.5449743515021014e-7 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 3,
@@ -12042,6 +14055,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0012902489707973849,
+          selectivity: 0.0,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 4,
@@ -12105,6 +14123,12 @@ const target_data = [
           bioavailability: 10.29,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.0006758583400919168 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0013788517514804778,
+          t_half: 0.05799373040752351,
+          bioavailability: 0.0,
+        },
       },
       {
         id: 5,
@@ -12178,6 +14202,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 6,
@@ -12248,6 +14274,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: { AUC: 0.000779760112415939 },
       },
       {
         id: 7,
@@ -12296,6 +14324,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00047596307125085746 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 8,
@@ -12399,6 +14429,11 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { hERG: 0.010650887573964497 },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.014420062695924768,
+          bioavailability: 0.005890012808496975,
+        },
       },
       {
         id: 9,
@@ -12454,6 +14489,12 @@ const target_data = [
           bioavailability: 35.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { selectivity: 0.42546063651591287 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.002059495131988357,
+          t_half: 0.031347962382445145,
+          bioavailability: 0.00292782571913016,
+        },
       },
       {
         id: 10,
@@ -12506,6 +14547,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 3.680953218417928e-5, EC50: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 11,
@@ -12555,6 +14598,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.02328020106374945 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 12,
@@ -12619,6 +14664,11 @@ const target_data = [
           bioavailability: 84.7,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.05290983743451328 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0019559871524641175,
+          bioavailability: 0.008816653652791388,
+        },
       },
       {
         id: 13,
@@ -12668,6 +14718,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.001132047876603485 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 14,
@@ -12720,6 +14772,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 2.1042332829737098e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 15,
@@ -12800,6 +14854,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 2.947090617592045e-6,
+          solubility: 0.009383107206650384,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 16,
@@ -12858,6 +14917,16 @@ const target_data = [
           bioavailability: 48.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 9.50106036267511e-5,
+          selectivity: 0.7085427135678392,
+          solubility: 0.003982469931451912,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.002106544213590284,
+          t_half: 0.031347962382445145,
+          bioavailability: 0.004468163005600904,
+        },
       },
       {
         id: 17,
@@ -12909,6 +14978,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.010370145216488066 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 18,
@@ -13212,6 +15283,15 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 7.913758414241333e-5,
+          hERG: 0.0007337278106508874,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0,
+          t_half: 0.05956112852664577,
+          bioavailability: 0.004112700554876886,
+        },
       },
       {
         id: 19,
@@ -13277,6 +15357,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.0354499710283003e-5 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0010526447857071165,
+          t_half: 0.04075235109717868,
+        },
       },
       {
         id: 20,
@@ -13365,6 +15450,11 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.00016821614975409015,
+          bioavailability: 0.010356990939262132,
+        },
       },
       {
         id: 21,
@@ -13446,6 +15536,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.003174376383588278 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 22,
@@ -13503,6 +15595,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0004971270972299745 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 23,
@@ -13604,6 +15698,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.0004230530063030649 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 24,
@@ -13655,6 +15751,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.02063469781635982 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 25,
@@ -13706,6 +15804,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 26,
@@ -13754,6 +15854,12 @@ const target_data = [
           bioavailability: 22.3,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 9.825399060805078e-6 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.00427393857271906,
+          t_half: 0.09278996865203762,
+          bioavailability: 0.001423034677731818,
+        },
       },
       {
         id: 27,
@@ -13819,6 +15925,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0021161750846324266 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 28,
@@ -13891,6 +15999,11 @@ const target_data = [
           bioavailability: 19.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0001426296620797644,
+          solubility: 8.200967714190275e-5,
+        },
+        norm_pharm_metrics_vivo: { bioavailability: 0.0010320259819353984 },
       },
       {
         id: 29,
@@ -13944,6 +16057,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 3.680953218417928e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 30,
@@ -13994,6 +16109,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.013756389373146789 },
+        norm_pharm_metrics_vivo: { t_half: 0.0 },
       },
       {
         id: 31,
@@ -14050,6 +16167,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.019523586452456176 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 32,
@@ -14109,6 +16228,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 33,
@@ -14170,7 +16291,32 @@ const target_data = [
           t_half: 2.3,
           bioavailability: 41.5,
         },
-        clinical_statistics: {},
+        clinical_statistics: {
+          p1_company_num: 0,
+          p1_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p1_company: [[], [], [], [], [], [], [], [], []],
+          p1_terminate_reason: {},
+          p1_withdraw_reason: {},
+          p1_adverse_event: {},
+          p2_company_num: 0,
+          p2_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p2_company: [[], [], [], [], [], [], [], [], []],
+          p2_terminate_reason: {},
+          p2_withdraw_reason: {},
+          p2_adverse_event: {},
+          p3_company_num: 0,
+          p3_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          p3_company: [[], [], [], [], [], [], [], [], []],
+          p3_terminate_reason: {},
+          p3_withdraw_reason: {},
+          p3_adverse_event: {},
+        },
+        norm_pharm_metrics_vitro: { IC50: 0.0 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.004763249021379102,
+          t_half: 0.06896551724137931,
+          bioavailability: 0.003697994362365532,
+        },
       },
       {
         id: 34,
@@ -14222,6 +16368,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0005235821297038708 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 35,
@@ -14286,6 +16434,12 @@ const target_data = [
           bioavailability: 42.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.00044100672488206363,
+          t_half: 0.15360501567398122,
+          bioavailability: 0.003757238104152868,
+        },
       },
       {
         id: 36,
@@ -14338,6 +16492,12 @@ const target_data = [
           bioavailability: 24.8,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 3.680953218417928e-5 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0013380758807588077,
+          t_half: 0.1285266457680251,
+          bioavailability: 0.0017192533866684995,
+        },
       },
       {
         id: 37,
@@ -14405,6 +16565,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { solubility: 0.0005820686841047244 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 38,
@@ -14453,6 +16615,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.5291004219646462 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 39,
@@ -14506,6 +16670,12 @@ const target_data = [
           bioavailability: 30.4,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0002484497919753495 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.005139641674194519,
+          solubility: 0.5,
+          bioavailability: 0.002382783294686666,
+        },
       },
       {
         id: 40,
@@ -14564,6 +16734,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.564550620506226e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 41,
@@ -14683,6 +16855,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.00045479904527174044 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 42,
@@ -14787,6 +16961,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 8.306880196803433e-7 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.011924119241192412,
+          t_half: 0.12539184952978055,
+          bioavailability: 0.009563124799311826,
+        },
       },
       {
         id: 43,
@@ -14834,6 +17014,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0015870744351545011 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.017068152163003114,
+          t_half: 0.2413793103448276,
+        },
       },
       {
         id: 44,
@@ -14908,6 +17093,8 @@ const target_data = [
           bioavailability: 100.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { solubility: 0.009883166213613206 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.01062951215148388 },
       },
       {
         id: 45,
@@ -14954,6 +17141,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.08148127250632126 },
+        norm_pharm_metrics_vivo: { t_half: 0.015673981191222573 },
       },
       {
         id: 46,
@@ -15001,6 +17190,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 47,
@@ -15056,6 +17247,12 @@ const target_data = [
           bioavailability: 44.4,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.020264353106494028,
+          t_half: 0.030721003134796244,
+          bioavailability: 0.004041608064732082,
+        },
       },
       {
         id: 48,
@@ -15207,6 +17404,15 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 1.6243389938972315e-6,
+          selectivity: 1.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0008017163504968383,
+          t_half: 0.013479623824451413,
+          bioavailability: 0.0015770684063788926,
+        },
       },
       {
         id: 49,
@@ -15280,6 +17486,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 4.73915451737378e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 50,
@@ -15326,6 +17534,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.011639986775235086 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 51,
@@ -15375,6 +17585,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 52,
@@ -15425,6 +17637,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.008465382878367534 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 53,
@@ -15539,6 +17753,15 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0006876033310420277,
+          hERG: 0.010650887573964497,
+          solubility: 0.060389125916858195,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.18495297805642635,
+          bioavailability: 0.01062951215148388,
+        },
       },
       {
         id: 54,
@@ -15601,6 +17824,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00011617462960586812 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0016485998193315268,
+          t_half: 0.021943573667711602,
+        },
       },
       {
         id: 55,
@@ -15659,6 +17887,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 1.0883600359760929e-5,
+          EC50: 0.0,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 56,
@@ -15712,6 +17945,12 @@ const target_data = [
           bioavailability: 79.3,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.04028115706947824 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.06827950918398072,
+          t_half: 1.0,
+          bioavailability: 0.008176821241488155,
+        },
       },
       {
         id: 57,
@@ -15775,6 +18014,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 5.16243503695612e-5 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0024860734718458294,
+          t_half: 0.046708463949843265,
+        },
       },
       {
         id: 58,
@@ -15831,6 +18075,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00344421771482202 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 59,
@@ -15977,6 +18223,14 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: { Sanofi: 0.3162118780096308 },
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0740738634136303,
+          solubility: 0.032885880533903,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.46708463949843265,
+          bioavailability: 0.008259762479990428,
+        },
       },
       {
         id: 60,
@@ -16034,6 +18288,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { solubility: 0.0 },
+        norm_pharm_metrics_vivo: { t_half: 0.2589341692789969 },
       },
       {
         id: 61,
@@ -16093,6 +18349,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 62,
@@ -16149,6 +18407,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.00016908469455366066,
+          hERG: 0.8946745562130177,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 63,
@@ -16288,6 +18551,12 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0006982083709725986,
+          t_half: 0.109717868338558,
+          bioavailability: 0.009207662348587808,
+        },
       },
       {
         id: 64,
@@ -16344,6 +18613,12 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 3.4761912670699705e-6 },
+        norm_pharm_metrics_vivo: {
+          ED50: 0.08364083640836407,
+          AUC: 2.885677004918197e-5,
+          t_half: 0.0658307210031348,
+        },
       },
       {
         id: 65,
@@ -16400,6 +18675,12 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 3.4761912670699705e-6 },
+        norm_pharm_metrics_vivo: {
+          ED50: 0.08364083640836407,
+          AUC: 2.885677004918197e-5,
+          t_half: 0.0658307210031348,
+        },
       },
       {
         id: 66,
@@ -16463,6 +18744,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 2.4111116596709064e-5 },
+        norm_pharm_metrics_vivo: { t_half: 0.07523510971786834 },
       },
       {
         id: 67,
@@ -16531,6 +18814,12 @@ const target_data = [
           bioavailability: 40.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { Kd: 0.5, IC50: 7.913758414241333e-5 },
+        norm_pharm_metrics_vivo: {
+          ED50: 1.0,
+          t_half: 0.05329153605015674,
+          bioavailability: 0.003520263137003523,
+        },
       },
       {
         id: 68,
@@ -16589,6 +18878,14 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 5.910054254668428e-6,
+          solubility: 8.200967714190275e-5,
+        },
+        norm_pharm_metrics_vivo: {
+          ED50: 0.4280442804428044,
+          t_half: 0.10344827586206896,
+        },
       },
       {
         id: 69,
@@ -16638,6 +18935,15 @@ const target_data = [
           bioavailability: 11.9,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.00017966670754321917,
+          EC50: 0.0010813733441470668,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0011718357924319985,
+          t_half: 0.15987460815047025,
+          bioavailability: 0.00019076484855522303,
+        },
       },
       {
         id: 70,
@@ -16693,6 +18999,12 @@ const target_data = [
           bioavailability: 66.7,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 1.564550620506226e-5 },
+        norm_pharm_metrics_vivo: {
+          AUC: 1.0,
+          t_half: 0.39184952978056425,
+          bioavailability: 0.0066838789484472815,
+        },
       },
       {
         id: 71,
@@ -16766,6 +19078,13 @@ const target_data = [
           bioavailability: 8450.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00046538105826129895 },
+        norm_pharm_metrics_vivo: {
+          ED50: 0.0,
+          AUC: 0.0006982083709725986,
+          t_half: 0.2163009404388715,
+          bioavailability: 1.0,
+        },
       },
       {
         id: 72,
@@ -16812,6 +19131,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0016399845001022937 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 73,
@@ -16869,6 +19190,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0005170741917152923 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.14174508180266987,
+          t_half: 0.2949843260188088,
+        },
       },
       {
         id: 74,
@@ -17315,6 +19641,8 @@ const target_data = [
             "Merck Sharp & Dohme Corp.": 0.043209876543209874,
           },
         },
+        norm_pharm_metrics_vitro: { IC50: 0.0006674975063618666 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 75,
@@ -17367,6 +19695,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00023257677249101174 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 76,
@@ -17519,6 +19849,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 2.622751919462077e-5 },
+        norm_pharm_metrics_vivo: { t_half: 0.7492163009404389 },
       },
       {
         id: 77,
@@ -17566,6 +19898,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 2.5169317895664917e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 78,
@@ -17618,6 +19952,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.021163798465837744 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 79,
@@ -17664,6 +20000,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0015870744351545011 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 80,
@@ -17709,6 +20047,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.005872789695925699 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 81,
@@ -17758,6 +20098,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.02555533385650453 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 82,
@@ -17814,6 +20156,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.00031194186991270056,
+          selectivity: 0.152428810720268,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 83,
@@ -17865,6 +20212,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0257669741162957 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 84,
@@ -17988,6 +20337,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.00023257677249101174 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 85,
@@ -18043,6 +20394,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 4.3317470172757775e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 86,
@@ -18099,6 +20452,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.02888866794821546 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 87,
@@ -18160,6 +20515,12 @@ const target_data = [
           bioavailability: 16.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 5.16243503695612e-5 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.004061913454782695,
+          t_half: 0.050156739811912224,
+          bioavailability: 0.0006765635312113807,
+        },
       },
       {
         id: 88,
@@ -18207,6 +20568,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0006346932660942352 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 89,
@@ -18261,6 +20624,11 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.003915117292857374 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.017874259761116132,
+          t_half: 0.12758620689655173,
+        },
       },
       {
         id: 90,
@@ -18319,6 +20687,12 @@ const target_data = [
           bioavailability: 52.3,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.008983901514855902 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.001610960554049985,
+          t_half: 0.10564263322884013,
+          bioavailability: 0.004977659184971996,
+        },
       },
       {
         id: 91,
@@ -18368,6 +20742,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0094177640474278 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 92,
@@ -18418,6 +20794,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.3597882141317101 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 93,
@@ -18467,6 +20845,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0008262277012052442 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 94,
@@ -18520,6 +20900,12 @@ const target_data = [
           bioavailability: 24.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.0006758583400919168 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.004032419953829167,
+          t_half: 0.03605015673981191,
+          bioavailability: 0.0016244633998087614,
+        },
       },
       {
         id: 95,
@@ -18569,6 +20955,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0011637939155721606 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 96,
@@ -18623,6 +21011,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00019553972702755694 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 97,
@@ -18674,6 +21064,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00714263125467272 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 98,
@@ -18732,6 +21124,11 @@ const target_data = [
           bioavailability: 52.4,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.004601889935879721, hERG: 1.0 },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.12539184952978055,
+          bioavailability: 0.004989507933329463,
+        },
       },
       {
         id: 99,
@@ -18786,6 +21183,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.010793425736070407 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 100,
@@ -18840,6 +21239,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.010793425736070407 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 101,
@@ -18889,6 +21290,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.027883376714207403 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 102,
@@ -18936,6 +21339,15 @@ const target_data = [
           bioavailability: 70.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0015870744351545011,
+          hERG: 0.0017751479289940828,
+          solubility: 0.009883166213613206,
+        },
+        norm_pharm_metrics_vivo: {
+          t_half: 0.053918495297805645,
+          bioavailability: 0.007074887644243701,
+        },
       },
       {
         id: 103,
@@ -18982,6 +21394,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 5.592593864981674e-6 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 104,
@@ -19032,6 +21446,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.04391512639338855 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 105,
@@ -19083,6 +21499,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 7.708996462893376e-6 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 106,
@@ -19132,6 +21550,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0003172328764074798 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 107,
@@ -19188,6 +21608,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00021776195430562984 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 108,
@@ -19239,6 +21661,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.016930993270014343 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 109,
@@ -19289,6 +21713,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.026772265350303758 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 110,
@@ -19341,6 +21767,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 111,
@@ -19618,6 +22046,8 @@ const target_data = [
           p3_withdraw_reason: {},
           p3_adverse_event: {},
         },
+        norm_pharm_metrics_vitro: { IC50: 0.013438928983460033 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 112,
@@ -19672,6 +22102,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 113,
@@ -19719,6 +22151,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00899448352784546 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 114,
@@ -19770,6 +22204,8 @@ const target_data = [
           bioavailability: 101.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.016401892620536415 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.010747999635058552 },
       },
       {
         id: 115,
@@ -19824,6 +22260,11 @@ const target_data = [
           bioavailability: 16.1,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00021141274651189471 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.002602755194218609,
+          bioavailability: 0.0006884122795688481,
+        },
       },
       {
         id: 116,
@@ -20544,6 +22985,11 @@ const target_data = [
             "Weill Medical College of Cornell University, New York Hospital Department of Neurology": 0.03571428571428571,
           },
         },
+        norm_pharm_metrics_vitro: {
+          IC50: 0.028994488078111048,
+          solubility: 1.0,
+        },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 117,
@@ -20595,6 +23041,12 @@ const target_data = [
           bioavailability: 72.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.05185163613555743 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.01614912676904547,
+          t_half: 0.05642633228840125,
+          bioavailability: 0.007311862611393046,
+        },
       },
       {
         id: 118,
@@ -20725,6 +23177,8 @@ const target_data = [
             "Yale University School of Medicine, New Haven, CT": 0.4117647058823529,
           },
         },
+        norm_pharm_metrics_vitro: { IC50: 3.4693129586267574e-5 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 119,
@@ -20777,6 +23231,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0005235821297038708 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 120,
@@ -20828,6 +23284,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.18042309395869335 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 121,
@@ -20879,6 +23337,15 @@ const target_data = [
           bioavailability: 17.8,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {
+          IC50: 0.0005827355823155029,
+          hERG: 0.0,
+        },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.002539395764328014,
+          t_half: 0.5109717868338557,
+          bioavailability: 0.0008898410016457914,
+        },
       },
       {
         id: 122,
@@ -20940,6 +23407,12 @@ const target_data = [
           bioavailability: 11.48,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0009909477566997893,
+          t_half: 0.038557993730407525,
+          bioavailability: 0.00014100010545386055,
+        },
       },
       {
         id: 123,
@@ -20994,6 +23467,12 @@ const target_data = [
           bioavailability: 42.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.00045744454851913007 },
+        norm_pharm_metrics_vivo: {
+          AUC: 0.0013349392753186791,
+          t_half: 0.3887147335423198,
+          bioavailability: 0.003757238104152868,
+        },
       },
       {
         id: 124,
@@ -21044,6 +23523,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 125,
@@ -21108,6 +23589,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { EC50: 0.013246823465801569 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 126,
@@ -21152,6 +23635,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: {},
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 127,
@@ -21205,6 +23690,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { Ki: 0.5, IC50: 0.03756591859965344 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 128,
@@ -21254,6 +23741,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.0016399845001022937 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 129,
@@ -21307,6 +23796,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.019047395867926045 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 130,
@@ -21360,6 +23851,8 @@ const target_data = [
           bioavailability: 0.0,
         },
         clinical_statistics: {},
+        norm_pharm_metrics_vitro: { IC50: 0.004497128007283092 },
+        norm_pharm_metrics_vivo: {},
       },
     ],
     medicinal_chemistry_similarity: [
@@ -29896,9 +32389,9 @@ const target_data = [
       AUC_Cl: 37,
       bio_Cl: 37,
       solubility_Cl: 1,
-      adverse_1: 697,
-      adverse_2: 523,
-      adverse_3: 163,
+      adverse_1: 506,
+      adverse_2: 385,
+      adverse_3: 139,
     },
     metrics_distribution: {
       IC50_MC: [
@@ -29929,7 +32422,7 @@ const target_data = [
         3100.0, 40.0, 5480.0, 9800.0, 6.6, 99.0, 34100.0, 110.18, 86.5, 7100.0,
         310.0, 3600.0, 850.0,
       ],
-      Ki_Ph: [500.0],
+      Ki_Ph: [7100.0],
       Kd_Ph: [3.0],
       EC50_Ph: [7.0, 7400.0, 2.0, 300.0, 10.0, 7.0, 100.0],
       Selectivity_Ph: [9, 263, 432, 606, 100],
@@ -29959,29 +32452,31 @@ const target_data = [
       ],
       solubility_Cl: [1265.0],
       adverse_1: [
-        0.04411764705882353, 0.0, 0.0, 0.25, 0.2, 0.04411764705882353, 0.5, 0.0,
-        0.0, 0.4482758620689655, 0.6666666666666666,
+        0.0, 0.0, 0.05, 0.0, 0.0, 0.04411764705882353, 0.0, 0.0, 0.25, 0.2, 0.0,
+        0.2, 0.04411764705882353, 0.5, 0.0, 0.043478260869565216, 0.0, 0.0,
+        0.4482758620689655, 0.6666666666666666, 0.6666666666666666, 0.0, 0.0,
+        0.0, 0.0, 0.5517241379310345, 0.7096774193548387,
       ],
       adverse_2: [
-        0.4375, 0.5, 0.0, 0.3626373626373626, 0.4117647058823529, 0.375,
+        0.4375, 0.5, 0.3626373626373626, 0.4117647058823529, 0.375,
         0.2441860465116279, 0.32967032967032966, 0.0, 0.4666666666666667,
         0.24242424242424243, 0.07142857142857142, 1.0, 0.3333333333333333,
-        0.17857142857142858, 0.6875, 0.0, 0.0, 0.5, 0.14285714285714285,
-        0.06666666666666667, 0.0, 0.0, 0.0, 0.0, 0.037037037037037035, 0.0, 0.0,
-        0.3333333333333333, 0.22105263157894736, 0.0, 0.05, 0.03, 0.0,
-        0.15942028985507245, 0.0, 0.16, 0.6666666666666666, 0.16666666666666666,
-        0.42452830188679247, 0.5714285714285714, 0.011235955056179775,
-        0.019417475728155338, 0.0, 0.0, 0.9428571428571428, 0.2631578947368421,
-        0.0, 0.3333333333333333, 0.0, 0.44, 0.2916666666666667, 0.125,
-        0.027777777777777776, 0.012195121951219513, 0.2463768115942029,
-        0.265625, 0.0, 0.6666666666666666, 0.25, 0.0, 0.0, 0.3333333333333333,
-        0.0, 0.1875, 0.0, 0.037037037037037035, 0.0, 0.45977011494252873, 1.0,
-        0.45454545454545453, 0.0, 0.2, 0.18627450980392157, 0.25,
-        0.06060606060606061, 1.0, 0.125, 0.5858585858585859, 0.6666666666666666,
-        0.3333333333333333, 0.46153846153846156, 0.3333333333333333, 0.0, 0.1,
-        1.0, 0.22105263157894736, 0.42857142857142855, 0.42857142857142855,
-        0.5490196078431373, 0.0, 0.5, 0.01639344262295082, 0.7096774193548387,
-        0.0, 0.043478260869565216, 0.16981132075471697, 0.5517241379310345,
+        0.17857142857142858, 0.6875, 0.5, 0.14285714285714285,
+        0.06666666666666667, 0.037037037037037035, 0.0, 0.0, 0.3333333333333333,
+        0.22105263157894736, 0.0, 0.03, 0.15942028985507245, 0.0, 0.16,
+        0.6666666666666666, 0.16666666666666666, 0.42452830188679247,
+        0.5714285714285714, 0.011235955056179775, 0.019417475728155338, 0.0,
+        0.0, 0.9428571428571428, 0.2631578947368421, 0.0, 0.3333333333333333,
+        0.44, 0.2916666666666667, 0.125, 0.027777777777777776,
+        0.012195121951219513, 0.2463768115942029, 0.265625, 0.0,
+        0.6666666666666666, 0.25, 0.0, 0.3333333333333333, 0.0, 0.1875, 0.0,
+        0.037037037037037035, 0.0, 0.45977011494252873, 1.0,
+        0.45454545454545453, 0.0, 0.18627450980392157, 0.25,
+        0.06060606060606061, 1.0, 0.125, 0.5858585858585859, 0.3333333333333333,
+        0.46153846153846156, 0.3333333333333333, 0.0, 0.1, 1.0,
+        0.22105263157894736, 0.42857142857142855, 0.42857142857142855,
+        0.5490196078431373, 0.0, 0.5, 0.01639344262295082, 0.0,
+        0.16981132075471697,
       ],
       adverse_3: [
         0.3162118780096308, 0.00980392156862745, 0.01675977653631285,

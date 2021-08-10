@@ -11,7 +11,8 @@ import GridLayout from 'react-grid-layout';
 import Selected from './Selected';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-import target_data from '../target'
+import target_data from '../target';
+// import target_data from '../target_fake';
 import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';

@@ -632,7 +632,7 @@ class DetailView extends Component {
                 }
                 // console.log("sankeyData", sankeyData)
 
-                let vitro_raw = paper.pharm_metrics_vitro, vivo_raw = paper.pharm_metrics_vivo;
+                let vitro_raw = paper.pharm_metrics_vitro, vivo_raw = paper.pharm_metrics_vivo, vitro_norm = paper.norm_pharm_metrics_vitro, vivo_norm = paper.norm_pharm_metrics_vivo;
                 // check if empty
                 let vivo_empty = true, vitro_empty = true;
                 Object.values(vivo_raw).forEach(d => {
@@ -647,26 +647,36 @@ class DetailView extends Component {
                         // vitro not empty => only add vitro data
                         if (!vitro_empty) {
                             for (const [key, value] of Object.entries(vitro_raw)) {
-                                vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value })
+                                let norm = 0;
+                                if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
+                                vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
                             }
                         }
                     }
                     else {
                         // sankey empty, vivo not empty => add both data
                         for (const [key, value] of Object.entries(vitro_raw)) {
-                            vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value })
+                            let norm = 0;
+                            if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
+                            vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
                         }
                         for (const [key, value] of Object.entries(vivo_raw)) {
-                            vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value })
+                            let norm = 0;
+                            if (Object.keys(vivo_norm).indexOf(key) !== -1) norm = vivo_norm[key]
+                            vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
                         }
                     }
                 } else {
                     // sankey not empty => add all
                     for (const [key, value] of Object.entries(vitro_raw)) {
-                        vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 100) : value })
+                        let norm = 0;
+                        if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
+                        vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
                     }
                     for (const [key, value] of Object.entries(vivo_raw)) {
-                        vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 100) : value })
+                        let norm = 0;
+                        if (Object.keys(vivo_norm).indexOf(key) !== -1) norm = vivo_norm[key]
+                        vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
                     }
                 }
             })
@@ -1092,20 +1102,17 @@ class DetailView extends Component {
 
                             var metrics = ""
                             for (const [key, value] of Object.entries(d.medicinal_chemistry_metrics)) {
-                                // if (value) metrics += `<span>${key}: ${value}</span><br/>`
-                                metrics += `<span>${key}: ${value ? value : 0}</span><br/>`
+                                let unit = "nM";
+                                if (key === "selectivity") unit = "fold"
+                                if (value)
+                                    metrics += `<span class="tooltip-label">${key}:</span> ${value} ${unit}<br/>`
                             }
                             return `<div class="network-tooltip" style="padding:2px;width:300px">
                         
                         <div class="row" style="margin:0px;padding-left:0px;padding-right:0px">
                         <img class="col-6" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="200px">
                         <div class="col-6">
-                        <span class="tooltip-label">Ki: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Ki"] : 0} nM
-                        <span class="tooltip-label"> Kd: </span>${d.medicinal_chemistry_metrics["Ki"] ? d.medicinal_chemistry_metrics["Kd"] : 0} nM
-                        <br/>
-                        <span class="tooltip-label">IC50: </span>${d.medicinal_chemistry_metrics["IC50"] ? d.medicinal_chemistry_metrics["IC50"] : 0} nM
-                        <span class="tooltip-label"> Sel: </span>${d.medicinal_chemistry_metrics["selectivity"] ? d.medicinal_chemistry_metrics["selectivity"] : 0} fold
-                        <br/>
+                        ${metrics}
                         <span class="tooltip-label">Route length: </span>${d.level ? d.level : 0}
                         </div>
                         </div>
@@ -1126,7 +1133,7 @@ class DetailView extends Component {
                         </div>
                         `}
                         )
-                        .style("left", event.pageX - 350 + "px")
+                        .style("left", event.pageX - 320 + "px")
                         .style("top", event.pageY - 150 + "px")
                         .style("display", "block")
                     // .on("mouseout", () => {
@@ -1139,7 +1146,7 @@ class DetailView extends Component {
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", event.pageX - 350 + "px")
+                        .style("left", event.pageX - 320 + "px")
                         .style("top", event.pageY - 150 + "px");
                 })
                 .on("mouseout", (event, d) => {
@@ -1541,7 +1548,7 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([1, 8]);
 
-            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
 
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
@@ -1572,8 +1579,8 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    if (d.value === 0) return "white"
-                    else return colorScale(Math.log(d.value));
+                    if (d.norm === 0) return "white"
+                    else return colorScale(d.norm);
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -1581,26 +1588,31 @@ class DetailView extends Component {
                 .attr("rx", 2)
                 .attr("ry", 2)
                 .on("mouseover", (event, d) => {
-                    // tooltip
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-
+                    if (d.value !== 0) {
+                        // tooltip
+                        tooltip.transition().duration(200).style("display", "block");
+                        tooltip
+                            .html(
+                                `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
+                            )
+                            .style("left", event.pageX + 10 + "px")
+                            .style("top", event.pageY + 10 + "px");
+                    }
                     // highlight
                     component.handleHighlight(d.id)
 
                 })
                 .on("mousemove", (event, d) => {
-                    tooltip
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
+                    if (d.value !== 0) {
+                        tooltip
+                            .style("left", event.pageX + 10 + "px")
+                            .style("top", event.pageY + 10 + "px");
+                    }
                 })
                 .on("mouseout", (event, d) => {
-                    tooltip.transition().duration(200).style("display", "none");
+                    if (d.value !== 0) {
+                        tooltip.transition().duration(200).style("display", "none");
+                    }
 
                     component.handleUndoHighlight(d.id)
                 })
@@ -2027,7 +2039,7 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
-            var colorScale = d3.scaleQuantize().domain([0, 8]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
             // .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
@@ -2054,8 +2066,8 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    if (d.value === 0) return "white";
-                    else return colorScale(Math.log(d.value));
+                    if (d.norm === 0) return "white";
+                    else return colorScale(d.norm);
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -2063,14 +2075,16 @@ class DetailView extends Component {
                 .attr("rx", 2)
                 .attr("ry", 2)
                 .on("mouseover", (event, d) => {
-                    // tooltip
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
+                    if (d.value !== 0) {
+                        // tooltip
+                        tooltip.transition().duration(200).style("display", "block");
+                        tooltip
+                            .html(
+                                `<span class="tooltip-label">${d.attr}:</span> ${d.value} ${xMetric[xDomain.indexOf(d.attr)]}`
+                            )
+                            .style("left", event.pageX + 10 + "px")
+                            .style("top", event.pageY + 10 + "px");
+                    }
 
                     // highlight
                     component.handleHighlight(d.id)
@@ -2078,12 +2092,16 @@ class DetailView extends Component {
 
                 })
                 .on("mousemove", (event, d) => {
-                    tooltip
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
+                    if (d.value !== 0) {
+                        tooltip
+                            .style("left", event.pageX + 10 + "px")
+                            .style("top", event.pageY + 10 + "px");
+                    }
                 })
                 .on("mouseout", (event, d) => {
-                    tooltip.transition().duration(200).style("display", "none");
+                    if (d.value !== 0) {
+                        tooltip.transition().duration(200).style("display", "none");
+                    }
 
                     component.handleUndoHighlight(d.id)
                 })
@@ -2103,7 +2121,7 @@ class DetailView extends Component {
     sortBy(data, attr, acsending) {
         var yDomain = [];
         data.forEach(d => {
-            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.value])
+            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.norm])
         })
         yDomain = yDomain.sort((a, b) => acsending ? (a[1] - b[1]) : (b[1] - a[1])).map(d => d[0])
         // console.log("ydomain", yDomain)
@@ -2222,23 +2240,23 @@ class DetailView extends Component {
                 .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left + 1 / 6 * this.state.sankeyWidth) + "," + margin.top + ")");
 
             // legend
-            svg.append("rect")
-                .attr("x", 120)
-                .attr("y", -30)
-                .attr("width", 30)
-                .attr("height", 15)
-                .style("fill", "#E8E7F5")
-                .style("stroke-width", 0.5)
-                .style("stroke", "white")
+            // svg.append("rect")
+            //     .attr("x", 120)
+            //     .attr("y", -30)
+            //     .attr("width", 30)
+            //     .attr("height", 15)
+            //     .style("fill", "#E8E7F5")
+            //     .style("stroke-width", 0.5)
+            //     .style("stroke", "white")
+            // svg.append("text")
+            //     .attr("x", 128)
+            //     .attr("y", -19)
+            //     .text("1-2")
+            //     .style("font-size", 10)
             svg.append("text")
-                .attr("x", 128)
-                .attr("y", -19)
-                .text("1-2")
-                .style("font-size", 10)
-            svg.append("text")
-                .attr("x", 155)
-                .attr("y", -20)
-                .text("1: drug number  2: company number")
+                .attr("x", 230)
+                .attr("y", -25)
+                .text("Drug ID - Company ID")
                 .style("font-size", 10)
 
             // console.log("sankeydata", this.props.sankeydata)
@@ -2454,13 +2472,13 @@ class DetailView extends Component {
                         .data(border_list)
                         .enter()
                         .append("text")
-                        .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3)
+                        .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 2)
                         .attr("y", (d, i) => (d.height + 1 / 2 * d.length) * rectHeight + offset + 2)
                         .attr("width", 40)
                         .attr("height", d => d.length * rectHeight)
                         .attr("class", "sankey")
                         .text(d => statuslist[d.status])
-                        .style("font-size", 11)
+                        .style("font-size", 10)
                         .attr("text-anchor", "start")
                         .style("fill", "#495057")
 

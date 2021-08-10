@@ -104,7 +104,7 @@ class HeatSquare extends Component {
 
 
         const colors = [["#FDEBEB", "#E78A8A"], ["#DAEAF0", "#76B7CB"], ["#E5E5F8", "#AEAED3"]],
-            text = [120, 120, 700];
+            text = [120, 120, 520];
         colors.forEach((color, i) => {
             var linearGradient = svg.append("defs").append("linearGradient")
                 .attr("id", `linear-gradient-${i}`);
@@ -914,7 +914,7 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#BFE9D5", "#9FD3BB", "#7CC1A0", "#60AD88", "#43906B"])  // green
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#E7E5F8", "#DAD6F3", "#C7C1ED", "#BBB5E6", "#AFA8E1"])  // purple
-        var colorScale = d3.scaleQuantize().domain([0, 700]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
+        var colorScale = d3.scaleQuantize().domain([0, 520]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
 
 
         // square scale
@@ -971,7 +971,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 44]); // fixed?
+                    .domain([0, 30]); // fixed?
 
                 let line = d3
                     .line()
