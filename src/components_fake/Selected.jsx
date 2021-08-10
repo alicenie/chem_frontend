@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import STAT3 from '../target_img/STAT3.png';
-import ALK from '../target_img/ALK.png';
-import EGFR from '../target_img/EGFR.png';
-import HER2 from '../target_img/HER2.png';
-import KRAS from '../target_img/KRAS.png';
+import Unknown from '../target_img/unknown.png';
+import fake2 from '../target_img/fake2.jpeg';
 import IconButton from '@material-ui/core/IconButton';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import Divider from '@material-ui/core/Divider';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-// import Avatar from '@material-ui/core/Avatar';
-// import Typography from '@material-ui/core/Typography';
 import ReactTooltip from 'react-tooltip';
 import { ScrollSyncPane } from 'react-scroll-sync';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -59,13 +49,7 @@ class Selected extends Component {
     }
 
     render() {
-        const img = {
-            ALK: ALK,
-            EGFR: EGFR,
-            HER2: HER2,
-            KRAS: KRAS,
-            STAT3: STAT3
-        }
+        const img = [Unknown, fake2]
         return (
             <ScrollSyncPane>
                 <div style={{ overflow: "auto", marginTop: 15 }}>
@@ -80,7 +64,7 @@ class Selected extends Component {
                     }}> */}
                     <ul style={{ height: this.state.Height, listStyleType: "none", margin: 5, paddingLeft: 14 }}>
 
-                        {this.props.value.map(i => {
+                        {this.props.value.map((i, index) => {
                             console.log("i", i)
                             // const img = require(`${'../target_img/Janus_kinase.png'}`)
 
@@ -88,9 +72,9 @@ class Selected extends Component {
                                 <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
                                     <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", borderRadius: "10px", backgroundColor: this.color(i) }}>
                                         <div className="col-3" style={{ paddingLeft: 6 }} >
-                                            <img src={img[i.label]} width="80" data-tip data-for="img-tooltip" />
+                                            <img src={img[index]} width="80" data-tip data-for="img-tooltip" />
                                             <ReactTooltip id="img-tooltip" type="light">
-                                                <img src={img[i.label]} width="200" />
+                                                <img src={img[index]} width="200" />
                                             </ReactTooltip>
                                         </div>
                                         <div

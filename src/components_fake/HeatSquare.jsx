@@ -976,7 +976,7 @@ class HeatSquare extends Component {
                 let yLineScale = d3
                     .scaleLinear()
                     .range([height - 10, 0])
-                    .domain([0, 30]); // fixed?
+                    .domain([0, 40]); // fixed?
 
                 let line = d3
                     .line()

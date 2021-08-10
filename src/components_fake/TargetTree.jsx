@@ -44,37 +44,36 @@ const cancer_tree = {
                     "name": "EGFR",
                     "children": [
                         {
-                            "name": "Grb2",
+                            "name": "PREP",
                             "children": [
+
+
                                 {
-                                    "name": "SOS",
+                                    "name": "KRAS",
                                     "children": [
                                         {
-                                            "name": "KRAS",
+                                            "name": "BRAF",
                                             "children": [
                                                 {
-                                                    "name": "BRAF",
-                                                    "children": [
-                                                        {
-                                                            "name": "MEK",
-                                                            "children":
-                                                                [
-                                                                    {
-                                                                        "name": "ERK"
-                                                                    }
-                                                                ]
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "name": "PI3K"
+                                                    "name": "MEK",
+                                                    "children":
+                                                        [
+                                                            {
+                                                                "name": "ERK"
+                                                            }
+                                                        ]
                                                 }
-
                                             ]
+                                        },
+                                        {
+                                            "name": "PI3K"
                                         }
-                                    ]
 
+                                    ]
                                 }
+
+
+
                             ]
                         },
                         {
@@ -111,7 +110,7 @@ const cancer_tree = {
                     "name": "ALK",
                     "children": [
                         {
-                            "name": "Grb2"
+                            "name": "PREP"
                         },
                         {
                             "name": "PI3K"
@@ -131,7 +130,7 @@ const cancer_tree = {
                     "name": "HER2",
                     "children": [
                         {
-                            "name": "Grb2"
+                            "name": "PREP"
                         },
                         {
                             "name": "PI3K"
@@ -243,7 +242,7 @@ class TargetTree extends Component {
             node.y -= 42
         })
 
-        temp_names = ["KRAS", "SOS", "STAT3"]
+        temp_names = ["KRAS", "STAT3"]
         temp_names.forEach(name => {
             let node = nodes.filter(d => d.data.name === name)[0]
             node.x += 118

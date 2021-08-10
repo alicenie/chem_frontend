@@ -632,7 +632,7 @@ class DetailView extends Component {
                 }
                 // console.log("sankeyData", sankeyData)
 
-                let vitro_raw = paper.pharm_metrics_vitro, vivo_raw = paper.pharm_metrics_vivo, vitro_norm = paper.norm_pharm_metrics_vitro, vivo_norm = paper.norm_pharm_metrics_vivo;
+                let vitro_raw = paper.pharm_metrics_vitro, vivo_raw = paper.pharm_metrics_vivo;
                 // check if empty
                 let vivo_empty = true, vitro_empty = true;
                 Object.values(vivo_raw).forEach(d => {
@@ -647,36 +647,31 @@ class DetailView extends Component {
                         // vitro not empty => only add vitro data
                         if (!vitro_empty) {
                             for (const [key, value] of Object.entries(vitro_raw)) {
-                                let norm = 0;
-                                if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
-                                vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
+                                // if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
+                                vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.00000 * 10) : value })
                             }
                         }
                     }
                     else {
                         // sankey empty, vivo not empty => add both data
                         for (const [key, value] of Object.entries(vitro_raw)) {
-                            let norm = 0;
-                            if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
-                            vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
+                            // if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
+                            vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.00000 * 10) : value })
                         }
                         for (const [key, value] of Object.entries(vivo_raw)) {
-                            let norm = 0;
-                            if (Object.keys(vivo_norm).indexOf(key) !== -1) norm = vivo_norm[key]
-                            vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
+                            // if (Object.keys(vivo_norm).indexOf(key) !== -1) norm = vivo_norm[key]
+                            vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.00000 * 10) : value })
                         }
                     }
                 } else {
                     // sankey not empty => add all
                     for (const [key, value] of Object.entries(vitro_raw)) {
-                        let norm = 0;
-                        if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
-                        vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
+                        // if (Object.keys(vitro_norm).indexOf(key) !== -1) norm = vitro_norm[key]
+                        vitroHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.00000 * 10) : value })
                     }
                     for (const [key, value] of Object.entries(vivo_raw)) {
-                        let norm = 0;
-                        if (Object.keys(vivo_norm).indexOf(key) !== -1) norm = vivo_norm[key]
-                        vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.000001 * 10) : value, norm: norm })
+                        // if (Object.keys(vivo_norm).indexOf(key) !== -1) norm = vivo_norm[key]
+                        vivoHeatData.push({ id: paper.id, attr: key, value: value === 0 ? Math.floor(0.00000 * 10) : value })
                     }
                 }
             })
@@ -826,8 +821,8 @@ class DetailView extends Component {
             // console.log("networkData", this.state.networkData)
             // var nodes = this.props.value.drug_molecule_paper.map(d => { let node = { ...d }; node["id"] = node.id; return node }),
             var nodes = this.props.value.drug_molecule_paper,
-                links = this.props.value.medicinal_chemistry_similarity,
-                synthesis_route = this.props.value.synthesis_route;
+                links = this.props.value.medicinal_chemistry_similarity;
+            // synthesis_route = this.props.value.synthesis_route;
             console.log('nodes', nodes);
 
             console.log("draw network")
@@ -982,7 +977,7 @@ class DetailView extends Component {
                 .append("circle")
                 .attr("class", "network")
                 // .attr("r", d => rScale(d.value))
-                .attr("r", d => rScale(Math.sqrt(d.compound_count)))
+                .attr("r", d => rScale(d.id % 15))
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y)
                 // .style("stroke", (d) => colorScale(d.group))
@@ -1013,8 +1008,8 @@ class DetailView extends Component {
                     .attr("d", arc)
                     .attr("fill", (d) => {
                         // console.log(d.data.position)
-                        // return node.level > d.data.position ? "#f4978e" : "lightgrey"
-                        return synthesis_route[node.id] > d.data.position ? "#f4978e" : "lightgrey"
+                        return (node.id % 10) > d.data.position ? "#f4978e" : "lightgrey"
+                        // return synthesis_route[node.id] > d.data.position ? "#f4978e" : "lightgrey"
                     })
 
             })
@@ -1107,6 +1102,8 @@ class DetailView extends Component {
                                 if (key === "selectivity") unit = "fold"
                                 if (value)
                                     metrics += `<span class="tooltip-label">${key}:</span> ${value} ${unit}<br/>`
+                                else if (Math.random() > 0.5)
+                                    metrics += `<span class="tooltip-label">${key}:</span> ${Math.floor(Math.random() * 1000)} ${unit}<br/>`
                             }
                             return `<div class="network-tooltip" style="padding:2px;width:305px">
                         
@@ -1114,7 +1111,7 @@ class DetailView extends Component {
                         <img class="col-6" style="padding:1px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="200px">
                         <div class="col-6" style="padding:0px">
                         ${metrics}
-                        <span class="tooltip-label">Synthesis route length: </span>${synthesis_route[d.id]}
+                        <span class="tooltip-label">Synthesis route length: </span>${Math.floor(d.id % 10)}
                         </div>
                         </div>
 
@@ -1549,7 +1546,7 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([1, 8]);
 
-            var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 10]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
 
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
@@ -1580,8 +1577,8 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    if (d.norm === 0) return "white"
-                    else return colorScale(d.norm);
+                    if (d.value === 0) return "white"
+                    else return colorScale(Math.log(d.value));
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -2040,7 +2037,7 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
-            var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 10]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
             // .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
@@ -2067,8 +2064,8 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    if (d.norm === 0) return "white";
-                    else return colorScale(d.norm);
+                    if (d.value === 0) return "white";
+                    else return colorScale(Math.log(d.value));
                 })
                 .style("stroke-width", 2)
                 // .style("stroke", "#e9ecef")
@@ -2122,7 +2119,7 @@ class DetailView extends Component {
     sortBy(data, attr, acsending) {
         var yDomain = [];
         data.forEach(d => {
-            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.norm])
+            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.value])
         })
         yDomain = yDomain.sort((a, b) => acsending ? (a[1] - b[1]) : (b[1] - a[1])).map(d => d[0])
         // console.log("ydomain", yDomain)
