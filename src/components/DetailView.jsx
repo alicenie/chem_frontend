@@ -1203,120 +1203,15 @@ class DetailView extends Component {
             .style("opacity", 0.9)
             .style("display", "none");
 
-        // // arrow
-        // svg
-        //     .append('defs')
-        //     .append('marker')
-        //     .attr('id', 'arrow')
-        //     .attr('viewBox', [0, 0, 8, 8])
-        //     .attr('refX', 3)
-        //     .attr('refY', -1)
-        //     .attr('markerWidth', 2)
-        //     .attr('markerHeight', 2)
-        //     .attr("stroke-width", 1)
-        //     .attr('orient', 'auto-start-reverse')
-
-        // ascending icon
-        var ascendDef = svg.append('defs').append("g").attr("id", "ascending");
-
-        ascendDef.append("rect")
-            .attr("x", -1)
-            .attr("y", -7)
-            .attr("width", 10)
-            .attr("height", 19)
-            .style("fill", "white")
-            .attr("rx", 2)
-            .attr("ry", 2)
-
-        ascendDef
-            .append("text")
-            .attr("x", 4)
-            .attr("y", 1)
-            .text('1')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        ascendDef
-            .append("text")
-            .attr("x", 4)
-            .attr("y", 10)
-            .text('9')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        ascendDef.append("line")
-            .style("stroke", "#8b8b8b")
-            .style("stroke-width", 1)
-            .attr("x1", 2)
-            .attr("y1", -3)
-            .attr("x2", 2)
-            .attr("y2", 10)
-        // .attr('marker-start', 'url(#arrow)')
-        ascendDef.append('path')
-            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
-            .attr("transform", "rotate(-90)")
-            .style("stroke", "none")
-            .style("fill", "#8b8b8b")
-
-
-        // descending icon
-        var descendDef = svg.append('defs').append("g").attr("id", "descending")
-        // .attr("x", 20).attr("y", 20).style("border", "black").style("border-width", 1);
-
-        descendDef.append("rect")
-            .attr("x", -4)
-            .attr("y", -12)
-            .attr("width", 10)
-            .attr("height", 19)
-            .style("fill", "white")
-            .attr("rx", 2)
-            .attr("ry", 2)
-
-        descendDef
-            .append("text")
-            .attr("x", 0)
-            .attr("y", -4)
-            .text('9')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        descendDef
-            .append("text")
-            .attr("x", 0)
-            .attr("y", 5)
-            .text('1')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        descendDef.append("line")
-            .style("stroke", "#8b8b8b")
-            .style("stroke-width", 1)
-            .attr("x1", -2)
-            .attr("y1", -10)
-            .attr("x2", -2)
-            .attr("y2", 4)
-        // .attr('marker-start', 'url(#arrow)')
-        descendDef.append('path')
-            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
-            .attr("transform", "rotate(90)")
-            .style("stroke", "none")
-            .style("fill", "#8b8b8b")
 
         // draw ascending
         var ascending = svg.selectAll()
             .data(xDomain).enter()
-            // .append("g")
-            .append("use").attr("xlink:href", "#ascending")
+            .append("g")
+            // .append("use").attr("xlink:href", "#ascending")
             .attr("transform", (d) => { return "translate(" + (xScale(d) + 3) + ",40)"; })
-            .style("opacity", d => {
-                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) {
-                    return 1
-                } else if (this.state.vitroSort.attr) {
-                    return 0.3
-                } else {
-                    return 0.6
-                }
-            })
+            .attr("cursor", "pointer")
+            .style("opacity", 1)
             .attr("class", "vitro-sort-a")
             .on("click", (event, d) => {
                 if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) {
@@ -1359,21 +1254,67 @@ class DetailView extends Component {
                 tooltip.transition().duration(400).style("display", "none");
             });
 
+        ascending.append("rect")
+            .attr("x", -1)
+            .attr("y", -7)
+            .attr("width", 10)
+            .attr("height", 19)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        ascending
+            .append("text")
+            .attr("x", 4)
+            .attr("y", 1)
+            .text('1')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        ascending
+            .append("text")
+            .attr("x", 4)
+            .attr("y", 10)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        ascending.append("line")
+            .style("stroke", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+            .style("stroke-width", 1)
+            .attr("x1", 2)
+            .attr("y1", -3)
+            .attr("x2", 2)
+            .attr("y2", 10)
+
+        ascending.append('path')
+            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
+            .attr("transform", "rotate(-90)")
+            .style("stroke", "none")
+            .style("fill", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+
         // draw descending
-        svg.selectAll()
+        var descending = svg.selectAll()
             .data(xDomain).enter()
-            .append("use").attr("xlink:href", "#descending")
+            .append("g")
+            // .append("use").attr("xlink:href", "#descending")
             .attr("transform", (d) => { return "translate(" + (xScale(d) + 17) + ",45)"; })
             .attr("class", "vitro-sort-de")
-            .style("opacity", d => {
-                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) {
-                    return 1
-                } else if (this.state.vitroSort.attr) {
-                    return 0.3
-                } else {
-                    return 0.6
-                }
-            })
+            .style("opacity", 1)
+            .attr("cursor", "pointer")
             .on("click", (_, d) => {
                 if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) {
                     // clicked --> unclick both, show unclicked ascending, hide descending
@@ -1408,6 +1349,57 @@ class DetailView extends Component {
                 // d3.selectAll("path.vitro-sort-de").style("cursor", "default")
                 tooltip.transition().duration(400).style("display", "none");
             });
+
+        descending.append("rect")
+            .attr("x", -4)
+            .attr("y", -12)
+            .attr("width", 10)
+            .attr("height", 19)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        descending
+            .append("text")
+            .attr("x", 0)
+            .attr("y", -4)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        descending
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 5)
+            .text('1')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        descending.append("line")
+            .style("stroke", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+            .style("stroke-width", 1)
+            .attr("x1", -2)
+            .attr("y1", -10)
+            .attr("x2", -2)
+            .attr("y2", 4)
+
+        descending.append('path')
+            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
+            .attr("transform", "rotate(90)")
+            .style("stroke", "none")
+            .style("fill", d => {
+                if (this.state.vitroSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vitroSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
 
         // svg.append("g").call(d3.axisTop(xScale))
         //     .call(g => {
@@ -1693,106 +1685,16 @@ class DetailView extends Component {
             .style("opacity", 0.9)
             .style("display", "none");
 
-        // ascending icon
-        var ascendDef = svg.append('defs').append("g").attr("id", "ascending");
 
-        ascendDef.append("rect")
-            .attr("x", -1)
-            .attr("y", -7)
-            .attr("width", 10)
-            .attr("height", 19)
-            .style("fill", "white")
-            .attr("rx", 2)
-            .attr("ry", 2)
-
-        ascendDef
-            .append("text")
-            .attr("x", 4)
-            .attr("y", 1)
-            .text('1')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        ascendDef
-            .append("text")
-            .attr("x", 4)
-            .attr("y", 10)
-            .text('9')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        ascendDef.append("line")
-            .style("stroke", "#8b8b8b")
-            .style("stroke-width", 1)
-            .attr("x1", 2)
-            .attr("y1", -3)
-            .attr("x2", 2)
-            .attr("y2", 10)
-        // .attr('marker-start', 'url(#arrow)')
-        ascendDef.append('path')
-            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
-            .attr("transform", "rotate(-90)")
-            .style("stroke", "none")
-            .style("fill", "#8b8b8b")
-
-
-        // descending icon
-        var descendDef = svg.append('defs').append("g").attr("id", "descending")
-        // .attr("x", 20).attr("y", 20).style("border", "black").style("border-width", 1);
-
-        descendDef.append("rect")
-            .attr("x", -4)
-            .attr("y", -12)
-            .attr("width", 10)
-            .attr("height", 19)
-            .style("fill", "white")
-            .attr("rx", 2)
-            .attr("ry", 2)
-
-        descendDef
-            .append("text")
-            .attr("x", 0)
-            .attr("y", -4)
-            .text('9')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        descendDef
-            .append("text")
-            .attr("x", 0)
-            .attr("y", 5)
-            .text('1')
-            .style("font-size", 9)
-            .style("fill", "#8b8b8b")
-
-        descendDef.append("line")
-            .style("stroke", "#8b8b8b")
-            .style("stroke-width", 1)
-            .attr("x1", -2)
-            .attr("y1", -10)
-            .attr("x2", -2)
-            .attr("y2", 4)
-        // .attr('marker-start', 'url(#arrow)')
-        descendDef.append('path')
-            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
-            .attr("transform", "rotate(90)")
-            .style("stroke", "none")
-            .style("fill", "#8b8b8b")
 
         // draw ascending
-        svg.selectAll()
+        var ascending = svg.selectAll()
             .data(xDomain).enter()
-            .append("use").attr("xlink:href", "#ascending")
+            .append("g")
+            // .append("use").attr("xlink:href", "#ascending")
             .attr("transform", (d) => { return "translate(" + (xScale(d) + 3) + ",40)"; })
-            .style("opacity", d => {
-                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) {
-                    return 1
-                } else if (this.state.vivoSort.attr) {
-                    return 0.3
-                } else {
-                    return 0.6
-                }
-            })
+            .attr("cursor", "pointer")
+            .style("opacity", 1)
             .attr("class", "vitro-sort-a")
             .on("click", (event, d) => {
                 if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) {
@@ -1835,21 +1737,67 @@ class DetailView extends Component {
                 tooltip.transition().duration(400).style("display", "none");
             });
 
+        ascending.append("rect")
+            .attr("x", -1)
+            .attr("y", -7)
+            .attr("width", 10)
+            .attr("height", 19)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
+
+        ascending
+            .append("text")
+            .attr("x", 4)
+            .attr("y", 1)
+            .text('1')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        ascending
+            .append("text")
+            .attr("x", 4)
+            .attr("y", 10)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        ascending.append("line")
+            .style("stroke", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+            .style("stroke-width", 1)
+            .attr("x1", 2)
+            .attr("y1", -3)
+            .attr("x2", 2)
+            .attr("y2", 10)
+
+        ascending.append('path')
+            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
+            .attr("transform", "rotate(-90)")
+            .style("stroke", "none")
+            .style("fill", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+
         // draw descending
-        svg.selectAll()
+        var descending = svg.selectAll()
             .data(xDomain).enter()
-            .append("use").attr("xlink:href", "#descending")
+            .append("g")
+            // .append("use").attr("xlink:href", "#descending")
             .attr("transform", (d) => { return "translate(" + (xScale(d) + 17) + ",45)"; })
             .attr("class", "vitro-sort-de")
-            .style("opacity", d => {
-                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) {
-                    return 1
-                } else if (this.state.vivoSort.attr) {
-                    return 0.3
-                } else {
-                    return 0.6
-                }
-            })
+            .style("opacity", 1)
+            .attr("cursor", "pointer")
             .on("click", (_, d) => {
                 if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) {
                     // clicked --> unclick both, show unclicked ascending, hide descending
@@ -1885,7 +1833,58 @@ class DetailView extends Component {
                 tooltip.transition().duration(400).style("display", "none");
             });
 
+        descending.append("rect")
+            .attr("x", -4)
+            .attr("y", -12)
+            .attr("width", 10)
+            .attr("height", 19)
+            .style("fill", "white")
+            .attr("rx", 2)
+            .attr("ry", 2)
 
+        descending
+            .append("text")
+            .attr("x", 0)
+            .attr("y", -4)
+            .text('9')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        descending
+            .append("text")
+            .attr("x", 0)
+            .attr("y", 5)
+            .text('1')
+            .style("font-size", 9)
+            .style("fill", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        descending.append("line")
+            .style("stroke", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+            .style("stroke-width", 1)
+            .attr("x1", -2)
+            .attr("y1", -10)
+            .attr("x2", -2)
+            .attr("y2", 4)
+
+        descending.append('path')
+            .attr('d', d3.line()([[0, 0], [0, 4], [6, 2]]))
+            .attr("transform", "rotate(90)")
+            .style("stroke", "none")
+            .style("fill", d => {
+                if (this.state.vivoSort.attr === xAttr[xDomain.indexOf(d)] && !this.state.vivoSort.acsending) return "#6EAFC4"
+                else return "#8b8b8b"
+            })
+
+        // text
         svg.selectAll().data(xDomain).enter()
             .append("g").attr("transform", d => "translate(" + (xScale(d) + 13) + ",30)")
             .attr("text-anchor", "middle")
