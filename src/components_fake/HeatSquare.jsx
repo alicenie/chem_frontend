@@ -5,25 +5,25 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import AddColumn from './AddColumn';
 
 const domains = [
-    { text: "IC50_MC", label: "IC_50", unit: "nM", area: 1, index: 1 },
-    { text: "Ki_MC", label: "Ki", unit: "nM", area: 1, index: 2 },
-    { text: "Kd_MC", label: "Kd", unit: "nM", area: 1, index: 3 },
-    { text: "Selectivity_MC", label: "Selectivity", unit: "fold", area: 1, index: 4 },
-    { text: "IC50_Ph", label: "IC50", unit: "nM", area: 2, index: 5 },
-    { text: "Ki_Ph", label: "Ki", unit: "nM", area: 2, index: 6 },
-    { text: "Kd_Ph", label: "Kd", unit: "nM", area: 2, index: 7 },
-    { text: "EC50_Ph", label: "EC50", unit: "nM", area: 2, index: 8 },
-    { text: "Selectivity_Ph", label: "Selectivity", unit: "fold", area: 2, index: 9 },
-    { text: "hERG_Ph", label: "hERG", unit: "nM", area: 2, index: 10 },
-    { text: "solubility_Ph", label: "Solubility", unit: "µg/mL", area: 2, index: 11 },
-    { text: "ED50_Cl", label: "ED50", unit: "µg/animal", area: 2, index: 12 },
-    { text: "thalf_Cl", label: "t 1/2", unit: "h", area: 2, index: 13 },
-    { text: "AUC_Cl", label: "AUC", unit: "ng•h/mL", area: 2, index: 14 },
-    { text: "bio_Cl", label: "Bioavailability", unit: "%", area: 2, index: 15 },
-    { text: "solubility_Cl", label: "Solubility", unit: "µg/mL", area: 2, index: 16 },
-    { text: "adverse_1", label: "Adverse Effects-I", unit: "%", area: 3, index: 17 },
-    { text: "adverse_2", label: "Adverse Effects-II", unit: "%", area: 3, index: 18 },
-    { text: "adverse_3", label: "Adverse Effects-III", unit: "%", area: 3, index: 19 },
+    { text: "IC50_MC", label: "IC_50", unit: "nM", area: 1, index: 1, remark: "the less the better" },
+    { text: "Ki_MC", label: "Ki", unit: "nM", area: 1, index: 2, remark: "the less the better" },
+    { text: "Kd_MC", label: "Kd", unit: "nM", area: 1, index: 3, remark: "the less the better" },
+    { text: "Selectivity_MC", label: "Selectivity", unit: "fold", area: 1, index: 4, remark: "the more the better" },
+    { text: "IC50_Ph", label: "IC50", unit: "nM", area: 2, index: 5, remark: "the less the better" },
+    { text: "Ki_Ph", label: "Ki", unit: "nM", area: 2, index: 6, remark: "the less the better" },
+    { text: "Kd_Ph", label: "Kd", unit: "nM", area: 2, index: 7, remark: "the less the better" },
+    { text: "EC50_Ph", label: "EC50", unit: "nM", area: 2, index: 8, remark: "the less the better" },
+    { text: "Selectivity_Ph", label: "Selectivity", unit: "fold", area: 2, index: 9, remark: "the more the better" },
+    { text: "hERG_Ph", label: "hERG", unit: "nM", area: 2, index: 10, remark: "the more the better" },
+    { text: "solubility_Ph", label: "Solubility", unit: "µg/mL", area: 2, index: 11, remark: "the more the better" },
+    { text: "ED50_Cl", label: "ED50", unit: "µg/animal", area: 2, index: 12, remark: "the more the better" },
+    { text: "thalf_Cl", label: "t 1/2", unit: "h", area: 2, index: 13, remark: "depend on indication" },
+    { text: "AUC_Cl", label: "AUC", unit: "ng•h/mL", area: 2, index: 14, remark: "the more the better" },
+    { text: "bio_Cl", label: "Bioavailability", unit: "%", area: 2, index: 15, remark: "the more the better" },
+    { text: "solubility_Cl", label: "Solubility", unit: "µg/mL", area: 2, index: 16, remark: "the more the better" },
+    { text: "adverse_1", label: "Adverse Effects-I", unit: "%", area: 3, index: 17, remark: "the less the better" },
+    { text: "adverse_2", label: "Adverse Effects-II", unit: "%", area: 3, index: 18, remark: "the less the better" },
+    { text: "adverse_3", label: "Adverse Effects-III", unit: "%", area: 3, index: 19, remark: "the less the better" },
 ]
 
 class HeatSquare extends Component {
@@ -57,22 +57,23 @@ class HeatSquare extends Component {
 
         // get xscale for each col
         let line_domains = {};
-        let without_log = ["adverse_1", "adverse_2", "adverse_3"];
+        let without_log = ["adverse_1", "adverse_2", "adverse_3", "bio_Cl"];
         this.state.targetList.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = [...d.metrics_distribution[key].map(d => {
                         if (key === "thalf_Cl") return d
-                        d = Math.floor(Math.log(d))
-                        return d + d % 2
+                        d = Math.floor(Math.log10(d))
+                        // return d + d % 2
+                        return d
                     })];
                 })
             else
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(d => {
                         if (key === "thalf_Cl") return Math.floor(d)
-                        d = Math.floor(Math.log(d))
-                        return d + d % 2
+                        d = Math.floor(Math.log10(d))
+                        return d
                     }));
                 })
         })
@@ -169,7 +170,7 @@ class HeatSquare extends Component {
             .attr("id", "upper-axis")
             .style("opacity", 0)
             .append("g")
-            .attr("transform", "translate(" + marginL + ",12) ");
+            .attr("transform", "translate(" + marginL + ",20) ");
 
         // set tooltips
         var tooltip = d3
@@ -181,7 +182,7 @@ class HeatSquare extends Component {
             .style("display", "none");
 
         var num_attr = this.state.curAttr.length
-        var num_character = 6 + (19 - num_attr);
+        var num_character = 5 + (19 - num_attr);
         var num_character_unit = 3 + (19 - num_attr);
 
         /////// med chem ////////
@@ -200,7 +201,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let attr = d.label;
-                if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                if (attr.length > num_character) return attr.substr(0, num_character) + ".."
                 else return attr
             })
             .attr("x", (d) => {
@@ -211,15 +212,15 @@ class HeatSquare extends Component {
             .style("font-size", 10)
             .style("cursor", "default")
             .on("mouseover", (event, d) => {
-                if (d.label.length > num_character) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.label}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
+                // if (d.label.length > num_character) {
+                tooltip.transition().duration(200).style("display", "block");
+                tooltip
+                    .html(
+                        `<span class="overview-hover">${d.label} (${d.remark})</span>`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+                // }
             })
             .on("mousemove", (event, d) => {
                 tooltip
@@ -230,49 +231,49 @@ class HeatSquare extends Component {
                 tooltip.transition().duration(200).style("display", "none");
             })
 
-        svg1
-            .selectAll()
-            .data(attr1)
-            .enter()
-            .append("text")
-            .text(d => {
-                let unit = d.unit;
-                if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
-                else return "(" + unit + ")"
-            })
-            .attr("x", (d) => {
-                return xScale1(d.text) + xScale1.bandwidth() / 2
-            })
-            .attr("y", 11)
-            .attr("text-anchor", "middle")
-            .style("font-size", 10)
-            .style("cursor", "default")
-            .on("mouseover", (event, d) => {
-                if (d.unit.length > num_character_unit) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.unit}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
-            })
-            .on("mousemove", (event, d) => {
-                tooltip
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseout", (event, d) => {
-                tooltip.transition().duration(200).style("display", "none");
-            })
+        // svg1
+        //     .selectAll()
+        //     .data(attr1)
+        //     .enter()
+        //     .append("text")
+        //     .text(d => {
+        //         let unit = d.unit;
+        //         if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
+        //         else return "(" + unit + ")"
+        //     })
+        //     .attr("x", (d) => {
+        //         return xScale1(d.text) + xScale1.bandwidth() / 2
+        //     })
+        //     .attr("y", 11)
+        //     .attr("text-anchor", "middle")
+        //     .style("font-size", 10)
+        //     .style("cursor", "default")
+        //     .on("mouseover", (event, d) => {
+        //         if (d.unit.length > num_character_unit) {
+        //             tooltip.transition().duration(200).style("display", "block");
+        //             tooltip
+        //                 .html(
+        //                     `<span class="overview-hover">${d.unit}</span>`
+        //                 )
+        //                 .style("left", event.pageX + 10 + "px")
+        //                 .style("top", event.pageY + 10 + "px");
+        //         }
+        //     })
+        //     .on("mousemove", (event, d) => {
+        //         tooltip
+        //             .style("left", event.pageX + 10 + "px")
+        //             .style("top", event.pageY + 10 + "px");
+        //     })
+        //     .on("mouseout", (event, d) => {
+        //         tooltip.transition().duration(200).style("display", "none");
+        //     })
 
         svg1
             .selectAll("path#cross")
             .data(attr1)
             .enter()
             .append("g")
-            .attr("transform", d => "translate(" + (xScale1(d.text) + xScale1.bandwidth() - 5) + ",8), rotate(45)")
+            .attr("transform", d => "translate(" + (xScale1(d.text) + xScale1.bandwidth() - 5) + ",-3), rotate(45)")
             .append("path")
             .attr("d", d3.symbol().type(d3.symbolCross).size(40)())
             .style("fill", "#c1c1c1")
@@ -318,7 +319,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let attr = d.label;
-                if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                if (attr.length > num_character) return attr.substr(0, num_character) + ".."
                 else return attr
             })
             .attr("x", (d) => {
@@ -333,15 +334,15 @@ class HeatSquare extends Component {
                 this.handleRemoveAttr(attr)
             })
             .on("mouseover", (event, d) => {
-                if (d.label.length > num_character) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.label}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
+                // if (d.label.length > num_character) {
+                tooltip.transition().duration(200).style("display", "block");
+                tooltip
+                    .html(
+                        `<span class="overview-hover">${d.label} (${d.remark})</span>`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+                // }
             })
             .on("mousemove", (event, d) => {
                 tooltip
@@ -352,49 +353,49 @@ class HeatSquare extends Component {
                 tooltip.transition().duration(200).style("display", "none");
             })
 
-        svg2
-            .selectAll()
-            .data(attr2)
-            .enter()
-            .append("text")
-            .text(d => {
-                let unit = d.unit;
-                if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
-                else return "(" + unit + ")"
-            })
-            .attr("x", (d) => {
-                return xScale2(d.text) + xScale2.bandwidth() / 2
-            })
-            .attr("y", 11)
-            .attr("text-anchor", "middle")
-            .style("font-size", 10)
-            .style("cursor", "default")
-            .on("mouseover", (event, d) => {
-                if (d.unit.length > num_character_unit) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.unit}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
-            })
-            .on("mousemove", (event, d) => {
-                tooltip
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseout", (event, d) => {
-                tooltip.transition().duration(200).style("display", "none");
-            })
+        // svg2
+        //     .selectAll()
+        //     .data(attr2)
+        //     .enter()
+        //     .append("text")
+        //     .text(d => {
+        //         let unit = d.unit;
+        //         if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
+        //         else return "(" + unit + ")"
+        //     })
+        //     .attr("x", (d) => {
+        //         return xScale2(d.text) + xScale2.bandwidth() / 2
+        //     })
+        //     .attr("y", 11)
+        //     .attr("text-anchor", "middle")
+        //     .style("font-size", 10)
+        //     .style("cursor", "default")
+        //     .on("mouseover", (event, d) => {
+        //         if (d.unit.length > num_character_unit) {
+        //             tooltip.transition().duration(200).style("display", "block");
+        //             tooltip
+        //                 .html(
+        //                     `<span class="overview-hover">${d.unit}</span>`
+        //                 )
+        //                 .style("left", event.pageX + 10 + "px")
+        //                 .style("top", event.pageY + 10 + "px");
+        //         }
+        //     })
+        //     .on("mousemove", (event, d) => {
+        //         tooltip
+        //             .style("left", event.pageX + 10 + "px")
+        //             .style("top", event.pageY + 10 + "px");
+        //     })
+        //     .on("mouseout", (event, d) => {
+        //         tooltip.transition().duration(200).style("display", "none");
+        //     })
 
         svg2
             .selectAll("path#cross")
             .data(attr2)
             .enter()
             .append("g")
-            .attr("transform", d => "translate(" + (xScale2(d.text) + xScale2.bandwidth() - 5) + ",8), rotate(45)")
+            .attr("transform", d => "translate(" + (xScale2(d.text) + xScale2.bandwidth() - 5) + ",-3), rotate(45)")
             .append("path")
             .attr("d", d3.symbol().type(d3.symbolCross).size(40)())
             .style("fill", "#c1c1c1")
@@ -439,7 +440,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let attr = d.label;
-                if (attr.length > num_character) return attr.substr(0, num_character) + "..."
+                if (attr.length > num_character) return attr.substr(0, num_character) + ".."
                 else return attr
             })
             .attr("x", (d) => {
@@ -454,15 +455,15 @@ class HeatSquare extends Component {
                 this.handleRemoveAttr(attr)
             })
             .on("mouseover", (event, d) => {
-                if (d.label.length > num_character) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.label}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
+                // if (d.label.length > num_character) {
+                tooltip.transition().duration(200).style("display", "block");
+                tooltip
+                    .html(
+                        `<span class="overview-hover">${d.label} (${d.remark})</span>`
+                    )
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+                // }
             })
             .on("mousemove", (event, d) => {
                 tooltip
@@ -473,49 +474,49 @@ class HeatSquare extends Component {
                 tooltip.transition().duration(200).style("display", "none");
             })
 
-        svg3
-            .selectAll()
-            .data(attr3)
-            .enter()
-            .append("text")
-            .text(d => {
-                let unit = d.unit;
-                if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
-                else return "(" + unit + ")"
-            })
-            .attr("x", (d) => {
-                return xScale3(d.text) + xScale3.bandwidth() / 2
-            })
-            .attr("y", 11)
-            .attr("text-anchor", "middle")
-            .style("font-size", 10)
-            .style("cursor", "default")
-            .on("mouseover", (event, d) => {
-                if (d.unit.length > num_character_unit) {
-                    tooltip.transition().duration(200).style("display", "block");
-                    tooltip
-                        .html(
-                            `<span class="overview-hover">${d.unit}</span>`
-                        )
-                        .style("left", event.pageX + 10 + "px")
-                        .style("top", event.pageY + 10 + "px");
-                }
-            })
-            .on("mousemove", (event, d) => {
-                tooltip
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseout", (event, d) => {
-                tooltip.transition().duration(200).style("display", "none");
-            })
+        // svg3
+        //     .selectAll()
+        //     .data(attr3)
+        //     .enter()
+        //     .append("text")
+        //     .text(d => {
+        //         let unit = d.unit;
+        //         if (unit.length > num_character_unit) return "(" + unit.substr(0, num_character_unit) + "..)"
+        //         else return "(" + unit + ")"
+        //     })
+        //     .attr("x", (d) => {
+        //         return xScale3(d.text) + xScale3.bandwidth() / 2
+        //     })
+        //     .attr("y", 11)
+        //     .attr("text-anchor", "middle")
+        //     .style("font-size", 10)
+        //     .style("cursor", "default")
+        //     .on("mouseover", (event, d) => {
+        //         if (d.unit.length > num_character_unit) {
+        //             tooltip.transition().duration(200).style("display", "block");
+        //             tooltip
+        //                 .html(
+        //                     `<span class="overview-hover">${d.unit}</span>`
+        //                 )
+        //                 .style("left", event.pageX + 10 + "px")
+        //                 .style("top", event.pageY + 10 + "px");
+        //         }
+        //     })
+        //     .on("mousemove", (event, d) => {
+        //         tooltip
+        //             .style("left", event.pageX + 10 + "px")
+        //             .style("top", event.pageY + 10 + "px");
+        //     })
+        //     .on("mouseout", (event, d) => {
+        //         tooltip.transition().duration(200).style("display", "none");
+        //     })
 
         svg3
             .selectAll("path#cross")
             .data(attr3)
             .enter()
             .append("g")
-            .attr("transform", d => "translate(" + (xScale3(d.text) + xScale3.bandwidth() - 5) + ",8), rotate(45)")
+            .attr("transform", d => "translate(" + (xScale3(d.text) + xScale3.bandwidth() - 5) + ",-3), rotate(45)")
             .append("path")
             .attr("d", d3.symbol().type(d3.symbolCross).size(40)())
             .style("fill", "#c1c1c1")
@@ -548,22 +549,34 @@ class HeatSquare extends Component {
         var curAttrText = this.state.curAttr.map(d => d.text);
         var lineColor = "#8a8a8a"
         let data = [];
-        let without_log = ["adverse_1", "adverse_2", "adverse_3"];
+        let without_log = ["adverse_1", "adverse_2", "adverse_3", "bio_Cl"];
         // handle real data
         if (count !== null && distribution !== null) {
             let temp_line = {}
             for (const [key, line_array] of Object.entries(distribution)) {
                 if (curAttrText.indexOf(key) > -1) {
                     let counts = {} // { value: pub }
+                    let extent = d3.extent(line_array)
                     line_array.forEach(d => {
                         if (key === "thalf_Cl") {
-                            d = Math.floor(d / 10) * 10
+                            if (extent.indexOf(d) === -1)
+                                d = Math.floor((d - extent[0]) / 5) * 5 + extent[0]
+                            else d = d
+                        }
+                        else if (key === "bio_Cl") {
+                            if (extent.indexOf(d) === -1)
+                                d = Math.floor((d - extent[0]) / 10) * 10 + extent[0]
+                            else d = d
                         }
                         else if (without_log.indexOf(key) === -1) {
-                            d = Math.floor(Math.log(d))
-                            d = d + d % 2
+                            d = Math.floor(Math.log10(d))
+                            // d = d + d % 2
                         }
-                        else d = Math.floor(d * 10) * 10
+                        else {
+                            if (extent.indexOf(d) === -1)
+                                d = Math.floor((d - extent[0]) * 10) * 10 + Math.floor(extent[0] * 100)
+                            else d = Math.floor(d * 100)
+                        }
                         counts[d] = counts[d] ? counts[d] + 1 : 1;
                     })
                     let line = []; // [{value,pub}]
@@ -582,6 +595,7 @@ class HeatSquare extends Component {
                         line: temp_line[key],
                         area: this.state.curAttr.filter(d => d.text === key)[0].area,
                         unit: this.state.curAttr.filter(d => d.text === key)[0].unit,
+                        tooltip_label: this.state.curAttr.filter(d => d.text === key)[0].label
                     })
                 }
             }
@@ -674,6 +688,7 @@ class HeatSquare extends Component {
         for (var i = 0; i < data1.length; i++) {
             let lineData = data1[i].line,
                 unit = data1[i].unit,
+                tooltip_label = data1[i].tooltip_label,
                 x = xScale1(data1[i].label),
                 y = 0;
             // console.log("lineData", lineData)
@@ -727,7 +742,7 @@ class HeatSquare extends Component {
                         tooltip.transition().duration(200).style("display", "block");
                         tooltip
                             .html(
-                                `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
+                                `<span class="overview-hover">log ${tooltip_label}: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
                             <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
                             )
                             .style("left", event.pageX + 10 + "px")
@@ -816,6 +831,7 @@ class HeatSquare extends Component {
         for (var i = 0; i < data2.length; i++) {
             let lineData = data2[i].line,
                 unit = data2[i].unit,
+                tooltip_label = data2[i].tooltip_label,
                 x = xScale2(data2[i].label),
                 y = 0;
             if (lineData.length) {
@@ -868,7 +884,7 @@ class HeatSquare extends Component {
                         tooltip.transition().duration(200).style("display", "block");
                         tooltip
                             .html(
-                                `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
+                                `<span class="overview-hover">${(tooltip_label === "t 1/2" || tooltip_label === "Bioavailability") ? "" : "log"} ${tooltip_label}: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
                             <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
                             )
                             .style("left", event.pageX + 10 + "px")
@@ -888,10 +904,10 @@ class HeatSquare extends Component {
                 //     .attr("text-anchor", "middle");
                 // svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
                 // .style("fill", "white");
-                svg2.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
+                svg2.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
                     // .style("fill", "white")
                     .attr("text-anchor", "middle").attr("cursor", "default");
-                svg2.append("text").attr("x", xLineScale(max) + 7).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default")
+                svg2.append("text").attr("x", xLineScale(max) + 7).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default")
 
             }
         }
@@ -961,6 +977,7 @@ class HeatSquare extends Component {
         for (var i = 0; i < data3.length; i++) {
             let lineData = data3[i].line,
                 unit = data3[i].unit,
+                tooltip_label = data3[i].tooltip_label,
                 x = xScale3(data3[i].label),
                 y = 0;
 
@@ -1012,7 +1029,7 @@ class HeatSquare extends Component {
                         tooltip.transition().duration(200).style("display", "block");
                         tooltip
                             .html(
-                                `<span class="overview-hover">drug compound property: </span><span class="overview-hover">${d.value.toFixed(2)} ${unit}</span><br/>
+                                `<span class="overview-hover">${tooltip_label}: </span><span class="overview-hover">${d.value.toFixed(2)} ${unit}</span><br/>
                             <span class="overview-hover">number of study: </span><span class="overview-hover">${d.pub}</span><br/>`
                             )
                             .style("left", event.pageX + 10 + "px")
@@ -1084,9 +1101,9 @@ class HeatSquare extends Component {
                     <div className="col-5" id="legend">
                     </div>
                 </div>
-                <div className="row justify-content-end" style={{ height: 15, marginTop: -3, marginBottom: 5, paddingLeft: 20 }}>
+                <div className="row justify-content-end" style={{ height: 15, marginTop: 0, marginBottom: 0, paddingLeft: 20 }}>
                     <div className="col-3 " style={{ justifySelf: "end", paddingLeft: 50 }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#c1c1c1" class="bi bi-plus-square" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#c1c1c1" class="bi bi-plus-square" viewBox="0 0 16 16">
                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg>

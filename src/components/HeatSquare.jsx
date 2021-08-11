@@ -574,7 +574,11 @@ class HeatSquare extends Component {
                             d = Math.floor(Math.log10(d))
                             // d = d + d % 2
                         }
-                        else d = Math.floor(d * 10) * 10
+                        else {
+                            if (extent.indexOf(d) === -1)
+                                d = Math.floor((d - extent[0]) * 10) * 10 + Math.floor(extent[0] * 100)
+                            else d = Math.floor(d * 100)
+                        }
                         counts[d] = counts[d] ? counts[d] + 1 : 1;
                     })
                     let line = []; // [{value,pub}]
@@ -882,7 +886,7 @@ class HeatSquare extends Component {
                         tooltip.transition().duration(200).style("display", "block");
                         tooltip
                             .html(
-                                `<span class="overview-hover">${tooltip_label === "t 1/2" ? "" : "log"} ${tooltip_label}: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
+                                `<span class="overview-hover">${(tooltip_label === "t 1/2" || tooltip_label === "Bioavailability") ? "" : "log"} ${tooltip_label}: </span><span class="overview-hover">${d.value} ${unit}</span><br/>
                             <span class="overview-hover">number of publication: </span><span class="overview-hover">${d.pub}</span><br/>`
                             )
                             .style("left", event.pageX + 10 + "px")

@@ -70,14 +70,6 @@ class Selected extends Component {
             <ScrollSyncPane>
                 <div style={{ overflow: "auto", marginTop: 15 }}>
 
-
-                    {/* <List style={{
-                        // position: 'relative',
-                        // overflow: 'auto',
-                        height: this.state.Height,
-                        padding: 0
-                        // maxHeight: 440,
-                    }}> */}
                     <ul style={{ height: this.state.Height, listStyleType: "none", margin: 5, paddingLeft: 14 }}>
 
                         {this.props.value.map(i => {
@@ -113,43 +105,10 @@ class Selected extends Component {
                                             </IconButton>
                                         </div>
                                     </div>
-                                    {/* <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center", backgroundColor: this.color(i) }}> */}
-                                    {/* <ListItemAvatar style={{ height: this.state.Height / 3, paddingBottom: 5, paddingRight: 5, borderWidth: "2", borderColor: "black" }}>
-                                            <img src={Unknown} width="100" data-tip style={{ borderWidth: 5, borderColor: "black" }} />
-                                            <ReactTooltip type="light">
-                                                <img src={Unknown} width="200" />
-                                            </ReactTooltip>
-                                        </ListItemAvatar> */}
-                                    {/* <ListItemText */}
-                                    {/* primary={i.label} */}
-                                    {/* secondary={ */}
-                                    {/* <React.Fragment> */}
-                                    {/* <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        className={{
-                                                            display: 'inline',
-                                                        }}
-                                                        color="textPrimary"
-                                                    >
-                                                        info
-                                                    </Typography> */}
-                                    {/* {" — xxx"} */}
-                                    {/* </React.Fragment> */}
-                                    {/* } */}
-                                    {/* style={{ cursor: "pointer" }} */}
-                                    {/* onClick={() => this.handleClick(i)} */}
-                                    {/* /> */}
-                                    {/* <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
-                                            <ClearIcon />
-                                        </IconButton> */}
-                                    {/* </ListItem> */}
-                                    {/* <Divider variant="inset" component="li" /> */}
                                 </li>
                             )
                         })
                         }
-                        {/* </List> */}
                     </ul>
                 </div>
             </ScrollSyncPane >
