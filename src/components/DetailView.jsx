@@ -833,7 +833,7 @@ class DetailView extends Component {
             console.log("draw network")
 
             var node_pos = []
-            var margin = { top: 80, right: 0, bottom: 0, left: 0 },
+            var margin = { top: 100, right: 0, bottom: 0, left: 0 },
                 width = this.state.medchemWidth + 20 - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -874,14 +874,14 @@ class DetailView extends Component {
                 .attr("transform", "translate(10,20)");
 
             var text = circle_legend_svg.append("text").attr("y", -15);
-            var legend_text = "the number of,proposed drug,compound";
+            var legend_text = "the number of,proposed drug,compound per paper";
             text.selectAll("tspan.text")
                 .data(legend_text.split(","))
                 .enter()
                 .append("tspan")
                 .attr("class", "network")
                 .text(d => d)
-                .attr("x", 45)
+                .attr("x", 55)
                 .attr("dy", 12)
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
@@ -889,13 +889,13 @@ class DetailView extends Component {
             var circle_legend = [1, 7, 15], circle_cx = [0, rScale(1) + rScale(5) + 5, rScale(1) + 2 * rScale(5) + 10 + rScale(10)]
             circle_legend_svg.selectAll().data(circle_legend).enter().append("circle")
                 .attr("r", d => rScale(d))
-                .attr("cx", (d, i) => 100 + circle_cx[i])
+                .attr("cx", (d, i) => 120 + circle_cx[i])
                 .attr("cy", -2)
                 .style("fill", "#f4978e")
                 .attr("class", "network")
 
             circle_legend_svg.append("text")
-                .attr("x", 100 + circle_cx[0])
+                .attr("x", 120 + circle_cx[0])
                 .attr("y", 20)
                 .style("font-size", "12px")
                 .attr("class", "network")
@@ -903,7 +903,7 @@ class DetailView extends Component {
                 .text("1")
 
             circle_legend_svg.append("text")
-                .attr("x", 100 + circle_cx[2])
+                .attr("x", 120 + circle_cx[2])
                 .attr("y", 20)
                 .style("font-size", "12px")
                 .attr("class", "network")
@@ -953,7 +953,7 @@ class DetailView extends Component {
                         .links(links) // and this the list of links
                 )
                 .force("charge", d3.forceManyBody().strength(0)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-                .force("center", d3.forceCenter(width / 2 - 6, height / 2)) // This force attracts nodes to the center of the svg area
+                .force("center", d3.forceCenter(width / 2 - 6, height / 2 + 30)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
                     // return rScale(d.value)
@@ -1025,7 +1025,7 @@ class DetailView extends Component {
                 .outerRadius(10)
                 .padAngle(0.03 * Math.PI);
             var arc_legend = [{ level: 1, text: "1~3" }, { level: 6, text: "4~6" }, { level: 11, text: "7~10" }, { level: 16, text: ">10" }]
-            var text = svg.append("text").attr("y", -75);
+            var text = svg.append("text").attr("y", -95);
             var legend_text = "synthesis route length";
             text.selectAll("tspan.text")
                 .data(legend_text.split(" "))
@@ -1061,7 +1061,7 @@ class DetailView extends Component {
             svg.append("text")
                 .text("distance between nodes = molecule structure similarity")
                 .attr("x", 8)
-                .attr("y", -15)
+                .attr("y", -30)
                 .style("font-size", 12)
                 .style("fill", "#495057")
 
@@ -1303,8 +1303,9 @@ class DetailView extends Component {
             .style("fill", "#8b8b8b")
 
         // draw ascending
-        svg.selectAll()
+        var ascending = svg.selectAll()
             .data(xDomain).enter()
+            // .append("g")
             .append("use").attr("xlink:href", "#ascending")
             .attr("transform", (d) => { return "translate(" + (xScale(d) + 3) + ",40)"; })
             .style("opacity", d => {
@@ -2241,19 +2242,19 @@ class DetailView extends Component {
                 .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left + 1 / 6 * this.state.sankeyWidth) + "," + margin.top + ")");
 
             // legend
-            // svg.append("rect")
-            //     .attr("x", 120)
-            //     .attr("y", -30)
-            //     .attr("width", 30)
-            //     .attr("height", 15)
-            //     .style("fill", "#E8E7F5")
-            //     .style("stroke-width", 0.5)
-            //     .style("stroke", "white")
-            // svg.append("text")
-            //     .attr("x", 128)
-            //     .attr("y", -19)
-            //     .text("1-2")
-            //     .style("font-size", 10)
+            svg.append("rect")
+                .attr("x", 190)
+                .attr("y", -35)
+                .attr("width", 30)
+                .attr("height", 15)
+                .style("fill", "#E8E7F5")
+                .style("stroke-width", 0.5)
+                .style("stroke", "white")
+            svg.append("text")
+                .attr("x", 198)
+                .attr("y", -24)
+                .text("1-1")
+                .style("font-size", 10)
             svg.append("text")
                 .attr("x", 230)
                 .attr("y", -25)

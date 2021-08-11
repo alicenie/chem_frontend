@@ -82,14 +82,15 @@ class Selected extends Component {
 
                         {this.props.value.map(i => {
                             console.log("i", i)
+                            let id = "img-tooltip-" + i.id;
                             // const img = require(`${'../target_img/Janus_kinase.png'}`)
 
                             return (
                                 <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
                                     <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", borderRadius: "10px", backgroundColor: this.color(i) }}>
                                         <div className="col-3" style={{ paddingLeft: 6 }} >
-                                            <img src={img[i.label]} width="80" data-tip data-for="img-tooltip" />
-                                            <ReactTooltip id="img-tooltip" type="light">
+                                            <img src={img[i.label]} width="80" data-tip data-for={id} />
+                                            <ReactTooltip id={id} type="light">
                                                 <img src={img[i.label]} width="200" />
                                             </ReactTooltip>
                                         </div>

@@ -828,7 +828,7 @@ class DetailView extends Component {
             console.log("draw network")
 
             var node_pos = []
-            var margin = { top: 80, right: 0, bottom: 0, left: 0 },
+            var margin = { top: 100, right: 0, bottom: 0, left: 0 },
                 width = this.state.medchemWidth + 20 - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -948,7 +948,7 @@ class DetailView extends Component {
                         .links(links) // and this the list of links
                 )
                 .force("charge", d3.forceManyBody().strength(0)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-                .force("center", d3.forceCenter(width / 2 - 6, height / 2)) // This force attracts nodes to the center of the svg area
+                .force("center", d3.forceCenter(width / 2 - 6, height / 2 + 30)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
                     // return rScale(d.value)
@@ -2238,19 +2238,19 @@ class DetailView extends Component {
                 .attr("transform", "translate(" + (10 + 30 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth + margin.left + 1 / 6 * this.state.sankeyWidth) + "," + margin.top + ")");
 
             // legend
-            // svg.append("rect")
-            //     .attr("x", 120)
-            //     .attr("y", -30)
-            //     .attr("width", 30)
-            //     .attr("height", 15)
-            //     .style("fill", "#E8E7F5")
-            //     .style("stroke-width", 0.5)
-            //     .style("stroke", "white")
-            // svg.append("text")
-            //     .attr("x", 128)
-            //     .attr("y", -19)
-            //     .text("1-2")
-            //     .style("font-size", 10)
+            svg.append("rect")
+                .attr("x", 190)
+                .attr("y", -35)
+                .attr("width", 30)
+                .attr("height", 15)
+                .style("fill", "#E8E7F5")
+                .style("stroke-width", 0.5)
+                .style("stroke", "white")
+            svg.append("text")
+                .attr("x", 198)
+                .attr("y", -24)
+                .text("1-1")
+                .style("font-size", 10)
             svg.append("text")
                 .attr("x", 230)
                 .attr("y", -25)
