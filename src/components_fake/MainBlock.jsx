@@ -96,6 +96,7 @@ class MainBlock extends Component {
         this.setState(({ selectedTargets }) => ({
             selectedTargets: arrayMove(selectedTargets, oldIndex, newIndex),
         }));
+        console.log("sort")
         console.log("selectedTargets", this.state.selectedTargets)
     };
 
@@ -164,7 +165,7 @@ class MainBlock extends Component {
                                         <SearchIcon style={{ marginTop: 6, marginLeft: -25, opacity: 0.6 }} />
                                     </Col>
                                 </Row>
-                                <Selected items={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 60 * 11} />
+                                <Selected items={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} handleSortSelection={this.handleSortSelection} height={lowerHeight} width={width / 60 * 11} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>

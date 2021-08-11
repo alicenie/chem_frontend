@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import STAT3 from '../target_img/STAT3.png';
-import ALK from '../target_img/ALK.png';
-import EGFR from '../target_img/EGFR.png';
-import HER2 from '../target_img/HER2.png';
-import KRAS from '../target_img/KRAS.png';
+import fake1 from '../target_img/fake1.png';
+import fake2 from '../target_img/fake2.jpeg';
 import IconButton from '@material-ui/core/IconButton';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
@@ -22,11 +19,8 @@ import arrayMove from 'array-move';
 const DragHandle = sortableHandle(() => <span style={{ cursor: "move" }}>::</span>);
 
 const img = {
-    ALK: ALK,
-    EGFR: EGFR,
-    HER2: HER2,
-    KRAS: KRAS,
-    STAT3: STAT3
+    PREP: fake1,
+    JAK: fake2,
 }
 
 const SortableItem = sortableElement(({ target, height, width, color, onSelect, onRemove }) => (
@@ -97,22 +91,8 @@ class Selected extends Component {
         return "#f8f9fa"
     }
 
-    onSortEnd = ({ oldIndex, newIndex }) => {
-        this.setState(({ items }) => ({
-            items: arrayMove(items, oldIndex, newIndex),
-        }));
-        console.log("items", this.state.items)
-    };
 
     render() {
-        const img = {
-            ALK: ALK,
-            EGFR: EGFR,
-            HER2: HER2,
-            KRAS: KRAS,
-            STAT3: STAT3
-        }
-        // const { items } = this.props;
         return (
             <ScrollSyncPane>
                 <div style={{ overflow: "auto", marginTop: 15, height: this.state.Height }}>
