@@ -1179,7 +1179,7 @@ class DetailView extends Component {
 
     drawVitroSort() {
         var vitroHeatSquareLength = this.state.heatSquareLength + 1;
-        var margin = { top: 0, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
+        var margin = { top: 10, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
             width = this.state.vitroWidth - margin.left - margin.right;
 
         var svg = d3
@@ -1487,7 +1487,7 @@ class DetailView extends Component {
             var component = this;
             console.log("draw vitro heatmap")
             var vitroHeatSquareLength = this.state.heatSquareLength + 1;
-            var margin = { top: 55, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
+            var margin = { top: 65, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
                 width = this.state.vitroWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -1624,7 +1624,7 @@ class DetailView extends Component {
     }
 
     drawVivoSort() {
-        var margin = { top: 0, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) };
+        var margin = { top: 10, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) };
 
         var svg = d3
             .select("svg#detail_svg")
@@ -1658,17 +1658,17 @@ class DetailView extends Component {
             .attr("height", 13)
             .style("fill", `url(#linear-gradient-ph)`)
             .attr("x", 78)
-            .attr("y", 5)
+            .attr("y", -5)
 
         svg.append("text")
             .text("drug compound property: min")
             .attr("x", -78)
-            .attr("y", 15)
+            .attr("y", 5)
             .style("font-size", 12)
         svg.append("text")
             .text("max")
             .attr("x", 120)
-            .attr("y", 15)
+            .attr("y", 5)
             .style("font-size", 12)
 
         // x scale
@@ -1980,7 +1980,7 @@ class DetailView extends Component {
         if (vivoHeatData[0]) {
             var component = this;
             console.log("draw vivo heatmap")
-            var margin = { top: 55, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) },
+            var margin = { top: 65, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 

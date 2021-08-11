@@ -57,22 +57,24 @@ class HeatSquare extends Component {
 
         // get xscale for each col
         let line_domains = {};
-        let without_log = ["adverse_1", "adverse_2", "adverse_3"];
+        let without_log = ["adverse_1", "adverse_2", "adverse_3", "bio_Cl"];
         this.state.targetList.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
-                    line_domains[key] = [...d.metrics_distribution[key].map(d => {
-                        if (key === "thalf_Cl") return d
-                        d = Math.floor(Math.log(d))
-                        return d + d % 2
+                    line_domains[key] = [...d.metrics_distribution[key].map(e => {
+                        if (key === "thalf_Cl") return e
+                        e = Math.floor(Math.log10(e))
+                        // return e + e % 2
+                        return e
                     })];
                 })
             else
                 Object.keys(d.metrics_distribution).forEach(key => {
-                    line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(d => {
-                        if (key === "thalf_Cl") return Math.floor(d)
-                        d = Math.floor(Math.log(d))
-                        return d + d % 2
+                    line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(e => {
+                        if (key === "thalf_Cl") return e
+                        e = Math.floor(Math.log10(e))
+                        // return e + e % 2
+                        return e
                     }));
                 })
         })
@@ -548,20 +550,29 @@ class HeatSquare extends Component {
         var curAttrText = this.state.curAttr.map(d => d.text);
         var lineColor = "#8a8a8a"
         let data = [];
-        let without_log = ["adverse_1", "adverse_2", "adverse_3"];
+        let without_log = ["adverse_1", "adverse_2", "adverse_3", "bio_Cl"];
         // handle real data
         if (count !== null && distribution !== null) {
             let temp_line = {}
             for (const [key, line_array] of Object.entries(distribution)) {
                 if (curAttrText.indexOf(key) > -1) {
                     let counts = {} // { value: pub }
+                    let extent = d3.extent(line_array)
                     line_array.forEach(d => {
                         if (key === "thalf_Cl") {
-                            d = Math.floor(d / 10) * 10
+                            // console.log("extent thalf", extent)
+                            if (extent.indexOf(d) === -1)
+                                d = Math.floor((d - extent[0]) / 5) * 5 + extent[0]
+                            else d = d
+                        }
+                        else if (key === "bio_Cl") {
+                            if (extent.indexOf(d) === -1)
+                                d = Math.floor((d - extent[0]) / 10) * 10 + extent[0]
+                            else d = d
                         }
                         else if (without_log.indexOf(key) === -1) {
-                            d = Math.floor(Math.log(d))
-                            d = d + d % 2
+                            d = Math.floor(Math.log10(d))
+                            // d = d + d % 2
                         }
                         else d = Math.floor(d * 10) * 10
                         counts[d] = counts[d] ? counts[d] + 1 : 1;
@@ -570,7 +581,7 @@ class HeatSquare extends Component {
                     Object.keys(counts).forEach(d => line.push({ value: parseFloat(d), pub: counts[d] }))
                     line.sort((a, b) => a.value - b.value)
                     temp_line[key] = line; // already log
-                    // console.log("LIne", line)
+                    // console.log("Line", key, line)
                 }
             }
 
@@ -891,11 +902,14 @@ class HeatSquare extends Component {
                 //     .attr("text-anchor", "middle");
                 // svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
                 // .style("fill", "white");
-                svg2.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
+
+                let x_offset = 7;
+                if (max === 7.48) x_offset = 20;
+                if (max === 11.43) x_offset = 12;
+                svg2.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
                     // .style("fill", "white")
                     .attr("text-anchor", "middle").attr("cursor", "default");
-                svg2.append("text").attr("x", xLineScale(max) + 7).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default")
-
+                svg2.append("text").attr("x", xLineScale(max) + x_offset).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default")
             }
         }
 
@@ -957,7 +971,7 @@ class HeatSquare extends Component {
                 if (d.label === "adverse_3" && d.hvalue === 3) {
                     tooltip.transition().duration(200).style("display", "block");
                     tooltip
-                        .html("no results completed")
+                        .html("no studies completed")
                         .style("left", event.pageX + 10 + "px")
                         .style("top", event.pageY + 10 + "px");
                 }
