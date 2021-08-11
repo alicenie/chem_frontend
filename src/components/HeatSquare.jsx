@@ -63,7 +63,7 @@ class HeatSquare extends Component {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = [...d.metrics_distribution[key].map(e => {
-                        if (key === "thalf_Cl") return e
+                        if (key === "thalf_Cl") return parseFloat(e.toFixed(1))
                         e = Math.floor(Math.log10(e))
                         // return e + e % 2
                         return e
@@ -72,7 +72,7 @@ class HeatSquare extends Component {
             else
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(e => {
-                        if (key === "thalf_Cl") return e
+                        if (key === "thalf_Cl") return parseFloat(e.toFixed(1))
                         e = Math.floor(Math.log10(e))
                         // return e + e % 2
                         return e
@@ -565,6 +565,7 @@ class HeatSquare extends Component {
                             if (extent.indexOf(d) === -1)
                                 d = Math.floor((d - extent[0]) / 5) * 5 + extent[0]
                             else d = d
+                            d = parseFloat(d.toFixed(1))
                         }
                         else if (key === "bio_Cl") {
                             if (extent.indexOf(d) === -1)
@@ -908,13 +909,13 @@ class HeatSquare extends Component {
                 // svg2.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle")
                 // .style("fill", "white");
 
-                let x_offset = 7;
-                if (max === 7.48) x_offset = 20;
-                if (max === 11.43) x_offset = 12;
-                svg2.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
+                let min_offset = 7, max_offset = 7;
+                if (max === 7.5) { max_offset = 10; min_offset = 5; }
+                if (max === 11.4) max_offset = 9;
+                svg2.append("text").attr("x", xLineScale(min) + min_offset).attr("y", height - 5).text(min).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor)
                     // .style("fill", "white")
                     .attr("text-anchor", "middle").attr("cursor", "default");
-                svg2.append("text").attr("x", xLineScale(max) + x_offset).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default")
+                svg2.append("text").attr("x", xLineScale(max) + max_offset).attr("y", height - 5).text(max).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default")
             }
         }
 

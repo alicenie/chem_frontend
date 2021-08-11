@@ -62,7 +62,7 @@ class HeatSquare extends Component {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = [...d.metrics_distribution[key].map(d => {
-                        if (key === "thalf_Cl") return d
+                        if (key === "thalf_Cl") return parseFloat(d.toFixed(1))
                         d = Math.floor(Math.log10(d))
                         // return d + d % 2
                         return d
@@ -71,7 +71,7 @@ class HeatSquare extends Component {
             else
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = line_domains[key].concat(d.metrics_distribution[key].map(d => {
-                        if (key === "thalf_Cl") return Math.floor(d)
+                        if (key === "thalf_Cl") return parseFloat(d.toFixed(1))
                         d = Math.floor(Math.log10(d))
                         return d
                     }));
@@ -562,6 +562,7 @@ class HeatSquare extends Component {
                             if (extent.indexOf(d) === -1)
                                 d = Math.floor((d - extent[0]) / 5) * 5 + extent[0]
                             else d = d
+                            d = parseFloat(d.toFixed(1))
                         }
                         else if (key === "bio_Cl") {
                             if (extent.indexOf(d) === -1)
