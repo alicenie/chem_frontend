@@ -21,6 +21,7 @@ import DetailWrapper from './DetailWrapper';
 import TargetTree from './TargetTree';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import arrayMove from 'array-move';
 
 class MainBlock extends Component {
     constructor(props) {
@@ -61,6 +62,7 @@ class MainBlock extends Component {
         } else {
             this.setState({ selected: "" })
         }
+        console.log("selectedTargets", this.state.selectedTargets)
     }
 
     handleRemoveSelection = (removeTarget) => {
@@ -90,6 +92,13 @@ class MainBlock extends Component {
             this.setState({ selectedDetailTarget: target })
         }
     }
+
+    handleSortSelection = ({ oldIndex, newIndex }) => {
+        this.setState(({ selectedTargets }) => ({
+            selectedTargets: arrayMove(selectedTargets, oldIndex, newIndex),
+        }));
+        console.log("selectedTargets", this.state.selectedTargets)
+    };
 
     render() {
 
@@ -156,7 +165,7 @@ class MainBlock extends Component {
                                         <SearchIcon style={{ marginTop: 6, marginLeft: -25, opacity: 0.6 }} />
                                     </Col>
                                 </Row>
-                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 60 * 11} />
+                                <Selected items={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} handleSortSelection={this.handleSortSelection} height={lowerHeight} width={width / 60 * 11} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>
@@ -205,33 +214,7 @@ class MainBlock extends Component {
                 </ScrollSync>
 
 
-                {/* <Container fluid style={{ backgroundColor: "#e9ecef" }}>
-                    <Row style={{ height: '800px' }}>
-                        <Col md={3} >
-                            <Card variant="outlined" style={{ height: '780px', marginTop: "5px" }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
-                                <CardContent>
-                                    <LeftBar value={"hi"} />
-                                </CardContent>
-                            </Card>
-                        </Col>
-                        <Col md={6} >
-                            <Card variant="outlined" style={{ height: '780px', marginTop: "5px" }}>
-                                <CardHeader title="Middle View" />
-                                <CardContent>
-                                </CardContent>
-                            </Card>
-                        </Col>
-                        <Col md={3} >
-                            <Card variant="outlined" style={{ height: '780px', marginTop: "5px" }}>
-                                <CardHeader title="Right View" />
-                                <CardContent>
-                                    <SimilarityGraph />
-                                </CardContent>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Container> */}
+
             </div >
         );
     }

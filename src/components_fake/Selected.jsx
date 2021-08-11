@@ -1,23 +1,71 @@
 import React, { Component } from 'react';
-import Unknown from '../target_img/unknown.png';
-import fake2 from '../target_img/fake2.jpeg';
+import STAT3 from '../target_img/STAT3.png';
+import ALK from '../target_img/ALK.png';
+import EGFR from '../target_img/EGFR.png';
+import HER2 from '../target_img/HER2.png';
+import KRAS from '../target_img/KRAS.png';
 import IconButton from '@material-ui/core/IconButton';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
+// import Divider from '@material-ui/core/Divider';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+// import Avatar from '@material-ui/core/Avatar';
+// import Typography from '@material-ui/core/Typography';
 import ReactTooltip from 'react-tooltip';
 import { ScrollSyncPane } from 'react-scroll-sync';
 import ClearIcon from '@material-ui/icons/Clear';
+import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         width: '100%',
-//         maxWidth: '36ch',
-//         backgroundColor: theme.palette.background.paper,
-//     },
-//     inline: {
-//         display: 'inline',
-//     },
-// }));
+const DragHandle = sortableHandle(() => <span style={{ cursor: "move" }}>::</span>);
 
+const img = {
+    ALK: ALK,
+    EGFR: EGFR,
+    HER2: HER2,
+    KRAS: KRAS,
+    STAT3: STAT3
+}
+
+const SortableItem = sortableElement(({ target, height, width, color, onSelect, onRemove }) => (
+    <li key={target.id} style={{ listStyleType: "none", margin: 0, padding: 0, height: height, width: width }}>
+        <div className="row" style={{ padding: 0, alignItems: "center", borderRadius: "10px", height: height - 5, backgroundColor: color }}>
+            <div className="col-1">
+                <DragHandle />
+            </div>
+            <div className="col-3" style={{ paddingLeft: 6 }} >
+                <img src={img[target.label]} width="80" data-tip data-for={target.id} />
+                <ReactTooltip id={target.id} type="light">
+                    <img src={img[target.label]} width="180" />
+                </ReactTooltip>
+            </div>
+            <div
+                className="col-5"
+                style={{ marginLeft: 5, cursor: "pointer", paddingLeft: 10, paddingRight: 0 }}
+                onClick={onSelect}
+                data-tip data-for="text-tooltip">
+                <ul style={{ listStyleType: "none", marginLeft: 20, padding: 0, fontSize: 17 }}>
+                    <li>{target.label}</li>
+                    {/* <li style={{ fontSize: 10 }}>Discovery time: 2000</li> */}
+                </ul>
+                <ReactTooltip id="text-tooltip" type="light" place="bottom" backgroundColor="#555" textColor="#fff">
+                    <span>Show details</span>
+                </ReactTooltip>
+            </div>
+            <div className="col-1">
+                <IconButton aria-label="clear" style={{ marginLeft: -10, opacity: 0.5 }} onClick={onRemove}>
+                    <ClearIcon />
+                </IconButton>
+            </div>
+        </div>
+    </li>
+));
+
+const SortableContainer = sortableContainer(({ height, children }) => {
+    return <ul style={{ height: height, listStyleType: "none", margin: 5, paddingLeft: 14 }}>{children}</ul>;
+});
 class Selected extends Component {
 
     constructor(props) {
@@ -26,6 +74,7 @@ class Selected extends Component {
             Height: this.props.height - 75,
             Width: this.props.width - 45,
             selected: null,
+            // items: this.props.value,
         }
     }
 
@@ -48,93 +97,30 @@ class Selected extends Component {
         return "#f8f9fa"
     }
 
+    onSortEnd = ({ oldIndex, newIndex }) => {
+        this.setState(({ items }) => ({
+            items: arrayMove(items, oldIndex, newIndex),
+        }));
+        console.log("items", this.state.items)
+    };
+
     render() {
-        const img = [Unknown, fake2]
+        const img = {
+            ALK: ALK,
+            EGFR: EGFR,
+            HER2: HER2,
+            KRAS: KRAS,
+            STAT3: STAT3
+        }
+        // const { items } = this.props;
         return (
             <ScrollSyncPane>
-                <div style={{ overflow: "auto", marginTop: 15 }}>
-
-
-                    {/* <List style={{
-                        // position: 'relative',
-                        // overflow: 'auto',
-                        height: this.state.Height,
-                        padding: 0
-                        // maxHeight: 440,
-                    }}> */}
-                    <ul style={{ height: this.state.Height, listStyleType: "none", margin: 5, paddingLeft: 14 }}>
-
-                        {this.props.value.map((i, index) => {
-                            console.log("i", i)
-                            let id = "img-tooltip-" + i.id;
-                            // const img = require(`${'../target_img/Janus_kinase.png'}`)
-
-                            return (
-                                <li key={i} style={{ height: this.state.Height / 3, width: this.state.Width }}>
-                                    <div className="row" style={{ padding: 0, height: this.state.Height / 3 - 5, alignItems: "center", borderRadius: "10px", backgroundColor: this.color(i) }}>
-                                        <div className="col-3" style={{ paddingLeft: 6 }} >
-                                            <img src={img[index]} width="80" data-tip data-for={id} />
-                                            <ReactTooltip id={id} type="light">
-                                                <img src={img[index]} width="200" />
-                                            </ReactTooltip>
-                                        </div>
-                                        <div
-                                            className="col-7"
-                                            style={{ marginLeft: 5, cursor: "pointer", paddingLeft: 20, paddingRight: 0 }}
-                                            onClick={() => this.handleClick(i)}
-                                            data-tip data-for="text-tooltip">
-                                            <ul style={{ listStyleType: "none", marginLeft: 20, padding: 0, fontSize: 17 }}>
-                                                <li>{i.label}</li>
-                                                {/* <li style={{ fontSize: 10 }}>Discovery time: 2000</li> */}
-                                            </ul>
-                                            <ReactTooltip id="text-tooltip" type="light" place="bottom" backgroundColor="#555" textColor="#fff">
-                                                <span>Show details</span>
-                                            </ReactTooltip>
-                                        </div>
-                                        <div className="col-1">
-                                            <IconButton aria-label="clear" style={{ marginLeft: -20, opacity: 0.5 }} onClick={() => this.handleRemove(i)}>
-                                                <ClearIcon />
-                                            </IconButton>
-                                        </div>
-                                    </div>
-                                    {/* <ListItem alignItems="flex-start" style={{ height: this.state.Height / 3, overflow: "hidden", alignItems: "center", backgroundColor: this.color(i) }}> */}
-                                    {/* <ListItemAvatar style={{ height: this.state.Height / 3, paddingBottom: 5, paddingRight: 5, borderWidth: "2", borderColor: "black" }}>
-                                            <img src={Unknown} width="100" data-tip style={{ borderWidth: 5, borderColor: "black" }} />
-                                            <ReactTooltip type="light">
-                                                <img src={Unknown} width="200" />
-                                            </ReactTooltip>
-                                        </ListItemAvatar> */}
-                                    {/* <ListItemText */}
-                                    {/* primary={i.label} */}
-                                    {/* secondary={ */}
-                                    {/* <React.Fragment> */}
-                                    {/* <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        className={{
-                                                            display: 'inline',
-                                                        }}
-                                                        color="textPrimary"
-                                                    >
-                                                        info
-                                                    </Typography> */}
-                                    {/* {" — xxx"} */}
-                                    {/* </React.Fragment> */}
-                                    {/* } */}
-                                    {/* style={{ cursor: "pointer" }} */}
-                                    {/* onClick={() => this.handleClick(i)} */}
-                                    {/* /> */}
-                                    {/* <IconButton aria-label="clear" style={{ padding: 0 }} onClick={() => this.handleRemove(i)}>
-                                            <ClearIcon />
-                                        </IconButton> */}
-                                    {/* </ListItem> */}
-                                    {/* <Divider variant="inset" component="li" /> */}
-                                </li>
-                            )
-                        })
-                        }
-                        {/* </List> */}
-                    </ul>
+                <div style={{ overflow: "auto", marginTop: 15, height: this.state.Height }}>
+                    <SortableContainer onSortEnd={this.props.handleSortSelection} useDragHandle height={this.state.Height}>
+                        {this.props.items.map((target, index) => (
+                            <SortableItem key={`item-${target.id}`} index={index} target={target} height={this.state.Height / 3} width={this.state.Width} color={this.color(target)} onSelect={() => this.handleClick(target)} onRemove={() => this.handleRemove(target)} />
+                        ))}
+                    </SortableContainer>
                 </div>
             </ScrollSyncPane >
 

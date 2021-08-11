@@ -5,7 +5,7 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import AddColumn from './AddColumn';
 
 const domains = [
-    { text: "IC50_MC", label: "IC_50", unit: "nM", area: 1, index: 1, remark: "the less the better" },
+    { text: "IC50_MC", label: "IC50", unit: "nM", area: 1, index: 1, remark: "the less the better" },
     { text: "Ki_MC", label: "Ki", unit: "nM", area: 1, index: 2, remark: "the less the better" },
     { text: "Kd_MC", label: "Kd", unit: "nM", area: 1, index: 3, remark: "the less the better" },
     { text: "Selectivity_MC", label: "Selectivity", unit: "fold", area: 1, index: 4, remark: "the more the better" },
@@ -49,16 +49,17 @@ class HeatSquare extends Component {
 
     componentDidUpdate() {
         console.log("overview component did update")
+        console.log(this.props.value)
 
         this.drawUpperAxis("upper-axis")
 
-        if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
+        if (this.props.value.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
         else d3.selectAll("svg#upper-axis").style("opacity", 0);
 
         // get xscale for each col
         let line_domains = {};
         let without_log = ["adverse_1", "adverse_2", "adverse_3", "bio_Cl"];
-        this.state.targetList.forEach(d => {
+        this.props.value.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = [...d.metrics_distribution[key].map(e => {
@@ -81,7 +82,7 @@ class HeatSquare extends Component {
         without_log.forEach(key => line_domains[key] = [0, 100])
         console.log("line_domains", line_domains)
 
-        this.state.targetList.forEach(d => {
+        this.props.value.forEach(d => {
             // console.log(d)
             // if (Object.keys(d).indexOf("metrics_paper_count" > -1)) 
             this.drawHeatSquare(`heatsquare-${d.id}`, d["metrics_paper_count"], d["metrics_distribution"], line_domains)
@@ -567,7 +568,7 @@ class HeatSquare extends Component {
                         }
                         else if (key === "bio_Cl") {
                             if (extent.indexOf(d) === -1)
-                                d = Math.floor((d - extent[0]) / 10) * 10 + extent[0]
+                                d = (Math.floor((d - extent[0]) / 10) * 10 + extent[0]).toFixed(2)
                             else d = d
                         }
                         else if (without_log.indexOf(key) === -1) {
@@ -1079,8 +1080,11 @@ class HeatSquare extends Component {
 
                 // svg3.append("text").attr("x", xLineScale(Math.log(min)) + 5).attr("y", height - 5).text(Math.floor(Math.log(min))).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle");
                 // svg3.append("text").attr("x", xLineScale(Math.log(max)) + 5).attr("y", height - 5).text(Math.floor(Math.log(max))).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle");
+                let x_offset = 7;
+                if (max === 12 || max === 26) x_offset = 9;
+                if (max === 4) x_offset = 10;
                 svg3.append("text").attr("x", xLineScale(min) + 7).attr("y", height - 5).text(Math.floor(min)).attr("class", "overview-line-text").style("font-size", 7).style("fill", lineColor).attr("text-anchor", "middle").attr("cursor", "default");
-                svg3.append("text").attr("x", xLineScale(max) + 7).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default");
+                svg3.append("text").attr("x", xLineScale(max) + x_offset).attr("y", height - 5).text(Math.floor(max)).attr("class", "overview-line-text").style("font-size", 7).attr("text-anchor", "middle").attr("cursor", "default");
             }
         }
 

@@ -21,6 +21,7 @@ import DetailWrapper from './DetailWrapper';
 import TargetTree from './TargetTree';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import arrayMove from 'array-move';
 
 class MainBlock extends Component {
     constructor(props) {
@@ -91,6 +92,13 @@ class MainBlock extends Component {
         }
     }
 
+    handleSortSelection = ({ oldIndex, newIndex }) => {
+        this.setState(({ selectedTargets }) => ({
+            selectedTargets: arrayMove(selectedTargets, oldIndex, newIndex),
+        }));
+        console.log("selectedTargets", this.state.selectedTargets)
+    };
+
     render() {
 
         const layout = [
@@ -156,7 +164,7 @@ class MainBlock extends Component {
                                         <SearchIcon style={{ marginTop: 6, marginLeft: -25, opacity: 0.6 }} />
                                     </Col>
                                 </Row>
-                                <Selected value={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 60 * 11} />
+                                <Selected items={this.state.selectedTargets} handleRemoveSelection={this.handleRemoveSelection} handleSelectDetail={this.handleSelectDetail} height={lowerHeight} width={width / 60 * 11} />
                                 {/* </ScrollSyncPane> */}
                             </Card>
                         </div>

@@ -170,7 +170,7 @@ class TargetTree extends Component {
             let tree = target.tree;
             tree.nodes.forEach(d => visible_nodes.add(d))
             tree.links.forEach(d => {
-                console.log(d)
+                // console.log(d)
                 if (visible_links[d[0]]) visible_links[d[0]].push(d[1])
                 else visible_links[d[0]] = [d[1]]
             })
@@ -182,9 +182,9 @@ class TargetTree extends Component {
     }
 
     drawTree(visible_nodes, visible_links, selected_nodes) {
-        console.log("visible_nodes", visible_nodes)
-        console.log("visible_links", visible_links)
-        console.log("selected_node", selected_nodes)
+        // console.log("visible_nodes", visible_nodes)
+        // console.log("visible_links", visible_links)
+        // console.log("selected_node", selected_nodes)
         d3.select("#target-tree").selectAll("svg").remove()
         var width = 260,
             height = 430;

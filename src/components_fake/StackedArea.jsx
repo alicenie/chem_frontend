@@ -22,7 +22,7 @@ class StackedArea extends Component {
 
     componentDidUpdate() {
         console.log("component did update")
-        this.state.targetList.forEach(d => {
+        this.props.value.forEach(d => {
             // if (Object.keys(d).indexOf("paper_count_year") > -1) 
             this.drawStackedArea(`stackedarea-${d.id}`, d["paper_count_year"])
             // else this.drawStackedArea(`stackedarea-${d.id}`, d.stackedareadata)

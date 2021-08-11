@@ -5,7 +5,7 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import AddColumn from './AddColumn';
 
 const domains = [
-    { text: "IC50_MC", label: "IC_50", unit: "nM", area: 1, index: 1, remark: "the less the better" },
+    { text: "IC50_MC", label: "IC50", unit: "nM", area: 1, index: 1, remark: "the less the better" },
     { text: "Ki_MC", label: "Ki", unit: "nM", area: 1, index: 2, remark: "the less the better" },
     { text: "Kd_MC", label: "Kd", unit: "nM", area: 1, index: 3, remark: "the less the better" },
     { text: "Selectivity_MC", label: "Selectivity", unit: "fold", area: 1, index: 4, remark: "the more the better" },
@@ -52,13 +52,13 @@ class HeatSquare extends Component {
 
         this.drawUpperAxis("upper-axis")
 
-        if (this.state.targetList.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
+        if (this.props.value.length) d3.selectAll("svg#upper-axis").style("opacity", 1);
         else d3.selectAll("svg#upper-axis").style("opacity", 0);
 
         // get xscale for each col
         let line_domains = {};
         let without_log = ["adverse_1", "adverse_2", "adverse_3", "bio_Cl"];
-        this.state.targetList.forEach(d => {
+        this.props.value.forEach(d => {
             if (Object.keys(line_domains).length === 0)
                 Object.keys(d.metrics_distribution).forEach(key => {
                     line_domains[key] = [...d.metrics_distribution[key].map(d => {
@@ -80,7 +80,7 @@ class HeatSquare extends Component {
         without_log.forEach(key => line_domains[key] = [0, 100])
         console.log("line_domains", line_domains)
 
-        this.state.targetList.forEach(d => {
+        this.props.value.forEach(d => {
             // console.log(d)
             // if (Object.keys(d).indexOf("metrics_paper_count" > -1)) 
             this.drawHeatSquare(`heatsquare-${d.id}`, d["metrics_paper_count"], d["metrics_distribution"], line_domains)
