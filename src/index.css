@@ -31,13 +31,13 @@ div.tooltip {
 } */
 
 .tooltip-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   margin: 0;
 }
 
 .network-tooltip {
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .tooltip-doi {

@@ -1111,7 +1111,7 @@ class DetailView extends Component {
                             return `<div class="network-tooltip" style="padding:2px;width:305px">
                         
                         <div class="row" style="margin:0px;padding-left:0px;padding-right:0px">
-                        <img class="col-6" style="padding:1px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="200px">
+                        <img class="col-6" style="padding:1px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="230px">
                         <div class="col-6" style="padding:0px">
                         ${metrics}
                         <span class="tooltip-label">Synthesis route length: </span>${synthesis_route[d.id]}
