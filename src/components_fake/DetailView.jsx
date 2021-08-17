@@ -437,12 +437,12 @@ class DetailView extends Component {
             .style("fill", "white")
             .style("font-size", 13);
 
-        // Pharmocology
+        // Pharmacology
         svg.append("text")
             .attr("x", 1 / 2 * (vitroX + 1 / 2 * this.state.vitroWidth + vivoX + 1 / 2 * this.state.vivoWidth))
             .attr("y", 10)
             .attr("text-anchor", "middle")
-            .text("Pharmocology")
+            .text("Pharmacology")
             .style("fill", "white")
             .style("font-size", 13)
 
@@ -514,12 +514,12 @@ class DetailView extends Component {
             .text("III")
             .style("fill", "white").style("font-size", 13);
 
-        // Pharmaceutics
+        // Clinical Medicine
         svg.append("text")
             .attr("x", ph2X + 1 / 2 * phWidth)
             .attr("y", 10)
             .attr("text-anchor", "middle")
-            .text("Pharmaceutics")
+            .text("Clinical Medicine")
             .style("font-size", 13)
             .style("fill", "white");
 
