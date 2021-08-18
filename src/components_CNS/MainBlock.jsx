@@ -10,8 +10,7 @@ import GridLayout from 'react-grid-layout';
 import Selected from './Selected';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-// import target_data from '../target';
-import target_data from '../target_fake';
+import target_data from '../target_CNS';
 import StackedArea from './StackedArea';
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import SearchIcon from '@material-ui/icons/Search';
@@ -61,6 +60,7 @@ class MainBlock extends Component {
         } else {
             this.setState({ selected: "" })
         }
+        console.log("selectedTargets", this.state.selectedTargets)
     }
 
     handleRemoveSelection = (removeTarget) => {
@@ -95,7 +95,6 @@ class MainBlock extends Component {
         this.setState(({ selectedTargets }) => ({
             selectedTargets: arrayMove(selectedTargets, oldIndex, newIndex),
         }));
-        console.log("sort")
         console.log("selectedTargets", this.state.selectedTargets)
     };
 
@@ -121,10 +120,10 @@ class MainBlock extends Component {
                 <ScrollSync>
                     <GridLayout className="layout" layout={layout} cols={60} rowHeight={rowh} width={width} margin={[3, 0.5]} isResizable={true}>
                         <div key="a">
-                            <Card variant="outlined" style={{ height: upperHeight }}>
+                            {/* <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Signaling Pathway</p>
                                 <TargetTree visible={this.state.selectedTargets} highlight={this.state.selectedDetailTarget} />
-                            </Card>
+                            </Card> */}
                         </div>
 
                         <div key="b">
@@ -213,33 +212,7 @@ class MainBlock extends Component {
                 </ScrollSync>
 
 
-                {/* <Container fluid style={{ backgroundColor: "#e9ecef" }}>
-                    <Row style={{ height: '800px' }}>
-                        <Col md={3} >
-                            <Card variant="outlined" style={{ height: '780px', marginTop: "5px" }}>
-                                <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Left Bar</p>
-                                <CardContent>
-                                    <LeftBar value={"hi"} />
-                                </CardContent>
-                            </Card>
-                        </Col>
-                        <Col md={6} >
-                            <Card variant="outlined" style={{ height: '780px', marginTop: "5px" }}>
-                                <CardHeader title="Middle View" />
-                                <CardContent>
-                                </CardContent>
-                            </Card>
-                        </Col>
-                        <Col md={3} >
-                            <Card variant="outlined" style={{ height: '780px', marginTop: "5px" }}>
-                                <CardHeader title="Right View" />
-                                <CardContent>
-                                    <SimilarityGraph />
-                                </CardContent>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Container> */}
+
             </div >
         );
     }
