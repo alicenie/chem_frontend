@@ -1573,7 +1573,7 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    if (d.norm === 0) return "white"
+                    if (d.value === 0) return "white"
                     else return colorScale(d.norm);
                 })
                 .style("stroke-width", 2)
@@ -2122,7 +2122,7 @@ class DetailView extends Component {
     sortBy(data, attr, acsending) {
         var yDomain = [];
         data.forEach(d => {
-            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.norm])
+            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.value])
         })
         yDomain = yDomain.sort((a, b) => acsending ? (a[1] - b[1]) : (b[1] - a[1])).map(d => d[0])
         // console.log("ydomain", yDomain)
