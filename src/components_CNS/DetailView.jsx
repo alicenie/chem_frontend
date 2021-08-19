@@ -1015,6 +1015,7 @@ class DetailView extends Component {
                         // console.log(d.data.position)
                         // return node.level > d.data.position ? "#f4978e" : "lightgrey"
                         return synthesis_route[node.id] > d.data.position ? "#f4978e" : "lightgrey"
+                        // return "lightgrey"
                     })
 
             })
@@ -1024,7 +1025,7 @@ class DetailView extends Component {
                 .innerRadius(8)
                 .outerRadius(10)
                 .padAngle(0.03 * Math.PI);
-            var arc_legend = [{ level: 1, text: "1~3" }, { level: 6, text: "4~6" }, { level: 11, text: "7~10" }, { level: 16, text: ">10" }]
+            var arc_legend = [{ level: 1, text: "1~3" }, { level: 4, text: "4~6" }, { level: 7, text: "7~10" }, { level: 16, text: ">10" }]
             var text = svg.append("text").attr("y", -95);
             var legend_text = "synthesis route length";
             text.selectAll("tspan.text")
@@ -1573,7 +1574,7 @@ class DetailView extends Component {
                 .attr("width", xScale.bandwidth())
                 .attr("height", xScale.bandwidth())
                 .style("fill", (d) => {
-                    if (d.norm === 0) return "white"
+                    if (d.value === 0) return "white"
                     else return colorScale(d.norm);
                 })
                 .style("stroke-width", 2)
@@ -2122,7 +2123,7 @@ class DetailView extends Component {
     sortBy(data, attr, acsending) {
         var yDomain = [];
         data.forEach(d => {
-            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.norm])
+            if (!yDomain.includes(d.id) && d.attr == attr) yDomain.push([d.id, d.value])
         })
         yDomain = yDomain.sort((a, b) => acsending ? (a[1] - b[1]) : (b[1] - a[1])).map(d => d[0])
         // console.log("ydomain", yDomain)

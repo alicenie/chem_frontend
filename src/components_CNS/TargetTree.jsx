@@ -38,110 +38,50 @@ const cancer_tree = {
     "name": "root",
     "children": [
         {
-            "name": "EGF",
+            "name": "APP",
             "children": [
                 {
-                    "name": "EGFR",
-                    "children": [
-                        {
-                            "name": "Grb2",
-                            "children": [
-                                {
-                                    "name": "SOS",
-                                    "children": [
-                                        {
-                                            "name": "KRAS",
-                                            "children": [
-                                                {
-                                                    "name": "BRAF",
-                                                    "children": [
-                                                        {
-                                                            "name": "MEK",
-                                                            "children":
-                                                                [
-                                                                    {
-                                                                        "name": "ERK"
-                                                                    }
-                                                                ]
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "name": "PI3K"
-                                                }
-
-                                            ]
-                                        }
-                                    ]
-
-                                }
-                            ]
-                        },
-                        {
-                            "name": "PI3K",
-                            "children": [
-                                {
-                                    "name": "Akt",
-                                    "children": [
-                                        {
-                                            "name": "mTOR"
-                                        }
-                                    ]
-
-                                }
-                            ]
-                        },
-                        {
-                            "name": "JAK",
-                            "children": [
-                                {
-                                    "name": "STAT3"
-                                }
-                            ]
-                        }
-                    ]
+                    "name": "BACE"
                 }
-
             ]
         },
         {
-            "name": "subroot1",
+            "name": "DDC",
             "children": [
                 {
-                    "name": "ALK",
+                    "name": "DAT",
                     "children": [
                         {
-                            "name": "Grb2"
+                            "name": "cAMP",
+                            "children": [
+                                {
+                                    "name": "PKA"
+                                }
+                            ]
                         },
                         {
-                            "name": "PI3K"
-                        },
-                        {
-                            "name": "JAK"
+                            "name": "COMT",
+                            "children": [
+                                {
+                                    "name": "MAO-B"
+                                }
+                            ]
                         }
                     ]
                 }
-
             ]
         },
         {
-            "name": "subroot2",
+            "name": "SERT",
             "children": [
                 {
-                    "name": "HER2",
+                    "name": "5-HT",
                     "children": [
                         {
-                            "name": "Grb2"
-                        },
-                        {
-                            "name": "PI3K"
-                        },
-                        {
-                            "name": "JAK"
+                            "name": "ERK"
                         }
                     ]
                 }
-
             ]
         }
     ]
@@ -201,7 +141,7 @@ class TargetTree extends Component {
             .attr("width", width)
             .attr("height", height)
             .append("g")
-            .attr("transform", "translate(0,10)");
+            .attr("transform", "translate(0,-30)");
 
 
 
@@ -228,36 +168,28 @@ class TargetTree extends Component {
                 node_name.push(name)
             }
         })
-        // console.log("nodes", nodes)
+
         // adjust node position
-        let node_pi3k = nodes.filter(d => d.data.name === "PI3K")[0]
-        node_pi3k.y -= 40
-        let node_Akt = nodes.filter(d => d.data.name === "Akt")[0]
-        node_Akt.y += 110
-        let node_mTOR = nodes.filter(d => d.data.name === "mTOR")[0]
-        node_mTOR.y += 130
-
-        let temp_names = ["ALK", "HER2", "EGF", "EGFR"]
-        temp_names.forEach(name => {
-            let node = nodes.filter(d => d.data.name === name)[0]
-            node.y -= 42
-        })
-
-        temp_names = ["KRAS", "SOS", "STAT3"]
-        temp_names.forEach(name => {
-            let node = nodes.filter(d => d.data.name === name)[0]
-            node.x += 118
-        })
-        temp_names = ["BRAF", "MEK", "ERK"]
-        temp_names.forEach(name => {
-            let node = nodes.filter(d => d.data.name === name)[0]
-            node.x += 144
-        })
-
-        let node_MEK = nodes.filter(d => d.data.name === "MEK")[0]
-        node_MEK.y -= 10
+        let node_5ht = nodes.filter(d => d.data.name === "5-HT")[0]
+        node_5ht.y -= 10
         let node_ERK = nodes.filter(d => d.data.name === "ERK")[0]
-        node_ERK.y -= 10
+        node_ERK.y -= 20
+
+        let temp_names = ["DDC", "DAT"]
+        temp_names.forEach(name => {
+            let node = nodes.filter(d => d.data.name === name)[0]
+            node.x += 30
+        })
+        temp_names = ["cAMP", "PKA"]
+        temp_names.forEach(name => {
+            let node = nodes.filter(d => d.data.name === name)[0]
+            node.x += 50
+        })
+        temp_names = ["COMT", "MAO-B"]
+        temp_names.forEach(name => {
+            let node = nodes.filter(d => d.data.name === name)[0]
+            node.x += 10
+        })
 
         // console.log("nodes", nodes)
 

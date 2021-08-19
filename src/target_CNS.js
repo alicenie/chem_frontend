@@ -2,7 +2,55 @@ const target_data = [
   {
     id: "app",
     label: "APP",
-    tree: {},
+    tree: {
+      nodes: ["APP", "BACE"],
+      links: [["APP", "BACE"]],
+    },
+    synthesis_route: {
+      0: 5,
+      1: 3,
+      2: 5,
+      3: 5,
+      4: 4,
+      5: 3,
+      6: 3,
+      7: 5,
+      8: 3,
+      9: 3,
+      10: 3,
+      11: 5,
+      12: 4,
+      13: 5,
+      14: 4,
+      15: 4,
+      16: 5,
+      17: 5,
+      18: 4,
+      19: 5,
+      20: 4,
+      21: 3,
+      22: 5,
+      23: 5,
+      24: 3,
+      25: 5,
+      26: 5,
+      27: 3,
+      28: 5,
+      29: 5,
+      30: 5,
+      31: 4,
+      32: 3,
+      33: 3,
+      34: 4,
+      35: 4,
+      36: 5,
+      37: 3,
+      38: 5,
+      39: 3,
+      40: 3,
+      41: 3,
+      42: 5,
+    },
     paper_count: 86,
     paper_count_year: {
       1987: [1, 76, 4],
@@ -260,7 +308,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { hERG: 0.000998001996003992 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.04526639070636934 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.06794948887552615 },
       },
       {
         id: 1,
@@ -329,7 +377,7 @@ const target_data = [
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {
           AUC: 0.0,
-          bioavailability: 0.004539991988249433,
+          bioavailability: 0.006814992984566046,
         },
       },
       {
@@ -394,7 +442,7 @@ const target_data = [
           hERG: 0.003598007196014392,
           solubility: 0.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.41247162505007345 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.6191621567448387 },
       },
       {
         id: 3,
@@ -449,7 +497,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 9.366316643944675e-5, hERG: 0.0 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.3657364134063293 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5490078171978352 },
       },
       {
         id: 4,
@@ -512,7 +560,7 @@ const target_data = [
           hERG: 1.0,
           solubility: 0.0044426494345718905,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.33235411937508347 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.4988975746642614 },
       },
       {
         id: 5,
@@ -581,7 +629,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.9638554216867468,
-          bioavailability: 0.5526772599813059,
+          bioavailability: 0.8296251753858489,
         },
       },
       {
@@ -735,7 +783,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.29897182534383765 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.4487873321306875 },
       },
       {
         id: 9,
@@ -782,26 +830,7 @@ const target_data = [
           t_half: 0.0,
           bioavailability: 0.0,
         },
-        clinical_statistics: {
-          p1_company_num: 0,
-          p1_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-          p1_company: [[], [], [], [], [], [], [], [], []],
-          p1_terminate_reason: {},
-          p1_withdraw_reason: {},
-          p1_adverse_event: {},
-          p2_company_num: 0,
-          p2_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-          p2_company: [[], [], [], [], [], [], [], [], []],
-          p2_terminate_reason: {},
-          p2_withdraw_reason: {},
-          p2_adverse_event: {},
-          p3_company_num: 0,
-          p3_stat_company_num: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-          p3_company: [[], [], [], [], [], [], [], [], []],
-          p3_terminate_reason: {},
-          p3_withdraw_reason: {},
-          p3_adverse_event: {},
-        },
+        clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {},
       },
@@ -916,7 +945,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { solubility: 0.1094507269789984 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.06529576712511684 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.09801563439567047 },
       },
       {
         id: 12,
@@ -969,7 +998,7 @@ const target_data = [
           IC50: 0.10395570772929263,
           hERG: 0.004998009996019992,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.5994124716250501 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.8997795149328522 },
       },
       {
         id: 13,
@@ -1032,7 +1061,7 @@ const target_data = [
         norm_pharm_metrics_vivo: {
           ED50: 0.5,
           AUC: 0.007072135785007072,
-          bioavailability: 0.011884096675123515,
+          bioavailability: 0.017839246341952296,
         },
       },
       {
@@ -1086,7 +1115,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { hERG: 0.04999809999619999 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.26558953131259183 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.3986770895971137 },
       },
       {
         id: 15,
@@ -1145,7 +1174,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 0.10395570772929263 },
         norm_pharm_metrics_vivo: {
           t_half: 1.0,
-          bioavailability: 0.4905861930831887,
+          bioavailability: 0.7364201242734015,
         },
       },
       {
@@ -1217,7 +1246,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 0.11124062067458296 },
         norm_pharm_metrics_vivo: {
           t_half: 0.3975903614457831,
-          bioavailability: 0.49258913072506344,
+          bioavailability: 0.7394267388254159,
         },
       },
       {
@@ -1493,7 +1522,7 @@ const target_data = [
           IC50: 0.2912820406081862,
           hERG: 0.00999801999603999,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.29897182534383765 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.4487873321306875 },
       },
       {
         id: 21,
@@ -1554,7 +1583,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.0, selectivity: 1.0 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.6327947656562959 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.9498897574664261 },
       },
       {
         id: 22,
@@ -1617,7 +1646,7 @@ const target_data = [
           IC50: 0.0001873263328788935,
           solubility: 0.4123586429725363,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.6661770596875417 },
+        norm_pharm_metrics_vivo: { bioavailability: 1.0 },
       },
       {
         id: 23,
@@ -1763,7 +1792,7 @@ const target_data = [
           hERG: 2.7000054000108004e-5,
           solubility: 0.18012924071082392,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.4725597543063159 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.7093605933052716 },
       },
       {
         id: 24,
@@ -1847,7 +1876,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 1.0, hERG: 0.000998001996003992 },
         norm_pharm_metrics_vivo: {
           t_half: 0.09518072289156626,
-          bioavailability: 0.25891307250634266,
+          bioavailability: 0.3886550410903989,
         },
       },
       {
@@ -1907,7 +1936,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.0007669972629541364 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.1721191080251035 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.2583684105031068 },
       },
       {
         id: 26,
@@ -1974,7 +2003,7 @@ const target_data = [
         norm_pharm_metrics_vivo: {
           AUC: 1.0,
           t_half: 0.0,
-          bioavailability: 0.33235411937508347,
+          bioavailability: 0.4988975746642614,
         },
       },
       {
@@ -2054,7 +2083,7 @@ const target_data = [
           p3_adverse_event: {},
         },
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.26558953131259183 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.3986770895971137 },
       },
       {
         id: 28,
@@ -2279,7 +2308,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.0001977333513721654 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.17879556683135267 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.2683904590098216 },
       },
       {
         id: 32,
@@ -2388,7 +2417,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.10395570772929263 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.33235411937508347 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.4988975746642614 },
       },
       {
         id: 34,
@@ -2489,11 +2518,11 @@ const target_data = [
           AUC: 0.0,
           solubility: 0.0,
           t_half: 0.0,
-          bioavailability: 150.0,
+          bioavailability: 0.0,
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.10395570772929263 },
-        norm_pharm_metrics_vivo: { bioavailability: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 36,
@@ -2594,7 +2623,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 0.4994224104736234 },
         norm_pharm_metrics_vivo: {
           t_half: 0.03614457831325302,
-          bioavailability: 0.3991187074375751,
+          bioavailability: 0.5991180597314091,
         },
       },
       {
@@ -2648,7 +2677,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.000676456202062671 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.5860595540125517 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.8797354179194228 },
       },
       {
         id: 39,
@@ -2712,7 +2741,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.09638554216867469,
-          bioavailability: 0.2455601548938443,
+          bioavailability: 0.3686109440769693,
         },
       },
       {
@@ -2765,7 +2794,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.001810821217829304 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.33969822406195754 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5099218280216476 },
       },
       {
         id: 41,
@@ -2881,7 +2910,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 0.005193102228142659 },
         norm_pharm_metrics_vivo: {
           t_half: 0.31927710843373497,
-          bioavailability: 0.19882494325010017,
+          bioavailability: 0.2984566045299659,
         },
       },
     ],
@@ -3805,7 +3834,7 @@ const target_data = [
       ED50_Cl: 1,
       thalf_Cl: 10,
       AUC_Cl: 3,
-      bio_Cl: 30,
+      bio_Cl: 29,
       solubility_Cl: 0,
       adverse_1: 9,
       adverse_2: 9,
@@ -3846,7 +3875,7 @@ const target_data = [
       bio_Cl: [
         7.0, 0.9, 62.0, 55.0, 50.0, 83.0, 45.0, 10.0, 90.0, 2.0, 40.0, 73.7,
         74.0, 45.0, 95.0, 100.0, 71.0, 39.0, 26.0, 50.0, 40.0, 27.0, 0.22, 50.0,
-        150.0, 60.0, 88.0, 37.0, 51.1, 30.0,
+        60.0, 88.0, 37.0, 51.1, 30.0,
       ],
       solubility_Cl: [],
       adverse_1: [0.0, 0.0],
@@ -3857,7 +3886,15 @@ const target_data = [
   {
     id: "comt",
     label: "COMT",
-    tree: {},
+    tree: {
+      nodes: ["DDC", "DAT", "COMT", "MAO-B"],
+      links: [
+        ["DDC", "DAT"],
+        ["DAT", "COMT"],
+        ["COMT", "MAO-B"],
+      ],
+    },
+    synthesis_route: { 0: 3, 1: 3, 2: 3, 3: 3, 4: 5, 5: 5, 6: 3, 7: 3, 8: 3 },
     paper_count: 16,
     paper_count_year: {
       1988: [1, 7, 2],
@@ -4622,7 +4659,56 @@ const target_data = [
   {
     id: "dat",
     label: "DAT",
-    tree: {},
+    tree: {
+      nodes: ["DDC", "DAT", "COMT", "MAO-B", "cAMP", "PKA"],
+      links: [
+        ["DDC", "DAT"],
+        ["DAT", "COMT"],
+        ["COMT", "MAO-B"],
+        ["DAT", "cAMP"],
+        ["cAMP", "PKA"],
+      ],
+    },
+    synthesis_route: {
+      0: 3,
+      1: 3,
+      2: 3,
+      3: 3,
+      4: 3,
+      5: 5,
+      6: 5,
+      7: 4,
+      8: 5,
+      9: 3,
+      10: 3,
+      11: 4,
+      12: 3,
+      13: 3,
+      14: 3,
+      15: 3,
+      16: 3,
+      17: 5,
+      18: 5,
+      19: 5,
+      20: 3,
+      21: 4,
+      22: 4,
+      23: 5,
+      24: 3,
+      25: 5,
+      26: 5,
+      27: 5,
+      28: 5,
+      29: 3,
+      30: 5,
+      31: 3,
+      32: 4,
+      33: 3,
+      34: 3,
+      35: 3,
+      36: 5,
+      37: 5,
+    },
     paper_count: 114,
     paper_count_year: {
       1987: [1, 8, 3],
@@ -8902,7 +8988,56 @@ const target_data = [
   {
     id: "sert",
     label: "SERT",
-    tree: {},
+    tree: {
+      nodes: ["SERT", "5-HT", "ERK"],
+      links: [
+        ["SERT", "5-HT"],
+        ["5-HT", "ERK"],
+      ],
+    },
+    synthesis_route: {
+      0: 3,
+      1: 5,
+      2: 4,
+      3: 5,
+      4: 5,
+      5: 3,
+      6: 3,
+      7: 3,
+      8: 3,
+      9: 3,
+      10: 3,
+      11: 3,
+      12: 5,
+      13: 3,
+      14: 5,
+      15: 3,
+      16: 3,
+      17: 3,
+      18: 5,
+      19: 4,
+      20: 5,
+      21: 4,
+      22: 4,
+      23: 5,
+      24: 5,
+      25: 3,
+      26: 5,
+      27: 3,
+      28: 5,
+      29: 5,
+      30: 4,
+      31: 5,
+      32: 4,
+      33: 5,
+      34: 3,
+      35: 3,
+      36: 3,
+      37: 3,
+      38: 5,
+      39: 3,
+      40: 5,
+    },
     paper_count: 90,
     paper_count_year: {
       1987: [1, 1, 0],
@@ -9202,7 +9337,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.00533082470994042, hERG: 1.0 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.04358974358974359 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.1717171717171717 },
       },
       {
         id: 3,
@@ -9260,7 +9395,7 @@ const target_data = [
           IC50: 0.6582000627155848,
           hERG: 0.09990639026458752,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.20256410256410257 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.797979797979798 },
       },
       {
         id: 4,
@@ -9819,7 +9954,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           AUC: 0.009472642443093454,
-          bioavailability: 0.23846153846153847,
+          bioavailability: 0.9393939393939394,
         },
       },
       {
@@ -9872,7 +10007,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 0.0001254311696456569 },
         norm_pharm_metrics_vivo: {
           AUC: 0.005231160752156087,
-          bioavailability: 0.06923076923076923,
+          bioavailability: 0.2727272727272727,
         },
       },
       {
@@ -9978,7 +10113,7 @@ const target_data = [
           EC50: 0.0003796507213363709,
           solubility: 1.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.15128205128205127 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5959595959595959 },
       },
       {
         id: 9,
@@ -10138,7 +10273,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.12564102564102564 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.494949494949495 },
       },
       {
         id: 12,
@@ -10261,7 +10396,7 @@ const target_data = [
           IC50: 0.00043900909375979927,
           hERG: 0.59995839567315,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.15384615384615385 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.6060606060606061 },
       },
       {
         id: 14,
@@ -10473,7 +10608,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { Ki: 1.0, IC50: 1.0 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.05384615384615385 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.21212121212121213 },
       },
       {
         id: 18,
@@ -10813,7 +10948,7 @@ const target_data = [
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {
           t_half: 1.0,
-          bioavailability: 0.010256410256410256,
+          bioavailability: 0.04040404040404041,
         },
       },
       {
@@ -10868,7 +11003,7 @@ const target_data = [
           IC50: 0.0002947632486672938,
           hERG: 0.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.09512820512820513 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.3747474747474748 },
       },
       {
         id: 20,
@@ -10978,7 +11113,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.013797428661022263 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.11282051282051282 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.4444444444444444 },
       },
       {
         id: 22,
@@ -11263,7 +11398,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.34775791784258386 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.12564102564102564 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.494949494949495 },
       },
       {
         id: 27,
@@ -11314,11 +11449,11 @@ const target_data = [
           AUC: 0.0,
           solubility: 0.0,
           t_half: 0.0,
-          bioavailability: 391.0,
+          bioavailability: 0.0,
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.3665725932894324, EC50: 1.0 },
-        norm_pharm_metrics_vivo: { bioavailability: 1.0 },
+        norm_pharm_metrics_vivo: {},
       },
       {
         id: 28,
@@ -11372,7 +11507,7 @@ const target_data = [
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {
           AUC: 0.0,
-          bioavailability: 0.002564102564102564,
+          bioavailability: 0.010101010101010102,
         },
       },
       {
@@ -11489,7 +11624,7 @@ const target_data = [
           IC50: 0.0008466603951081844,
           selectivity: 1.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.12564102564102564 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.494949494949495 },
       },
       {
         id: 31,
@@ -11551,7 +11686,7 @@ const target_data = [
           IC50: 0.0027281279397930384,
           hERG: 1.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.2076923076923077 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.8181818181818182 },
       },
       {
         id: 32,
@@ -11733,7 +11868,7 @@ const target_data = [
         norm_pharm_metrics_vivo: {
           AUC: 1.0,
           t_half: 0.21404682274247488,
-          bioavailability: 0.12564102564102564,
+          bioavailability: 0.494949494949495,
         },
       },
       {
@@ -11797,7 +11932,7 @@ const target_data = [
           hERG: 0.0023962492099178314,
           solubility: 0.00026190997877019115,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.25384615384615383 },
+        norm_pharm_metrics_vivo: { bioavailability: 1.0 },
       },
       {
         id: 36,
@@ -11853,7 +11988,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { solubility: 0.42997828217255074 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.1358974358974359 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5353535353535354 },
       },
       {
         id: 37,
@@ -11913,7 +12048,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { solubility: 0.035963270200594644 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.12564102564102564 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.494949494949495 },
       },
       {
         id: 38,
@@ -12530,7 +12665,7 @@ const target_data = [
           IC50: 0.0009720915647538413,
           hERG: 0.4999479945914375,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.005128205128205128 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.020202020202020204 },
       },
       {
         id: 40,
@@ -12597,7 +12732,7 @@ const target_data = [
           IC50: 0.002508623392913139,
           solubility: 0.49998094927416736,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.12564102564102564 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.494949494949495 },
       },
     ],
     medicinal_chemistry_similarity: [
@@ -13437,7 +13572,7 @@ const target_data = [
       ED50_Cl: 2,
       thalf_Cl: 5,
       AUC_Cl: 6,
-      bio_Cl: 24,
+      bio_Cl: 23,
       solubility_Cl: 0,
       adverse_1: 405,
       adverse_2: 303,
@@ -13481,7 +13616,7 @@ const target_data = [
       AUC_Cl: [3020.0, 70.0, 40.0, 420.0, 3.0, 7076.0],
       bio_Cl: [
         18.0, 80.0, 94.0, 28.0, 60.0, 50.0, 61.0, 22.0, 5.0, 38.1, 45.0, 50.0,
-        391.0, 2.0, 1.0, 50.0, 82.0, 1.0, 50.0, 100.0, 54.0, 50.0, 3.0, 50.0,
+        2.0, 1.0, 50.0, 82.0, 1.0, 50.0, 100.0, 54.0, 50.0, 3.0, 50.0,
       ],
       solubility_Cl: [],
       adverse_1: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25],
@@ -13511,7 +13646,90 @@ const target_data = [
   {
     id: "mao_b",
     label: "MAO-B",
-    tree: {},
+    tree: {
+      nodes: ["DDC", "DAT", "COMT", "MAO-B"],
+      links: [
+        ["DDC", "DAT"],
+        ["DAT", "COMT"],
+        ["COMT", "MAO-B"],
+      ],
+    },
+    synthesis_route: {
+      0: 3,
+      1: 5,
+      2: 3,
+      3: 3,
+      4: 3,
+      5: 5,
+      6: 5,
+      7: 3,
+      8: 5,
+      9: 5,
+      10: 5,
+      11: 3,
+      12: 3,
+      13: 3,
+      14: 4,
+      15: 3,
+      16: 3,
+      17: 3,
+      18: 5,
+      19: 4,
+      20: 4,
+      21: 3,
+      22: 3,
+      23: 5,
+      24: 3,
+      25: 3,
+      26: 5,
+      27: 5,
+      28: 4,
+      29: 4,
+      30: 5,
+      31: 3,
+      32: 3,
+      33: 3,
+      34: 3,
+      35: 3,
+      36: 3,
+      37: 5,
+      38: 3,
+      39: 5,
+      40: 5,
+      41: 4,
+      42: 3,
+      43: 3,
+      44: 3,
+      45: 3,
+      46: 3,
+      47: 4,
+      48: 3,
+      49: 3,
+      50: 5,
+      51: 3,
+      52: 3,
+      53: 3,
+      54: 3,
+      55: 5,
+      56: 5,
+      57: 3,
+      58: 5,
+      59: 4,
+      60: 3,
+      61: 4,
+      62: 3,
+      63: 3,
+      64: 5,
+      65: 5,
+      66: 2,
+      67: 2,
+      68: 3,
+      69: 3,
+      70: 3,
+      71: 5,
+      72: 5,
+      73: 3,
+    },
     paper_count: 143,
     paper_count_year: {
       1988: [1, 5, 4],
@@ -13694,7 +13912,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.0,
-          bioavailability: 0.10264550264550265,
+          bioavailability: 0.5938775510204082,
         },
       },
       {
@@ -13803,7 +14021,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.16649029982363317 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.963265306122449 },
       },
       {
         id: 4,
@@ -14308,7 +14526,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 1.0,
-          bioavailability: 0.027865961199294534,
+          bioavailability: 0.16122448979591839,
         },
       },
       {
@@ -14368,7 +14586,7 @@ const target_data = [
           hERG: 1.0,
           solubility: 0.004112959078620687,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.04938271604938271 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.2857142857142857 },
       },
       {
         id: 6,
@@ -14419,7 +14637,7 @@ const target_data = [
           AUC: 17.0,
           solubility: 0.0,
           t_half: 0.0,
-          bioavailability: 568.0,
+          bioavailability: 0.0,
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {
@@ -14428,10 +14646,7 @@ const target_data = [
           EC50: 0.0022509646991567813,
           hERG: 0.001618498328781856,
         },
-        norm_pharm_metrics_vivo: {
-          AUC: 0.007905138339920948,
-          bioavailability: 1.0,
-        },
+        norm_pharm_metrics_vivo: { AUC: 0.007905138339920948 },
       },
       {
         id: 7,
@@ -14486,7 +14701,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { hERG: 0.02468341750930505 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.03686067019400353 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.21326530612244896 },
       },
       {
         id: 8,
@@ -14540,7 +14755,7 @@ const target_data = [
           EC50: 0.00044661997999142497,
           hERG: 0.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.10828924162257496 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.6265306122448979 },
       },
       {
         id: 9,
@@ -14597,7 +14812,7 @@ const target_data = [
         norm_pharm_metrics_vivo: {
           ED50: 0.0,
           t_half: 0.002609827798495372,
-          bioavailability: 0.1657848324514991,
+          bioavailability: 0.9591836734693877,
         },
       },
       {
@@ -14653,7 +14868,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           AUC: 0.008893280632411068,
-          bioavailability: 0.047619047619047616,
+          bioavailability: 0.2755102040816326,
         },
       },
       {
@@ -14813,7 +15028,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.0005600509137194291 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.10703703703703703 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.6192857142857142 },
       },
       {
         id: 14,
@@ -14926,7 +15141,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.003527336860670194 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.02040816326530612 },
       },
       {
         id: 16,
@@ -14986,7 +15201,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           AUC: 0.0,
-          bioavailability: 0.13932980599647266,
+          bioavailability: 0.8061224489795918,
         },
       },
       {
@@ -15042,7 +15257,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.07242124859346188,
-          bioavailability: 0.10934744268077601,
+          bioavailability: 0.6326530612244898,
         },
       },
       {
@@ -15106,7 +15321,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { hERG: 0.001618498328781856 },
         norm_pharm_metrics_vivo: {
           t_half: 0.39850244192691303,
-          bioavailability: 0.022574955908289243,
+          bioavailability: 0.1306122448979592,
         },
       },
       {
@@ -15330,7 +15545,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 1.0 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.10934744268077601 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.6326530612244898 },
       },
       {
         id: 23,
@@ -15389,7 +15604,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.7142739317674367,
-          bioavailability: 0.1728395061728395,
+          bioavailability: 1.0,
         },
       },
       {
@@ -15441,7 +15656,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.029982363315696647 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.17346938775510204 },
       },
       {
         id: 25,
@@ -15550,7 +15765,7 @@ const target_data = [
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {
           AUC: 1.0,
-          bioavailability: 0.04056437389770723,
+          bioavailability: 0.23469387755102042,
         },
       },
       {
@@ -15654,7 +15869,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.0, hERG: 0.16472042681962443 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.03350970017636684 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.19387755102040816 },
       },
       {
         id: 29,
@@ -15890,7 +16105,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.001763668430335097 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.01020408163265306 },
       },
       {
         id: 33,
@@ -16070,7 +16285,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { solubility: 0.006992979440364644 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.003527336860670194 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.02040816326530612 },
       },
       {
         id: 36,
@@ -16186,7 +16401,7 @@ const target_data = [
           hERG: 0.016445946373403908,
           solubility: 1.0,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.042328042328042326 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.24489795918367346 },
       },
       {
         id: 38,
@@ -16240,7 +16455,7 @@ const target_data = [
           IC50: 0.0012174743158468952,
           selectivity: 0.00404040404040404,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.04938271604938271 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.2857142857142857 },
       },
       {
         id: 39,
@@ -16347,7 +16562,7 @@ const target_data = [
           IC50: 0.09082643876716065,
           hERG: 0.001618498328781856,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.08994708994708994 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5204081632653061 },
       },
       {
         id: 41,
@@ -16405,7 +16620,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           AUC: 0.0009881422924901185,
-          bioavailability: 0.1693121693121693,
+          bioavailability: 0.9795918367346939,
         },
       },
       {
@@ -16461,7 +16676,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.0016137830711882898 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.13051146384479717 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.7551020408163265 },
       },
       {
         id: 43,
@@ -16512,7 +16727,7 @@ const target_data = [
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {
           t_half: 0.0008424500568506508,
-          bioavailability: 0.15167548500881833,
+          bioavailability: 0.8775510204081632,
         },
       },
       {
@@ -16568,7 +16783,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { solubility: 0.01999307135101445 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.003527336860670194 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.02040816326530612 },
       },
       {
         id: 45,
@@ -16624,7 +16839,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { solubility: 0.08982356505260491 },
         norm_pharm_metrics_vivo: {
           ED50: 0.5663775850567044,
-          bioavailability: 0.07178130511463846,
+          bioavailability: 0.41530612244897963,
         },
       },
       {
@@ -16953,7 +17168,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { solubility: 0.007402982339085137 },
         norm_pharm_metrics_vivo: {
           t_half: 0.0015494011535085396,
-          bioavailability: 0.07760141093474426,
+          bioavailability: 0.4489795918367347,
         },
       },
       {
@@ -17007,7 +17222,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.08112874779541446 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.46938775510204084 },
       },
       {
         id: 53,
@@ -17061,7 +17276,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.0014315759707322247,
-          bioavailability: 0.10405643738977072,
+          bioavailability: 0.6020408163265306,
         },
       },
       {
@@ -17227,7 +17442,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           AUC: 0.14278656126482214,
-          bioavailability: 0.15696649029982362,
+          bioavailability: 0.9081632653061225,
         },
       },
       {
@@ -17285,7 +17500,7 @@ const target_data = [
         norm_pharm_metrics_vitro: {},
         norm_pharm_metrics_vivo: {
           ED50: 1.0,
-          bioavailability: 0.14462081128747795,
+          bioavailability: 0.8367346938775511,
         },
       },
       {
@@ -17345,7 +17560,7 @@ const target_data = [
           EC50: 1.0,
           hERG: 0.16472042681962443,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.06349206349206349 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.3673469387755102 },
       },
       {
         id: 59,
@@ -17406,7 +17621,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 1.8183471224656784e-5 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.14814814814814814 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.8571428571428571 },
       },
       {
         id: 60,
@@ -17513,7 +17728,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.04664060369124466 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.1657848324514991 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.9591836734693877 },
       },
       {
         id: 62,
@@ -17569,7 +17784,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: { IC50: 0.02936630602782071 },
-        norm_pharm_metrics_vivo: { bioavailability: 0.08641975308641975 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5 },
       },
       {
         id: 63,
@@ -17624,7 +17839,7 @@ const target_data = [
         norm_pharm_metrics_vitro: { IC50: 0.00047731611964724066 },
         norm_pharm_metrics_vivo: {
           t_half: 0.10158298133059979,
-          bioavailability: 0.06155202821869488,
+          bioavailability: 0.35612244897959183,
         },
       },
       {
@@ -17720,7 +17935,7 @@ const target_data = [
           IC50: 0.07991635603236658,
           solubility: 0.0700934255605187,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.03880070546737213 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.22448979591836735 },
       },
       {
         id: 65,
@@ -17831,7 +18046,7 @@ const target_data = [
           IC50: 0.002363851259205382,
           hERG: 0.04115835978110732,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.052204585537918874 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.3020408163265306 },
       },
       {
         id: 67,
@@ -17877,14 +18092,11 @@ const target_data = [
           AUC: 0.0,
           solubility: 0.0,
           t_half: 9.4,
-          bioavailability: 103.5,
+          bioavailability: 0.0,
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: {
-          t_half: 0.05091815273678444,
-          bioavailability: 0.18077601410934743,
-        },
+        norm_pharm_metrics_vivo: { t_half: 0.05091815273678444 },
       },
       {
         id: 68,
@@ -17944,7 +18156,7 @@ const target_data = [
         },
         norm_pharm_metrics_vivo: {
           t_half: 0.16638683185757291,
-          bioavailability: 0.04938271604938271,
+          bioavailability: 0.2857142857142857,
         },
       },
       {
@@ -18045,7 +18257,7 @@ const target_data = [
         },
         clinical_statistics: {},
         norm_pharm_metrics_vitro: {},
-        norm_pharm_metrics_vivo: { bioavailability: 0.08994708994708994 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.5204081632653061 },
       },
       {
         id: 71,
@@ -18199,7 +18411,7 @@ const target_data = [
           hERG: 0.018093440600584137,
           solubility: 6.893048733854547e-5,
         },
-        norm_pharm_metrics_vivo: { bioavailability: 0.13227513227513227 },
+        norm_pharm_metrics_vivo: { bioavailability: 0.7653061224489796 },
       },
     ],
     medicinal_chemistry_similarity: [
@@ -20920,7 +21132,7 @@ const target_data = [
       ED50_Cl: 3,
       thalf_Cl: 15,
       AUC_Cl: 9,
-      bio_Cl: 47,
+      bio_Cl: 45,
       solubility_Cl: 0,
       adverse_1: 175,
       adverse_2: 131,
@@ -20974,10 +21186,10 @@ const target_data = [
       ],
       AUC_Cl: [17.0, 19.0, 12.0, 1.0, 3.0, 2025.0, 3.0, 290.0, 2.0],
       bio_Cl: [
-        59.2, 95.4, 16.8, 29.0, 568.0, 21.9, 62.4, 95.0, 28.0, 61.69, 3.0, 80.0,
-        63.0, 13.8, 63.0, 99.0, 18.0, 24.0, 20.0, 2.0, 3.0, 25.0, 29.0, 1.0,
-        52.0, 97.0, 75.0, 87.0, 3.0, 41.7, 1.0, 45.0, 47.0, 60.0, 90.0, 83.0,
-        37.0, 85.0, 95.0, 50.0, 35.9, 23.0, 30.6, 103.5, 29.0, 52.0, 76.0,
+        59.2, 95.4, 16.8, 29.0, 21.9, 62.4, 95.0, 28.0, 61.69, 3.0, 80.0, 63.0,
+        13.8, 63.0, 99.0, 18.0, 24.0, 20.0, 2.0, 3.0, 25.0, 29.0, 1.0, 52.0,
+        97.0, 75.0, 87.0, 3.0, 41.7, 1.0, 45.0, 47.0, 60.0, 90.0, 83.0, 37.0,
+        85.0, 95.0, 50.0, 35.9, 23.0, 30.6, 29.0, 52.0, 76.0,
       ],
       solubility_Cl: [],
       adverse_1: [0.0, 0.0, 0.0],

@@ -120,10 +120,10 @@ class MainBlock extends Component {
                 <ScrollSync>
                     <GridLayout className="layout" layout={layout} cols={60} rowHeight={rowh} width={width} margin={[3, 0.5]} isResizable={true}>
                         <div key="a">
-                            {/* <Card variant="outlined" style={{ height: upperHeight }}>
+                            <Card variant="outlined" style={{ height: upperHeight }}>
                                 <p style={{ backgroundColor: "#e9ecef", margin: "5px", paddingLeft: "5px" }}>Signaling Pathway</p>
                                 <TargetTree visible={this.state.selectedTargets} highlight={this.state.selectedDetailTarget} />
-                            </Card> */}
+                            </Card>
                         </div>
 
                         <div key="b">

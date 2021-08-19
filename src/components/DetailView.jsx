@@ -1024,7 +1024,7 @@ class DetailView extends Component {
                 .innerRadius(8)
                 .outerRadius(10)
                 .padAngle(0.03 * Math.PI);
-            var arc_legend = [{ level: 1, text: "1~3" }, { level: 6, text: "4~6" }, { level: 11, text: "7~10" }, { level: 16, text: ">10" }]
+            var arc_legend = [{ level: 1, text: "1~3" }, { level: 4, text: "4~6" }, { level: 7, text: "7~10" }, { level: 16, text: ">10" }]
             var text = svg.append("text").attr("y", -95);
             var legend_text = "synthesis route length";
             text.selectAll("tspan.text")
