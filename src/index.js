@@ -5,8 +5,8 @@ import "./index.css";
 // import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 // import MainBlock from "./components/MainBlock";
-import MainBlock from "./components_fake/MainBlock";
-// import MainBlock from "./components_CNS/MainBlock";
+// import MainBlock from "./components_fake/MainBlock";
+import MainBlock from "./components_CNS/MainBlock";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import STAT3 from '../target_img/STAT3.png';
-import ALK from '../target_img/ALK.png';
-import EGFR from '../target_img/EGFR.png';
-import HER2 from '../target_img/HER2.png';
-import KRAS from '../target_img/KRAS.png';
+import APP from '../target_img/APP.png';
+import COMT from '../target_img/COMT.png';
+import DAT from '../target_img/DAT.png';
+import MAO_B from '../target_img/MAO_B.png';
+import SERT from '../target_img/SERT.png';
 import IconButton from '@material-ui/core/IconButton';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
@@ -22,11 +22,11 @@ import arrayMove from 'array-move';
 const DragHandle = sortableHandle(() => <span style={{ cursor: "move" }}>::</span>);
 
 const img = {
-    app: ALK,
-    comt: EGFR,
-    dat: HER2,
-    sert: KRAS,
-    mao_b: STAT3
+    app: APP,
+    comt: COMT,
+    dat: DAT,
+    sert: SERT,
+    mao_b: MAO_B
 }
 
 const SortableItem = sortableElement(({ target, height, width, color, onSelect, onRemove }) => (
@@ -36,7 +36,7 @@ const SortableItem = sortableElement(({ target, height, width, color, onSelect, 
                 <DragHandle />
             </div>
             <div className="col-3" style={{ paddingLeft: 6 }} >
-                <img src={img[target.id]} width="80" data-tip data-for={target.id} />
+                <img src={img[target.id]} width="70" data-tip data-for={target.id} />
                 <ReactTooltip id={target.id} type="light">
                     <img src={img[target.id]} width="180" />
                 </ReactTooltip>
@@ -105,13 +105,6 @@ class Selected extends Component {
     };
 
     render() {
-        const img = {
-            ALK: ALK,
-            EGFR: EGFR,
-            HER2: HER2,
-            KRAS: KRAS,
-            STAT3: STAT3
-        }
         // const { items } = this.props;
         return (
             <ScrollSyncPane>
