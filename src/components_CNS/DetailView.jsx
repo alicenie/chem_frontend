@@ -947,7 +947,7 @@ class DetailView extends Component {
                             // console.log("link d", d)
                             let valueScale = d3.scaleQuantize().domain([0, 1]).range([0, 0.2, 0.4, 0.6, 0.8, 1])
                             // console.log("valuescale d", d.value, valueScale(d.value))
-                            return (1 - valueScale(d.value)) ** 1.5 * 185
+                            return (1 - valueScale(d.value)) ** 1.5 * 180
                             // return (1 - d.value) * 200
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
