@@ -31,13 +31,17 @@ div.tooltip {
 } */
 
 .tooltip-title {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   margin: 0;
 }
 
+.tooltip-author {
+  font-size: 8px;
+}
+
 .network-tooltip {
-  font-size: 9px;
+  font-size: 8px;
 }
 
 .tooltip-doi {
@@ -96,7 +100,7 @@ path.root-path-class {
   background-color: rgb(255, 255, 255);
   height: 15px;
   line-height: 15px;
-  width: 28px;
+  width: 26px;
   text-align: center;
   border-radius: 15%;
   border-style: solid;

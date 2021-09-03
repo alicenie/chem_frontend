@@ -75,7 +75,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("height", 10900)
+            .attr("height", 405)
             .attr("width", 20 + this.state.medchemWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -88,7 +88,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 25 + this.state.medchemWidth)
             .attr("y", 0)
-            .attr("height", 10900)
+            .attr("height", 405)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -108,7 +108,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth)
             .attr("y", 0)
-            .attr("height", 10900)
+            .attr("height", 405)
             .attr("width", this.state.sankeyWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -721,6 +721,7 @@ class DetailView extends Component {
             .filter((node) => node.id == id || click_nodes[node.id])
             .style("stroke", "orange")
             .style("stroke-width", 3)
+            .raise()
 
         d3.selectAll("rect.heatmap")
             .filter((node) => node.id != id && !click_nodes[node.id])
@@ -947,13 +948,13 @@ class DetailView extends Component {
                             // console.log("link d", d)
                             let valueScale = d3.scaleQuantize().domain([0, 1]).range([0, 0.2, 0.4, 0.6, 0.8, 1])
                             // console.log("valuescale d", d.value, valueScale(d.value))
-                            return (1 - valueScale(d.value)) ** 1.5 * 185
+                            return (1 - valueScale(d.value)) ** 1.5 * 220
                             // return (1 - d.value) * 200
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
                 )
-                .force("charge", d3.forceManyBody().strength(0)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-                .force("center", d3.forceCenter(width / 2 - 6, height / 2 + 30)) // This force attracts nodes to the center of the svg area
+                .force("charge", d3.forceManyBody().strength(-10)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+                .force("center", d3.forceCenter(width / 2 - 6, height / 2 + 0)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
                     // return rScale(d.value)
@@ -1060,8 +1061,8 @@ class DetailView extends Component {
 
             svg.append("text")
                 .text("distance between nodes = molecule structure similarity")
-                .attr("x", 8)
-                .attr("y", -30)
+                .attr("x", 5)
+                .attr("y", 295)
                 .style("font-size", 12)
                 .style("fill", "#495057")
 
@@ -1106,35 +1107,38 @@ class DetailView extends Component {
                                 let unit = "nM";
                                 if (key === "selectivity") unit = "fold"
                                 if (value)
-                                    metrics += `<span class="tooltip-label">${key}:</span> ${value} ${unit}<br/>`
+                                    metrics += `<span class="tooltip-label">${key}:</span><br/>${value} ${unit}<br/>`
                             }
-                            return `<div class="network-tooltip" style="padding:2px;width:305px">
+                            return `<div class="network-tooltip" style="padding:2px;width:313px">
                         
                         <div class="row" style="margin:0px;padding-left:0px;padding-right:0px">
-                        <img class="col-6" style="padding:1px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="230px">
-                        <div class="col-6" style="padding:0px">
-                        ${metrics}
+                        <img class="col-10" style="padding:0px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="330px">
+                        <div class="col-2" style="padding:1px;padding-left:3px">
+                        ${metrics}<br/>
                         <span class="tooltip-label">Synthesis route length: </span>${synthesis_route[d.id]}
                         </div>
                         </div>
 
-                        <div  style="margin:0px;margin-top:5px;padding:0px">
+                        <div  style="margin:0px;margin-top:2px;padding:0px">
                         <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
-                        <span class="tooltip-author">${author}</span><br/><br/>
-                        <div class="row">
-                        <div class="col-9">
-                        <span class="tooltip-label">Doi: </span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a>
-                        </div><div class="col-3" style="margin:0px;padding:0px;">
+                        <div style="padding-top:2px">
+                        <span class="tooltip-author"><span class="tooltip-label">Author: </span> ${author}</span></div>
+                        <div style="padding-top:2px">
                         <span class="tooltip-label">Cited: </span><span>${parseFloat(d.paper_cited)}</span>
+                        </div>
+                        <div class="row">
+                        <div class="col-6">
+                        <span class="tooltip-label">Doi: </span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a>
+                        </div><div class="col-6" style="margin:0px;padding:0px;">
+                        <span class="tooltip-label">Journal: </span><span>${d.paper_journal}</span>
                         </div></div>
-                        <span class="tooltip-label">Journal:</span>${d.paper_journal}<br/>
                         <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
                         </div>
 
                         </div>
                         `}
                         )
-                        .style("left", event.pageX - 320 + "px")
+                        .style("left", event.pageX - 330 + "px")
                         .style("top", event.pageY - 150 + "px")
                         .style("display", "block")
                     // .on("mouseout", () => {
@@ -1147,7 +1151,7 @@ class DetailView extends Component {
                 })
                 .on("mousemove", (event, d) => {
                     tooltip
-                        .style("left", event.pageX - 320 + "px")
+                        .style("left", event.pageX - 330 + "px")
                         .style("top", event.pageY - 150 + "px");
                 })
                 .on("mouseout", (event, d) => {
@@ -1631,7 +1635,7 @@ class DetailView extends Component {
             .append("g")
             .attr("class", "sort")
             .style("opacity", 0)
-            .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (6 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
         // add legend
         var linearGradient = svg.append("defs").append("linearGradient")
@@ -1657,22 +1661,22 @@ class DetailView extends Component {
             .attr("width", 40)
             .attr("height", 13)
             .style("fill", `url(#linear-gradient-ph)`)
-            .attr("x", 78)
-            .attr("y", -5)
+            .attr("x", 73)
+            .attr("y", -2)
 
         svg.append("text")
             .text("drug compound property: min")
-            .attr("x", -78)
-            .attr("y", 5)
+            .attr("x", -83)
+            .attr("y", 8)
             .style("font-size", 12)
         svg.append("text")
             .text("max")
-            .attr("x", 120)
-            .attr("y", 5)
+            .attr("x", 115)
+            .attr("y", 8)
             .style("font-size", 12)
 
         // x scale
-        var xDomain = ["ED50", "t 1/2", "AUC", "Bioavailability", "Solubility"],
+        var xDomain = ["ED50", "t1/2", "AUC", "Bioavailability", "Solubility"],
             xAttr = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
             xRange = [0, xDomain.length * this.state.heatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
@@ -1918,7 +1922,7 @@ class DetailView extends Component {
     }
 
     drawVivoAxis() {
-        var margin = { top: 35, right: 10, bottom: 10, left: 0 },
+        var margin = { top: 30, right: 10, bottom: 10, left: 0 },
             width = this.state.vivoWidth - margin.left - margin.right;
 
         var svg = d3
@@ -2230,7 +2234,7 @@ class DetailView extends Component {
         if (sankeyData[0]) {
             var component = this;
             console.log("draw sankey chart")
-            var margin = { top: 40, right: 10, bottom: 10, left: 0 },
+            var margin = { top: 70, right: 10, bottom: 10, left: 0 },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -2242,21 +2246,21 @@ class DetailView extends Component {
 
             // legend
             svg.append("rect")
-                .attr("x", 190)
-                .attr("y", -35)
+                .attr("x", 185)
+                .attr("y", -60)
                 .attr("width", 30)
                 .attr("height", 15)
                 .style("fill", "#E8E7F5")
                 .style("stroke-width", 0.5)
                 .style("stroke", "white")
             svg.append("text")
-                .attr("x", 198)
-                .attr("y", -24)
+                .attr("x", 193)
+                .attr("y", -49)
                 .text("1-1")
                 .style("font-size", 10)
             svg.append("text")
-                .attr("x", 230)
-                .attr("y", -25)
+                .attr("x", 225)
+                .attr("y", -50)
                 .text("Drug ID - Company ID")
                 .style("font-size", 10)
 

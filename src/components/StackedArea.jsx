@@ -12,7 +12,7 @@ class StackedArea extends Component {
             Height: this.props.height - 75,
             stackWidth: this.props.width,
             targetList: this.props.value,
-            trendRange: [1999, 2021]
+            trendRange: [2000, 2021]
         }
     }
 
@@ -34,7 +34,7 @@ class StackedArea extends Component {
         if (rawdata) {
             // handle rawdata
             for (const [key, value] of Object.entries(rawdata)) {
-                if (key >= 1999) {
+                if (key >= 1990) {
                     data.push({ year: key, A: value[0], B: value[1], C: value[2] })
                 }
             }
@@ -190,7 +190,7 @@ class StackedArea extends Component {
                     className="horizontal-slider"
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
-                    defaultValue={[2001, 2021]}
+                    defaultValue={[2000, 2021]}
                     min={1990}
                     max={2021}
                     marks={[1990, 2021]}
