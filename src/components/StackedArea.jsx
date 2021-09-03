@@ -190,10 +190,10 @@ class StackedArea extends Component {
                     className="horizontal-slider"
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
-                    defaultValue={[1999, 2021]}
-                    min={1999}
+                    defaultValue={[2001, 2021]}
+                    min={1990}
                     max={2021}
-                    marks={[1999, 2021]}
+                    marks={[1990, 2021]}
                     ariaLabel={['Lower thumb', 'Upper thumb']}
                     ariaValuetext={state => `Thumb value ${state.valueNow}`}
                     renderMark={(props) => {

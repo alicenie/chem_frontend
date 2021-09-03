@@ -2468,20 +2468,32 @@ class DetailView extends Component {
                         .style("stroke", "#ADABB9")
 
                     // add text
-                    var statuslist = ["Not yet recruiting", "Recruiting", "Enrolling by invitation", "Active, not recruiting", "Suspended", "Terminated", "Completed", "Withdrawn", "Unknown status"]
-                    sankeysvg.selectAll("text#sankey")
+                    var statuslist = ["Not yet recruiting", "Recruiting", "Enrolling by invitation", "Active,, not recruiting", "Suspended", "Terminated", "Completed", "Withdrawn", "Unknown status"]
+                    let status_text = sankeysvg.selectAll("text#sankey")
                         .data(border_list)
                         .enter()
                         .append("text")
                         .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 2)
-                        .attr("y", (d, i) => (d.height + 1 / 2 * d.length) * rectHeight + offset + 2)
+                        .attr("y", (d, i) => {
+                            if (d.status === 3) return (d.height + 1 / 2 * d.length) * rectHeight + offset - 13;
+                            else return (d.height + 1 / 2 * d.length) * rectHeight + offset - 8;
+                        })
                         .attr("width", 40)
                         .attr("height", d => d.length * rectHeight)
                         .attr("class", "sankey")
-                        .text(d => statuslist[d.status])
+
+                    status_text
+                        .selectAll("tspan.text")
+                        .data(d => statuslist[d.status].split(", "))
+                        .enter()
+                        .append("tspan")
+                        .text(d => d)
                         .style("font-size", 10)
                         .attr("text-anchor", "start")
                         .style("fill", "#495057")
+                        .attr("x", (parseInt(phase) - 1) * this.state.sankeyWidth / 3 - 2)
+                        .attr("y", (d, i) => (d.height + 1 / 2 * d.length) * rectHeight + offset + 2)
+                        .attr("dy", 12);
 
                     // sankeysvg.selectAll("rect#sankey")
                     //     .data(company_obj_list)
