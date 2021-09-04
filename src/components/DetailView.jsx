@@ -829,7 +829,7 @@ class DetailView extends Component {
             var nodes = this.props.value.drug_molecule_paper,
                 links = this.props.value.medicinal_chemistry_similarity,
                 synthesis_route = this.props.value.synthesis_route;
-            console.log('nodes', nodes);
+            // console.log('nodes', nodes);
 
             console.log("draw network")
 
@@ -882,7 +882,7 @@ class DetailView extends Component {
                 .append("tspan")
                 .attr("class", "network")
                 .text(d => d)
-                .attr("x", 55)
+                .attr("x", 60)
                 .attr("dy", 12)
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
@@ -890,13 +890,13 @@ class DetailView extends Component {
             var circle_legend = [1, 7, 15], circle_cx = [0, rScale(1) + rScale(5) + 5, rScale(1) + 2 * rScale(5) + 10 + rScale(10)]
             circle_legend_svg.selectAll().data(circle_legend).enter().append("circle")
                 .attr("r", d => rScale(d))
-                .attr("cx", (d, i) => 120 + circle_cx[i])
+                .attr("cx", (d, i) => 125 + circle_cx[i])
                 .attr("cy", -2)
                 .style("fill", "#f4978e")
                 .attr("class", "network")
 
             circle_legend_svg.append("text")
-                .attr("x", 120 + circle_cx[0])
+                .attr("x", 125 + circle_cx[0])
                 .attr("y", 20)
                 .style("font-size", "12px")
                 .attr("class", "network")
@@ -926,13 +926,13 @@ class DetailView extends Component {
                 });
 
             // construct network
-            var link = svg
-                .selectAll("line")
-                .data(links)
-                .enter()
-                .append("line")
-            // .attr("stroke", "lightgrey")
-            // .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
+            // var link = svg
+            //     .selectAll("line")
+            //     .data(links)
+            //     .enter()
+            //     .append("line")
+            //     .attr("stroke", "lightgrey")
+            //     .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
             // .attr("marker-end", "url(#arrowhead)");
 
             var simulation = d3
@@ -948,7 +948,7 @@ class DetailView extends Component {
                             // console.log("link d", d)
                             let valueScale = d3.scaleQuantize().domain([0, 1]).range([0, 0.2, 0.4, 0.6, 0.8, 1])
                             // console.log("valuescale d", d.value, valueScale(d.value))
-                            return (1 - valueScale(d.value)) ** 1.5 * 220
+                            return (1 - valueScale(d.value)) ** 1.5 * 200
                             // return (1 - d.value) * 200
                         }) // This is the link distance based on nodes similarity
                         .links(links) // and this the list of links
@@ -970,7 +970,8 @@ class DetailView extends Component {
             // }
 
             // console.log("simulation end")
-            // console.log("nodes", nodes)
+            console.log("nodes", nodes)
+
             node_pos = nodes.map(d => { return { id: d.id, x: d.x, y: d.y + margin.top } })
             console.log(node_pos)
             // this.setState({ node_pos })
@@ -1109,7 +1110,7 @@ class DetailView extends Component {
                                 if (value)
                                     metrics += `<span class="tooltip-label">${key}:</span><br/>${value} ${unit}<br/>`
                             }
-                            return `<div class="network-tooltip" style="padding:2px;width:313px">
+                            return `<div class="network-tooltip" style="padding:2px;width:322px">
                         
                         <div class="row" style="margin:0px;padding-left:0px;padding-right:0px">
                         <img class="col-10" style="padding:0px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="330px">
@@ -1123,16 +1124,19 @@ class DetailView extends Component {
                         <span class="tooltip-title">${d.paper_title} (${d.paper_year})</span><br/>
                         <div style="padding-top:2px">
                         <span class="tooltip-author"><span class="tooltip-label">Author: </span> ${author}</span></div>
-                        <div style="padding-top:2px">
-                        <span class="tooltip-label">Cited: </span><span>${parseFloat(d.paper_cited)}</span>
-                        </div>
                         <div class="row">
                         <div class="col-6">
                         <span class="tooltip-label">Doi: </span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a>
                         </div><div class="col-6" style="margin:0px;padding:0px;">
                         <span class="tooltip-label">Journal: </span><span>${d.paper_journal}</span>
                         </div></div>
-                        <span class="tooltip-label">Institution:</span>${d.paper_institution}<br/>
+                        <div class="row">
+                        <div class="col-2" style="padding-right:0px;">
+                        <span class="tooltip-label">Cited: </span><span>${parseFloat(d.paper_cited)}</span>
+                        </div><div class="col-10" style="padding-right:0px;padding-left:2px;">
+                        <span class="tooltip-label">Institution: </span>${d.paper_institution}
+                        </div></div>
+
                         </div>
 
                         </div>
@@ -2143,16 +2147,51 @@ class DetailView extends Component {
             if (node_pos[0]) {
                 vitro_heat_pos.forEach(d => {
                     // var path = d3.path()
-                    var curve = d3.line().curve(d3.curveBumpX)
+                    var curveX = d3.line().curve(d3.curveBumpX)
+                    var curveY = d3.line().curve(d3.curveBumpY)
+                    var curveN = d3.line().curve(d3.curveNatural)
                     var startNode = node_pos.find(node => node.id == d.id)
                     // path.moveTo(startNode.x + 20, startNode.y)
                     // path.lineTo(d.x_in, d.y)
                     // path.closePath();
                     var points = [[startNode.x + 20, startNode.y], [d.x_in, d.y]]
+                    var curve = curveX(points);
+                    if (d.id === 7) {
+                        points = [[startNode.x + 20, startNode.y], [startNode.x + 40, startNode.y - 20], [1 / 2 * (startNode.x + 20 + d.x_in), 2 / 5 * (startNode.y + d.y)], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 8) {
+                        points = [[startNode.x + 20, startNode.y], [startNode.x + 40, startNode.y - 15], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 30], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 16) {
+                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in), 1 / 2 * (startNode.y + d.y) + 40], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 11) {
+                        points = [[startNode.x + 17, startNode.y + 3], [1 / 2 * (startNode.x + 10 + d.x_in) - 45, 1 / 2 * (startNode.y + d.y) + 40], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 3) {
+                        points = [[startNode.x + 17, startNode.y + 3], [1 / 2 * (startNode.x + 10 + d.x_in), 1 / 2 * (startNode.y + d.y) + 10], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 15) {
+                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 50, 1 / 2 * (startNode.y + d.y) + 30], [1 / 2 * (startNode.x + 20 + d.x_in) + 25, 1 / 2 * (startNode.y + d.y) - 35], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 14) {
+                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 60, 1 / 2 * (startNode.y + d.y) + 20], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 20], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
+                    if (d.id === 6) {
+                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 60, 1 / 2 * (startNode.y + d.y) + 10], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 10], [d.x_in, d.y]]
+                        curve = curveN(points)
+                    }
                     d3.select("svg#detail_svg")
                         .append("path")
                         .attr("class", "detail_path")
-                        .attr("d", curve(points))
+                        .attr("d", curve)
                         .attr("stroke-width", 1)
                         .attr("stroke", "#adb5bd")
                         .attr("opacity", 0.5)
