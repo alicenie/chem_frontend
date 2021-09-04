@@ -26,7 +26,7 @@ class AddColumn extends Component {
                 onChange={this.onChange.bind(this)}
                 height={15}
                 width={130}
-                placeholder={"add column..."}
+                placeholder={"add column"}
 
             />
         );

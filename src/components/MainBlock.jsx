@@ -144,7 +144,7 @@ class MainBlock extends Component {
                                             }}
                                             options={this.state.remainOptions}
                                             labelKey={option => option.label}
-                                            placeholder="Drug target name..."
+                                            placeholder="Drug target name"
                                             selected={this.state.selected}
                                             style={{ marginTop: 2, height: 30 }}
                                             size={"sm"}>

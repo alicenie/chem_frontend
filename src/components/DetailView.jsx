@@ -1669,7 +1669,7 @@ class DetailView extends Component {
             .attr("y", -2)
 
         svg.append("text")
-            .text("drug compound property: min")
+            .text("molecular feature values: min")
             .attr("x", -83)
             .attr("y", 8)
             .style("font-size", 12)

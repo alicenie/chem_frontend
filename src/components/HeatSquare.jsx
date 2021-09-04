@@ -1134,7 +1134,7 @@ class HeatSquare extends Component {
                 <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", height: "24px", marginBottom: 0 }}  >
                     <div className="col-7 pl-1">
                         <span>Overview</span>
-                        <span style={{ fontSize: 12 }}> (x axis--drug compound property, y axis--number of publication)</span>
+                        <span style={{ fontSize: 12 }}> (x axis--molecular feature values, y axis--number of publications)</span>
                     </div>
                     <div className="col-5" id="legend">
                     </div>
