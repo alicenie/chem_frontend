@@ -519,7 +519,7 @@ class DetailView extends Component {
             .attr("x", ph2X + 1 / 2 * phWidth)
             .attr("y", 10)
             .attr("text-anchor", "middle")
-            .text("Clinical Medicine")
+            .text("Clinical Pharmacy")
             .style("font-size", 13)
             .style("fill", "white");
 
@@ -610,7 +610,7 @@ class DetailView extends Component {
         var vivo_heat_pos = this.drawVivoHeatmap(vivoHeatData, this.state.vivoSort, initial_sort);
         var sankey_pos = this.drawSankeyChart(sankeyData, initial_sort);
         // var sankey_pos = [];
-        this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
+        // this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
 
         this.handleHighlight(-1)
         this.handleUndoHighlight(-1)
@@ -917,7 +917,7 @@ class DetailView extends Component {
                 .append("div")
                 .attr("class", "tooltip")
                 .style('display', 'none')
-                .style("opacity", 0.9)
+                .style("opacity", 1)
                 .on('mouseover', () => {
                     tooltip.transition().duration(0).style("display", "block");
                 })
@@ -954,7 +954,7 @@ class DetailView extends Component {
                         .links(links) // and this the list of links
                 )
                 .force("charge", d3.forceManyBody().strength(-10)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-                .force("center", d3.forceCenter(width / 2 - 6, height / 2 + 0)) // This force attracts nodes to the center of the svg area
+                .force("center", d3.forceCenter(width / 2 - 6, height / 2 - 0)) // This force attracts nodes to the center of the svg area
                 .force("collision", d3.forceCollide(d => { // This prevents collision between nodes
                     // console.log('d in collision', d)
                     // return rScale(d.value)
@@ -1108,15 +1108,17 @@ class DetailView extends Component {
                                 let unit = "nM";
                                 if (key === "selectivity") unit = "fold"
                                 if (value)
-                                    metrics += `<span class="tooltip-label">${key}:</span><br/>${value} ${unit}<br/>`
+                                    metrics += `<span class="tooltip-label">${key}: </span>${value} ${unit}<br/>`
                             }
-                            return `<div class="network-tooltip" style="padding:2px;width:322px">
+                            metrics += `<span class="tooltip-label">Ki: </span>/<br/><span class="tooltip-label">Kd: </span>/<br/><span class="tooltip-label">Selectivity: </span>/<br/>`
+
+                            return `<div class="network-tooltip" style="padding:2px;width:340px">
                         
                         <div class="row" style="margin:0px;padding-left:0px;padding-right:0px">
-                        <img class="col-10" style="padding:0px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="330px">
-                        <div class="col-2" style="padding:1px;padding-left:3px">
+                        <img class="col-9" style="padding:0px" src='${process.env.PUBLIC_URL}/img/${component.props.label}/${d.id}.jpeg' width="350px">
+                        <div class="col-3" style="padding:1px;padding-left:3px">
                         ${metrics}<br/>
-                        <span class="tooltip-label">Synthesis route length: </span>${synthesis_route[d.id]}
+                        <span class="tooltip-label">Synthesis route length: </span>3
                         </div>
                         </div>
 
@@ -1125,24 +1127,26 @@ class DetailView extends Component {
                         <div style="padding-top:2px">
                         <span class="tooltip-author"><span class="tooltip-label">Author: </span> ${author}</span></div>
                         <div class="row">
-                        <div class="col-6">
+                        <div class="col-5" style="padding-right:0px;">
                         <span class="tooltip-label">Doi: </span><a href=${'http://doi.org/' + d.doi} target="_blank" class="tooltip-doi">${d.doi}</a>
                         </div><div class="col-6" style="margin:0px;padding:0px;">
                         <span class="tooltip-label">Journal: </span><span>${d.paper_journal}</span>
                         </div></div>
+                        <span class="tooltip-label">Institution: </span>Chemical Biology Program, Department of Pharmacology and Toxicology,
+                        
                         <div class="row">
-                        <div class="col-2" style="padding-right:0px;">
-                        <span class="tooltip-label">Cited: </span><span>${parseFloat(d.paper_cited)}</span>
-                        </div><div class="col-10" style="padding-right:0px;padding-left:2px;">
-                        <span class="tooltip-label">Institution: </span>${d.paper_institution}
+                        <div class="col-9" style="padding-right:0px;">
+                        University of Texas Medical Branch, Galveston, TX, 77555, USA 
+                        </div>
+                        <div class="col-2" style="padding-right:0px;padding-left:2px;">
+                        <span class="tooltip-label">Cited: </span><span>${parseFloat(d.paper_cited + 1)}</span>
                         </div></div>
-
                         </div>
 
                         </div>
                         `}
                         )
-                        .style("left", event.pageX - 330 + "px")
+                        .style("left", event.pageX - 380 + "px")
                         .style("top", event.pageY - 150 + "px")
                         .style("display", "block")
                     // .on("mouseout", () => {
@@ -1186,8 +1190,8 @@ class DetailView extends Component {
     }
 
     drawVitroSort() {
-        var vitroHeatSquareLength = this.state.heatSquareLength + 1;
-        var margin = { top: 10, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
+        var vitroHeatSquareLength = this.state.heatSquareLength + 5;
+        var margin = { top: 10, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 5 * vitroHeatSquareLength) },
             width = this.state.vitroWidth - margin.left - margin.right;
 
         var svg = d3
@@ -1198,8 +1202,10 @@ class DetailView extends Component {
             .attr("transform", "translate(" + (10 + 25 + this.state.medchemWidth + margin.left) + "," + margin.top + ")");
 
         // x scale
-        var xDomain = ["IC50", "Ki", "Kd", "EC50", "Selectivity", "hERG", "Solubility"],
-            xAttr = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
+        // var xDomain = ["IC50", "Ki", "Kd", "EC50", "Selectivity", "hERG", "Solubility"],
+        // xAttr = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
+        var xDomain = ["IC50", "EC50", "Selectivity", "hERG", "Solubility"],
+            xAttr = ["IC50", "EC50", "selectivity", "hERG", "solubility"],
             xRange = [0, xDomain.length * vitroHeatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
 
@@ -1426,13 +1432,13 @@ class DetailView extends Component {
             .attr("cursor", "default")
             // .append("g").attr("transform", d => "translate(" + (xScale(d) + 15) + ",50) rotate(-90)")
             .append("text").text(d => {
-                if (d.length > 4) return d.substr(0, 3) + "..";
+                if (d.length > 5) return d.substr(0, 4) + "..";
                 else return d;
             })
             .style("font-size", 10)
             .on("mouseover", (event, d) => {
                 // tooltip
-                if (d.length > 4)
+                if (d.length > 5)
                     tooltip.transition().duration(200).style("display", "block");
                 tooltip
                     .html(d)
@@ -1494,8 +1500,8 @@ class DetailView extends Component {
         if (vitroHeatData[0]) {
             var component = this;
             console.log("draw vitro heatmap")
-            var vitroHeatSquareLength = this.state.heatSquareLength + 1;
-            var margin = { top: 65, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 7 * vitroHeatSquareLength) },
+            var vitroHeatSquareLength = this.state.heatSquareLength + 5;
+            var margin = { top: 65, right: 10, bottom: 10, left: 0.5 * (this.state.vitroWidth - 5 * vitroHeatSquareLength) },
                 width = this.state.vitroWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -1509,8 +1515,10 @@ class DetailView extends Component {
             var data = vitroHeatData;
 
             // x scale
-            var xDomain = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
-                xMetric = ["nM", "nM", "nM", "nM", "fold", "nM", "µg/mL"],
+            // var xDomain = ["IC50", "Ki", "Kd", "EC50", "selectivity", "hERG", "solubility"],
+            var xDomain = ["IC50", "EC50", "selectivity", "hERG", "solubility"],
+                // xMetric = ["nM", "nM", "nM", "nM", "fold", "nM", "µg/mL"],
+                xMetric = ["nM", "nM", "fold", "nM", "µg/mL"],
                 xRange = [0, xDomain.length * vitroHeatSquareLength];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
@@ -1632,14 +1640,15 @@ class DetailView extends Component {
     }
 
     drawVivoSort() {
-        var margin = { top: 10, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) };
+        var vivoHeatSquareLength = this.state.heatSquareLength + 2;
+        var margin = { top: 10, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 4 * vivoHeatSquareLength) };
 
         var svg = d3
             .select("svg#detail_svg")
             .append("g")
             .attr("class", "sort")
             .style("opacity", 0)
-            .attr("transform", "translate(" + (6 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
+            .attr("transform", "translate(" + (9 + 25 + this.state.medchemWidth + this.state.vitroWidth + margin.left) + "," + margin.top + ")");
 
         // add legend
         var linearGradient = svg.append("defs").append("linearGradient")
@@ -1665,24 +1674,26 @@ class DetailView extends Component {
             .attr("width", 40)
             .attr("height", 13)
             .style("fill", `url(#linear-gradient-ph)`)
-            .attr("x", 73)
+            .attr("x", 65)
             .attr("y", -2)
 
         svg.append("text")
             .text("molecular feature values: min")
-            .attr("x", -83)
+            .attr("x", -86)
             .attr("y", 8)
             .style("font-size", 12)
         svg.append("text")
             .text("max")
-            .attr("x", 115)
+            .attr("x", 107)
             .attr("y", 8)
             .style("font-size", 12)
 
         // x scale
-        var xDomain = ["ED50", "t1/2", "AUC", "Bioavailability", "Solubility"],
-            xAttr = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
-            xRange = [0, xDomain.length * this.state.heatSquareLength];
+        // var xDomain = ["ED50", "t1/2", "AUC", "Bioavailability", "Solubility"],
+        // xAttr = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
+        var xDomain = ["ED50", "t1/2", "AUC", "Bioavailability"],
+            xAttr = ["ED50", "t_half", "AUC", "bioavailability"],
+            xRange = [0, xDomain.length * vivoHeatSquareLength];
         var xScale = d3.scaleBand().domain(xDomain).range(xRange)
 
         // set tooltips
@@ -1985,10 +1996,11 @@ class DetailView extends Component {
 
     drawVivoHeatmap(vivoHeatData, sort, initial_sort) {
         // if (this.props.detaildata[2]) {
+        var vivoHeatSquareLength = this.state.heatSquareLength + 2;
         if (vivoHeatData[0]) {
             var component = this;
             console.log("draw vivo heatmap")
-            var margin = { top: 65, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 5 * this.state.heatSquareLength) },
+            var margin = { top: 65, right: 10, bottom: 10, left: 0.5 * (this.state.vivoWidth - 4 * vivoHeatSquareLength) },
                 width = this.state.vivoWidth - margin.left - margin.right,
                 height = this.state.Height - 40 - margin.top - margin.bottom;
 
@@ -2003,9 +2015,11 @@ class DetailView extends Component {
             var data = vivoHeatData;
 
             // x scale
-            var xDomain = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
-                xMetric = ["µg/animal", "h", "ng•h/mL", "%", "µg/mL"],
-                xRange = [0, xDomain.length * (this.state.heatSquareLength)];
+            // var xDomain = ["ED50", "t_half", "AUC", "bioavailability", "solubility"],
+            //     xMetric = ["µg/animal", "h", "ng•h/mL", "%", "µg/mL"],
+            var xDomain = ["ED50", "t_half", "AUC", "bioavailability"],
+                xMetric = ["µg/animal", "h", "ng•h/mL", "%"],
+                xRange = [0, xDomain.length * (vivoHeatSquareLength)];
             var xScale = d3.scaleBand().domain(xDomain).range(xRange)
             // svg.append("g").call(d3.axisTop(xScale))
             //     .call(g => {
@@ -2207,6 +2221,35 @@ class DetailView extends Component {
                     var curve = d3.line().curve(d3.curveBumpX)
                     var startNode = vitro_heat_pos.find(node => node.id == d.id)
                     var points = [[startNode.x_out, startNode.y], [d.x_in, d.y]]
+                    // if (d.id === 3) {
+                    //     points = [[startNode.x_out, startNode.y], [startNode.x_out + 30, startNode.y - 40], [d.x_in - 10, d.y + 60], [d.x_in, d.y]]
+                    //     curve = d3.line().curve(d3.curveNatural)
+                    // }
+                    // if (d.id === 6) {
+                    //     points = [[startNode.x_out, startNode.y], [startNode.x_out + 7, startNode.y - 20], [d.x_in - 30, d.y + 15], [d.x_in, d.y]]
+                    //     curve = d3.line().curve(d3.curveNatural)
+                    // }
+                    // if (d.id === 13) {
+                    //     points = [[startNode.x_out, startNode.y], [startNode.x_out + 20, startNode.y - 30], [d.x_in - 15, d.y + 40], [d.x_in, d.y]]
+                    //     curve = d3.line().curve(d3.curveNatural)
+                    // }
+
+                    if (d.id === 3) {
+                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 15, startNode.y - 50], [d.x_in - 35, d.y + 50], [d.x_in, d.y]]
+                        curve = d3.line().curve(d3.curveNatural)
+                    }
+                    if (d.id === 6) {
+                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 40, startNode.y - 15], [d.x_in - 10, d.y + 20], [d.x_in, d.y]]
+                        curve = d3.line().curve(d3.curveNatural)
+                    }
+                    if (d.id === 13) {
+                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 25, startNode.y - 35], [d.x_in - 20, d.y + 35], [d.x_in, d.y]]
+                        curve = d3.line().curve(d3.curveNatural)
+                    }
+                    if (d.id === 14) {
+                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 10, startNode.y - 25], [d.x_in - 40, d.y + 30], [d.x_in, d.y]]
+                        curve = d3.line().curve(d3.curveNatural)
+                    }
                     d3.select("svg#detail_svg")
                         .append("path")
                         .attr("class", "detail_path")
@@ -2285,7 +2328,7 @@ class DetailView extends Component {
 
             // legend
             svg.append("rect")
-                .attr("x", 185)
+                .attr("x", 180)
                 .attr("y", -60)
                 .attr("width", 30)
                 .attr("height", 15)
@@ -2293,14 +2336,14 @@ class DetailView extends Component {
                 .style("stroke-width", 0.5)
                 .style("stroke", "white")
             svg.append("text")
-                .attr("x", 193)
+                .attr("x", 188)
                 .attr("y", -49)
                 .text("1-1")
                 .style("font-size", 10)
             svg.append("text")
-                .attr("x", 225)
+                .attr("x", 218)
                 .attr("y", -50)
-                .text("Drug ID - Company ID")
+                .text("Drug ID - Organization ID")
                 .style("font-size", 10)
 
             // console.log("sankeydata", this.props.sankeydata)

@@ -10,8 +10,8 @@ const domains = [
     { text: "Kd_MC", label: "Kd", unit: "nM", area: 1, index: 3, remark: "the less the better" },
     { text: "Selectivity_MC", label: "Selectivity", unit: "fold", area: 1, index: 4, remark: "the more the better" },
     { text: "IC50_Ph", label: "IC50", unit: "nM", area: 2, index: 5, remark: "the less the better" },
-    { text: "Ki_Ph", label: "Ki", unit: "nM", area: 2, index: 6, remark: "the less the better" },
-    { text: "Kd_Ph", label: "Kd", unit: "nM", area: 2, index: 7, remark: "the less the better" },
+    // { text: "Ki_Ph", label: "Ki", unit: "nM", area: 2, index: 6, remark: "the less the better" },
+    // { text: "Kd_Ph", label: "Kd", unit: "nM", area: 2, index: 7, remark: "the less the better" },
     { text: "EC50_Ph", label: "EC50", unit: "nM", area: 2, index: 8, remark: "the less the better" },
     { text: "Selectivity_Ph", label: "Selectivity", unit: "fold", area: 2, index: 9, remark: "the more the better" },
     { text: "hERG_Ph", label: "hERG", unit: "nM", area: 2, index: 10, remark: "the more the better" },
@@ -20,10 +20,10 @@ const domains = [
     { text: "thalf_Cl", label: "t 1/2", unit: "h", area: 2, index: 13, remark: "depend on indication" },
     { text: "AUC_Cl", label: "AUC", unit: "ng•h/mL", area: 2, index: 14, remark: "the more the better" },
     { text: "bio_Cl", label: "Bioavailability", unit: "%", area: 2, index: 15, remark: "the more the better" },
-    { text: "solubility_Cl", label: "Solubility", unit: "µg/mL", area: 2, index: 16, remark: "the more the better" },
-    { text: "adverse_1", label: "Adverse Effects-I", unit: "%", area: 3, index: 17, remark: "the less the better" },
-    { text: "adverse_2", label: "Adverse Effects-II", unit: "%", area: 3, index: 18, remark: "the less the better" },
-    { text: "adverse_3", label: "Adverse Effects-III", unit: "%", area: 3, index: 19, remark: "the less the better" },
+    // { text: "solubility_Cl", label: "Solubility", unit: "µg/mL", area: 2, index: 16, remark: "the more the better" },
+    { text: "adverse_1", label: "Adverse..I", unit: "%", area: 3, index: 17, remark: "the less the better" },
+    { text: "adverse_2", label: "Adverse..II", unit: "%", area: 3, index: 18, remark: "the less the better" },
+    { text: "adverse_3", label: "Adverse..III", unit: "%", area: 3, index: 19, remark: "the less the better" },
 ]
 
 class HeatSquare extends Component {
@@ -44,7 +44,6 @@ class HeatSquare extends Component {
     componentDidMount() {
         console.log("component did mount ")
         this.drawLegend("legend")
-
     }
 
     componentDidUpdate() {
@@ -442,11 +441,12 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => {
                 let attr = d.label;
-                if (attr.length > num_character) return attr.substr(0, num_character) + ".."
-                else return attr
+                // if (attr.length > num_character) return attr.substr(0, num_character) + ".."
+                // else return attr
+                return attr;
             })
             .attr("x", (d) => {
-                return xScale3(d.text) + xScale3.bandwidth() / 2
+                return xScale3(d.text) + xScale3.bandwidth() / 2 - 4
             })
             .attr("y", 0)
             .attr("text-anchor", "middle")
