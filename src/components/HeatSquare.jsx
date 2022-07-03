@@ -26,6 +26,10 @@ const domains = [
     { text: "adverse_3", label: "Adverse..III", unit: "%", area: 3, index: 19, remark: "the less the better" },
 ]
 
+const pinkColorRange = ["#FFCAC3", "#FDBFB7", "#F8B2A9", "#F09C91", "#EB8678"];
+const blueColorRange = ["#C4E5F1", "#B1DCEB", "#9DD5E8", "#87C9E0", "#76BFD8"];
+const orangeColorRange = ["#FEDDAB", "#FED089", "#FCC46E", "#FAB956", "#F8B248"];
+
 class HeatSquare extends Component {
     constructor(props) {
         super(props)
@@ -33,7 +37,7 @@ class HeatSquare extends Component {
             Height: this.props.height - 75,
             heatWidth: this.props.width,
             targetList: this.props.value,
-            marginL: 6,
+            marginL: 0,
             marginR: 12,
             removedAttr: [],
             test: [],
@@ -98,16 +102,16 @@ class HeatSquare extends Component {
             .attr("width", width + marginL)
             .attr("height", "40px")
             .append("g")
-            .attr("transform", "translate(20 ,4)");
+            .attr("transform", "translate(25 ,4)");
 
         svg.append("text")
             .text("number of publication:")
-            .attr("x", -20)
+            .attr("x", -25)
             .attr("y", 12)
             .attr("font-size", 12);
 
 
-        const colors = [["#FDEBEB", "#E78A8A"], ["#DAEAF0", "#76B7CB"], ["#E5E5F8", "#AEAED3"]],
+        const colors = [[pinkColorRange[0], pinkColorRange[4]], [blueColorRange[0], blueColorRange[4]], [orangeColorRange[0], orangeColorRange[4]]],
             text = [120, 120, 520];
         colors.forEach((color, i) => {
             var linearGradient = svg.append("defs").append("linearGradient")
@@ -651,7 +655,8 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(240, 128, 128,0.2)", "rgba(240, 128, 128,1)"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#F3C8C8", "#EBA9A0", "#EB9489", "#E78276", "#D86E63"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#FDEBEB", "#F8DADA", "#F2CACA", "#EDBABA", "#E2A7A7", "#DD9696"])  // light red
-        var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#FDEBEB", "#F8DADA", "#F2BFBF", "#F2B1B1", "#F09C9C", "#E78A8A"])  // brighter red
+        // var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#FDEBEB", "#F8DADA", "#F2BFBF", "#F2B1B1", "#F09C9C", "#E78A8A"])  // brighter red
+        var colorScale = d3.scaleQuantize().domain([0, 120]).range(pinkColorRange)
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale1.bandwidth()])
@@ -682,7 +687,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => "num:" + d.hvalue)
             .attr("x", (d) => {
-                return xScale1(d.label) + xScale1.bandwidth() - 29
+                return xScale1(d.label) + xScale1.bandwidth() - 32
             })
             .attr("y", 8)
             .attr("fill", "black")
@@ -792,7 +797,8 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#B8D7F0", "#93BCDD", "#71A2CB", "#518BBC", "#3575AB"]) // fade blue
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#9BC7D7", "#7AAEC1", "#5896AD", "#41849C", "#2B6E86"]) // dark blue
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#CFF0FC", "#B4DDEB", "#9FD0E1", "#83BED3", "#70B4CD", "#5DA8C3"])  // light blue
-        var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#DEEDF3", "#C6DFE7", "#B0D4DF", "#96C7D7", "#7DBCD0", "#6EAFC4"])  // light fade blue
+        // var colorScale = d3.scaleQuantize().domain([0, 120]).range(["#DEEDF3", "#C6DFE7", "#B0D4DF", "#96C7D7", "#7DBCD0", "#6EAFC4"])  // light fade blue
+        var colorScale = d3.scaleQuantize().domain([0, 120]).range(blueColorRange);
 
 
         // square scale
@@ -825,7 +831,7 @@ class HeatSquare extends Component {
             .text(d => "num:" + d.hvalue)
             // .style("fill", "white")
             .attr("x", (d) => {
-                return xScale2(d.label) + xScale2.bandwidth() - 29
+                return xScale2(d.label) + xScale2.bandwidth() - 32
             })
             .attr("y", 8)
             .attr("fill", "black")
@@ -942,8 +948,8 @@ class HeatSquare extends Component {
         // var colorScale = d3.scaleLinear().domain([0, 10]).range(["rgba(209, 179, 196,0.2)", "rgba(209, 179, 196,1)"])
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#BFE9D5", "#9FD3BB", "#7CC1A0", "#60AD88", "#43906B"])  // green
         // var colorScale = d3.scaleOrdinal().domain([0, 10]).range(["#E7E5F8", "#DAD6F3", "#C7C1ED", "#BBB5E6", "#AFA8E1"])  // purple
-        var colorScale = d3.scaleQuantize().domain([0, 520]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
-
+        // var colorScale = d3.scaleQuantize().domain([0, 520]).range(["#E5E5F8", "#DADAF2", "#D3D3EB", "#C7C7E2", "#BCBCDC", "#AEAED3"])  // light purple
+        var colorScale = d3.scaleQuantize().domain([0, 520]).range(orangeColorRange)
 
         // square scale
         var squareScale = d3.scaleLinear().domain([0, 10]).range([0, 0.8 * xScale3.bandwidth()])
@@ -1002,7 +1008,7 @@ class HeatSquare extends Component {
             .append("text")
             .text(d => "num:" + d.hvalue)
             .attr("x", (d) => {
-                return xScale3(d.label) + xScale3.bandwidth() - 30
+                return xScale3(d.label) + xScale3.bandwidth() - 32
             })
             .attr("y", 8)
             .attr("fill", "black")
@@ -1135,6 +1141,11 @@ class HeatSquare extends Component {
                     <div className="col-7 pl-1">
                         <span>Overview</span>
                         <span style={{ fontSize: 12 }}> (x axis--molecular feature values, y axis--number of publications)</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor" class="bi bi-info-circle" viewBox="-2 0 18 18">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                            <title>While we endeavor to keep the information up to date and correct, we cannot make any gaurantees that all the information are 100% accurate due to technical limitations.</title>
+                        </svg>
                     </div>
                     <div className="col-5" id="legend">
                     </div>

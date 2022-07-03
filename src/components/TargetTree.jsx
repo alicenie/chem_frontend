@@ -9,7 +9,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { Step } from '@material-ui/core';
 import * as d3 from 'd3';
 
-class TreeNode {
+class TreeNode { // no longer used
     constructor(id, name) {
         this.id = id;
         this.name = name;
@@ -357,6 +357,7 @@ class TargetTree extends Component {
         // });
     }
 
+    // no longer used
     drawTargetTree(treeData) {
         // set the dimensions and margins of the diagram
         var margin = { top: 30, right: 50, bottom: 40, left: 0 },
@@ -428,6 +429,7 @@ class TargetTree extends Component {
             .text(function (d) { return d.data.name; });
     }
 
+    // no longer used
     buildTree() {
         // console.log("buildTree")
         // console.log(this.state.value)
@@ -507,6 +509,7 @@ class TargetTree extends Component {
         return { treeChart, num_leaf }
     }
 
+    // no longer used
     setChildren(startNode) {
         var children = []
         startNode.forEach(d => {

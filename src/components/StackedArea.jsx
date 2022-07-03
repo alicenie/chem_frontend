@@ -5,6 +5,9 @@ import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import ReactSlider from 'react-slider';
 import styled from 'styled-components';
 
+const pinkColorRange = ["#FFCAC3", "#FDBFB7", "#F8B2A9", "#F09C91", "#EB8678"];
+const blueColorRange = ["#C4E5F1", "#B1DCEB", "#9DD5E8", "#87C9E0", "#76BFD8"];
+const orangeColorRange = ["#FEDDAB", "#FED089", "#FCC46E", "#FAB956", "#F8B248"];
 class StackedArea extends Component {
     constructor(props) {
         super(props)
@@ -12,7 +15,7 @@ class StackedArea extends Component {
             Height: this.props.height - 75,
             stackWidth: this.props.width,
             targetList: this.props.value,
-            trendRange: [2000, 2021]
+            trendRange: [2000, 2022]
         }
     }
 
@@ -35,7 +38,8 @@ class StackedArea extends Component {
             // handle rawdata
             for (const [key, value] of Object.entries(rawdata)) {
                 if (key >= 1990) {
-                    data.push({ year: key, A: value[0], B: value[1], C: value[2] })
+                    // data.push({ year: key, A: value[0], B: value[1], C: value[2] })
+                    data.push({ year: (parseInt(key) + 1), A: value[0], B: value[1], C: value[2] }) // to fit 2022
                 }
             }
         }
@@ -64,7 +68,7 @@ class StackedArea extends Component {
         // color palette
         var color = d3.scaleOrdinal()
             .domain(keys)
-            .range(["#FCC8C8", "#BBE5F2", "#C5C5FD"]) // bottom --> up, red-blue-purple
+            .range([pinkColorRange[0], blueColorRange[0], orangeColorRange[0]]) // bottom --> up
         //     .range(["#e31a1c", "#4292c6", "#fed976"])
         // .range(["#fec5bb", "#bee1e6", "#ffe1a8"]); // red blue yellow
 
@@ -190,10 +194,15 @@ class StackedArea extends Component {
                     className="horizontal-slider"
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
-                    defaultValue={[2000, 2021]}
+                    // to fit 2022
+                    defaultValue={[2000, 2022]}
                     min={1990}
-                    max={2021}
-                    marks={[1990, 2021]}
+                    max={2022}
+                    marks={[1990, 2022]}
+                    // defaultValue={[2000, 2021]}
+                    // min={1990}
+                    // max={2021}
+                    // marks={[1990, 2021]}
                     ariaLabel={['Lower thumb', 'Upper thumb']}
                     ariaValuetext={state => `Thumb value ${state.valueNow}`}
                     renderMark={(props) => {

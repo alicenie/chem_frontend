@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 
+const pinkColorRange = ["#FFCAC3", "#FDBFB7", "#F8B2A9", "#F09C91", "#EB8678"];
+const blueColorRange = ["#C4E5F1", "#B1DCEB", "#9DD5E8", "#87C9E0", "#76BFD8"];
+const orangeColorRange = ["#FEDDAB", "#FED089", "#FCC46E", "#FAB956", "#F8B248"];
+
 class DetailView extends Component {
     constructor(props) {
         super(props)
@@ -75,7 +79,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("height", 405)
+            .attr("height", 800)  // 410 for kras, 800 for stat3
             .attr("width", 20 + this.state.medchemWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -88,7 +92,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 25 + this.state.medchemWidth)
             .attr("y", 0)
-            .attr("height", 405)
+            .attr("height", 800)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -108,7 +112,7 @@ class DetailView extends Component {
         svg.append("rect")
             .attr("x", 35 + this.state.medchemWidth + this.state.vitroWidth + this.state.vivoWidth)
             .attr("y", 0)
-            .attr("height", 405)
+            .attr("height", 800)
             .attr("width", this.state.sankeyWidth)
             .style("stroke", "#ced4da")
             .style("fill", "none")
@@ -349,13 +353,13 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", 20 + this.state.medchemWidth)
             .attr("height", 13)
-            .style("fill", "#E69389")
+            .style("fill", pinkColorRange[4])
         svg.append("rect")
             .attr("x", 0)
             .attr("y", 13)
             .attr("width", 20 + this.state.medchemWidth)
             .attr("height", 13)
-            .style("fill", "#EEB2B2")
+            .style("fill", pinkColorRange[2])
         // .style("opacity", 0.5)
         // .attr("rx", 5)
         // .attr("ry", 5)
@@ -401,13 +405,13 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", this.state.vitroWidth + this.state.vivoWidth + 5)
             .attr("height", 13)
-            .style("fill", "#76B7CB")
+            .style("fill", blueColorRange[4])
         svg.append("rect")
             .attr("x", vitroX)
             .attr("y", 13)
             .attr("width", (this.state.vitroWidth + this.state.vivoWidth + 5))
             .attr("height", 13)
-            .style("fill", "#9FC9D7")
+            .style("fill", blueColorRange[2])
         svg.append("text")
             .attr("x", vitroX + 1 / 2 * this.state.vitroWidth)
             .attr("y", 24)
@@ -453,13 +457,13 @@ class DetailView extends Component {
             .attr("y", 0)
             .attr("width", this.state.sankeyWidth)
             .attr("height", 13)
-            .style("fill", "#A9A9D8")
+            .style("fill", orangeColorRange[4])
         svg.append("rect")
             .attr("x", ph1X)
             .attr("y", 13)
             .attr("width", this.state.sankeyWidth)
             .attr("height", 13)
-            .style("fill", "#C6C6EB")
+            .style("fill", orangeColorRange[2])
         // .style("opacity", 0.5)
         // .attr("rx", 5)
         // .attr("ry", 5)
@@ -610,7 +614,7 @@ class DetailView extends Component {
         var vivo_heat_pos = this.drawVivoHeatmap(vivoHeatData, this.state.vivoSort, initial_sort);
         var sankey_pos = this.drawSankeyChart(sankeyData, initial_sort);
         // var sankey_pos = [];
-        // this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
+        this.drawPaths(vitro_heat_pos, vivo_heat_pos, node_pos, sankey_pos)
 
         this.handleHighlight(-1)
         this.handleUndoHighlight(-1)
@@ -892,7 +896,7 @@ class DetailView extends Component {
                 .attr("r", d => rScale(d))
                 .attr("cx", (d, i) => 125 + circle_cx[i])
                 .attr("cy", -2)
-                .style("fill", "#f4978e")
+                .style("fill", pinkColorRange[4])
                 .attr("class", "network")
 
             circle_legend_svg.append("text")
@@ -989,7 +993,7 @@ class DetailView extends Component {
                 .attr("cy", d => d.y)
                 // .style("stroke", (d) => colorScale(d.group))
                 // .style("stroke-width", 4)
-                .style("fill", (d) => "#f4978e")
+                .style("fill", pinkColorRange[4])
 
             // draw arc
             var arc_data = [{ position: 0, value: 1 }, { position: 3, value: 1 }, { position: 6, value: 1 }, { position: 10, value: 1 }]
@@ -1016,7 +1020,7 @@ class DetailView extends Component {
                     .attr("fill", (d) => {
                         // console.log(d.data.position)
                         // return node.level > d.data.position ? "#f4978e" : "lightgrey"
-                        return synthesis_route[node.id] > d.data.position ? "#f4978e" : "lightgrey"
+                        return synthesis_route[node.id] > d.data.position ? pinkColorRange[4] : "lightgrey"
                     })
 
             })
@@ -1050,7 +1054,7 @@ class DetailView extends Component {
                 svg.selectAll().data(arc_data_ready).enter()
                     .append("path")
                     .attr("d", legend_arc)
-                    .style("fill", d => node.level > d.data.position ? "#f4978e" : "lightgrey")
+                    .style("fill", d => node.level > d.data.position ? pinkColorRange[4] : "lightgrey")
 
                 svg.append("text")
                     .text(node.text)
@@ -1063,7 +1067,7 @@ class DetailView extends Component {
             svg.append("text")
                 .text("distance between nodes = molecule structure similarity")
                 .attr("x", 5)
-                .attr("y", 295)
+                .attr("y", 690) // 300 for kras, 690 for stat3
                 .style("font-size", 12)
                 .style("fill", "#495057")
 
@@ -1558,7 +1562,8 @@ class DetailView extends Component {
             //     .interpolator(d3.interpolateOranges)
             //     .domain([1, 8]);
 
-            var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            // var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 1]).range(blueColorRange)
 
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
@@ -1663,12 +1668,12 @@ class DetailView extends Component {
         //Set the color for the start (0%)
         linearGradient.append("stop")
             .attr("offset", "0%")
-            .attr("stop-color", "#DAEAF0");
+            .attr("stop-color", blueColorRange[0]);
 
         //Set the color for the end (100%)
         linearGradient.append("stop")
             .attr("offset", "100%")
-            .attr("stop-color", "#76B7CB");
+            .attr("stop-color", blueColorRange[4]);
 
         svg.append("rect")
             .attr("width", 40)
@@ -1679,7 +1684,7 @@ class DetailView extends Component {
 
         svg.append("text")
             .text("molecular feature values: min")
-            .attr("x", -86)
+            .attr("x", -102)
             .attr("y", 8)
             .style("font-size", 12)
         svg.append("text")
@@ -2062,7 +2067,8 @@ class DetailView extends Component {
             //     .domain([0, 8]);
             // var colorScale = d3.scaleLinear()
             //     .domain([0, 8])
-            var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            // var colorScale = d3.scaleQuantize().domain([0, 1]).range(["#DAEAF0", "#C7DFE7", "#B6D6E1", "#9FC9D7", "#87BDCE", "#76B7CB"])
+            var colorScale = d3.scaleQuantize().domain([0, 1]).range(blueColorRange)
             // .range(["rgba(0, 129, 167,0)", "rgba(0, 129, 167,1)"])
             // .range(["white", "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e"]) // pink
             // .range(["white", "#a9d6e5", "#89c2d9", "#61a5c2", "#468faf", "#2c7da0", "#2a6f97"])
@@ -2170,38 +2176,40 @@ class DetailView extends Component {
                     // path.closePath();
                     var points = [[startNode.x + 20, startNode.y], [d.x_in, d.y]]
                     var curve = curveX(points);
-                    if (d.id === 7) {
-                        points = [[startNode.x + 20, startNode.y], [startNode.x + 40, startNode.y - 20], [1 / 2 * (startNode.x + 20 + d.x_in), 2 / 5 * (startNode.y + d.y)], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 8) {
-                        points = [[startNode.x + 20, startNode.y], [startNode.x + 40, startNode.y - 15], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 30], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 16) {
-                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in), 1 / 2 * (startNode.y + d.y) + 40], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 11) {
-                        points = [[startNode.x + 17, startNode.y + 3], [1 / 2 * (startNode.x + 10 + d.x_in) - 45, 1 / 2 * (startNode.y + d.y) + 40], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 3) {
-                        points = [[startNode.x + 17, startNode.y + 3], [1 / 2 * (startNode.x + 10 + d.x_in), 1 / 2 * (startNode.y + d.y) + 10], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 15) {
-                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 50, 1 / 2 * (startNode.y + d.y) + 30], [1 / 2 * (startNode.x + 20 + d.x_in) + 25, 1 / 2 * (startNode.y + d.y) - 35], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 14) {
-                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 60, 1 / 2 * (startNode.y + d.y) + 20], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 20], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
-                    if (d.id === 6) {
-                        points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 60, 1 / 2 * (startNode.y + d.y) + 10], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 10], [d.x_in, d.y]]
-                        curve = curveN(points)
-                    }
+                    // if choosing KRAS
+                    // if(){}
+                    // if (d.id === 7) {
+                    //     points = [[startNode.x + 20, startNode.y], [startNode.x + 40, startNode.y - 20], [1 / 2 * (startNode.x + 20 + d.x_in), 2 / 5 * (startNode.y + d.y)], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 8) {
+                    //     points = [[startNode.x + 20, startNode.y], [startNode.x + 40, startNode.y - 15], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 30], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 16) {
+                    //     points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in), 1 / 2 * (startNode.y + d.y) + 40], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 11) {
+                    //     points = [[startNode.x + 17, startNode.y + 3], [1 / 2 * (startNode.x + 10 + d.x_in) - 45, 1 / 2 * (startNode.y + d.y) + 40], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 3) {
+                    //     points = [[startNode.x + 17, startNode.y + 3], [1 / 2 * (startNode.x + 10 + d.x_in), 1 / 2 * (startNode.y + d.y) + 10], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 15) {
+                    //     points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 50, 1 / 2 * (startNode.y + d.y) + 30], [1 / 2 * (startNode.x + 20 + d.x_in) + 25, 1 / 2 * (startNode.y + d.y) - 35], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 14) {
+                    //     points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 60, 1 / 2 * (startNode.y + d.y) + 20], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 20], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
+                    // if (d.id === 6) {
+                    //     points = [[startNode.x + 20, startNode.y], [1 / 2 * (startNode.x + 20 + d.x_in) - 60, 1 / 2 * (startNode.y + d.y) + 10], [1 / 2 * (startNode.x + 20 + d.x_in) + 20, 1 / 2 * (startNode.y + d.y) - 10], [d.x_in, d.y]]
+                    //     curve = curveN(points)
+                    // }
                     d3.select("svg#detail_svg")
                         .append("path")
                         .attr("class", "detail_path")
@@ -2221,34 +2229,37 @@ class DetailView extends Component {
                     var curve = d3.line().curve(d3.curveBumpX)
                     var startNode = vitro_heat_pos.find(node => node.id == d.id)
                     var points = [[startNode.x_out, startNode.y], [d.x_in, d.y]]
-                    // if (d.id === 3) {
-                    //     points = [[startNode.x_out, startNode.y], [startNode.x_out + 30, startNode.y - 40], [d.x_in - 10, d.y + 60], [d.x_in, d.y]]
-                    //     curve = d3.line().curve(d3.curveNatural)
-                    // }
-                    // if (d.id === 6) {
-                    //     points = [[startNode.x_out, startNode.y], [startNode.x_out + 7, startNode.y - 20], [d.x_in - 30, d.y + 15], [d.x_in, d.y]]
-                    //     curve = d3.line().curve(d3.curveNatural)
-                    // }
-                    // if (d.id === 13) {
-                    //     points = [[startNode.x_out, startNode.y], [startNode.x_out + 20, startNode.y - 30], [d.x_in - 15, d.y + 40], [d.x_in, d.y]]
-                    //     curve = d3.line().curve(d3.curveNatural)
-                    // }
+                    // if AUC descending
+                    if (this.state.vivoSort.attr == "AUC" && this.state.vivoSort.acsending == false) {
+                        if (d.id === 3) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 30, startNode.y - 40], [d.x_in - 10, d.y + 60], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
+                        if (d.id === 6) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 7, startNode.y - 20], [d.x_in - 30, d.y + 15], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
+                        if (d.id === 13) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 20, startNode.y - 30], [d.x_in - 15, d.y + 40], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
 
-                    if (d.id === 3) {
-                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 15, startNode.y - 50], [d.x_in - 35, d.y + 50], [d.x_in, d.y]]
-                        curve = d3.line().curve(d3.curveNatural)
-                    }
-                    if (d.id === 6) {
-                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 40, startNode.y - 15], [d.x_in - 10, d.y + 20], [d.x_in, d.y]]
-                        curve = d3.line().curve(d3.curveNatural)
-                    }
-                    if (d.id === 13) {
-                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 25, startNode.y - 35], [d.x_in - 20, d.y + 35], [d.x_in, d.y]]
-                        curve = d3.line().curve(d3.curveNatural)
-                    }
-                    if (d.id === 14) {
-                        points = [[startNode.x_out, startNode.y], [startNode.x_out + 10, startNode.y - 25], [d.x_in - 40, d.y + 30], [d.x_in, d.y]]
-                        curve = d3.line().curve(d3.curveNatural)
+                        if (d.id === 3) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 15, startNode.y - 50], [d.x_in - 35, d.y + 50], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
+                        if (d.id === 6) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 40, startNode.y - 15], [d.x_in - 10, d.y + 20], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
+                        if (d.id === 13) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 25, startNode.y - 35], [d.x_in - 20, d.y + 35], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
+                        if (d.id === 14) {
+                            points = [[startNode.x_out, startNode.y], [startNode.x_out + 10, startNode.y - 25], [d.x_in - 40, d.y + 30], [d.x_in, d.y]]
+                            curve = d3.line().curve(d3.curveNatural)
+                        }
                     }
                     d3.select("svg#detail_svg")
                         .append("path")
@@ -2302,7 +2313,7 @@ class DetailView extends Component {
     handleSankeyUndoHighlight(company_count) {
         // sankey highlight
         d3.selectAll("rect.sankey-rect").filter(rect => this.props.sankey_click_nodes.indexOf(rect.company_count) === -1)
-            .style("fill", "#E8E7F5")
+            .style("fill", orangeColorRange[0])
         // d3.selectAll(`path#sankey-path-${company_count.toString()}`).style("stroke", "#adb5bd").style("stroke-width", 1)
         console.log("this.props.sankey_click_nodes", this.props.sankey_click_nodes)
         console.log("company_count", company_count)
@@ -2328,20 +2339,20 @@ class DetailView extends Component {
 
             // legend
             svg.append("rect")
-                .attr("x", 180)
+                .attr("x", 175)
                 .attr("y", -60)
                 .attr("width", 30)
                 .attr("height", 15)
-                .style("fill", "#E8E7F5")
+                .style("fill", orangeColorRange[0])
                 .style("stroke-width", 0.5)
                 .style("stroke", "white")
             svg.append("text")
-                .attr("x", 188)
+                .attr("x", 183)
                 .attr("y", -49)
                 .text("1-1")
                 .style("font-size", 10)
             svg.append("text")
-                .attr("x", 218)
+                .attr("x", 210)
                 .attr("y", -50)
                 .text("Drug ID - Organization ID")
                 .style("font-size", 10)
@@ -2523,7 +2534,7 @@ class DetailView extends Component {
                         .attr("height", rectHeight)
                         .attr("id", d => d.id)
                         .attr("class", "sankey-rect")
-                        .style("fill", "#E8E7F5")
+                        .style("fill", orangeColorRange[0])
                         .style("stroke-width", 0.5)
                         .style("stroke", "white")
 

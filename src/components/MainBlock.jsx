@@ -189,9 +189,13 @@ class MainBlock extends Component {
                         <div key="c">
                             <Card variant="outlined" style={{ height: upperHeight }}>
                                 <div className="row" style={{ backgroundColor: "#e9ecef", margin: "5px", justifyItems: "center" }}>
-                                    <span className="col-2" style={{ paddingLeft: 5 }}>Detail View</span>
-
-                                    <div className="col-10" style={{ textAlign: "right" }}>{this.state.selectedDetailTarget ? `You have chosen: ${this.state.selectedDetailTarget.label}` : ""}</div>
+                                    <span style={{ paddingLeft: 5, marginRight: 5 }}>Detail View</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor" class="bi bi-info-circle" viewBox="0 -4 18 18">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                        <title>While we endeavor to keep the information up to date and correct, we cannot make any gaurantees that all the information are 100% accurate due to technical limitations.</title>
+                                    </svg>
+                                    <div className="col-10" style={{ marginLeft: 75, textAlign: "right" }}>{this.state.selectedDetailTarget ? `You have chosen: ${this.state.selectedDetailTarget.label}` : ""}</div>
                                 </div>
                                 {/* <SimilarityGraph /> */}
                                 <DetailWrapper height={upperHeight}
